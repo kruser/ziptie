@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::ACNS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco ACNS Platforms</shortName>
+    <description>Cisco Application and Content Networking System devices</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)\.(\d+)-b(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>startup-config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="Application and Content Networking System" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

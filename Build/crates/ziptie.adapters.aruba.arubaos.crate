@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.aruba.arubaos"
+	name="ziptie.adapters.aruba.arubaos"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.aruba.arubaos" location="adapters/" version="" />
+</crate>

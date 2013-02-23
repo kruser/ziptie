@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.accelar"
+	name="ziptie.adapters.nortel.accelar"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.accelar" location="adapters/" version="" />
+</crate>

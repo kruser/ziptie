@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Search
+      xmlns="org.ziptie.flex.search.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+	  creationComplete="init()"
+      verticalScrollPolicy="off"
+      horizontalScrollPolicy="off"
+      show="setupWidths()"
+	  scheme="makeModel">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.CsvElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import mx.collections.Sort;
+    		import mx.collections.ArrayCollection;
+    		import mx.rpc.events.ResultEvent;
+
+            public override function get resolutionData():String
+            {
+            	return CsvElf.toCsv([cboVendor.selectedItem, model.text]);
+            }
+
+            public override function set resolutionData(data:String):void
+            {
+            	var vals:Array = CsvElf.toArray(data)[0];
+
+            	cboVendor.selectedItem = vals[0];
+            	model.text = vals[1];
+            }
+
+            private function setupWidths():void
+            {
+            	model.width = width- 15 - _lblModel.measuredWidth;
+            	cboVendor.width = model.width;
+            }
+
+            private function init():void
+            {
+            	WebServiceElf.call('devices', 'getAllHardwareVendors', result);
+            }
+
+            private function result(event:ResultEvent) : void
+            {
+            	var vendors:ArrayCollection = new ArrayCollection();
+            	vendors.sort = new Sort();
+            	vendors.refresh();
+
+                if (event.result is ArrayCollection)
+                {
+                	for each (var vendor:String in ArrayCollection(event.result))
+                	{
+                		vendors.addItem(vendor);
+                	}
+                }
+                else
+                {
+                	vendors.addItem(event.result);
+                }
+
+                cboVendor.dataProvider = vendors;
+            }
+    	]]>
+    </mx:Script>
+    <mx:Grid>
+    	<mx:GridRow>
+    		<mx:GridItem verticalAlign="middle">
+    			<mx:Label text="@Resource(bundle='messages', key='search_model_vendor')" />
+    		</mx:GridItem>
+    		<mx:GridItem>
+    			<mx:ComboBox id="cboVendor" change="change()"/>
+    		</mx:GridItem>
+    	</mx:GridRow>
+    	<mx:GridRow>
+    		<mx:GridItem verticalAlign="middle">
+    			<mx:Label id="_lblModel" text="@Resource(bundle='messages', key='search_model_model')" />
+    		</mx:GridItem>
+    		<mx:GridItem>
+                <mx:TextInput id="model" enter="dispatchEvent(event)" change="change()"/>
+    		</mx:GridItem>
+    	</mx:GridRow>
+    </mx:Grid>
+</Search>

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-Name: %nlFragmentName
+Bundle-SymbolicName: org.eclipse.platform.source.nl1 ;singleton=true
+Bundle-Version: 3.2.1.v200609270227
+Bundle-ClassPath: nl1.jar
+Bundle-Vendor: %nlProviderName
+Fragment-Host: org.eclipse.platform.source;bundle-version="[3.2.0,3.3.0)"
+Bundle-Localization: nl_fragment

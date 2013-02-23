@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.ios"
+	name="ziptie.adapters.cisco.ios"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.ios" location="adapters/" version="" />
+</crate>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::Three005</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco VPN</shortName>
+    <description>Cisco 3000 Series VPN Concentrators</description>
+    <softwareVersionRegEx>([\d]+)\.*(\d*)\.*(\d*)\.*\w*</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.*(\d*)\.*\w*</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>ERROR:--\s+</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+			<supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    	<matchRegex dataSource="sysDescr" regex="3000 Concentrator.*" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

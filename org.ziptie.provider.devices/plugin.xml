@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="deviceResolutionScheme" name="Device Resolution Scheme" schema="schema/deviceResolutionScheme.exsd"/>
+   <extension-point id="inventoryChange" name="Inventory Change Notification" schema="schema/inventoryChange.exsd"/>
+
+   <extension point="org.ziptie.provider.devices.deviceResolutionScheme">
+      <scheme
+            class="org.ziptie.provider.devices.internal.IpResolutionScheme"
+            scheme="ipCsv" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.NetworkResolutionScheme"
+            scheme="managedNetwork" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.SimpleSearchResolutionScheme"
+            scheme="simpleSearch" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.IpAddressResolutionScheme"
+            scheme="ipAddress" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.InterfaceIpResolutionScheme"
+            scheme="interfaceIpAddress" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.HostnameResolutionScheme"
+            scheme="hostname" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.MakeModelResolutionScheme"
+            scheme="makeModel" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.OsVersionResolutionScheme"
+            scheme="osVersion" />
+      <scheme
+            class="org.ziptie.provider.devices.internal.TagResolutionScheme"
+            scheme="tag" />
+   </extension>
+
+   <extension point="org.ziptie.provider.devices.inventoryChange">
+      <observer class="org.ziptie.provider.devices.SnmpTrapDeviceObserver"/>
+      <observer
+            class="org.ziptie.provider.devices.InventoryEventProducer">
+      </observer>
+   </extension>
+
+    <extension
+        point="org.ziptie.zap.hibernate.PersistenceUnit">
+        <persistence-unit name="ziptie-ds">
+            <class name="org.ziptie.provider.devices.ZDeviceCore"/>
+            <class name="org.ziptie.provider.devices.ZDeviceStatus"/>
+            <class name="org.ziptie.provider.devices.ZDeviceLite"/>
+            <class name="org.ziptie.provider.devices.InterfaceIpAddress"/>
+        </persistence-unit>
+    </extension>
+    <extension
+          point="org.ziptie.zap.security.SecurityPermissions">
+       <permission
+             display="%org.ziptie.devices.administer"
+             id="org.ziptie.devices.administer">
+       </permission>
+       <permission
+             display="%org.ziptie.devices.tag"
+             id="org.ziptie.devices.tag">
+       </permission>
+       <permission
+             display="%org.ziptie.tags.administer"
+             id="org.ziptie.tags.administer">
+       </permission>
+    </extension>
+
+</plugin>

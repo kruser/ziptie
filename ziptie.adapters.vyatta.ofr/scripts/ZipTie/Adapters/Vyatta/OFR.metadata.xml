@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Vyatta::OFR</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Vyatta OFR</shortName>
+    <description>Vyatta Open Flexible Routers (OFR)</description>
+    <softwareVersionRegEx>(\S+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\S+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>syntax error, expecting</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="reboot">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    </discoveryMappings>
+</AdapterMetadata>

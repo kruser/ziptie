@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ZiptieInstaller" default="winstall">
+	<description>
+            Ziptie Installer Build
+    </description>
+
+	<!-- Set property if the OS family is windows -->
+	<condition property="makensis.executable" value="${basedir}/installers/nsis/makensis.exe">
+		<os family="windows"/>
+	</condition>
+	<condition property="makensis.executable" value="makensis">
+		<os family="unix"/>
+	</condition>
+
+	<target name="winstall">
+		<!-- Make the artifacts directory so the installers can be placed there -->
+		<mkdir dir="../dist/artifacts" />
+		<exec executable="${makensis.executable}" failonerror="true">
+			<arg value="${basedir}/installers/windows/ZipTieServer.nsi"/>
+		</exec>
+	</target>
+
+	<!--
+	 ! The following properties must be passed in...
+	 !   - version.number
+	 !   - version.qualifier
+	 !   - rpm.requires (the package dependencies to use for the Requires field in the rpm)
+	 !   - rpm.platform (eg: mdv, fc4, etc)
+	 !-->
+	<target name="rpmbuild">
+		<property name="rpm.buildroot" value="${basedir}/../dist/rpm-build"/>
+		<property name="rpm.topdir" value="${basedir}/../dist/rpm-topdir"/>
+		<property name="rpm.sourcedir" value="${basedir}/../dist/artifacts" />
+		<property name="rpm.rpmdir" value="${basedir}/../dist/artifacts" />
+		<property name="rpm.release" value="1" />
+
+		<delete dir="${rpm.buildroot}" />
+		<delete dir="${rpm.topdir}" />
+
+		<mkdir dir="${rpm.buildroot}"/>
+		<mkdir dir="${rpm.topdir}"/>
+		<mkdir dir="${rpm.topdir}/BUILD"/>
+
+		<exec executable="rpmbuild">
+			<arg value="-D" />
+			<arg value="release ${rpm.release}${rpm.platform}"/>
+			<arg value="-D" />
+			<arg value="version ${version.number}.${version.qualifier}"/>
+			<arg value="-D" />
+			<arg value="archive ziptie-server-${version.number}.${version.qualifier}-UNSTABLE.tgz"/>
+			<arg value="-D" />
+			<arg value="require ${rpm.requires}"/>
+			<arg value="-D" />
+			<arg value="_topdir ${rpm.topdir}" />
+			<arg value="-D" />
+			<arg value="_rpmdir ${rpm.rpmdir}" />
+			<arg value="-D" />
+			<arg value="_sourcedir ${rpm.sourcedir}" />
+			<arg value="--buildroot=${rpm.buildroot}"/>
+			<arg value="-bb"/>
+			<arg value="${basedir}/installers/linux/ziptie-server.spec"/>
+		</exec>
+	</target>
+
+	<!--
+	 ! The following properties must be passed in...
+	 !   - server.location (specifies the directory containing all of the files for the ZipTie Debian/Ubuntu Server)
+	 !-->
+	<target name="deb.server" description="Generates a .deb package for the ZipTie Server.">
+		<!-- Require the the "server.location" property be set. -->
+		<fail message="The 'server.location' property must be specified and reference a valid/accessible directory!" unless="server.location"/>
+		
+		<property name="artifacts.dir" value="${basedir}/../dist/artifacts" />
+		<property name="deb.base.ziptie.server.dir" value="${artifacts.dir}/debian/ziptie-server" />
+		<property name="deb.user.space.ziptie.server.dir" value="usr/share/ziptie-server" />
+
+		<!-- Ensure that the artifacts directory exists -->
+		<mkdir dir="${artifacts.dir}" />
+		
+		<!-- Delete any pre-existing server files used by dpkg -->
+		<delete failonerror="false" dir="${deb.base.ziptie.server.dir}" />
+
+		<!-- Copy the template for making the ZipTie Server .deb package -->
+		<copy todir="${artifacts.dir}" >
+			<fileset dir="${basedir}/installers/linux">
+				<include name="debian/ziptie-server/**/*"/>
+			</fileset>
+		</copy>
+
+		<!-- Make the /usr/share/ziptie-server directory to house the ZipTie server -->
+		<mkdir dir="${deb.base.ziptie.server.dir}/${deb.user.space.ziptie.server.dir}" />
+
+		<!-- Copy all of the server files to the /usr/share/ziptie-server directory -->
+		<copy todir="${deb.base.ziptie.server.dir}/${deb.user.space.ziptie.server.dir}" >
+			<fileset dir="${server.location}" includes="**/*"/>
+		</copy>
+
+		<!-- Make necessary files as executable -->
+		<exec executable="chmod" os="Linux">
+			<arg value="+x" />
+			<arg value="${deb.base.ziptie.server.dir}/DEBIAN/preinst" />
+			<arg value="${deb.base.ziptie.server.dir}/DEBIAN/postinst" />
+			<arg value="${deb.base.ziptie.server.dir}/DEBIAN/prerm" />
+			<arg value="${deb.base.ziptie.server.dir}/DEBIAN/postrm" />
+		</exec>
+
+		<!-- Build the .deb package -->
+		<exec executable="dpkg" os="Linux">
+			<arg value="--build" />
+			<arg value="${deb.base.ziptie.server.dir}" />
+		</exec>
+	</target>
+</project>

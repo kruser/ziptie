@@ -1,0 +1,26 @@
+<backup xmlns="backup">
+    <connectionPath host="10.100.31.8" xmlns="">
+        <credentials>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="username" value="testlab"/>
+            <credential name="rwCommunityString" value="private"/>
+            <credential name="enableUsername" value=""/>
+            <credential name="password" value="hobbit"/>
+            <credential name="enablePassword" value="bigtex"/>
+        </credentials>
+        <protocols>
+            <protocol name="Telnet" port="23">
+                <properties/>
+            </protocol>
+            <protocol name="TFTP" port="69">
+                <properties/>
+            </protocol>
+        </protocols>
+        <fileServers>
+            <fileServer ip="10.10.1.138" port="69" protocol="TFTP"
+                rootDir="C:\Program Files\Cisco Systems\Cisco TFTP Server"/>
+            <!--fileServer ip="10.10.1.111" port="11021" protocol="FTP"
+                rootDir="C:\ziptie\dist\server\osgi-config\scratch\ftp"/-->
+        </fileServers>
+    </connectionPath>
+</backup>

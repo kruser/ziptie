@@ -1,0 +1,1 @@
+java -Dderby.system.home=../dist/server/derby -Dij.database="jsbc:derby:ziptie" -classpath "derbytools.jar:../org.ziptie.jdbc/lib/derbyclient.jar:../TargetPlatform/eclipse/plugins/derby-10.2.2000000.485682.jar" org.apache.derby.tools.ij

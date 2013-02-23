@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PROJECT_NAME
+Bundle-SymbolicName: PROJECT_NAME
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+BUNDLE_TYPE
+Bundle-Vendor: ziptie.org

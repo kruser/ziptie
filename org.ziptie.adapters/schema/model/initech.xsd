@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ziptie.org/model/initech/1.0"
+    xmlns:initech="http://www.ziptie.org/model/initech/1.0"
+    xmlns:dt="http://www.ziptie.org/model/netconftypes/1.0"
+    xmlns:common="http://www.ziptie.org/model/common/1.0"
+    xmlns:core="http://www.ziptie.org/model/core/1.0" elementFormDefault="qualified">
+
+    <import namespace="http://www.ziptie.org/model/netconftypes/1.0"
+        schemaLocation="netconftypes.xsd"/>
+    <import namespace="http://www.ziptie.org/model/core/1.0" schemaLocation="ziptie-core.xsd"/>
+    <import namespace="http://www.ziptie.org/model/common/1.0" schemaLocation="ziptie-common.xsd"/>
+    <annotation>
+        <documentation> This is a sample schema extension to the ZipTie model. It is merely here for
+            example and not intended to be used by any real adapter. </documentation>
+    </annotation>
+
+    <complexType name="InitechCard">
+        <annotation>
+            <documentation> Extends the common card by adding a boolean element. </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="common:Card">
+                <sequence>
+                    <element name="envMonitor" type="boolean" minOccurs="0" maxOccurs="1">
+                        <annotation>
+                            <documentation>Sample extension</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="card" type="initech:InitechCard" substitutionGroup="common:card">
+        <annotation>
+            <documentation>The common version of the card is substitued for this schema&apos;s
+                extension.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Environmental">
+        <annotation>
+            <documentation> An entirely new type. </documentation>
+        </annotation>
+        <all>
+            <element name="maxHumidity" type="int" minOccurs="1" maxOccurs="1"/>
+            <element name="maxTemp" type="int" minOccurs="1" maxOccurs="1"/>
+        </all>
+    </complexType>
+
+    <complexType name="InitechZED">
+        <annotation>
+            <documentation> Extension of the root element, i.e. the common:ZiptieElementDocument.
+            </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="common:ZiptieElementDocument">
+                <sequence>
+                    <element name="environmental" type="initech:Environmental" minOccurs="0"
+                        maxOccurs="1">
+                        <annotation>
+                            <documentation>Adding a previously defined type as an element via
+                                extension.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="ZiptieElementDocument" type="initech:InitechZED"
+        substitutionGroup="common:ZiptieElementDocument">
+        <annotation>
+            <documentation> Substituting the root element for the redefined one. </documentation>
+        </annotation>
+    </element>
+
+</schema>

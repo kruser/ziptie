@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      source="{getImage(data)}">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.Application;
+			import mx.utils.StringUtil;
+
+            private static var _callbacks:Object = new Object();
+            private static var _images:Object = new Object();
+
+            public var column:Column;
+            public var pluginDescriptor:PluginDescriptor;
+
+            private var _key:String;
+            private var _loader:URLLoader;
+
+            public static function loadImages(plugin:PluginDescriptor):void
+            {
+            	var images:Object = _images[plugin.toolName];
+            	if (images == null)
+            	{
+            		images = new Object();
+            		for each (var col:Column in plugin.columns)
+            		{
+            			for each (var name:String in col.imageKeys)
+            			{
+		                    var url:String = StringUtil.substitute(
+		                            "scripttool?tool={0}&resource={1}",
+		                            plugin.toolName,
+		                            name);
+
+		                    // Escape invalid URL characters
+		                    url = url.replace(" ", "%20").replace("/", "%2F").replace(":", "%3A");
+    
+            				var loader:URLLoader = new URLLoader();
+                            loader.dataFormat = URLLoaderDataFormat.BINARY;
+                            loader.load(new URLRequest(Application.application.server + '/' + url));
+
+            				images[name] = loader;
+            			}
+            		}
+
+            		_images[plugin.toolName] = images;
+            	}
+            }
+
+            private function getImage(data:Object):ByteArray
+            {
+				visible = false;
+
+                if (data == null)
+                {
+                	return null;
+                }
+
+				var val:String = data[column.index];
+				var match:Array = column.imageSelectorRegex.exec(val);
+				if (match == null)
+				{
+					return null;
+				}
+
+                for (var i:int = 1; i < match.length; i++)
+				{
+					if (match[i] != undefined)
+					{
+                        visible = true;
+                        var loader:URLLoader = _images[pluginDescriptor.toolName][column.imageKeys[i-1]];
+                        return loader.data;
+					}
+				}
+				return null;
+			}
+		]]>
+	</mx:Script>
+</mx:Image>

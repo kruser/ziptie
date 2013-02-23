@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.baystack"
+	name="ziptie.adapters.nortel.baystack"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.baystack" location="adapters/" version="" />
+</crate>

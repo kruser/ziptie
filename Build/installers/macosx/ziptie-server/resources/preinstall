@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# Pre-Install Logic
+
+# Create "ziptie" user to run the server as.  Make sure the user ID is below 500 so that it is considered
+# a system user and does not some up as a login.
+#
+# Referenced http://www.mcelhearn.com/article.php?story=2004110211244242 to create user on command-line OS X
+echo 'ziptie::436:436:System user for running the ZipTie Server:0:0:ziptie::/bin/false' | sudo niload -v passwd /

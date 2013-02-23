@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Stax API Plug-in
+Bundle-SymbolicName: org.ziptie.stax
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ZipTie.org
+Bundle-Localization: plugin
+DynamicImport-Package: *
+Bundle-ClassPath: lib/jsr173_api.jar,
+ .
+Export-Package: javax.xml.stream,
+ javax.xml.stream.events,
+ javax.xml.stream.util,
+ javanet.staxutils,
+ org.ziptie.stax

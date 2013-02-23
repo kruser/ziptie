@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operationInputXML>
+    <connectionPath host="10.100.4.8">
+        <protocols>
+            <protocol name="Telnet" port="23"/>
+        </protocols>
+        <credentials>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="username" value="testlab"/>
+            <credential name="rwCommunityString" value="private"/>
+            <credential name="enableUsername" value=""/>
+            <credential name="password" value="hobbit"/>
+            <credential name="enablePassword" value="bigtex"/>
+        </credentials>
+        <fileServers/>
+    </connectionPath>
+</operationInputXML>

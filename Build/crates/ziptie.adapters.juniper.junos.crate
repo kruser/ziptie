@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.juniper.junos"
+	name="ziptie.adapters.juniper.junos"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.juniper.junos" location="adapters/" version="" />
+</crate>

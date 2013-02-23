@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      horizontalAlign="center"
+      verticalAlign="middle">
+    <mx:Script>
+        <![CDATA[
+            private function getIcon(data:Object):Class
+            {
+            	if (!data.hasOwnProperty('backupStatus'))
+            	{
+            		return resourceManager.getClass('messages', 'BackupStatusIcon_null');
+            	}
+
+            	var clazz:Class = resourceManager.getClass('messages', 'BackupStatusIcon_' + data.backupStatus);
+            	if (clazz == null)
+            	{
+            		return resourceManager.getClass('messages', 'BackupStatusIcon');
+            	}
+            	return clazz;
+            }
+
+            private function getBackupStatus(data:Object):String
+            {
+            	if (data == null)
+            	{
+            		return '';
+            	}
+
+                if (!data.hasOwnProperty('backupStatus'))
+                {
+                    return resourceManager.getString('messages', 'BackupStatusMessage_null');
+                }
+
+                var msg:String = resourceManager.getString('messages', 'BackupStatusMessage_' + data.backupStatus);
+                if (msg == null)
+                {
+                    return resourceManager.getString('messages', 'BackupStatusMessage');
+                }
+                return msg;
+            }
+        ]]>
+    </mx:Script>
+    <mx:Image source="{getIcon(data)}" toolTip="{getBackupStatus(data)}" />
+</mx:HBox>

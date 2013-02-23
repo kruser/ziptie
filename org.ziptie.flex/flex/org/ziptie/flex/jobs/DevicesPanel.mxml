@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:search="org.ziptie.flex.search.*"
+      layout="vertical"
+      creationComplete="init()">
+    <mx:Metadata>
+        [Event(name='change', type='flash.events.Event')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.collections.IList;
+        	import mx.collections.ICollectionView;
+        	import org.ziptie.flex.search.Devices;
+        	import mx.events.CollectionEvent;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.services.ResultElf;
+        	import mx.rpc.events.ResultEvent;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.core.Container;
+
+    		public var _resolutionScheme:String;
+    		public var _resolutionData:String;
+
+            [Bindable]
+            private var _deviceLites:ArrayCollection;
+            private var _deviceLiteSet:Object;
+
+            [Bindable(event='change')]
+            public function get resolutionScheme():String
+            {
+            	return _resolutionScheme;
+            }
+
+            public function set resolutionScheme(scheme:String):void
+            {
+            	_resolutionScheme = scheme;
+            	change();
+            }
+
+            [Bindable(event='change')]
+            public function get resolutionData():String
+            {
+                return _resolutionData;
+            }
+
+            public function set resolutionData(data:String):void
+            {
+                _resolutionData = data;
+                change();
+            }
+
+            private function init():void
+            {
+            	if (resolutionScheme == 'ipCsv')
+            	{
+            		_type.selectedValue = _staticList;
+            		_stack.selectedChild = _staticList;
+            		var addrs:Array = resolutionData.split(',');
+            		WebServiceElf.call('devices', 'getDeviceLites', deviceLites, addrs);
+            	}
+            	else
+            	{
+            		_type.selectedValue = _searchContainer;
+            		_stack.selectedChild = _searchContainer;
+            		_search.setValues(resolutionScheme, resolutionData);
+            	}
+            }
+
+            private function deviceLites(event:ResultEvent):void
+            {
+                _deviceLites = ResultElf.array(event);
+                _deviceLites.addEventListener(CollectionEvent.COLLECTION_CHANGE, litesChanged);
+
+                _deviceLiteSet = new Object();
+                for each (var device:Object in _deviceLites)
+                {
+                	_deviceLiteSet[keyFor(device)] = device;
+                }
+            }
+
+            private function litesChanged(event:CollectionEvent):void
+            {
+            	var csv:String = '';
+
+                for (var device:String in _deviceLiteSet)
+                {
+                	csv += device + ',';
+                }
+            	resolutionData = csv;
+            }
+
+            private function remove():void
+            {
+            	var items:Array = _devices.selectedItems;
+            	for each (var device:Object in items)
+            	{
+            		delete _deviceLiteSet[keyFor(device)];
+
+            		var ndx:int = _deviceLites.getItemIndex(device);
+            		if (ndx >= 0)
+            		{
+            			_deviceLites.removeItemAt(ndx);
+            		}
+            	}
+            }
+
+            private function keyFor(device:Object):String
+            {
+            	return device.ipAddress + '@' + device.managedNetwork;
+            }
+
+            private function add(devices:Object):void
+            {
+            	if (_deviceLites == null)
+            	{
+            		_deviceLites = new ArrayCollection();
+		            _deviceLites.addEventListener(CollectionEvent.COLLECTION_CHANGE, litesChanged);
+
+		            _deviceLiteSet = new Object();
+            	}
+
+            	for each (var device:Object in devices)
+            	{
+            		var key:String = keyFor(device)
+            		if (_deviceLiteSet[key] == null)
+            		{
+	            		_deviceLiteSet[key] = device;
+	            		_deviceLites.addItem(device);
+            		}
+            	}
+            }
+
+            private function change():void
+            {
+            	dispatchEvent(new Event(Event.CHANGE));
+            }
+
+            private function searchChanged():void
+            {
+            	resolutionData = _search.resolutionData;
+            	resolutionScheme = _search.scheme;
+            }
+
+            private function changeType():void
+            {
+            	_stack.selectedChild = _type.selectedValue as Container;
+            	if (_stack.selectedChild == _search)
+            	{
+            		searchChanged();
+            	}
+            	else
+            	{
+            		resolutionScheme = 'ipCsv'
+            		litesChanged(null);
+            	}
+            }
+
+            private function useDevicesViewSearch():void
+            {
+            	var view:Devices = Devices.instance;
+            	resolutionScheme = view.currentScheme;
+            	resolutionData = view.currentData;
+
+            	_search.setValues(_resolutionScheme, _resolutionData);
+            }
+    	]]>
+    </mx:Script>
+    <mx:Label text="@Resource(key='DevicesPanel_specifyDevices', bundle='messages')" />
+    <mx:HBox width="100%" height="100%">
+        <mx:VBox>
+            <mx:RadioButtonGroup id="_type" itemClick="changeType()" />
+            <mx:RadioButton group="{_type}" label="@Resource(key='DevicesPanel_staticList', bundle='messages')" value="{_staticList}" />
+            <mx:RadioButton group="{_type}" label="@Resource(key='DevicesPanel_search', bundle='messages')" value="{_searchContainer}" />
+        </mx:VBox>
+        <mx:ViewStack id="_stack" width="100%" height="100%" creationPolicy="all">
+            <mx:VBox id="_staticList" width="100%" height="100%">
+                <mx:DataGrid
+                      id="_devices"
+                      allowMultipleSelection="true"
+                      dataProvider="{_deviceLites}"
+                      width="100%" height="100%">
+                    <mx:columns>
+                    	<mx:DataGridColumn headerText="@Resource(key='DeviceField_ipAddress', bundle='messages')" dataField="ipAddress" />
+                    </mx:columns>
+	            </mx:DataGrid>
+	            <mx:HBox horizontalAlign="left">
+	            	<mx:Button label="@Resource(key='DevicesPanel_addSelected', bundle='messages')" click="add(Devices.instance.selection)"/>
+	            	<mx:Button label="@Resource(key='remove', bundle='messages')" click="remove()"/>
+	            </mx:HBox>
+            </mx:VBox>
+            <mx:VBox id="_searchContainer">
+                <search:SearchStack id="_search" change="searchChanged()" width="100%" />
+                <mx:Button label="@Resource(key='DevicesPanel_useSearch', bundle='messages')" click="useDevicesViewSearch()"/>
+            </mx:VBox>
+        </mx:ViewStack>
+    </mx:HBox>
+</mx:Panel>

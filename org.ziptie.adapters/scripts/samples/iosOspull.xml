@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<operationInputXML>
+    <connectionPath host="10.100.4.8">
+        <protocols>
+            <protocol name="Telnet" port="-1" validatedOnDevice="true">
+                <properties/>
+            </protocol>
+            <protocol name="TFTP" port="-1" validatedOnDevice="true">
+                <properties/>
+            </protocol>
+        </protocols>
+        <credentials>
+            <credential name="snmpUsername" value=""/>
+            <credential name="rwCommunityString" value=""/>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="snmpAuthPassword" value=""/>
+            <credential name="username" value="testlab"/>
+            <credential name="snmpPrivPassword" value=""/>
+            <credential name="enableUsername" value=""/>
+            <credential name="password" value="hobbit"/>
+            <credential name="enablePassword" value="bigtex"/>
+        </credentials>
+        <fileServers>
+            <fileServer ip="10.10.1.157" port="11069" protocol="TFTP"
+                rootDir="/home/rkruse/ziptie/head/dist/AdapterTool/ftroot"/>
+        </fileServers>
+    </connectionPath>
+    <filestoreRoot path="/home/rkruse/filerepository"/>
+</operationInputXML>

@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scheduler Plug-in
+Bundle-SymbolicName: org.ziptie.provider.scheduler;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Bundle-Activator: org.ziptie.provider.scheduler.internal.SchedulerActivator
+DynamicImport-Package: *
+Bundle-ClassPath: lib/quartz-all-1.6.1.jar,
+ .
+Export-Package: org.quartz,
+ org.quartz.core,
+ org.quartz.helpers,
+ org.quartz.jobs,
+ org.quartz.listeners,
+ org.quartz.utils,
+ org.ziptie.provider.scheduler
+Require-Bundle: org.eclipse.core.runtime,
+ org.ziptie.apache.commons,
+ org.ziptie.log4j,
+ org.ziptie.zap.jms,
+ org.ziptie.zap.jta,
+ org.ziptie.zap.hibernate,
+ org.ziptie.zap.metro,
+ org.ziptie.zap.security
+Bundle-Vendor: ziptie.org
+Eclipse-RegisterBuddy: org.ziptie.zap.metro
+

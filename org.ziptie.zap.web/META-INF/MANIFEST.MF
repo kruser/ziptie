@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Web Plug-in
+Bundle-SymbolicName: org.ziptie.zap.web;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.zap.web.internal.WebActivator
+Require-Bundle: org.eclipse.core.runtime;resolution:=optional,
+ org.eclipse.osgi.services,
+ org.mortbay.jetty.plus,
+ org.mortbay.jetty.server,
+ org.mortbay.jetty.servlet-api-2.5,
+ org.mortbay.jetty.util,
+ org.ziptie.log4j,
+ org.ziptie.slf4j,
+ org.ziptie.zap.metro,
+ org.ziptie.zap.util,
+ org.ziptie.zap.security
+Eclipse-BuddyPolicy: registered
+DynamicImport-Package: *
+Bundle-ClassPath: lib/jetty-sslengine-6.1.11.jar,
+ .
+Export-Package: org.mortbay.jetty.security,
+ org.ziptie.zap.web

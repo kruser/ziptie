@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.apc.smartups"
+	name="ziptie.adapters.apc.smartups"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.apc.smartups" location="adapters/" version="" />
+</crate>

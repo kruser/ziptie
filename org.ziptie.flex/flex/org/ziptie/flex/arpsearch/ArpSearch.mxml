@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="searchInput.setFocus()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.events.DataGridEvent;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.controls.Alert;
+			import org.ziptie.flex.NetworkAddressElf;
+
+            private var _sort:String = 'ipAddress';
+            private var _descending:Boolean = false;
+		
+			private function doSearch():void
+			{			
+				if (goButton.enabled)
+				{
+					if (NetworkAddressElf.isValidCidr(searchInput.text) || NetworkAddressElf.isValidIp(searchInput.text))
+					{
+					    arpData.dataProvider = new PagedArpQuery(searchInput.text, _sort, _descending);
+					} 
+					else
+					{
+    					Alert.show(resourceManager.getString('messages', 'invalid_ip_or_cidr'), resourceManager.getString('messages', 'invalidIp_message'));
+					}
+				}
+			}	
+	
+			private function updateGoButtonStatus():void
+			{
+				goButton.enabled = (searchInput.length > 0);
+			}
+
+            private function sort(event:DataGridEvent):void
+            {
+                var column:String = DataGridColumn(arpData.columns[event.columnIndex]).dataField;
+                if (_sort == column)
+                {
+                    _descending = !_descending;
+                }
+                else
+                {
+                    _sort = column;
+                    _descending = false;
+                }
+                doSearch();
+                event.preventDefault();
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox x="0" y="0" height="100%" width="100%" styleName="tabVBox">
+		<mx:HBox width="100%" verticalAlign="middle">
+			<mx:Label text="@Resource(key='search_ip_label', bundle='messages')"/>
+			<mx:TextInput id="searchInput" enabled="true" enter="doSearch()" width="200" change="updateGoButtonStatus()"/>
+			<mx:Button id="goButton" label="@Resource(key='go', bundle='messages')" click="doSearch()" enabled="false"/>
+			<mx:Label width="100%" textAlign="right" text="@Resource(key='arp_search_message', bundle='messages')"/>
+		</mx:HBox>
+		<mx:HRule width="100%"/>
+		<mx:HBox width="100%" height="100%">
+			<mx:DataGrid id="arpData" width="100%" height="100%" sortableColumns="true" headerRelease="sort(event)">
+				<mx:columns>
+					<mx:DataGridColumn headerText="@Resource(key='arp_search_device', bundle='messages')" dataField="device"/>
+					<mx:DataGridColumn headerText="@Resource(key='arp_search_ip', bundle='messages')" dataField="ipAddress"/>
+					<mx:DataGridColumn headerText="@Resource(key='arp_search_mac', bundle='messages')" dataField="macAddress"/>
+					<mx:DataGridColumn headerText="@Resource(key='arp_search_interface', bundle='messages')" dataField="interfaceName"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>

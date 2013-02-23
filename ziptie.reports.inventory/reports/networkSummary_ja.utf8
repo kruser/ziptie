@@ -1,0 +1,5 @@
+report.title=ネットワークハードウェアサマリ
+menu.label=ネットワークハードウェアサマリ
+menu.tooltip=ネットワークハードウェアサマリレポート
+charts.vendor.title=メーカ別ハードウェアデバイス
+charts.types.title=デバイスの種類

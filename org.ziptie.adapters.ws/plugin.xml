@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.ziptie.zap.web.WebRegistry">
+      <servlet
+            alias="/services/adapters"
+            class="org.ziptie.adapters.ws.AdapterServlet">
+         <url-pattern
+               pattern="/services/adapters/*">
+         </url-pattern>
+      </servlet>
+   </extension>
+</plugin>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	  creationComplete="init()"
+	  layout="vertical"
+	  width="600"
+	  maxHeight="600"
+	  removed="ProgressManager.progressItems.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onChange)">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.events.CollectionEvent;
+    		import mx.collections.ArrayCollection;
+    		import mx.managers.PopUpManager;
+
+            private var _items:Object = new Object();
+
+            private function init():void
+            {
+            	ProgressManager.progressItems.addEventListener(CollectionEvent.COLLECTION_CHANGE, onChange);
+            	add(ProgressManager.progressItems);
+        		updateTitle();
+            }
+
+            private function add(items:Object):void
+            {
+        		for each (var item:ProgressItem in items)
+        		{
+        			var pdi:ProgressDialogItem = new ProgressDialogItem();
+        			pdi.percentWidth = 100;
+        			pdi.progressItem = item;
+        			addChild(pdi);
+        		}
+            }
+
+            private function onChange(event:CollectionEvent):void
+            {
+            	if (ProgressManager.progressItems.length == 0)
+            	{
+            		PopUpManager.removePopUp(this);
+            		return;
+            	}
+
+            	if (event.kind == 'add')
+            	{
+            		add(event.items);
+            	}
+            	else if (event.kind == 'remove')
+            	{
+            		for each (var item:ProgressItem in event.items)
+            		{
+            			for each (var child:DisplayObject in getChildren())
+            			{
+            				if (child is ProgressDialogItem && ProgressDialogItem(child).progressItem == item)
+            				{
+            					removeChild(child);
+            					break;
+            				}
+            			}
+            		}
+            	}
+
+                for each (var pi:ProgressItem in ProgressManager.progressItems)
+                {
+                	if (!pi.background)
+                	{
+                    	updateTitle();
+                		return;
+                	}
+                }
+
+                PopUpManager.removePopUp(this);
+            }
+
+            private function updateTitle():void
+            {
+                if (numChildren > 0)
+                {
+                    title = ProgressDialogItem(getChildAt(0)).progressItem.title;
+            	}
+            }
+
+            private function runInBackground():void
+            {
+            	for each (var item:ProgressItem in ProgressManager.progressItems)
+            	{
+            		item.background = true;
+            	}
+
+            	PopUpManager.removePopUp(this);
+            }
+    	]]>
+    </mx:Script>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button
+        	  label="@Resource(key='ProgressDialog_runInBackground', bundle='messages')"
+        	  click="runInBackground()"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

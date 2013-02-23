@@ -1,0 +1,22 @@
+<run_cli_commands xmlns="commandSet">
+	<connectionPath host="10.100.20.222" xmlns="">
+		<credentials>
+			<credential name="roCommunityString" value="public"/>
+			<credential name="username" value="testlab"/>
+			<credential name="rwCommunityString" value="private"/>
+			<credential name="enableUsername" value=""/>
+			<credential name="password" value="hobbit"/>
+			<credential name="enablePassword" value="bigtex"/>
+		</credentials>
+		<protocols>
+			<protocol name="Telnet" port="23">
+				<properties/>
+			</protocol>
+		</protocols>
+	</connectionPath>
+	<commandList>
+		<commandData command="show snmp" stripPrompt="true"/>
+		<commandData command="show ip accounting" stripPrompt="true"/>
+		<commandData command="show arp" stripPrompt="true"/>
+	</commandList>
+</run_cli_commands>

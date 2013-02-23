@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.extreme.xos"
+	name="ziptie.adapters.extreme.xos"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.extreme.xos" location="adapters/" version="" />
+</crate>

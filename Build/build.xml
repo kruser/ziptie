@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ziptie" default="dist">
+    <description>
+            Ziptie Product Build
+    </description>
+
+    <property file="user.properties" />
+    <property file="components.properties" />
+    <property name="dist.dir" value="${basedir}/../dist" />
+    <property name="ziptie.server.dir" value="${dist.dir}/server" />
+    <property name="archive.prefix" value="ziptie" />
+    <property name="server.archive.prefix" value="ziptie-server" />
+    <property name="artifact.dir" value="${dist.dir}/artifacts" />
+
+    <property name="zed.schema.dir" value="${basedir}/../org.ziptie.adapters/schema/model"/>
+
+    <property name="core.bundle.dirname" value="core" />
+    <property name="osgi.conf.dirname" value="osgi-config" />
+    <property name="crate.dirname" value="crates" />
+
+    <property name="eclipse.home" value="${basedir}/../TargetPlatform/eclipse" />
+
+    <property name="version.number" value="2008.10.0" />
+
+    <target name="dist" depends="i18n,server.dist,at.dist,i18n.clean"
+			description="Build the entire ZipTie product suite.">
+    </target>
+
+    <target name="clean" depends="at.clean,server.clean,build.clean"
+			description="Clean the entire ZipTie product suite.">
+        <delete dir="${dist.dir}" />
+    </target>
+
+    <!--===========================================================================
+        = ZipTie Build Tasks 
+        ===========================================================================-->
+    <target name="build.dist" description="Builds the build tasks.">
+        <ant dir="../EclipseBuild" target="dist" inheritall="false" />
+        <path id="taskcp">
+            <fileset dir="${eclipse.home}/plugins/" includes="org.eclipse.osgi_*.jar" />
+            <fileset file="../EclipseBuild/dist/ziptie-build-tools.jar" />
+        </path>
+
+        <taskdef classpathref="taskcp" name="zclean" classname="org.ziptie.build.tasks.CleanTask" />
+        <taskdef classpathref="taskcp" name="zdepends" classname="org.ziptie.build.tasks.DependenciesTask" />
+        <taskdef classpathref="taskcp" name="zdist" classname="org.ziptie.build.tasks.DistTask" />
+        <taskdef classpathref="taskcp" name="zdist-launcher" classname="org.ziptie.build.tasks.DistLauncherTask" />
+    </target>
+
+    <target name="build.clean" description="Cleans the build task build artifacts.">
+        <ant dir="../EclipseBuild" target="clean" inheritall="false" />
+    </target>
+
+    <!--===========================================================================
+        = AdapterTool 
+        ===========================================================================-->
+    <target name="at.dist" depends="server.dist" description="Builds the adapter tool">
+        <ant dir="../org.ziptie.net.sim" target="dist" />
+        <ant dir="../AdapterTool" target="dist" />
+    </target>
+
+    <target name="at.clean" description="Cleans the adpater tool build artifacts">
+        <ant dir="../AdapterTool" target="clean" />
+        <ant dir="../org.ziptie.net.sim" target="clean" />
+    </target>
+
+    <target name="at.zip" description="Creates the adapter tool zip">
+        <property name="version.qualifier" value="dev" />
+
+        <ant dir="../AdapterTool" target="zip" />
+    </target>
+
+
+    <!--===========================================================================
+        = ZipTie Server 
+        ===========================================================================-->
+    <target name="server.dist" depends="build.dist" description="Builds the ziptie server application.">
+        <property name="version.qualifier" value="dev" />
+
+        <zdist
+            eclipsehome="${eclipse.home}"
+   			dist="${ziptie.server.dir}"
+            root="../"
+            versionQualifier="${version.qualifier}"
+   	        pluginstobuild="${server.bundles}"
+			cratedir="${crate.dirname}"
+		    crateOuputDir="crates"
+			plugindir="${core.bundle.dirname}"/>
+
+        <zdepends
+            eclipsehome="${eclipse.home}"
+   			dist="${ziptie.server.dir}"
+            root="../"
+   	        pluginstobuild="${server.bundles}"
+   			plugindir="${core.bundle.dirname}"
+			cratedir="${crate.dirname}" />
+
+        <mkdir dir="${ziptie.server.dir}/${osgi.conf.dirname}" />
+        <copy todir="${ziptie.server.dir}/${osgi.conf.dirname}">
+            <fileset dir="../conf" />
+        </copy>
+
+        <copy todir="${ziptie.server.dir}" file="server.bat" />
+        <copy todir="${ziptie.server.dir}" file="server.sh" />
+
+        <copy todir="${ziptie.server.dir}/migration">
+            <fileset dir="migration">
+                <include name="*"/>
+            </fileset>
+            <filterset>
+                <filter token="DERBYJAR" value="org.ziptie.derby_${version.number}.${version.qualifier}"/>
+            </filterset>
+        </copy>
+
+        <copy todir="${ziptie.server.dir}">
+            <fileset dir="../org.ziptie.tools/tools">
+                <include name="*"/>
+            </fileset>
+            <filterset>
+                <filter token="TOOLSJAR" value="org.ziptie.tools_${version.number}.${version.qualifier}"/>
+            </filterset>
+        </copy>
+
+        <!-- Copy dbutil script for managing the database -->
+        <copy todir="${ziptie.server.dir}" file="dbutil.pl">
+           <filterset begintoken="^" endtoken="^">
+              <filter token="VERSION" value="${version.number}.${version.qualifier}"/>
+           </filterset>
+        </copy>
+
+        <copy todir="${ziptie.server.dir}" file="admin.pl">
+           <filterset begintoken="^" endtoken="^">
+              <filter token="VERSION" value="${version.number}.${version.qualifier}"/>
+           </filterset>
+        </copy>
+
+        <!-- Copy Perl script for checking Perl dependencies -->
+        <copy todir="${ziptie.server.dir}" file="perlcheck.pl" />
+
+        <!-- Copy Linux daemon script for controlling the server -->
+        <copy todir="${ziptie.server.dir}" file="ztserver" />
+
+        <!-- Copy Java Service Wrapper files -->
+        <mkdir dir="${ziptie.server.dir}/ztwrapper"/>
+        <copy todir="${ziptie.server.dir}/ztwrapper">
+            <fileset dir="ztwrapper"/>
+        </copy>
+
+    	<mkdir dir="${ziptie.server.dir}/tmp"/>
+
+        <exec executable="chmod" os="Linux,Mac OS X">
+            <arg value="+x" />
+            <arg value="${ziptie.server.dir}/dbutil.pl" />
+            <arg value="${ziptie.server.dir}/admin.pl" />
+            <arg value="${ziptie.server.dir}/server.sh" />
+            <arg value="${ziptie.server.dir}/ztserver" />
+            <arg value="${ziptie.server.dir}/ztwrapper/linux/ztwrapper" />
+            <arg value="${ziptie.server.dir}/ztwrapper/macosx/ztwrapper" />
+        </exec>
+    	
+        <ant antfile="buildDB.xml" inheritall="true" inheritrefs="true" target="db.dist" />
+    </target>
+
+    <target name="server.clean" depends="build.dist" description="Cleans the ziptie server application build artifacts.">
+        <delete dir="${ziptie.server.dir}"/>
+
+        <zclean
+			eclipsehome="${eclipse.home}"
+   			dist="${ziptie.server.dir}"
+            root="../"
+			cratedir="${crate.dirname}"
+   	        pluginstobuild="${server.bundles},org.ziptie.net.ftp,org.ziptie.net.tftp"/>
+    </target>
+
+    <target name="server.zip">
+        <mkdir dir="${artifact.dir}"/>
+
+        <!-- set the version qualifer for the archives if it hasn't already been set. -->
+        <property name="version.qualifier" value="dev" />
+
+        <tar longfile="gnu" destfile="${artifact.dir}/ziptie-server-${version.number}.${version.qualifier}-UNSTABLE.tgz" compression="gzip">
+            <!-- ensure that ziptie is executable for linux and Mac OS X -->
+            <tarfileset prefix="${server.archive.prefix}" dir="${ziptie.server.dir}" includes="server.sh" mode="755" />
+            <tarfileset prefix="${server.archive.prefix}" dir="${ziptie.server.dir}" includes="ztserver" mode="755" />
+            <tarfileset prefix="${server.archive.prefix}" dir="${ziptie.server.dir}" includes="ztwrapper/linux/ztwrapper" mode="755" />
+            <tarfileset prefix="${server.archive.prefix}" dir="${ziptie.server.dir}" excludes="server.sh,ztserver,ztwrapper/linux/ztwrapper" />
+        </tar>
+    </target>
+
+    <target name="flex.dist" depends="build.dist">
+    	<property name="version.qualifier" value="dev" />
+
+        <zdist
+            eclipsehome="${eclipse.home}"
+   			dist="${ziptie.server.dir}"
+            root="../"
+            versionQualifier="${version.qualifier}"
+   	        pluginstobuild="${flex.bundles}"
+			cratedir="${crate.dirname}"
+		    crateOuputDir="crates" />
+    </target>
+
+    <target name="flex.clean" depends="build.dist">
+        <delete dir="${ziptie.server.dir}/flex"/>
+
+        <zclean
+			eclipsehome="${eclipse.home}"
+   			dist="${ziptie.server.dir}"
+            root="../"
+			cratedir="${crate.dirname}"
+   	        pluginstobuild="${flex.bundles}"/>
+    </target>
+
+    <!--
+	 !  crate.out - The output directory
+	 !  crate.dir - The directory containing the input crate.
+	 !  crate.ver - The version of the crate.
+	 !  crate.id  - The crate to build
+	 !-->
+    <target name="crate.dist" depends="build.dist">
+        <property name="version.qualifier" value="dev" />
+
+        <mkdir dir="${crate.out}/${crate.id}" />
+
+        <zdist
+            eclipsehome="${eclipse.home}"
+   			dist="${crate.out}/${crate.id}"
+            root="../"
+            versionQualifier="${version.qualifier}"
+   	        pluginstobuild="${crate.id}.crate"
+			cratedir="${crate.dir}"
+		    crateOuputDir="crates" />
+
+        <zip destfile="${crate.out}/${crate.id}_${crate.ver}.${version.qualifier}.zip">
+            <zipfileset dir="${crate.out}/${crate.id}"/>
+        </zip>
+    </target>
+
+    <!--===========================================================================
+        = ZipTie JavaDoc Build
+        ===========================================================================-->
+    <target name="javadoc" description="Generates the Java API Docs">
+        <javadoc destdir="${dist.dir}/docs" packagenames="org.ziptie.*" failonerror="false">
+            <fileset dir=".." includes="org.ziptie.*/src/**/*.java,org.ziptie.*/srcgen/**/*.java"
+                excludes="**/internal/*,**/internal/*/*,**/internal/*/*/*,**/jaxws/*"
+                defaultexcludes="true">
+            </fileset>
+
+            <!-- Include javax.persistence.*  see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
+            <classpath>
+                <fileset file="${basedir}/../org.ziptie.zap.hibernate/lib/ejb3-persistence.jar"/>
+                <fileset file="${basedir}/../org.ziptie.zap.hibernate/lib/hibernate-annotations.jar"/>
+                <fileset file="${basedir}/../org.ziptie.zap.metro/lib/jaxws-tools.jar"/>
+                <fileset file="${basedir}/../org.ziptie.zap.metro/lib/jaxb-api.jar"/>
+            </classpath>
+        </javadoc>
+
+        <!--
+		 ! Check the success state of javadoc by whether or not the index.html was generated.
+		 ! This has to be done instead of "failonerror" above so as to not get too many failures. 
+		 !-->
+        <available file="${dist.dir}/docs/index.html" property="javadoc.success"/>
+        <fail unless="javadoc.success" message="javadoc index.html not created!  A newly added annotation may not have been added to the javadoc classpath."/>
+    </target>
+
+    <target name="javadoc.zip" depends="javadoc" description="Create the archive containing the Java API Docs.">
+        <mkdir dir="${artifact.dir}"/>
+        <tar destfile="${artifact.dir}/javadocs.tgz" basedir="${dist.dir}/docs" longfile="gnu" compression="gzip" />
+    </target>
+
+    <!--===========================================================================
+        = ZED XML Schema Documentation
+        ===========================================================================-->
+    <target name="zed.doc">
+    	<property name="zed.output.dir" value="${dist.dir}/docs/ZED"/>
+
+        <taskdef name="xnsdoc" classname="com.xnsdoc.Task">
+            <!-- xnsdoc requires a version of the xercesImpl.jar that is later
+            that what comes with Ant 1.7.0.  Replace the Ant xercesImpl.jar with the 
+            jar found in this projects lib directory. -->
+            <classpath>
+                <pathelement location="lib/xnsdoc.jar" />
+            </classpath>
+        </taskdef>
+
+    	<mkdir dir="${zed.output.dir}"/>
+        <xnsdoc out="${zed.output.dir}" license="${basedir}/lib">
+            <fileset dir="${zed.schema.dir}">
+                <include name="**/*.xsd"/>
+                <exclude name="**/initech.xsd"/>
+            </fileset>
+        </xnsdoc>
+
+    	<mkdir dir="${artifact.dir}" />
+        <tar destfile="${artifact.dir}/zed-docs.tgz" compression="gzip" basedir="${zed.output.dir}" />
+    </target>
+
+    <!--===========================================================================
+        = Adapter API Documentation
+        ===========================================================================-->
+    <target name="perldoc">
+        <property name="perldoc.output.dir" value="${dist.dir}/docs/perldoc" />
+
+        <mkdir dir="${perldoc.output.dir}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="generateDocs.pl"/>
+            <arg value="--baseDir=${basedir}/../org.ziptie.adapters/scripts"/>
+            <arg value="--outputDir=${perldoc.output.dir}"/>
+        </exec>
+
+        <mkdir dir="${artifact.dir}" />
+        <tar destfile="${artifact.dir}/perldocs.tgz" compression="gzip" basedir="${perldoc.output.dir}" />
+    </target>
+
+    <!--===========================================================================
+        = ZipTie Database Management
+        ===========================================================================-->
+    <target name="dbreset" description="Recreates the ziptie server database.">
+        <ant antfile="buildDB.xml" inheritall="true" inheritrefs="true" target="dbreset" />
+    </target>
+
+    <target name="dbset" description="Sets up the property file for the DB without clearing it's contents.">
+        <ant antfile="buildDB.xml" inheritall="true" inheritrefs="true" target="dbset" />
+    </target>
+
+    <!--===========================================================================
+        = ZipTie Project Helpers
+        ===========================================================================-->
+    <target name="webservice">
+        <ant antfile="buildCG.xml" inheritall="true" inheritrefs="true" target="webservice" />
+    </target>
+
+    <!--===========================================================================
+        = I18N
+        ===========================================================================-->
+	<target name="i18n" if="i18n">
+        <exec executable="perl" os="Linux,Mac OS X" dir="..">
+            <arg line="Build/i18n.pl gen"/>
+	    </exec>
+
+        <exec executable="perl" osfamily="windows" dir="..">
+            <arg line="Build\\i18n.pl gen"/>
+	    </exec>
+	</target>
+
+	<target name="i18n.clean" if="i18n">
+        <exec executable="perl" os="Linux,Mac OS X" dir="..">
+            <arg line="Build/i18n.pl clean"/>
+	    </exec>
+
+        <exec executable="perl" osfamily="windows" dir="..">
+            <arg line="Build\\i18n.pl clean"/>
+	    </exec>
+	</target>
+
+    <!--===========================================================================
+        = ZipTie CruiseControl Build
+        ===========================================================================-->
+    <target name="ci_build" 
+            description="Build for Continuous Integration. This is not meant to be called by users.">
+
+        <!-- Set timestamp to zero so that ci_build will work outside of cruisecontrol -->
+        <property name="cctimestamp" value="0" />
+
+        <property name="i18n" value="yes" />
+
+        <!-- Convert the timestamp from YYYYMMDDHHmmss to DDHHmm -->
+        <exec executable="perl" outputproperty="modified.version.number">
+            <arg value="-e" />
+            <arg value="$_ = '${cctimestamp}'; s/(\d{12})\d\d/\1/; print;" />
+        </exec>
+
+        <!-- cctimestamp is the timestamp set on this build from cruisecontrol. -->
+        <property name="version.qualifier" value="v${modified.version.number}" />
+        <echo level="info" message="Version Qualifier Is: ${version.qualifier}" />
+
+        <antcall target="clean" />
+
+        <antcall target="i18n"/>
+        <antcall target="server.dist" />
+        <antcall target="dbreset" />
+        <antcall target="server.zip" />
+
+        <antcall target="at.dist" />
+        <antcall target="at.zip" />
+
+        <antcall target="javadoc.zip" />
+        <antcall target="zed.doc" />
+    	<antcall target="perldoc" />
+        <antcall target="i18n.clean"/>
+
+        <ant antfile="buildInstall.xml" target="winstall"/>
+    </target>
+</project>
+

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.tools.AttachToTool;
+    		import org.ziptie.flex.progress.ProgressManager;
+    		import org.ziptie.flex.editor.EditorElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import org.ziptie.flex.DisplayElf;
+    		import mx.formatters.DateFormatter;
+    		import com.adobe.utils.DateUtil;
+    		import mx.utils.ObjectUtil;
+    		import mx.utils.XMLUtil;
+    		import org.ziptie.flex.services.ServerEvent;
+    		import mx.rpc.events.ResultEvent;
+    		import org.ziptie.flex.services.EventManager;
+    		import mx.controls.Alert;
+    		import org.ziptie.flex.Registry;
+    		import mx.events.DataGridEvent;
+    		import mx.controls.Image;
+    		import mx.controls.dataGridClasses.DataGridColumn;
+    		import mx.collections.ArrayCollection;
+
+            private var _sort:String = 'endTime';
+            private var _descending:Boolean = true;
+            private var _service:ExecutionHistoryService;
+            private var _columnIndex:int = 0;
+
+            private function init():void
+            {
+            	EventManager.subscribe('scheduler.trigger', 'fired', triggerFired);
+            	EventManager.subscribe('scheduler.trigger', 'complete', triggerComplete);
+            }
+
+    		private function buildColumns():Array
+    		{
+                return new Array(
+                    createColumn(null, 'jobType', '', 20, true),
+                    createColumn(getJobName, 'jobName', 'name', 400),
+                    createColumn(getJobGroup, 'jobGroup', 'group', 75),
+                    createColumn(getJobType, 'jobType', 'type', 60),
+                    createColumn(getStartTime, 'startTime', 'start'),
+                    createColumn(getEndTime, 'endTime', 'end'),
+                    createColumn(getUser, 'executor', 'executor', 70)
+    			);
+    		}
+
+            private function reset():void
+            {
+            	_service = new ExecutionHistoryService(_sort, _descending);
+            	table.dataProvider = _service;
+            }
+
+            private function createColumn(labelFunction:Function, field:String, label:String, width:int = 120, icon:Boolean = false):DataGridColumn
+            {
+            	var column:DataGridColumn = new DataGridColumn();
+            	column.width = width;
+            	column.sortable = true;
+                column.resizable = !icon;
+            	column.headerText = resourceManager.getString('messages', 'HistoryView_column_' + label);
+            	column.labelFunction = labelFunction;
+            	if (icon)
+            	{
+            		column.itemRenderer = new ClassFactory(JobTypeIconRenderer);
+            	}
+
+                column.setStyle('SortField', field);
+
+            	_columnIndex++;
+
+            	return column;
+            }
+
+            private function getJobName(item:Object, column:DataGridColumn):String
+            {
+            	return item.jobName;
+            }
+
+            private function getJobGroup(item:Object, column:DataGridColumn):String
+            {
+            	return JobElf.getJobGroupDisplayName(item.jobGroup);
+            }
+
+            private function getJobType(item:Object, column:DataGridColumn):String
+            {
+            	return Registry.jobTypes[item.jobType].displayName;
+            }
+
+            private function getDisplayDate(date:Object):String
+            {
+            	return DisplayElf.formatDate('medium', date);
+            }
+
+            private function getStartTime(item:Object, column:DataGridColumn):String
+            {
+            	return getDisplayDate(item.startTime);
+            }
+
+            private function getEndTime(item:Object, column:DataGridColumn):String
+            {
+            	var date:Object = item.endTime;
+            	if (date == null)
+            	{
+            		return resourceManager.getString('messages', 'HistoryView_status_inProgress');
+            	}
+            	return getDisplayDate(date);
+            }
+
+            private function getUser(item:Object, column:DataGridColumn):String
+            {
+            	var user:String = item.executor;
+            	return user == null ? "" : user;
+            }
+
+            private function sort(event:DataGridEvent):void
+            {
+            	var column:String = DataGridColumn(table.columns[event.columnIndex]).getStyle('SortField');
+            	if (_sort == column)
+            	{
+            		_descending = !_descending;
+            	}
+            	else
+            	{
+            		_sort = column;
+            		_descending = true;
+            	}
+            	reset();
+            	event.preventDefault();
+            }
+
+            private function triggerFired(event:ServerEvent):void
+            {
+            	reset();
+            }
+
+            private function triggerComplete(event:ServerEvent):void
+            {
+            	if (_service == null)
+            	{
+            		return;
+            	}
+
+                _service.update(event.object);
+            }
+
+            private function openResults():void
+            {
+                var exec:Object = table.selectedItem;
+                if (exec.jobType == 'BIRT Report' || exec.jobType == 'Script Tool Job')
+                {
+            	    ProgressManager.run(new AttachToTool(table.selectedItem));
+            	}
+            }
+
+            private function openJob():void
+            {
+            	EditorElf.open('Job:' + table.selectedItem.jobType, table.selectedItem);
+            }
+
+            private function cancel():void
+            {
+            	WebServiceElf.call('scheduler', 'interruptJob', null, table.selectedItem.id);
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%" styleName="tabVBox">
+        <mx:HBox horizontalAlign="right" width="100%"> 
+        	<mx:Button label="@Resource(key='HistoryView_openJob', bundle='messages')" icon="@Embed('/img/openjob.png')" click="openJob()" />
+        	<mx:Button label="@Resource(key='HistoryView_openResults', bundle='messages')" icon="@Embed('/img/openresults.png')" click="openResults()"/>
+        	<mx:Button label="@Resource(key='cancel', bundle='messages')" click="cancel()" icon="@Embed('/img/cancel.png')"/>
+        </mx:HBox>
+		<mx:DataGrid
+	          id="table"
+	          width="100%"
+	          height="100%"
+	          doubleClickEnabled="true"
+	          doubleClick="openResults()"
+	          keyDown="if (event.charCode == 0x0d || event.charCode == 0x0a) openResults()"
+	          headerRelease="sort(event)"
+			  dataProvider="{new ExecutionHistoryService(_sort, _descending)}"
+			  columns="{buildColumns()}" />
+    </mx:VBox>
+</mx:Canvas>

@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.threecom.corebuilder"
+	name="ziptie.adapters.threecom.corebuilder"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.threecom.corebuilder" location="adapters/" version="" />
+</crate>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="org.ziptie.provider.security">
+	<description>
+            Build artifacts for org.ziptie.provider.security
+    </description>
+
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.security.SecurityProviderDelegate" />
+            <property name="uptodate.test" value="SecurityService.wsdl" />
+           <property name="genwsdl.additional.classpath" value="../org.ziptie.zap.security/bin:../org.ziptie.server.security/bin" />
+        </ant>
+	</target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

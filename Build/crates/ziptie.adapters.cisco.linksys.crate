@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.linksys"
+	name="ziptie.adapters.cisco.linksys"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.linksys" location="adapters/" version="" />
+</crate>

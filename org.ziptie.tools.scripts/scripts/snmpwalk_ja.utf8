@@ -1,0 +1,8 @@
+menu.label=SNMPシステム情報
+menu.tooltip=デバイスのSNMP情報を収集します。
+column.1=デバイス
+column.2=システムの説明
+column.3=システム稼働時間
+column.4=問い合わせ連絡先
+column.5=システムの名前
+column.6=システムの場所

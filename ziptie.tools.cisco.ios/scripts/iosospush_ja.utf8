@@ -1,0 +1,13 @@
+menu.label=IOSソフトウェア配布
+menu.tooltip=OSイメージの転送
+tool.category=変更
+column.1=デバイス
+input.0.label=転送するIOSイメージファイルを選択してください。
+input.1.label=flash転送先
+input.2.label=flashディレクトリ先
+input.2.group=オプション
+input.3.label=flashパーティション先
+input.4.label=既存のイメージをflashから削除する
+input.5.label=新しいイメージでブートする
+input.6.label=イメージ転送後にリロードする
+input.7.label=キロバイトでの最小DRAM(CCOから)

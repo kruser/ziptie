@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head/>
+<body>
+The package contains the Network Manager component used within the ZipTie Server.  The
+public API is described by the <code>INetworkManager</code> interface and it's associated
+dependent objects.  The public remote SOAP API is generated from the <code>INetworkManager</code>
+interface, however the Network Manager is available "in-process" by looking the 
+INetworkManager up in the OSGi service registry.
+<p>
+The following code snippet demonstrates acquiring a reference to the Network Manager through
+the OSGi framework.  We strongly recommend using an OSGi <code>ServiceTracker</code>
+(not shown here) to manage your service references, rather than acquiring them directly
+as in this example.
+<p>
+<pre>
+   private INetworkManager netman;
+   ...
+   public void start(BundleContext context)
+   {
+      ServiceReference ref = context.getServiceReference(INetworkManager.class.getName());
+      netman = (INetworkManagere) context.getService(ref);
+      ...
+   }
+</pre>
+</body>

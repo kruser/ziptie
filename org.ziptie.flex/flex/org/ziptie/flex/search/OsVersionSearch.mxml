@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Search
+	  xmlns="org.ziptie.flex.search.*"
+	  xmlns:mx="http://www.adobe.com/2006/mxml"
+	  scheme="osVersion"
+	  horizontalScrollPolicy="off"
+	  verticalScrollPolicy="off"
+	  show="setupWidths()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.CsvElf;
+    		import org.ziptie.flex.devices.AdaptersElf;
+    		import mx.core.Application;
+
+            [Bindable]
+            private var _operators:Array = new Array('<', '<=', '=', '>=', '>');
+
+            private function setupWidths():void
+            {
+            	adapter.width = measuredWidth - _lblAdapter.measuredWidth - 4;
+            }
+
+	        public override function get resolutionData():String
+	        {
+	        	return CsvElf.toCsv([adapter.selectedItem.adapterId, operator.selectedLabel, query.text]);
+	        }
+
+            public override function set resolutionData(data:String):void
+            {
+            	var vals:Array = CsvElf.toArray(data)[0];
+            	var adapterId:String = vals[0];
+            	var op:String = vals.length > 1 ? vals[1] : '=';
+            	var text:String = vals.length > 2 ? vals[2] : '';
+
+            	adapter.selectedItem = AdaptersElf.adaptersById[adapterId];
+            	operator.selectedItem = op;
+            	query.text = text;
+            }
+    	]]>
+    </mx:Script>
+	<mx:Grid id="_grid" width="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off" >
+		<mx:GridRow width="100%">
+			<mx:GridItem verticalAlign="middle">
+				<mx:Label id="_lblAdapter" text="@Resource(bundle='messages', key='search_osVersion_adapter')"/>
+			</mx:GridItem>
+			<mx:GridItem colSpan="2" horizontalScrollPolicy="off">
+				<mx:ComboBox id="adapter" width="100%" dataProvider="{AdaptersElf.adapters}" labelField="shortName"
+                      change="change()"/>
+			</mx:GridItem>
+		</mx:GridRow>
+		<mx:GridRow width="100%">
+			<mx:GridItem verticalAlign="middle">
+				<mx:Label id="_lblQuery" text="@Resource(bundle='messages', key='search_osVersion_version')"/>
+			</mx:GridItem>
+            <mx:GridItem>
+                <mx:ComboBox id="operator" dataProvider="{_operators}" change="change()"/>
+            </mx:GridItem>
+			<mx:GridItem width="100%">
+				<mx:TextInput id="query" width="100%" enter="dispatchEvent(event)" change="change()" />
+			</mx:GridItem>
+		</mx:GridRow>
+	</mx:Grid>
+</Search>

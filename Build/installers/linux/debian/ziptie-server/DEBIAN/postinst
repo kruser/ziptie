@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# Post-Install Logic for ZipTie Server
+
+# Attempt to restore the Derby data base and Lucene index if they were preserved
+if [ -e "/tmp/ziptie-server-backup.lock" ]
+then
+	echo -n "Restoring user/password information, Derby database and Lucene index: "
+	rm -f /usr/share/ziptie-server/osgi-config/security/passwd
+	cp /tmp/ziptie-server-backup/osgi-config/security/passwd /usr/share/ziptie-server/osgi-config/security/passwd
+	cp -R /tmp/ziptie-server-backup/osgi-config /usr/share/ziptie-server/osgi-config-backup
+	rm -rf /usr/share/ziptie-server/derby
+	rm -rf /usr/share/ziptie-server/lucene
+	cp -R /tmp/ziptie-server-backup/derby /usr/share/ziptie-server
+	cp -R /tmp/ziptie-server-backup/lucene /usr/share/ziptie-server
+	rm -rf /tmp/ziptie-server-backup
+	rm -f /tmp/ziptie-server-backup.lock
+	echo "Done."
+fi
+
+# Attempt to migrate the database from an older version
+if [ -e "/tmp/ziptie-server-migration.lock" ]
+then
+	echo "Migrating database to the latest version ... "
+	rm -f /tmp/ziptie-server-migration.lock
+	cd /usr/share/ziptie-server
+	migrationOutput=`perl dbutil.pl migrate`
+	echo "Migration output: \n$migrationOutput"
+fi
+
+# Change the ownership of all the files to "ziptie"
+echo -n "Changing ownership of all files in '/usr/share/ziptie-server' to 'ziptie': "
+chown -R ziptie:ziptie /usr/share/ziptie-server
+echo "Done."
+
+# Ensure that various scripts have execute privileges
+chmod +x /usr/share/ziptie-server/perlcheck.pl
+chmod +x /usr/share/ziptie-server/ztpasswd.sh
+chmod +x /usr/share/ziptie-server/server.sh
+
+# Run our Perl script to check to see if all of the Perl-requirements have been met
+echo "Checking for any missing Perl requirements ..."
+perl /usr/share/ziptie-server/perlcheck.pl
+
+# Ensure that both the ZipTie server daemon script and the Java Service Wrapper are executable
+chmod +x /usr/share/ziptie-server/ztserver
+chmod +x /usr/share/ziptie-server/ztwrapper/linux/ztwrapper
+
+# Only install the service if it doesn't exist
+if [ ! -e "/etc/init.d/ziptie-server" ]
+then
+	# Create a symbolic link to the ZipTie server daemon script so the ZipTie server can be started as a service
+	echo -n "Creating 'ziptie-server' service: "
+	ln -s /usr/share/ziptie-server/ztserver /etc/init.d/ziptie-server
+	echo "Done."
+	
+	# Ensure that the ZipTie server can start and stop at system start and system shutdown respectively
+	update-rc.d ziptie-server defaults
+fi
+	
+# Start the ZipTie Server in the proper Debian fashion
+invoke-rc.d ziptie-server start

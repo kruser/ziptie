@@ -1,0 +1,6 @@
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+    <endpoint
+        name='plugins'
+        implementation='org.ziptie.provider.tools.PluginProviderDelegate'
+        url-pattern='/server/plugins'/>
+</endpoints>

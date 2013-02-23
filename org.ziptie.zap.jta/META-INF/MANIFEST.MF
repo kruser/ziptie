@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Jta Plug-in
+Bundle-SymbolicName: org.ziptie.zap.jta;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.zap.jta.internal.JtaActivator
+Bundle-Vendor: ZipTie
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+DynamicImport-Package: *
+Import-Package: org.apache.log4j,
+ org.osgi.framework;version="1.3.0"
+Eclipse-LazyStart: false
+Bundle-ClassPath: lib/btm-1.3.jar,
+ lib/jta-spec1_0_1.jar,
+ lib/slf4j-api-1.4.3.jar,
+ lib/slf4j-log4j12-1.4.3.jar,
+ .
+Export-Package: javax.transaction,
+ javax.transaction.xa,
+ org.ziptie.zap.jta

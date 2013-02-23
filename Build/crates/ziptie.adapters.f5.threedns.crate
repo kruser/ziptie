@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.f5.threedns"
+	name="ziptie.adapters.f5.threedns"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.f5.threedns" location="adapters/" version="" />
+</crate>

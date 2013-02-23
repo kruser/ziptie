@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.update">
+    <target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.update.internal.UpdateProviderDelegate" />
+            <property name="uptodate.test" value="Update.wsdl" />
+        </ant>
+    </target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen" />
+        <delete dir="WEB-INF" />
+    </target>
+</project>

@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.vxworks"
+	name="ziptie.adapters.cisco.vxworks"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.vxworks" location="adapters/" version="" />
+</crate>

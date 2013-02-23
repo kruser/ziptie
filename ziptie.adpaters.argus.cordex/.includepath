@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includepath>
+  <includepathentry path="/Applications/AdapterTool_NA6.6/scripts" />
+  <includepathentry path="${resource_loc:/ziptie.adapters.argus.cordex/scripts}" />
+</includepath>
+

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute"
+	width="400" height="400"
+	title="@Resource(bundle='messages', key='tags_manage_title')"
+	keyDown="if (event.charCode == 0x1B) PopUpManager.removePopUp(this)"
+	creationComplete="init()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.SortField;
+    		import mx.collections.Sort;
+    		import org.ziptie.flex.InputWindow;
+    		import mx.rpc.events.ResultEvent;
+    		import mx.collections.ArrayCollection;
+    		import mx.managers.PopUpManager;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import org.ziptie.flex.services.ResultElf;
+
+            // TODO lbayer: Update Regex to work for Japanese
+            private var _validationRegex:RegExp = /^(\w|_|\.|\d)+$/; // /^(\p{L}|_|\.|\d)+$/;
+
+            [Bindable]
+            private var _tags:ArrayCollection = new ArrayCollection();
+
+            private var _tagSet:Object;
+
+            private function init():void
+            {
+                WebServiceElf.call('devicetags', 'getAllTags', allTags);
+                txtNewTag.setFocus();
+            }
+
+            private function allTags(event:ResultEvent):void
+            {
+            	_tagSet = new Object();
+
+                for each (var tag:String in ResultElf.array(event))
+                {
+                    var lower:String = tag.toLowerCase();
+                    var obj:Object = _tagSet[lower];
+                    if (obj == null)
+                    {
+                        _tagSet[lower] = new Object();
+                        _tagSet[lower].name = tag;
+                        _tagSet[lower].display = tag;
+                    }
+                }
+
+                var sort:Sort = new Sort();
+                sort.fields = [new SortField('display', true)];
+
+            	_tags = new ArrayCollection();
+            	_tags.sort = sort;
+            	_tags.refresh();
+
+            	for each (var t:Object in _tagSet)
+            	{
+            		_tags.addItem(t);
+            	}
+            }
+
+    		private function ok():void
+    		{
+                for each (var tag:Object in _tagSet)
+                {
+		            if (tag.remove)
+		            {
+                        WebServiceElf.call('devicetags', 'removeTag', null, tag.name);
+		            }
+		            else if (tag.create)
+		            {
+                        WebServiceElf.call('devicetags', 'addTag', null, tag.name);		            
+		            }
+		            else if (tag.newName != null)
+		            {
+                        WebServiceElf.call('devicetags', 'renameTag', null, tag.name, tag.newName);	
+		            }
+                }
+
+                PopUpManager.removePopUp(this);
+    		}
+
+            private function addTagChanged():void
+            {
+            	var message:String = validate(null, txtNewTag.text);
+                txtNewTag.errorString = message;
+                btnAdd.enabled = message == null;
+            }
+
+            private function addTag():void
+            {
+                if (!btnAdd.enabled)
+                {
+                    return;
+                }
+
+                var lower:String = txtNewTag.text.toLowerCase();
+
+                var tag:Object = new Object();
+                tag.name = txtNewTag.text;
+                tag.display = txtNewTag.text;
+                tag.create = true;
+
+                _tags.addItem(tag);
+                _tagSet[lower] = tag;
+
+                list.selectedItem = tag;
+                list.scrollToIndex(list.selectedIndex);
+
+                txtNewTag.text = "";
+                txtNewTag.setFocus();
+            }
+
+            internal function remove():void
+            {
+            	var tag:Object = list.selectedItem;
+            	if (tag == null)
+            	{
+            		return;
+            	}
+
+                if (tag.create)
+                {
+                	_tagSet[tag.name.toLowerCase()] = null;
+                }
+                else
+                {
+                	tag.remove = true;
+                }
+
+            	var ndx:int = _tags.getItemIndex(tag);
+                if (ndx >= 0)
+                {
+                    _tags.removeItemAt(ndx);
+
+	                if (_tags.length > 0)
+	                {
+                        list.selectedItem = _tags.getItemAt(_tags.length == ndx ? ndx - 1 : ndx);	
+	                }
+                }
+            }
+
+            internal function rename():void
+            {
+            	var tag:Object = list.selectedItem;
+            	if (tag == null)
+                {
+                    return;
+                }
+
+            	InputWindow.open(this,
+                    tag,
+                    resourceManager.getString('messages', 'tags_manage_rename_title'),
+                    resourceManager.getString('messages', 'tags_manage_rename_message'),
+                    tag.display,
+                    onRename,
+                    validate);
+            }
+
+            private function onRename(tag:Object, newName:String):void
+            {
+            	tag.display = newName;
+            	if (tag.create)
+            	{
+            		tag.name = newName;
+            	}
+            	else
+            	{
+            	    tag.newName = newName;
+            	}
+            	_tags.refresh();
+            	list.invalidateList();
+            }
+
+            private function validate(tag:Object, newName:String):String
+            {
+            	if (_tagSet[newName.toLowerCase()] != null && (tag == null || !(tag.name == newName || tag.newName == newName)))
+            	{
+            		return resourceManager.getString('messages', 'tags_manage_exists');
+            	}
+
+                if (_validationRegex.exec(newName) == null)
+                {
+                    return resourceManager.getString('messages', 'tags_edit_invalid');
+                }
+
+            	return null;
+            }
+
+            private function listKey(event:KeyboardEvent):void
+            {
+            	switch (event.charCode)
+            	{
+        		case 0x0D: // CR
+        		case 0x0A: // LF
+                    rename();
+            		break;
+
+            	case 0x08: // Backspace
+            	case 0x7F: // Delete
+            	    remove();
+                    break;
+            	}
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%" styleName="popupVBox">
+    	<mx:Text text="@Resource(bundle='messages', key='tags_manage_message')" />
+        <mx:DataGrid
+              width="100%" height="100%"
+              id="list"
+              dataProvider="{_tags}"
+              showHeaders="false"
+              rowHeight="24"
+              doubleClickEnabled="true"
+              doubleClick="rename()"
+              verticalGridLines="false"
+              horizontalGridLines="false"
+              keyDown="listKey(event)">
+            <mx:columns>
+                <mx:DataGridColumn editable="false" width="24" sortable="false" resizable="false">
+                    <mx:itemRenderer>
+                        <mx:Component>
+                            <mx:VBox horizontalAlign="center">
+                                <mx:Button width="20" height="20" overIcon="@Embed(source='/img/delete2.png')" icon="@Embed(source='/img/delete2_off.png')" click="outerDocument.remove()"/>
+                            </mx:VBox>
+                        </mx:Component>
+                    </mx:itemRenderer>
+                </mx:DataGridColumn>
+                <mx:DataGridColumn editable="false" width="24" sortable="false" resizable="false">
+                    <mx:itemRenderer>
+                        <mx:Component>
+                            <mx:VBox horizontalAlign="center">
+                                <mx:Button width="20" height="20" overIcon="@Embed(source='/img/settings.gif')" icon="@Embed(source='/img/settings_off.gif')" click="outerDocument.rename()"/>
+                            </mx:VBox>
+                        </mx:Component>
+                    </mx:itemRenderer>
+                </mx:DataGridColumn>
+                <mx:DataGridColumn dataField="display" />
+            </mx:columns>
+        </mx:DataGrid>
+        <mx:HBox width="100%">
+            <mx:TextInput
+                    id="txtNewTag"
+                    width="100%"
+                    maxChars="255" 
+                    change="addTagChanged()"
+                    enter="addTag()" />
+            <mx:Button id="btnAdd" icon="@Embed('/img/add.gif')" toolTip="@Resource(key='add', bundle='messages')" click="addTag()"/>
+        </mx:HBox>
+    </mx:VBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="ok()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

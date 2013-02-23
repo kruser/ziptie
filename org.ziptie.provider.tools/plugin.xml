@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="org.ziptie.provider.plugins"
+       name="org.ziptie.provider.plugins.pluginManager"
+       schema="schema/org.ziptie.provider.plugins.exsd"/>
+   <extension-point id="org.ziptie.provider.plugins.servletDetail" name="org.ziptie.provider.plugins.servletDetail" schema="schema/org.ziptie.provider.plugins.servletDetail.exsd"/>
+
+   <extension point="org.ziptie.provider.scheduler.quartzJob">
+      <JobType
+            class="org.ziptie.provider.tools.ScriptToolJob"
+            cudPermission="org.ziptie.job.plugin.cudPermission"
+            name="Script Tool Job"
+            runPermission="org.ziptie.job.plugin.runPermission">
+         <validKey name="toolName"/>
+         <validKey name="devices"/>
+         <validKey name="jobParams"/>
+      </JobType>
+   </extension>
+
+
+   <extension point="org.ziptie.provider.plugins">
+      <pluginManager
+            class="org.ziptie.provider.tools.ScriptPluginManager">
+      </pluginManager>
+   </extension>
+   <extension
+         point="org.ziptie.provider.plugins.servletDetail">
+      <detailProvider
+            class="org.ziptie.provider.tools.ScriptPluginDetailStreamer"
+            jobClass="org.ziptie.provider.tools.ScriptToolJob"
+            pluginType="script">
+      </detailProvider>
+   </extension>
+
+    <extension
+        point="org.ziptie.zap.hibernate.PersistenceUnit">
+        <persistence-unit name="ziptie-ds">
+            <class name="org.ziptie.provider.tools.ToolRunDetails"/>
+            <class name="org.ziptie.provider.tools.PluginExecRecord"/>
+        </persistence-unit>
+    </extension>
+    <extension
+          point="org.ziptie.zap.web.WebRegistry">
+       <servlet
+             alias="ScriptToolResourceServlet"
+             class="org.ziptie.provider.tools.ScriptToolResourceServlet">
+          <url-pattern
+                pattern="/scripttool">
+          </url-pattern>
+       </servlet>
+       <servlet
+             alias="PluginDetailServlet"
+             class="org.ziptie.provider.tools.PluginDetailServlet">
+          <url-pattern
+                pattern="/pluginDetail">
+          </url-pattern>
+       </servlet>
+    </extension>
+    <extension
+          point="org.ziptie.zap.security.SecurityPermissions">
+       <permission
+             display="%org.ziptie.job.plugin.cudPermission"
+             id="org.ziptie.job.plugin.cudPermission">
+       </permission>
+       <permission
+             display="%org.ziptie.job.plugin.runPermission"
+             id="org.ziptie.job.plugin.runPermission">
+       </permission>
+    </extension>
+
+</plugin>

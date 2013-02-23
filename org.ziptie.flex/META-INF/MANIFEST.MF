@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Flex Core
+Bundle-SymbolicName: org.ziptie.flex;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.ziptie.zap.web

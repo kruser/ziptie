@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	  title="@Resource(bundle='messages', key='filters')"
+	  layout="absolute"
+	  creationComplete="init()"
+	  width="400" height="300">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.SortField;
+    		import mx.collections.Sort;
+    		import mx.collections.ICollectionView;
+    		import mx.collections.ListCollectionView;
+    		import org.ziptie.flex.services.ResultElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import mx.collections.ArrayCollection;
+    		import mx.rpc.events.ResultEvent;
+    		import mx.core.Application;
+    		import mx.controls.Alert;
+    		import mx.rpc.events.FaultEvent;
+    		import mx.managers.PopUpManager;
+
+            [Bindable]
+            private var _displayFilters:ICollectionView;
+            private var _filters:ArrayCollection;
+
+            private function init():void
+            {
+            	WebServiceElf.call('scheduler', 'getAllFilters', allFilters);
+            }
+
+    		private function ok():void
+    		{
+                for each (var filter:Object in _filters)
+                {
+                	if (filter.hasOwnProperty('remove'))
+                	{
+                		WebServiceElf.call('scheduler', 'deleteFilter', null, filter.filterName);
+                	}
+                	else if (filter.hasOwnProperty('change'))
+                	{
+                		delete filter['change'];
+                        WebServiceElf.call('scheduler', 'addFilter', null, filter, true, true);
+                	}
+    			}
+
+                PopUpManager.removePopUp(this);
+    		}
+
+            private function allFilters(event:ResultEvent):void
+            {
+            	_filters = ResultElf.array(event);
+            	_displayFilters = new ListCollectionView(_filters);
+            	_displayFilters.sort = new Sort();
+            	_displayFilters.sort.fields = [new SortField('filterName')];
+            	_displayFilters.filterFunction = includeFilterInDisplay;
+            	_displayFilters.refresh();
+            }
+
+            private function includeFilterInDisplay(object:Object):Boolean
+            {
+            	return !object.hasOwnProperty('remove');
+            }
+
+            private function create():void
+            {
+            	FilterDialog.open(this, onCreateFilter, _displayFilters);
+            }
+
+            private function remove():void
+            {
+            	var filter:Object = _table.selectedItem;
+                if (filter == null)
+                {
+                    return;
+                }
+
+                filter.remove = true;
+                _table.invalidateList();
+            }
+
+            private function edit():void
+            {
+            	var filter:Object = _table.selectedItem;
+            	if (filter == null)
+            	{
+            		return;
+            	}
+
+            	FilterDialog.open(this, onEditFilter, _displayFilters, filter, filter.filterName, filter.cronExpression);
+            }
+
+            private function onEditFilter(data:Object, name:String, cron:String):void
+            {
+            	data.filterName = name;
+            	data.cronExpression = cron;
+            	data.change = true;
+
+            	_table.invalidateList();
+            }
+
+            private function onCreateFilter(data:Object, name:String, cron:String):void
+            {
+            	_filters.addItem({filterName:name, cronExpression:cron, timeZone:'GMT-00:00', change:true});
+            }
+    	]]>
+    </mx:Script>
+    <mx:HBox styleName="popupVBox" width="100%" height="100%">
+        <mx:DataGrid id="_table" width="100%" height="100%" dataProvider="{_displayFilters}">
+            <mx:columns>
+                <mx:DataGridColumn headerText="@Resource(key='ManageFilters_column_name', bundle='messages')" dataField="filterName"/>
+                <mx:DataGridColumn headerText="@Resource(key='ManageFilters_column_cron', bundle='messages')" dataField="cronExpression"/>
+            </mx:columns>
+        </mx:DataGrid>
+        <mx:VBox height="100%">
+            <mx:Button label="@Resource(key='ManageFilters_create', bundle='messages')" width="100%" click="create()"/>
+            <mx:Button label="@Resource(key='ManageFilters_edit', bundle='messages')" width="100%" click="edit()"/>
+            <mx:Button label="@Resource(key='ManageFilters_remove', bundle='messages')" width="100%" click="remove()"/>
+        </mx:VBox>
+    </mx:HBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="ok()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.ziptie.provider.plugins">
+      <pluginManager
+            class="org.ziptie.server.birt.ReportPluginManager">
+      </pluginManager>
+   </extension>
+
+   <extension
+         point="org.ziptie.provider.scheduler.quartzJob">
+      <JobType
+            class="org.ziptie.server.birt.ReportJob"
+            name="BIRT Report">
+      </JobType>
+   </extension>
+
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.consumer.driverBridge">
+      <bridge
+            bridgeId="org.ziptie.server.birt.internal.ZJdbcDriver"
+            driverType="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver">
+      </bridge>
+   </extension>
+
+  <extension 
+         point="org.eclipse.datatools.connectivity.oda.dataSource"> 
+      <dataSource 
+            odaVersion="3.0" 
+            driverClass="org.ziptie.server.birt.internal.ZJdbcDriver" 
+            defaultDisplayName="ZipTie BIRT Driver Bridge" 
+            setThreadContextClassLoader="false" 
+            id="org.ziptie.server.birt.internal.ZJdbcDriver"/>
+   </extension>
+  <extension
+        point="org.ziptie.provider.plugins.servletDetail">
+     <detailProvider
+           class="org.ziptie.server.birt.ReportDetailStreamer"
+           jobClass="org.ziptie.server.birt.ReportJob">
+     </detailProvider>
+  </extension>
+</plugin>

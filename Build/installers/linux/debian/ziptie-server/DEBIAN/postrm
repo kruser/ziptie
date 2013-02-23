@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Post-Uninstall Logic for ZipTie Server
+#
+# Summary of how this script can be called:
+#        * <postrm> `remove'
+#        * <postrm> `purge'
+#        * <old-postrm> `upgrade' <new-version>
+#        * <new-postrm> `failed-upgrade' <old-version>
+#        * <new-postrm> `abort-install'
+#        * <new-postrm> `abort-install' <old-version>
+#        * <new-postrm> `abort-upgrade' <old-version>
+#        * <disappearer's-postrm> `disappear' <r>overwrit>r> <new-version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+case "$1" in
+	purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+		# Don't perform any of the following logic if we are upgrading to a newer version
+		if [ $1 != "upgrade" ]
+		then
+			# Remove "ziptie" user
+			echo -n "Removing 'ziptie' user: "
+			userdel ziptie
+			echo "Done."
+		
+			# Remove symbolic links for starting and stopping the ZipTie server at system startup and system shutdown respectively
+			update-rc.d -f ziptie-server remove
+		
+			# Remove symbolic link to daemon script fo controlling the ZipTie server
+			echo -n "Removing 'ziptie-server' service: "
+			rm /etc/init.d/ziptie-server
+			echo "Done."
+		
+			# Make sure all of the files in the ZipTie server are removed
+			echo -n "Removing '/usr/share/ziptie-server' directory: "
+			rm -rf /usr/share/ziptie-server
+			echo "Done."
+		fi
+	;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+	;;
+esac
+
+exit 0

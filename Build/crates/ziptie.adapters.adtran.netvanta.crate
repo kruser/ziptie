@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.adtran.netvanta"
+	name="ziptie.adapters.adtran.netvanta"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.adtran.netvanta" location="adapters/" version="" />
+</crate>

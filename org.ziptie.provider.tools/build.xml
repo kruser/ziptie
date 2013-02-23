@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.tools">
+	<description>
+            Build artifacts for org.ziptie.provider.tools
+    </description>
+
+    <target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+			<property name="genwsdl.additional.classpath" value="../org.ziptie.provider.devices/bin:../org.ziptie.provider.scheduler/bin:../org.ziptie.zap.security/bin" />
+            <property name="endpoint.class" value="org.ziptie.provider.tools.PluginProviderDelegate" />
+            <property name="uptodate.test" value="Plugins.wsdl" />
+        </ant>
+    </target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

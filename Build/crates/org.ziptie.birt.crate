@@ -1,0 +1,82 @@
+<crate
+     id="org.ziptie.birt"
+     name="ZipTie BIRT component"
+     version="2008.10.0" >
+
+   <bundle id="com.ibm.icu" location="core/" version="" />
+   <bundle id="com.lowagie.itext" location="core/com.lowagie.itext_1.5.2.v20070710" version="" />
+   <bundle id="org.apache.batik.bridge" location="core/org.apache.batik.bridge_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.css" location="core/org.apache.batik.css_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.dom.svg" location="core/org.apache.batik.dom.svg_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.dom" location="core/org.apache.batik.dom_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.ext.awt" location="core/org.apache.batik.ext.awt_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.extension" location="core/org.apache.batik.extension_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.parser" location="core/org.apache.batik.parser_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.pdf" location="core/org.apache.batik.pdf_1.6.0.v200706111329.jar" version="" />
+   <bundle id="org.apache.batik.svggen" location="core/org.apache.batik.svggen_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.swing" location="core/org.apache.batik.swing_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.transcoder" location="core/org.apache.batik.transcoder_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.util.gui" location="core/org.apache.batik.util.gui_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.util" location="core/org.apache.batik.util_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.batik.xml" location="core/org.apache.batik.xml_1.6.0.v200706111724.jar" version="" />
+   <bundle id="org.apache.commons.codec" location="core/org.apache.commons.codec_1.3.0.v200706111738.jar" version="" />
+<!-- bundle id="org.apache.derby.core" location="core/org.apache.derby.core_10.1.2.1" version="" /-->
+<!-- bundle id="org.apache.xerces" location="core/org.apache.xerces_2.8.0.v200705301630.jar" version="" /-->
+   <bundle id="org.apache.xml.resolver" location="core/org.apache.xml.resolver_1.1.0.v200705310020.jar" version="" />
+<!-- bundle id="org.eclipse.birt.api" location="core/org.eclipse.birt.api_1.0.0.jar" version="" /-->
+   <bundle id="org.eclipse.birt.chart.device.extension" location="core/org.eclipse.birt.chart.device.extension_2.2.1.r221_v20070828.jar" version="" />
+   <bundle id="org.eclipse.birt.chart.device.svg" location="core/org.eclipse.birt.chart.device.svg_2.2.1.r221_v20070918.jar" version="" />
+   <bundle id="org.eclipse.birt.chart.engine.extension" location="core/org.eclipse.birt.chart.engine.extension_2.2.1.r221_v20070911.jar" version="" />
+   <bundle id="org.eclipse.birt.chart.engine" location="core/org.eclipse.birt.chart.engine_2.2.1.r221_v20070911.jar" version="" />
+   <bundle id="org.eclipse.birt.chart.reportitem" location="core/org.eclipse.birt.chart.reportitem_2.2.1.r221_v20070921.jar" version="" />
+   <bundle id="org.eclipse.birt.core" location="core/org.eclipse.birt.core_2.2.1.r22x_v20070924.jar" version="" />
+   <bundle id="org.eclipse.birt.data" location="core/org.eclipse.birt.data_2.2.1.r22x_v20070925.jar" version="" />
+   <bundle id="org.eclipse.birt.report.data.adapter" location="core/org.eclipse.birt.report.data.adapter_2.2.1.r22x_v20070919.jar" version="" />
+   <bundle id="org.eclipse.birt.report.data.oda.jdbc" location="core/org.eclipse.birt.report.data.oda.jdbc_2.2.1.r22x_v20070919" version="" />
+<!-- bundle id="org.eclipse.birt.report.data.oda.sampledb" location="core/org.eclipse.birt.report.data.oda.sampledb_2.2.1.r22x_v20070919" version="" /-->
+   <bundle id="org.eclipse.birt.report.data.oda.xml" location="core/org.eclipse.birt.report.data.oda.xml_2.2.1.r22x_v20070919.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.html" location="core/org.eclipse.birt.report.engine.emitter.html_2.2.1.r22x_v20070918.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.pdf" location="core/org.eclipse.birt.report.engine.emitter.pdf_2.2.1.r22x_v20070921.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.postscript" location="core/org.eclipse.birt.report.engine.emitter.postscript_2.2.1.v20070823.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.ppt" location="core/org.eclipse.birt.report.engine.emitter.ppt_2.2.1.r22x_v20070924.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.prototype.excel" location="core/org.eclipse.birt.report.engine.emitter.prototype.excel_2.2.1.r22x_v20070914.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.emitter.wpml" location="core/org.eclipse.birt.report.engine.emitter.wpml_2.2.1.r22x_v20070829.jar" version="" />
+   <bundle id="org.eclipse.birt.report.engine.fonts" location="core/org.eclipse.birt.report.engine.fonts_2.2.1.v20070823" version="" />
+   <bundle id="org.eclipse.birt.report.engine" location="core/org.eclipse.birt.report.engine_2.2.1.r22x_v20070924.jar" version="" />
+   <bundle id="org.eclipse.birt.report.item.crosstab.core" location="core/org.eclipse.birt.report.item.crosstab.core_2.2.1.r221_v20070831.jar" version="" />
+   <bundle id="org.eclipse.birt.report.model.adapter.oda" location="core/org.eclipse.birt.report.model.adapter.oda_2.2.1.r22x_v20070911.jar" version="" />
+   <bundle id="org.eclipse.birt.report.model" location="core/org.eclipse.birt.report.model_2.2.1.r22x_v20070927.jar" version="" />
+   <bundle id="org.eclipse.core.contenttype" location="core/" version="" />
+   <bundle id="org.eclipse.core.expressions" location="core/" version="" />
+   <bundle id="org.eclipse.core.filesystem" location="core/" version="" />
+   <bundle id="org.eclipse.core.jobs" location="core/" version="" />
+   <bundle id="org.eclipse.core.resources" location="core/" version="" />
+   <bundle id="org.eclipse.core.runtime.compatibility.auth" location="core/" version="" />
+   <bundle id="org.eclipse.core.runtime.compatibility.registry" location="core/" version="" />
+   <bundle id="org.eclipse.core.runtime.compatibility" location="core/" version="" />
+   <bundle id="org.eclipse.core.runtime" location="core/" version="" />
+   <bundle id="org.eclipse.datatools.connectivity.oda.consumer" location="core/org.eclipse.datatools.connectivity.oda.consumer_3.1.2.200710011.jar" version="" />
+   <bundle id="org.eclipse.datatools.connectivity.oda.design" location="core/org.eclipse.datatools.connectivity.oda.design_3.0.5.200709071.jar" version="" />
+   <bundle id="org.eclipse.datatools.connectivity.oda.flatfile" location="core/org.eclipse.datatools.connectivity.oda.flatfile_3.0.4.200710221.jar" version="" />
+   <bundle id="org.eclipse.datatools.connectivity.oda.profile" location="core/org.eclipse.datatools.connectivity.oda.profile_3.0.5.200710181.jar" version="" />
+   <bundle id="org.eclipse.datatools.connectivity.oda" location="core/org.eclipse.datatools.connectivity.oda_3.1.1.200710011.jar" version="" />
+   <bundle id="org.eclipse.datatools.connectivity" location="core/org.eclipse.datatools.connectivity_1.0.1.200710171.jar" version="" />
+<!-- bundle id="org.eclipse.datatools.enablement.oda.ws" location="core/org.eclipse.datatools.enablement.oda.ws_1.0.1.200709111.jar" version="" / -->
+   <bundle id="org.eclipse.datatools.enablement.oda.xml" location="core/org.eclipse.datatools.enablement.oda.xml_1.0.2.200710221.jar" version="" />
+   <bundle id="org.eclipse.emf.common" location="core/org.eclipse.emf.common_2.2.1.v200702131851.jar" version="" />
+   <bundle id="org.eclipse.emf.ecore.xmi" location="core/org.eclipse.emf.ecore.xmi_2.2.2.v200702131851.jar" version="" />
+   <bundle id="org.eclipse.emf.ecore" location="core/org.eclipse.emf.ecore_2.2.2.v200702131851.jar" version="" />
+   <bundle id="org.eclipse.emf" location="core/org.eclipse.emf_2.2.0.v200702131851.jar" version="" />
+   <bundle id="org.eclipse.equinox.app" location="core/" version="" />
+   <bundle id="org.eclipse.equinox.common" location="core/" version="" />
+   <bundle id="org.eclipse.equinox.preferences" location="core/" version="" />
+   <bundle id="org.eclipse.equinox.registry" location="core/" version="" />
+   <bundle id="org.eclipse.osgi.services" location="core/" version="" />
+   <bundle id="org.eclipse.osgi" location="core/" version="" />
+   <bundle id="org.eclipse.update.configurator" location="core/" version="" />
+   <bundle id="org.mozilla.rhino" location="core/org.mozilla.rhino_1.6.0.v20070710" version="" />
+   <bundle id="org.w3c.css.sac" location="core/org.w3c.css.sac_1.3.0.v200706111724.jar" version="" />
+   <bundle id="org.w3c.dom.smil" location="core/org.w3c.dom.smil_1.0.0.v200706111724.jar" version="" />
+   <bundle id="org.w3c.dom.svg" location="core/org.w3c.dom.svg_1.1.0.v200706111724.jar" version="" />
+   <bundle id="org.w3c.sac" location="core/org.w3c.sac_1.3.0.v20070710" version="" />
+</crate>

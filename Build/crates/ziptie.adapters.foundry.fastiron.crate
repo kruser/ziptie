@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.foundry.fastiron"
+	name="ziptie.adapters.foundry.fastiron"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.foundry.fastiron" location="adapters/" version="" />
+</crate>

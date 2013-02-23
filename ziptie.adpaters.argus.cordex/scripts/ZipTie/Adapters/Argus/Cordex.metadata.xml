@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Argus::Cordex</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cordex System Controller</shortName>
+    <description>Cordex System Controller from Argus Technologies</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>HTTPS-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>HTTP-SNMP</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    	<matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.7309\.4" ignoreCase="false" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

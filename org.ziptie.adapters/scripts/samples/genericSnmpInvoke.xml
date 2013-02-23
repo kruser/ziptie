@@ -1,0 +1,26 @@
+<backup xmlns="backup">
+    <connectionPath host="10.100.20.210" xmlns="">
+        <credentials>
+            <credential name="username" value="admin"/>
+            <credential name="password" value="hobbit"/>
+            <credential name="enableUsername" value=""/>
+            <credential name="enablePassword" value="bigtex"/>
+            <credential name="roCommunityString" value="publicabc"/>
+            <credential name="rwCommunityString" value="private"/>
+            <credential name="snmpUsername" value="userfour"/>
+            <credential name="snmpAuthPassword" value="user4passwd"/>
+            <credential name="snmpPrivPassword" value="user4priv"/>
+        </credentials>
+        <protocols>
+            <protocol name="SNMP" port="161">
+            	<properties>
+                	<property name="Version" value="v3"/>
+                	<property name="Retries" value="1"/>
+                	<property name="Timeout(ms)" value="800"/>
+                	<property name="V3 Authentication" value="MD5"/>
+                	<property name="V3 Encryption" value="DES"/>
+                </properties>
+            </protocol>
+        </protocols>
+    </connectionPath>
+</backup>

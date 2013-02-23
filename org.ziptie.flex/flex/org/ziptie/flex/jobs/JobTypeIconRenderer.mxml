@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      source="{getIcon(data)}">
+    <mx:Script>
+        <![CDATA[
+            import org.ziptie.flex.Registry;
+
+            private function getIcon(data:Object):Class
+            {
+                return Registry.jobTypes[data.jobType].icon;
+            }
+        ]]>
+    </mx:Script>
+</mx:Image>

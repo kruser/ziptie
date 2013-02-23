@@ -1,0 +1,185 @@
+ZIPTIE-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises,
+	MODULE-IDENTITY,
+	OBJECT-TYPE,
+	NOTIFICATION-TYPE,
+	IpAddress
+		FROM SNMPv2-SMI;
+
+ziptie MODULE-IDENTITY
+	LAST-UPDATED "200709272023Z"	-- Sep 27, 2007 8:23:00 PM
+	ORGANIZATION "ZipTie"
+	CONTACT-INFO
+		"Ryan Kruse
+		301 Congress Avenue
+		Suite 400
+		Austin, TX 78701
+		U.S.A
+		Tel:  (512) 536-8346
+		Email: rkruse@ziptie.org
+		www.ziptie.org"
+	DESCRIPTION
+		"ZipTie SNMP Trap Definitions"
+	REVISION "200709272023Z"	-- Sep 27, 2007 8:23:00 PM
+	DESCRIPTION
+		"Initial version."
+	-- 1.3.6.1.4.1.29510
+	::= { enterprises 29510 }
+
+
+ziptieTraps OBJECT IDENTIFIER 
+	-- 1.3.6.1.4.1.29510.1
+	::= { ziptie 1 }
+
+ziptieTrapObjects OBJECT IDENTIFIER 
+	-- 1.3.6.1.4.1.29510.2
+	::= { ziptie 2 }
+
+ziptieDeviceHostname OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The name of the device as known to ZipTie. 
+		This is usually the device's DNS hostname."
+	-- 1.3.6.1.4.1.29510.2.1
+	::= { ziptieTrapObjects 1 }
+
+
+ziptieDeviceIpAddress OBJECT-TYPE
+	SYNTAX  IpAddress
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The preferred IP address of device."
+	-- 1.3.6.1.4.1.29510.2.2
+	::= { ziptieTrapObjects 2 }
+
+
+ziptieManagedNetwork OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"ZipTie devices can be identified by their IP address
+		and the managed network that they live in."
+	-- 1.3.6.1.4.1.29510.2.3
+	::= { ziptieTrapObjects 3 }
+
+
+ziptieConfigurationName OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The name of a configuration that exists
+		on a network device."
+	-- 1.3.6.1.4.1.29510.2.4
+	::= { ziptieTrapObjects 4 }
+
+
+ziptieAdapterName OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The name of a ZipTie adapter."
+	-- 1.3.6.1.4.1.29510.2.5
+	::= { ziptieTrapObjects 5 }
+
+
+ziptieOsType OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The operating system description of a ZipTie managed device.
+		This is also known as the shortName in a ZipTie adapter."
+	-- 1.3.6.1.4.1.29510.2.6
+	::= { ziptieTrapObjects 6 }
+	
+ziptieOperationName OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"The name of a ZipTie operation.  For example, backup." 
+	-- 1.3.6.1.4.1.29510.2.7
+	::= { ziptieTrapObjects 7 }
+	
+ziptieMessageDetail OBJECT-TYPE
+	SYNTAX  OCTET STRING
+	MAX-ACCESS read-only
+	STATUS  current
+	DESCRIPTION
+		"Contains details of some message, such as a failure stack trace." 
+	-- 1.3.6.1.4.1.29510.2.8
+	::= { ziptieTrapObjects 8 }
+
+
+ziptieConfigurationChange NOTIFICATION-TYPE
+	OBJECTS {
+		ziptieDeviceHostname,
+		ziptieDeviceIpAddress,
+		ziptieManagedNetwork,
+		ziptieConfigurationName}
+	STATUS  current
+	DESCRIPTION
+		"A ziptieConfigurationChange trap is sent from
+		a ZipTie server when there is configuration change
+		on a device.  This change is realized when ZipTie
+		performs a backup operation."
+	-- 1.3.6.1.4.1.29510.1.1
+	::= { ziptieTraps 1 }
+
+
+ziptieAddDevice NOTIFICATION-TYPE
+	OBJECTS {
+		ziptieDeviceHostname,
+		ziptieDeviceIpAddress,
+		ziptieManagedNetwork,
+		ziptieAdapterName,
+		ziptieOsType}
+	STATUS  current
+	DESCRIPTION
+		"A ziptieAddDevice trap is sent from a ZipTie
+		server when a new device has been added to the ZipTie
+		inventory either through an automated discovery process
+		or by manual process."
+	-- 1.3.6.1.4.1.29510.1.2
+	::= { ziptieTraps 2 }
+
+
+ziptieDeleteDevice NOTIFICATION-TYPE
+	OBJECTS {
+		ziptieDeviceHostname,
+		ziptieDeviceIpAddress,
+		ziptieManagedNetwork,
+		ziptieAdapterName,
+		ziptieOsType}
+	STATUS  current
+	DESCRIPTION
+		"A ziptieDeleteDevice trap is sent from a ZipTie
+		server when a device has been deleted from the ZipTie
+		inventory."
+	-- 1.3.6.1.4.1.29510.1.3
+	::= { ziptieTraps 3 }
+	
+ziptieFailedOperation NOTIFICATION-TYPE
+	OBJECTS {
+		ziptieDeviceHostname,
+		ziptieDeviceIpAddress,
+		ziptieManagedNetwork,
+		ziptieOperationName,
+		ziptieMessageDetail}
+	STATUS  current
+	DESCRIPTION
+		"A ziptieDeleteDevice trap is sent from a ZipTie
+		server when a device has been deleted from the ZipTie
+		inventory."
+	-- 1.3.6.1.4.1.29510.1.4
+	::= { ziptieTraps 4 }
+
+END

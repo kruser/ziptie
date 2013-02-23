@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="vertical"
+      width="400" height="300"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.collections.Sort;
+        	import org.ziptie.flex.services.ResultElf;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.core.Application;
+        	import mx.rpc.AbstractOperation;
+        	import mx.managers.PopUpManager;
+        	import org.ziptie.flex.editor.EditorElf;
+        	import mx.rpc.events.ResultEvent;
+        	import mx.collections.ArrayCollection;
+
+            private var _jobData:Object;
+
+            protected var jobType:String;
+            protected var devices:ArrayCollection;
+
+            /** Subclasses can place additional UI components here*/
+            protected var children:Object;
+
+            public static function run(clazz:Class, devices:* = null):void
+            {
+                var d:JobWizard = PopUpManager.createPopUp(Application.application.mainPage, clazz, true) as JobWizard
+                d.devices = ResultElf.array(devices);
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function performOk():void
+            {
+                _jobData = new Object();
+                _jobData.jobName = _txtName.text;
+                _jobData.jobGroup = _cboGroup.text;
+                _jobData.jobType = jobType;
+                _jobData.description = _txtComment.text;
+                _jobData.persistent = true;
+                _jobData.jobParameters = new ArrayCollection();
+                populateJobParameters(_jobData.jobParameters);
+
+                WebServiceElf.call('scheduler', 'addJob', jobAdded, _jobData, false);
+
+                PopUpManager.removePopUp(this);
+            }
+
+            protected function populateJobParameters(params:ArrayCollection):void
+            {
+            	var csv:String = '';
+            	for each (var device:Object in devices)
+            	{
+            		csv += device.ipAddress + '@' + device.managedNetwork + ',';
+            	}
+
+            	params.addItem({key:'ipResolutionScheme', value:'ipCsv'});
+            	params.addItem({key:'ipResolutionData', value:csv});
+            }
+
+            private function jobAdded(event:ResultEvent):void
+            {
+                EditorElf.open('Job:' + jobType, _jobData);
+            }
+
+            private function validate():void
+            {
+            	var error:Object = JobElf.validateNewName(_txtName.text, _cboGroup.text);
+            	if (error == null)
+                {
+                    btnOk.enabled = true;
+                    _txtName.errorString = null;
+                    _cboGroup.errorString = null
+                }
+                else
+                {
+                    btnOk.enabled = false;
+                    _txtName.errorString = error.nameError;
+                    _cboGroup.errorString = error.groupError;
+                }
+            }
+
+            private function init():void
+            {
+                if( children is DisplayObject )
+                {
+                	addChild(children as DisplayObject);
+                }
+                else
+                {
+                    for each(var child:DisplayObject in children)
+                    {
+                        addChild(child);
+                    }
+                }
+                WebServiceElf.call('scheduler', 'getJobGroupNames', groups);
+            }
+
+            private function groups(event:ResultEvent):void
+            {
+            	var groups:ArrayCollection = ResultElf.array(event)
+            	groups.sort = new Sort();
+            	groups.refresh();
+            	_cboGroup.dataProvider = groups;
+            }
+        ]]>
+    </mx:Script>
+    <mx:Label text="@Resource(key='jobWizard_name', bundle='messages')" />
+    <mx:TextInput
+          width="100%"
+          id="_txtName"
+          change="validate()"/>
+    <mx:Label text="@Resource(key='jobWizard_group', bundle='messages')" />
+    <mx:ComboBox
+          id="_cboGroup"
+          editable="true"
+          fontWeight="normal"
+          width="100%"
+          change="validate()" />
+    <mx:Label text="@Resource(key='jobWizard_comment', bundle='messages')" />
+    <mx:TextInput
+          id="_txtComment"
+          width="100%"
+          change="validate()"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" enabled="false" label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

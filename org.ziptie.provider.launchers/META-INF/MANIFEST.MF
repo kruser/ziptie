@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Launchers Plug-in
+Bundle-SymbolicName: org.ziptie.provider.launchers;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.launchers.LaunchersActivator
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.xml.bind.annotation,
+ javax.xml.ws,
+ org.apache.log4j,
+ org.eclipse.osgi.util;version="1.0.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.2",
+ org.ziptie.zap.jta
+Eclipse-LazyStart: false
+Require-Bundle: org.ziptie.zap.hibernate,
+ org.ziptie.server.security,
+ org.ziptie.zap.security
+Eclipse-RegisterBuddy: org.ziptie.zap.metro
+Export-Package: org.ziptie.provider.launchers
+Bundle-Localization: plugin

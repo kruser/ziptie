@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      change="valueChanged()"
+      defaultValueChanged="defaultChanged()">
+    <mx:Script>
+        <![CDATA[
+            private function valueChanged():void
+            {
+            	if (value != null && value != '')
+            	{
+            		_combo.selectedItem = value;
+            	}
+            }
+
+            private function defaultChanged():void
+            {
+            	if (value == null)
+            	{
+            	    _value = _combo.selectedItem as String;
+            	}
+            }
+        ]]>
+    </mx:Script>
+    <mx:HBox width="100%" verticalAlign="middle">
+        <mx:Label text="{field.label}" />
+        <mx:ComboBox
+              id="_combo"
+              width="100%"
+              dataProvider="{defaultValueArray}"
+              change="value = _combo.selectedLabel" />
+    </mx:HBox>
+</InputContributor>

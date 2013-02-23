@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.passport1600"
+	name="ziptie.adapters.nortel.passport1600"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.passport1600" location="adapters/" version="" />
+</crate>

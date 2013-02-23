@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ZipTie Utilities
+Bundle-SymbolicName: org.ziptie.net.util;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-ClassPath: ZUtilities.jar
+Export-Package: org.ziptie.addressing,
+ org.ziptie.common,
+ org.ziptie.credentials,
+ org.ziptie.credentials.utils,
+ org.ziptie.exception,
+ org.ziptie.net.snmp,
+ org.ziptie.net.utils,
+ org.ziptie.protocols,
+ org.ziptie.security
+Bundle-Vendor: ziptie.org
+Import-Package: javax.persistence,
+ javax.xml.bind.annotation,
+ org.apache.log4j
+Require-Bundle: org.ziptie.zap.hibernate

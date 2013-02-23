@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bootstrap Plug-in
+Bundle-SymbolicName: org.ziptie.zap.bootstrap
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.zap.bootstrap.internal.Activator
+Import-Package: org.apache.log4j,
+ org.eclipse.osgi.framework.console,
+ org.eclipse.osgi.framework.debug,
+ org.eclipse.osgi.util;version="1.0.0",
+ org.osgi.framework;version="1.3.0"
+Bundle-Vendor: ziptie.org
+Require-Bundle: org.ziptie.crates,
+ org.eclipse.osgi.util

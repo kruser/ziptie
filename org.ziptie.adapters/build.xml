@@ -1,0 +1,26 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<!DOCTYPE project>
+<project name="org.ziptie.adapters" default="validate-samples" basedir=".">
+    <property name="workspace" location=".."/>
+
+    <presetdef name="modelvalidate">
+        <schemavalidate failonerror="true" warn="true">
+            <schema namespace="http://www.ziptie.org/model/netconftypes/1.0"
+                    file="${workspace}/org.ziptie.adapters/schema/model/netconftypes.xsd"/>
+            <schema namespace="http://www.ziptie.org/model/core/1.0"
+                    file="${workspace}/org.ziptie.adapters/schema/model/ziptie-core.xsd"/>
+            <schema namespace="http://www.ziptie.org/model/common/1.0"
+                    file="${workspace}/org.ziptie.adapters/schema/model/ziptie-common.xsd"/>
+            <schema namespace="http://www.ziptie.org/model/cisco/1.0"
+                    file="${workspace}/org.ziptie.adapters/schema/model/cisco.xsd"/>
+        </schemavalidate>
+    </presetdef>
+
+    <target name="validate-samples">
+        <modelvalidate>
+            <fileset dir="schema/model">
+                <include name="*.xml"/>
+            </fileset>
+        </modelvalidate>
+    </target>
+</project>

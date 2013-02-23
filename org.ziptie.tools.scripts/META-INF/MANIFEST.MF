@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scripts Plug-in
+Bundle-SymbolicName: org.ziptie.tools.scripts;singleton:=true
+Bundle-Localization: plugin
+Bundle-Version: 2008.10.0
+ZTool-Directory: scripts
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Require-Bundle: ziptie.adapters.cisco.ios,
+ org.ziptie.zap.security

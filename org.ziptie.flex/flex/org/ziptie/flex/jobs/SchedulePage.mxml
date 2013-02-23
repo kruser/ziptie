@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:flex="org.ziptie.flex.*">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.formatters.DateBase;
+    		import mx.collections.ArrayCollection;
+    		import org.ziptie.flex.services.ResultElf;
+            import org.ziptie.flex.services.WebServiceElf;
+    		import mx.rpc.events.ResultEvent;
+
+            private var _job:Object;
+
+            [Bindable]
+            private var _triggers:ArrayCollection;
+
+            public function set job(job:Object):void
+            {
+            	_job = job;
+                WebServiceElf.call('scheduler', 'getTriggersOfJob', handleTriggers, job.jobName, job.jobGroup);
+            }
+
+            private function handleTriggers(event:ResultEvent):void
+            {
+                _triggers = ResultElf.array(event);
+            }
+
+            private function select():void
+            {
+            	var trigger:Object = triggerList.selectedItem;
+            	btnRemove.enabled = trigger != null;
+
+                if (trigger == null)
+                {
+                	return;
+                }
+
+                txtName.text = trigger.triggerName;
+
+                var filter:String = trigger.filterName;
+                if (filter != null)
+                {
+                	chkFilter.selected = true;
+                	txtFilter.text = filter;
+                	btnFilter.enabled = true;
+                }
+                else
+                {
+                	chkFilter.selected = false;
+                	txtFilter.text = '';
+                	btnFilter.enabled = false;
+                }
+
+                recurrence.setSchedule(trigger.startTime, trigger.endTime, trigger.cronExpression);
+            }
+
+            private function save():void
+            {
+            	var selectedTrigger:Object = triggerList.selectedItem;
+
+            	var triggerName:String = txtName.text;
+            	var isEditing:Boolean = selectedTrigger != null && selectedTrigger.triggerName == triggerName;
+
+                var newTrigger:Object = selectedTrigger;
+                if (!isEditing)
+                {
+                	newTrigger = new Object();
+                	newTrigger.jobName = _job.jobName;
+                	newTrigger.jobGroup = _job.jobGroup;
+                	newTrigger.triggerGroup = _job.jobGroup + '/' + _job.jobName;
+                	newTrigger.triggerName = triggerName;
+                }
+
+                newTrigger.startTime = recurrence.startTime;
+                newTrigger.cronExpression = recurrence.cronExpression;
+                newTrigger.endTime = recurrence.endTime;
+
+                var filter:String = txtFilter.text;
+                newTrigger.filterName = chkFilter.selected ? filter.length > 0 ? filter : null : null;
+
+                WebServiceElf.call('scheduler', 'scheduleJob', null, newTrigger);
+
+                if (!isEditing)
+                {
+                	_triggers.addItem(newTrigger);
+                	triggerList.selectedItem = newTrigger;
+                	btnRemove.enabled = true;
+                }
+            }
+
+            private function remove():void
+            {
+            	var trigger:Object = triggerList.selectedItem;
+            	if (trigger != null)
+            	{
+            		var ndx:int = _triggers.getItemIndex(trigger);
+            		WebServiceElf.call('scheduler', 'unscheduleJob', null, trigger.triggerName, trigger.triggerGroup);
+            		if (ndx >=0)
+            		{
+            			_triggers.removeItemAt(ndx);
+            		}
+            	}
+            }
+
+            private function browseForFilter():void
+            {
+            	SelectFilter.select(selectFilter, txtFilter.text);
+            }
+
+            private function selectFilter(filter:String):void
+            {
+            	txtFilter.text = filter;
+            }
+
+            private function get timezone():String
+            {
+            	var offset:Number = new Date().getTimezoneOffset();
+            	var sign:String = offset < 0 ? '+' : '-'; // offset is oposite of actual offset
+
+            	offset = Math.abs(offset);
+
+            	var hours:int = int(offset / 60);
+            	var minutes:int = int(offset % 60)
+
+        		return sign + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+            }
+    	]]>
+    </mx:Script>
+	<mx:Panel width="100%" layout="vertical" title="@Resource(key='SchedulePage_trigger', bundle='messages')" horizontalAlign="right" height="100%">
+		<mx:Label text="{resourceManager.getString('messages', 'SchedulePage_timezones', ['GMT' + timezone])}" width="100%"/>
+		<mx:HBox width="100%" verticalAlign="middle">
+			<mx:Label text="@Resource(key='SchedulePage_triggerName', bundle='messages')"/>
+			<mx:TextInput id="txtName" width="100%"/>
+		</mx:HBox>
+		<flex:Recurrence id="recurrence" width="100%" />
+		<mx:HBox width="100%" verticalAlign="middle">
+			<mx:CheckBox label="@Resource(key='SchedulePage_useFilter', bundle='messages')" id="chkFilter"
+				  change="txtFilter.enabled = chkFilter.selected; btnFilter.enabled = chkFilter.selected"/>
+			<mx:TextInput enabled="false" width="100%" id="txtFilter" />
+			<mx:Button enabled="false" label="@Resource(key='SchedulePage_browse', bundle='messages')" id="btnFilter" click="browseForFilter()"/>
+		</mx:HBox>
+		<mx:HRule width="100%"/>
+		<mx:Button label="@Resource(key='save', bundle='messages')" click="save()" />
+	</mx:Panel>
+
+	<mx:Panel width="100%" height="100%" layout="horizontal" title="Triggers">
+		<mx:List 
+              id="triggerList"
+              labelField="triggerName"
+              height="100%" width="100%"
+              dataProvider="{_triggers}"
+              change="select()"/>
+		<mx:Button
+              id="btnRemove"
+              label="@Resource(key='remove', bundle='messages')"
+              enabled="false"
+              click="remove()"/>
+	</mx:Panel>
+</mx:HBox>

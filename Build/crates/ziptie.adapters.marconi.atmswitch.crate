@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.marconi.atmswitch"
+	name="ziptie.adapters.marconi.atmswitch"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.marconi.atmswitch" location="adapters/" version="" />
+</crate>

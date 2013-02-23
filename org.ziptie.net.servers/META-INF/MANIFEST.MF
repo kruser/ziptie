@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Net Servers Bundle
+Bundle-SymbolicName: org.ziptie.net.servers
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.net.servers.NetServerActivator
+Bundle-Vendor: ziptie.org
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j,
+ org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: .
+Require-Bundle: org.ziptie.net.ftp,
+ org.ziptie.net.tftp
+Export-Package: org.ziptie.net.servers

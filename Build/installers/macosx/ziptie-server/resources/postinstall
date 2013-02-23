@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Post-Install Logic
+
+# Change the ownership of all the files to "ziptie"
+chown -R ziptie /usr/local/ziptie-server
+
+# Create a symbolic link to the ZipTie server daemon script so the ZipTie server can be started as a service
+#ln -s /usr/local/ziptie-server/ztserver /etc/init.d/ziptie-server
+
+# Ensure that both the ZipTie server daemon script and the Java Service Wrapper are executable
+chmod +x /usr/local/ziptie-server/ztserver
+chmod +x /usr/local/ziptie-server/ztwrapper/macosx/ztwrapper
+
+# Create symbolic link to the ZipTie server for certain run-levels
+#cd /etc/rc0.d
+#ln -s ../init.d/ziptie-server K05ziptie-server
+
+# Create symbolic link to the ZipTie server for certain run-levels
+#cd /etc/rc5.d
+#ln -s ../init.d/ziptie-server S95ziptie-server
+
+# Run our Perl script to check to see if all of the Perl-requirements have been met
+perl /usr/local/ziptie-server/perlcheck.pl
+
+# Start the ZipTie Server
+#/etc/init.d/ziptie-server start

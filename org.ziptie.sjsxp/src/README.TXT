@@ -1,0 +1,1 @@
+This bundle contains the Sun reference implementation of the Streaming API for XML (StAX) parser.

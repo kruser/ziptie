@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:yahoo="http://www.yahoo.com/astra/2006/mxml"
+      creationComplete="init()">
+    <mx:Script>
+        <![CDATA[
+        	import com.adobe.utils.DateUtil;
+        	import mx.formatters.DateBase;
+
+            private function init():void
+            {
+            	if (field.metadata['time'] != null)
+            	{
+            		_stack.selectedIndex = 1;
+            	}
+            	else if (field.metadata['timestamp'] != null)
+            	{
+            		_stack.selectedIndex = 2;
+            	}
+            	else
+            	{
+            		_stack.selectedIndex = 0;
+            	}
+            	valueChanged();
+
+            	if (value == null)
+            	{
+            		_value = DateUtil.toW3CDTF(new Date());
+            	}
+            }
+
+            private function valueChanged():void
+            {
+                this[_stack.selectedChild.label + 'Set']();
+            }
+
+            private function get date():Date
+            {
+            	var v:String = value;
+            	if (v == "" || v == null)
+            	{
+            		return new Date();
+            	}
+
+                var match:Array = v.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}) (-)(\d{2})(\d{2})$/);   
+                if (match != null)
+                {
+                    // convert '1997-07-16 19:20 +0100' to '1997-07-16T19:20+01:00'
+                	v = match[1] + 'T' + match[2] + match[3] + match[4] + ':' + match[5];
+                }
+
+            	return DateUtil.parseW3CDTF(v);
+            }
+
+            private function dateSet():void
+            {
+            	_dateField.selectedDate = date;
+            }
+
+            private function timestampSet():void
+            {
+            	_tstampDateField.selectedDate = date;
+            	_tstampTimeField.value = date;
+            }
+
+            private function timeSet():void
+            {
+                _timeField.value = date;
+            }
+
+            private function dateChange():void
+            {
+            	value = DateUtil.toW3CDTF(_dateField.selectedDate);
+            }
+
+            private function tstampChange():void
+            {
+            	var selectedDate:Date = _tstampDateField.selectedDate;
+            	var selectedTime:Date = _tstampTimeField.value;
+
+                if (selectedDate == null)
+                {
+                	selectedDate = new Date();
+                }
+
+                var date:Date = new Date(selectedDate.fullYear,
+                    selectedDate.month,
+                    selectedDate.date,
+                    selectedTime.hours,
+                    selectedTime.minutes,
+                    selectedTime.seconds);
+
+                value = DateUtil.toW3CDTF(date);
+            }
+
+            private function timeChange():void
+            {
+            	value = DateUtil.toW3CDTF(_timeField.value);
+            }
+        ]]>
+    </mx:Script>
+    <mx:HBox id="box" width="100%" verticalAlign="middle">
+        <mx:Label text="{field.label}" />
+        <mx:ViewStack id="_stack" width="100%" creationPolicy="all">
+            <mx:Canvas label="date">
+                <mx:DateField id="_dateField" change="dateChange()"/>
+            </mx:Canvas>
+            <mx:Canvas label="time">
+                <yahoo:TimeStepper id="_timeField" useTwelveHourFormat="false" showSeconds="false" change="timeChange()" />
+            </mx:Canvas>
+            <mx:HBox label="timestamp">
+                <yahoo:TimeStepper id="_tstampTimeField" useTwelveHourFormat="false" showSeconds="false" change="tstampChange()" />
+                <mx:DateField id="_tstampDateField" change="tstampChange()" />
+            </mx:HBox>
+        </mx:ViewStack>
+    </mx:HBox>
+</InputContributor>

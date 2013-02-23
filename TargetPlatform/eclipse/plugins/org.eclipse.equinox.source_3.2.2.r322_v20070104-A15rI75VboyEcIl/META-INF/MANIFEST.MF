@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.equinox.source; singleton=true
+Bundle-Version: 3.2.2.r322_v20070104-A15rI75VboyEcIl
+Bundle-Localization: plugin
+Bundle-Vendor: %providerName

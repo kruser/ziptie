@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      width="400" height="200"
+      creationComplete="init()"
+      layout="vertical"
+      title="@Resource(bundle='messages', key='RenameJobAction_title')">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+			import mx.collections.Sort;
+			import org.ziptie.flex.services.ResultElf;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+
+            [Bindable]
+            public var job:Object;
+
+            private var _jobData:Object;
+            private var _triggers:ArrayCollection;
+
+			private function init():void
+			{
+				WebServiceElf.call('scheduler', 'getJobGroupNames', groups);
+			}
+
+            private function groups(event:ResultEvent):void
+            {
+            	var groups:ArrayCollection = ResultElf.array(event);
+            	groups.sort = new Sort();
+            	groups.refresh();
+
+            	_combo.dataProvider = groups;
+                _combo.selectedItem = job.jobGroup;
+            }
+
+            private function performOk():void
+            {
+            	if (_txtName.text == job.jobName && _combo.text == job.jobGroup)
+            	{
+            		PopUpManager.removePopUp(this);
+            		return;
+            	}
+
+            	WebServiceElf.call('scheduler', 'getJob', fullJob, job.jobName, job.jobGroup);
+            	WebServiceElf.call('scheduler', 'getTriggersOfJob', triggers, job.jobName, job.jobGroup);
+            }
+
+            private function fullJob(event:ResultEvent):void
+            {
+            	save(event.result, _triggers);
+            }
+
+            private function triggers(event:ResultEvent):void
+            {
+            	save(_jobData, ResultElf.array(event));
+            }
+
+            private function save(jobData:Object, triggers:ArrayCollection):void
+            {
+            	_jobData = jobData;
+            	_triggers = triggers;
+
+            	if (_jobData == null || _triggers == null)
+            	{
+            		return;
+            	}
+
+                // Delete the old job, rename it, and add it under a new name
+                WebServiceElf.call('scheduler', 'deleteJob', jobDeleted, _jobData.jobName, _jobData.jobGroup);
+                _jobData.jobName = _txtName.text;
+            }
+
+            private function jobDeleted(event:ResultEvent):void
+            {
+                WebServiceElf.call('scheduler', 'addJob', jobAdded, _jobData, false);
+            }
+
+            private function jobAdded(event:ResultEvent):void
+            {
+            	for each (var trigger:Object in _triggers)
+            	{
+            		trigger.jobName = _txtName.text;
+            		WebServiceElf.call('scheduler', 'scheduleJob', null, trigger);
+            	}
+            	PopUpManager.removePopUp(this);
+            }
+
+            private function validate():void
+            {
+            	if (_txtName.text == job.jobName && _combo.text == job.jobGroup)
+            	{
+            		_txtName.errorString = null;
+            		_combo.errorString = null;
+            		btnOk.enabled = true;
+            		return;
+            	}
+
+                var error:Object = JobElf.validateNewName(_txtName.text, _combo.text);
+                if (error == null)
+                {
+                    btnOk.enabled = true;
+                    _txtName.errorString = null;
+                    _combo.errorString = null
+                }
+                else
+                {
+                	btnOk.enabled = false;
+	                _txtName.errorString = error.nameError;
+	                _combo.errorString = error.groupError;
+                }
+            }
+		]]>
+	</mx:Script>
+
+	<mx:Label text="@Resource(key='jobWizard_name', bundle='messages')" />
+	<mx:TextInput
+          id="_txtName"
+          change="validate()"
+          text="{job.jobName}"
+          width="100%" />
+	<mx:Label text="@Resource(key='jobWizard_group', bundle='messages')" />
+	<mx:ComboBox
+          id="_combo"
+          change="validate()"
+          fontWeight="normal"
+          editable="true"
+          width="100%"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

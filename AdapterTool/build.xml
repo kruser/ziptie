@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AdapterTool" default="dist">
+
+	<property name="bin.dir" value="bin"/>
+	<property name="out.dir" value="${basedir}/../dist/AdapterTool"/>
+
+    <target name="dist" depends="compile">
+        <mkdir dir="${out.dir}"/>
+    	<mkdir dir="${out.dir}/lib"/>
+
+    	<copy todir="${out.dir}/lib">
+        	<fileset file="${basedir}/../dist/server/core/org.ziptie.perl_${version.number}.${version.qualifier}/perl.jar" />
+        	<fileset file="${basedir}/../dist/server/core/org.ziptie.net_${version.number}.${version.qualifier}/lib/SNMP4j.jar" />
+       		<fileset file="${basedir}/../dist/server/core/org.ziptie.net_${version.number}.${version.qualifier}/net.jar" />
+    		<fileset file="${basedir}/../dist/server/core/org.ziptie.adapters_${version.number}.${version.qualifier}/adapters.jar" />
+    		<fileset file="${basedir}/../org.ziptie.apache.commons/lib/commons-logging.jar" />
+        	<fileset file="${basedir}/../org.ziptie.log4j/lib/log4j-1.2.14.jar" />
+        	<fileset file="${basedir}/../dist/server/core/org.ziptie.net.util_${version.number}.${version.qualifier}/ZUtilities.jar" />
+    		<fileset file="${basedir}/../dist/server/core/org.ziptie.net.tftp_${version.number}.${version.qualifier}/tftpserver.jar" />
+    		<fileset file="${basedir}/../org.ziptie.net/lib/SNMP4J.jar" />
+    	    <fileset file="${basedir}/../org.ziptie.net.sim/dist/sim.jar" />
+    	    <fileset dir="${basedir}/../org.ziptie.net.sim/dist/lib" excludes="log4j*"/>
+            <fileset file="${basedir}/../org.ziptie.metro.client/lib/jsr173_api.jar" />
+    	    <fileset file="${basedir}/../org.ziptie.derby/lib/derby-10.3.2.1.jar" />
+            <fileset file="${basedir}/../org.ziptie.metro.client/lib/sjsxp.jar" />
+    	    <fileset dir="${basedir}/lib" />
+    		<fileset dir="${basedir}/../dist/server/core/org.ziptie.net.ftp_${version.number}.${version.qualifier}">
+    			<include name="ftp.jar"/>
+    			<include name="ftpserver-dev.jar"/>
+			</fileset>
+    	</copy>
+
+    	<copy todir="${out.dir}/scripts">
+    		<fileset dir="${basedir}/../dist/server/core/org.ziptie.adapters_${version.number}.${version.qualifier}/scripts" />
+    		<fileset dir="${basedir}/../dist/server/core/org.ziptie.perl.common_${version.number}.${version.qualifier}/lib" />
+        	<fileset file="${basedir}/../dist/server/core/org.ziptie.perl_${version.number}.${version.qualifier}/PerlServer.pl"/>
+    	</copy>
+
+    	<copy todir="${out.dir}/bin">
+    		<fileset dir="${basedir}/../dist/server/core/org.ziptie.adapters_${version.number}.${version.qualifier}/bin" />
+    	</copy>
+    	
+    	<!-- Make any binaries in the "bin" folder executable for Linux and Mac OS X -->
+    	<exec executable="chmod" os="Linux,Mac OS X">
+        	<arg value="+x"/>
+        	<arg file="${out.dir}/bin/linux/plink"/>
+    		<arg file="${out.dir}/bin/linux/pscp"/>
+    		<arg file="${out.dir}/bin/macosx/plink"/>
+    		<arg file="${out.dir}/bin/macosx/pscp"/>
+    	</exec>
+
+    	<copy todir="${out.dir}/schema">
+    		<fileset dir="${basedir}/../dist/server/core/org.ziptie.adapters_${version.number}.${version.qualifier}/schema" />
+    	</copy>
+
+        <copy todir="${out.dir}">
+        	<fileset dir="${basedir}/../dist/server/core/org.ziptie.perl.common_${version.number}.${version.qualifier}" includes="lib"/>
+        	<fileset dir="${basedir}"> 
+        		<include name="adapterTool"/>
+        		<include name="adapterTool.bat"/>
+        	</fileset>
+        	<fileset file="${basedir}/../Build/perlcheck.pl"/>
+        </copy>
+
+    	<mkdir dir="${out.dir}/conf"/>
+
+		<copy todir="${out.dir}/conf">
+        	<fileset file="${basedir}/../dist/server/core/org.ziptie.net_${version.number}.${version.qualifier}/resources/credentialKeys.xml" />
+			<fileset dir="${basedir}/../conf/network">
+				<include name="tftp.properties" />
+				<include name="ftpd.properties" />
+			</fileset>
+    	</copy>
+
+        <mkdir dir="${out.dir}/configs"/>
+        <copy todir="${out.dir}/configs" file="${basedir}/default-config.xml"/>
+
+    	<copy todir="${out.dir}/templates">
+    		<fileset dir="${basedir}/templates"/>
+    	</copy>
+
+        <exec executable="chmod" os="Linux,Mac OS X">
+        	<arg value="+x"/>
+        	<arg file="${out.dir}/adapterTool"/>
+    	</exec>
+
+        <pathconvert property="jar.cp" pathsep=" ">
+           <fileset dir="${out.dir}/lib" />
+           <filtermapper>
+              <replaceregex pattern=".+[/\\]" replace=""/>
+     	   </filtermapper>
+        </pathconvert>
+
+        <jar destfile="${out.dir}/lib/adapterTool.jar" basedir="${bin.dir}">
+			<manifest>
+				<attribute name="Implementation-Version" value="${version.number}.${version.qualifier}"/>
+				<attribute name="Class-Path" value="${jar.cp}" />
+				<attribute name="Main-Class" value="org.ziptie.adaptertool.AdapterCli" />
+			</manifest>
+		</jar>
+    </target>
+	<fileset file="${basedir}/../org.ziptie.net/lib/SNMP4J.jar" />
+
+	<target name="zip" depends="dist">
+		<mkdir dir="${basedir}/../dist/artifacts"/>
+
+		<zip destfile="${basedir}/../dist/artifacts/AdapterTool.zip" compress="true">
+            <zipfileset prefix="AdapterTool" dir="${out.dir}" includes="adapterTool" filemode="755" />
+            <zipfileset prefix="AdapterTool" dir="${out.dir}" includes="**/pscp" filemode="755" />
+            <zipfileset prefix="AdapterTool" dir="${out.dir}" includes="**/plink" filemode="755" />
+			<zipfileset prefix="AdapterTool" dir="${out.dir}">
+                <exclude name="**/plink"/>
+                <exclude name="**/pscp"/>
+                <exclude name="adapterTool"/>
+            </zipfileset>
+		</zip>
+	</target>
+
+    <target name="compile">
+        <mkdir dir="${bin.dir}" />
+
+        <javac srcdir="src" destdir="${bin.dir}" debug="on">
+            <classpath>
+            	<fileset file="${basedir}/../dist/server/core/org.ziptie.net_${version.number}.${version.qualifier}/net.jar"/>
+            	<fileset file="${basedir}/../dist/server/core/org.ziptie.net.util_${version.number}.${version.qualifier}/ZUtilities.jar" />
+            	<fileset file="${basedir}/../dist/server/core/org.ziptie.adapters_${version.number}.${version.qualifier}/adapters.jar"/>
+            	<fileset file="${basedir}/../org.ziptie.log4j/lib/log4j-1.2.14.jar" />
+            	<fileset file="${basedir}/../dist/server/core/org.ziptie.perl_${version.number}.${version.qualifier}/perl.jar" />
+            	<fileset file="${basedir}/../org.ziptie.zap.hibernate/lib/ejb3-persistence.jar" />
+            	<fileset file="${basedir}/../org.ziptie.zap.hibernate/lib/hibernate-annotations.jar" />
+        		<fileset file="${basedir}/../dist/server/core/org.ziptie.net.tftp_${version.number}.${version.qualifier}/tftpserver.jar"/>
+        		<fileset file="${basedir}/../org.ziptie.net/lib/SNMP4J.jar" />
+                <fileset file="${basedir}/../org.ziptie.net.sim/dist/sim.jar" />
+                <fileset file="${basedir}/../org.ziptie.derby/lib/derby-10.3.2.1.jar" />
+                <fileset file="${basedir}/../org.ziptie.metro.client/lib/jsr173_api.jar" />
+                <fileset file="${basedir}/../org.ziptie.metro.client/lib/sjsxp.jar" />
+                <fileset dir="${basedir}/lib" />
+        		<fileset dir="${basedir}/../dist/server/core/org.ziptie.net.ftp_${version.number}.${version.qualifier}">
+        			<include name="ftp.jar"/>
+        			<include name="ftpserver-dev.jar"/>
+    			</fileset>
+            </classpath>
+        </javac>
+
+		<copy todir="${bin.dir}">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+    </target>
+
+    <target name="clean">
+    	<delete file="${basedir}/../dist/artifacts/AdapterTool.tgz" />
+        <delete dir="${bin.dir}" />
+        <delete dir="${out.dir}" />
+    </target>
+</project>

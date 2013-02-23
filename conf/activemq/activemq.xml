@@ -1,0 +1,93 @@
+<beans 
+  xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:amq="http://activemq.org/config/1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="activemq">
+        <!-- Destination specific policies using destination names or wildcards -->
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry queue=">" memoryLimit="5mb"/>
+                    <policyEntry topic=">" memoryLimit="5mb">
+                        <dispatchPolicy>
+                            <strictOrderDispatchPolicy/>
+                        </dispatchPolicy>
+
+                        <!--  30 seconds worth -->
+                        <subscriptionRecoveryPolicy>
+                            <timedSubscriptionRecoveryPolicy recoverDuration="30000" />
+                        </subscriptionRecoveryPolicy>
+
+                        <!-- lets force old messages to be discarded for slow consumers -->
+                        <pendingMessageLimitStrategy>
+                            <constantPendingMessageLimitStrategy limit="10"/>
+                        </pendingMessageLimitStrategy>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+
+        <!-- Use the following to configure how ActiveMQ is exposed in JMX -->
+        <managementContext>
+            <managementContext createConnector="false"/>
+        </managementContext>
+
+        <!-- The store and forward broker networks ActiveMQ will listen to -->
+        <networkConnectors>
+            <!-- by default just auto discover the other brokers -->
+            <!-- networkConnector name="default-nc" uri="multicast://default"/ -->
+            <!-- Example of a static configuration:
+            <networkConnector name="host1 and host2" uri="static://(tcp://host1:61616,tcp://host2:61616)"/>
+            -->
+        </networkConnectors>
+
+        <persistenceAdapter>
+            <amqPersistenceAdapter syncOnWrite="false" directory="activemq" maxFileLength="20 mb"/>
+        </persistenceAdapter>
+
+        <!-- Use the following if you wish to configure the journal with JDBC -->
+        <!--
+        <persistenceAdapter>
+            <journaledJDBC dataDirectory="${activemq.base}/data" dataSource="#postgres-ds"/>
+        </persistenceAdapter>
+        -->
+
+        <!-- Or if you want to use pure JDBC without a journal -->
+        <!--
+        <persistenceAdapter>
+            <jdbcPersistenceAdapter dataSource="#postgres-ds"/>
+        </persistenceAdapter>
+        -->
+
+        <!-- sslContext>
+            <sslContext keyStore="file:${activemq.base}/conf/broker.ks" keyStorePassword="password" trustStore="file:${activemq.base}/conf/broker.ts" trustStorePassword="password"/>
+        </sslContext -->
+        
+        <!--  The maximum about of space the broker will use before slowing down producers -->
+        <systemUsage>
+            <systemUsage>
+                <memoryUsage>
+                    <memoryUsage limit="20 mb"/>
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="1 gb" name="foo"/>
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="100 mb"/>
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+
+
+        <!-- The transport connectors ActiveMQ will listen to -->
+        <transportConnectors>
+            <!-- transportConnector name="openwire" uri="tcp://localhost:61616" discoveryUri="multicast://default"/ -->
+            <!-- transportConnector name="stomp" uri="stomp://localhost:61613"/ -->
+            <!-- transportConnector name="ssl" uri="ssl://localhost:61617"/ -->
+            <!-- transportConnector name="xmpp" uri="xmpp://localhost:61222"/ -->
+        </transportConnectors>
+
+        <useShutdownHook>false</useShutdownHook>
+    </broker>
+</beans>

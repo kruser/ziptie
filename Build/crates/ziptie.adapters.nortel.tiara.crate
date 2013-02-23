@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.tiara"
+	name="ziptie.adapters.nortel.tiara"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.tiara" location="adapters/" version="" />
+</crate>

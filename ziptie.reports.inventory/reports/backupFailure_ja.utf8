@@ -1,0 +1,9 @@
+bkp.last_backup=前バックアップ成功(GMT)
+bkp.vendor=メーカ
+bkp.status=エラータイプ
+bkp.ip_address=IPアドレス
+bkp.hostname=ホスト名
+bkp.chartTitle=バックアップステータスサマリ
+report.title=バックアップ失敗レポート
+menu.label=バックアップ失敗
+menu.tooltip=バックアップ失敗

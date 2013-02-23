@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="src" kind="src"/>
+	<classpathentry path="lib/streambuffer.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/stax-ex.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/sjsxp.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/saaj-impl.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/saaj-api.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/resolver.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jsr250-api.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jsr181-api.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jaxws-tools.jar" exported="true" kind="lib"/>
+	<classpathentry sourcepath="/Users/brettw/Documents/dev/jaxws-ri-20070501/src" path="lib/jaxws-rt.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jaxws-api.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jaxb-xjc.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jaxb-impl.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/jaxb-api.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/http.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/FastInfoset.jar" exported="true" kind="lib"/>
+	<classpathentry path="lib/activation.jar" exported="true" kind="lib"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+	<classpathentry path="org.eclipse.pde.core.requiredPlugins" kind="con"/>
+	<classpathentry path="bin" kind="output"/>
+</classpath>

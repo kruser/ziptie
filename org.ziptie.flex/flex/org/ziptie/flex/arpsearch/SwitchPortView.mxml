@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="searchInput.setFocus()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.resources.IResourceManager;
+			import mx.resources.ResourceManager;
+			import mx.core.Application;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+			
+			private function doSearch():void
+			{
+				if (!goButton.enabled)
+				{
+					return;
+				}
+
+				targetIp.text = "";
+				targetMac.text = "";
+				arpDevice.text = "";
+				arpInterface.text = "";
+				macDevice.text = "";
+				macPort.text = "";
+				
+				WebServiceElf.call("telemetry", "findSwitchPort", results, searchInput.text);
+			}
+			
+			private function results(event:ResultEvent):void
+			{
+				var searchResults:Object = event.result;
+				if (searchResults.error > 0)
+				{
+					var rm:IResourceManager = ResourceManager.getInstance(); 
+					var errorString:String;
+					switch (searchResults.error)
+					{
+						case 1: errorString = rm.getString('messages', 'switch_port_no_dns'); break;
+						case 2: errorString = rm.getString('messages', 'switch_port_no_arp_entry', new Array(searchResults.hostIpAddress)); break;
+						case 3: errorString = rm.getString('messages', 'switch_port_no_mac_entry', new Array(searchResults.hostMacAddress)); break;
+					}
+					Alert.show(errorString, rm.getString('messages', 'error'));
+				}
+				else
+				{
+					targetIp.text = searchResults.hostIpAddress;
+					targetMac.text = searchResults.hostMacAddress;
+					if (searchResults.arpEntry != null)
+					{
+						arpDevice.text = searchResults.arpEntry.device;
+						arpInterface.text = searchResults.arpEntry.interfaceName;
+					}
+					macDevice.text = searchResults.macEntry.device;
+					macPort.text = searchResults.macEntry.port;
+				}
+			}
+			
+			private function updateGoButtonStatus():void
+			{
+				goButton.enabled = (searchInput.length > 0);
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox x="0" y="0" height="100%" width="100%" styleName="tabVBox">
+		<mx:HBox width="100%">
+			<mx:Label text="@Resource(key='switch_port_search_label', bundle='messages')"/>
+			<mx:TextInput id="searchInput" enter="doSearch()" enabled="true" width="200" change="updateGoButtonStatus()"/>
+			<mx:Button id="goButton" label="@Resource(key='go', bundle='messages')" click="doSearch()" enabled="false"/>
+		</mx:HBox>
+		<mx:HRule width="100%"/>
+		<mx:HBox width="100%">
+				<mx:Panel
+                      verticalScrollPolicy="off"
+                      horizontalScrollPolicy="off"
+                      width="100%"
+                      layout="absolute"
+                      title="@Resource(key='switch_port_target_host', bundle='messages')"
+                      borderStyle="solid"
+                      borderThickness="1"
+                      height="100">
+					<mx:Grid x="0" y="0" height="100%" width="100%" styleName="paddedGrid">
+						<mx:GridRow>
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_ip_address', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="targetIp" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+						<mx:GridRow>
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_mac_address', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="targetMac" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+					</mx:Grid>
+				</mx:Panel>
+				<mx:Panel
+                      verticalScrollPolicy="off"
+                      horizontalScrollPolicy="off"
+                      width="100%"
+                      layout="absolute"
+                      borderStyle="solid"
+                      borderThickness="1"
+                      title="@Resource(key='switch_port_arp_ndp', bundle='messages')"
+                      height="100">
+					<mx:Grid x="0" y="0" height="100%" width="100%" styleName="paddedGrid">
+						<mx:GridRow>
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_device', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="arpDevice" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+						<mx:GridRow>
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_arp_interface', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="arpInterface" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+					</mx:Grid>
+				</mx:Panel>
+			<mx:Panel
+                  verticalScrollPolicy="off"
+                  horizontalScrollPolicy="off"
+                  width="100%"
+                  layout="absolute"
+                  title="@Resource(key='switch_port_switch_port', bundle='messages')"
+                  borderStyle="solid"
+                  borderThickness="1"
+                  height="100">
+				<mx:Grid x="0" y="0" height="100%" width="100%" styleName="paddedGrid">
+						<mx:GridRow>
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_device', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="macDevice" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+						<mx:GridRow >
+							<mx:GridItem>
+								<mx:Label text="@Resource(key='switch_port_mac_port', bundle='messages')"/>
+							</mx:GridItem>
+							<mx:GridItem>
+								<mx:TextInput width="100%" id="macPort" editable="false" enabled="true"/>
+							</mx:GridItem>
+						</mx:GridRow>
+				</mx:Grid>
+			</mx:Panel>
+		</mx:HBox>
+		<mx:HBox width="100%">
+            <mx:Image source="@Embed('/img/lightbulb.png')"/>
+            <mx:Label text="@Resource(key='switch_port_help', bundle='messages')" width="100%"/>
+        </mx:HBox>
+	</mx:VBox>
+</mx:Canvas>

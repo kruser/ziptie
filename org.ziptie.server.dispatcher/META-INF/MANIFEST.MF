@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dispatcher Plug-in
+Bundle-SymbolicName: org.ziptie.server.dispatcher
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.server.dispatcher.internal.Activator
+Import-Package: org.apache.log4j,
+ org.osgi.framework;version="1.3.0"
+Export-Package: org.ziptie.server.dispatcher
+Eclipse-LazyStart: false
+Bundle-Vendor: ziptie.org

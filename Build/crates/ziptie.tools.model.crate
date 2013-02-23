@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.tools.model"
+	name="ziptie.tools.model"
+	version="2008.10.0" >
+
+	<category name="tools"/>
+	<bundle id="ziptie.tools.model" location="tools/" version="" />
+</crate>

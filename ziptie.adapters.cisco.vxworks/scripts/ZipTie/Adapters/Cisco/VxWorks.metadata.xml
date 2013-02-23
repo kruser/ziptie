@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::VxWorks</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco VxWorks</shortName>
+    <description>Cisco Aironet with VxWorks</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>HTTP</supportedProtocolSet>
+            <supportedProtocolSet>HTTPS</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+		<matchRegex dataSource="sysDescr" regex="Cisco AP.*" singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

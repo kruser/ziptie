@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Juniper::JUNOS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Juniper JUNOS</shortName>
+    <description>Juniper Routers and Switches running JUNOS</description>
+    <softwareVersionRegEx>([\d]+)\.*(\d*).*</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.*(\d*).*</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>error : command is not valid</errorRegEx>
+        <errorRegEx>unknown command</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="reboot">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+        </operation>        
+        <operation name="ntpserverchange">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="syslogsetup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="snmpcommunitychange">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="loginbanner">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.2636\." ignoreCase="false" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

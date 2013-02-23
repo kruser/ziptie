@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+     targetNamespace="http://www.ziptie.org/adapters/telemetry"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://www.ziptie.org/adapters/telemetry"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     name="TelemetryService">
+
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.ziptie.org/adapters/telemetry" schemaLocation="telemetry-types.xsd" />
+    </xsd:schema>
+  </types>
+
+  <message name="telemetry">
+    <part name="connectionPath" element="tns:telemetry"/>
+  </message>
+  <message name="telemetryResponse">
+    <part name="response" element="tns:telemetryResponse"/>
+  </message>
+  <portType name="Telemetry">
+    <operation name="telemetry">
+      <input message="tns:telemetry"/>
+      <output message="tns:telemetryResponse"/>
+    </operation>
+  </portType>
+  <binding name="TelemetryPortBinding" type="tns:Telemetry">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="telemetry">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="TelemetryService">
+    <port name="TelemetryPort" binding="tns:TelemetryPortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

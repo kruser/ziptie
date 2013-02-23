@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.devices">
+	<description>
+            Build artifacts for org.ziptie.provider.devices
+    </description>
+
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.devices.DeviceProviderDelegate" />
+            <property name="uptodate.test" value="Devices.wsdl" />
+            <property name="genwsdl.additional.classpath" value="../org.ziptie.zap.security/bin" />
+        </ant>
+
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.devices.SimpleDeviceSearchDelegate" />
+            <property name="uptodate.test" value="DeviceSearch.wsdl" />
+        </ant>
+
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.devices.DeviceTagProviderDelegate" />
+            <property name="uptodate.test" value="DeviceTags.wsdl" />
+            <property name="genwsdl.additional.classpath" value="../org.ziptie.zap.security/bin" />
+        </ant>
+<!--
+        <ant antfile="../Build/buildCG.xml" target="genwsdl">
+            <property name="wsdl.file" value="simplesearch.wsdl"/>
+            <property name="namespace" value="devices.provider.ziptie.org"/>
+            <property name="classname" value="org.ziptie.provider.devices.ISimpleDeviceSearch"/>
+            <property name="location" value="http://localhost:8080/services/ziptie/server/devices/search"/>  
+        </ant>      
+
+		<ant antfile="../Build/buildCG.xml" target="genwsdl">
+            <property name="wsdl.file" value="tags.wsdl"/>
+            <property name="namespace" value="devices.provider.ziptie.org"/>
+            <property name="classname" value="org.ziptie.provider.devices.IDeviceTagProvider"/>
+            <property name="location" value="http://localhost:8080/services/ziptie/server/devices/tags"/>  
+        </ant>
+-->
+    </target>
+   
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

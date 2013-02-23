@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:CheckBox
+          id="_chk"
+          label="{field.label}"
+          selected="{value == 'true'}"
+          change="value = _chk.selected ? 'true' : 'false'" />
+</InputContributor>

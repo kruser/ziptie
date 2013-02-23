@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Nortel::Passport</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Nortel Passport</shortName>
+    <description>Nortel Passport Switches</description>
+    <softwareVersionRegEx>([\d]+)\.([\d]+)\.([\d]+).*</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.([\d]+)\.([\d]+).*</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>&quot;[^\n]+&quot; not found in path</errorRegEx>
+        <errorRegEx>(Required|Optional) parameter [^\n]+ = [^\n]+ is out of range</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>.+</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    <matchRegex dataSource="sysDescr" regex="Passport-8.*" singleline="false" multiline="true" ignoreCase="true"></matchRegex></discoveryMappings>
+</AdapterMetadata>

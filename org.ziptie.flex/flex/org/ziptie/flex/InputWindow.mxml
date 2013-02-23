@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="400"
+	keyDown="if (event.charCode == 0x1B) PopUpManager.removePopUp(this)"
+	creationComplete="txtInput.setFocus(); ">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.managers.PopUpManager;
+
+    		private var _result:Function;
+    		private var _validator:Function;
+    		[Bindable]
+    		private var _maxChars:int;
+    		[Bindable]
+    		private var _text:String;
+    		[Bindable]
+    		private var _message:String;
+    		private var _object:Object;
+
+    		public static function open(parent:DisplayObject, obj:Object, title:String, message:String, text:String, result:Function, validator:Function = null, maxChars:int = 255):void
+    		{
+    			var d:InputWindow = PopUpManager.createPopUp(parent, InputWindow, true) as InputWindow;
+    			d.title = title;
+    			d._message = message;
+    			d._result = result;
+    			d._validator = validator;
+    			d._maxChars = maxChars;
+    			d._text = text;
+    			d._object = obj;
+    			PopUpManager.centerPopUp(d);
+    		}
+
+            private function performOk():void
+            {
+            	if (!btnOk.enabled)
+            	{
+            		return;
+            	}
+
+            	_result(_object, txtInput.text);
+            	PopUpManager.removePopUp(this);
+            }
+
+            private function validate():void
+            {
+            	if (_validator == null)
+            	{
+            		return;
+            	}
+
+                var message:String = _validator(_object, txtInput.text);
+                txtInput.errorString = message;
+                btnOk.enabled = message == null;
+            }
+    	]]>
+    </mx:Script>
+	<mx:Label  text="{_message}" width="100%"/>
+	<mx:TextInput
+        id="txtInput"
+        text="{_text}"
+        width="100%"
+        maxChars="{_maxChars}"
+        change="validate()"
+        enter="performOk()"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

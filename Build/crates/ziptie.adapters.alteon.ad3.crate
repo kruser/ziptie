@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.alteon.ad3"
+	name="ziptie.adapters.alteon.ad3"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.alteon.ad3" location="adapters/" version="" />
+</crate>

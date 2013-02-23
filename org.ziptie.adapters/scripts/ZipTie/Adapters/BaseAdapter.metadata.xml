@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::BaseAdapter</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Base Adapter</shortName>
+    <description>
+        This adapter should not be used directly.  It is a base for all other adapters to inherit methods and properties from.
+    </description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms/>
+    <operationConstraints>
+        <operation name="telemetry">
+            <supportedProtocolSet>SNMP</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings/>
+</AdapterMetadata>

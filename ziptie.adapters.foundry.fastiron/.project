@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ziptie.adapters.foundry.fastiron</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>org.ziptie.zde.adapterNature</nature>
+		<nature>org.eclipse.pde.PluginNature</nature>
+		<nature>org.epic.perleditor.perlnature</nature>
+	</natures>
+</projectDescription>

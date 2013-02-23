@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ziptie.org/model/netconftypes/1.0"
+	xmlns:ndx="http://www.ziptie.org/model/netconftypes/1.0"
+	elementFormDefault="qualified">
+
+	<simpleType name="MD5">
+		<annotation>
+			<documentation>MD5 Message-Digest Algorithm</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[0-9a-zA-Z]{32}" />
+		</restriction>
+	</simpleType>
+	<simpleType name="IPAddress">
+		<annotation>
+			<documentation>IP Address</documentation>
+		</annotation>
+		<union memberTypes="ndx:IPV4Address ndx:IPV6Address"></union>
+	</simpleType>
+	<simpleType name="IPV4Address">
+		<annotation>
+			<documentation>IPV4 Address</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="7" />
+			<maxLength value="15" />
+			<pattern value="((25[0-5]|2[0-4]\d|[01]?\d{1,2})\.){3}(25[0-5]|2[0-4]\d|[01]?\d{1,2})"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IPV6Address">
+		<annotation>
+			<documentation>IPV6 Address RFC 3513</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="(([a-f\d]{1,4}:){7}[a-f\d]{1,4}|(([a-f\d]{1,4}:){0,6}[a-f\d]{1,4})?::(([a-f\d]{1,4}:){0,6}[a-f\d]{1,4})?)"></pattern>
+		</restriction>
+	</simpleType>
+	<simpleType name="DomainName">
+		<annotation>
+			<documentation>Domain Name RFC 1034</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="([\p{L}\p{N}]*\.)*[\p{L}\p{N}]?" />
+		</restriction>
+	</simpleType>
+	<simpleType name="EthernetAddress">
+		<annotation>
+			<documentation>Ethernet Address, IEEE 802.3</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[0-9a-fA-F]{12}" />
+		</restriction>
+	</simpleType>
+	<simpleType name="PORT">
+		<annotation>
+			<documentation>Port, RFC 793, RFC 768</documentation>
+		</annotation>
+		<restriction base="unsignedInt">
+			<minInclusive value="1" />
+			<maxInclusive value="65535" />
+		</restriction>
+	</simpleType>
+	<simpleType name="AdminStatus">
+		<annotation>
+			<documentation>Admin Status</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="Up" />
+			<enumeration value="Down" />
+			<enumeration value="Testing" />
+		</restriction>
+	</simpleType>
+	<simpleType name="OperStatus">
+		<annotation>
+			<documentation>Operational Status</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="Up" />
+			<enumeration value="Down" />
+			<enumeration value="Testing" />
+			<enumeration value="Unknown" />
+			<enumeration value="Dormant" />
+			<enumeration value="NotPresent" />
+			<enumeration value="LowerLayerDown" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="IfType">
+		<annotation>
+			<documentation>The type of an interface</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="atm" />
+			<enumeration value="ethernet" />
+			<enumeration value="frameRelay" />
+			<enumeration value="gre" />
+			<enumeration value="isdn" />
+			<enumeration value="modem" />
+			<enumeration value="other" />
+			<enumeration value="ppp" />
+			<enumeration value="serial" />
+			<enumeration value="softwareLoopback" />
+			<enumeration value="sonet" />
+			<enumeration value="tokenRing" />
+			<enumeration value="unknown" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="E164CountryCode">
+		<annotation>
+			<documentation>ITU-T E.164 Country Code</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[0-9]{3}" />
+		</restriction>
+	</simpleType>
+	<simpleType name="E164SubscriberNumber">
+		<annotation>
+			<documentation>E.164 Subscriber Number</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[0-9]{15}" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="SubnetMask">
+		<annotation>
+			<documentation>Describes a valid subnet mask bit value (0-128).</documentation>
+		</annotation>
+		<restriction base="int">
+			<minInclusive value="0"/>
+			<maxInclusive value="128"/>
+		</restriction>
+	</simpleType>
+
+</schema>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::WAAS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco WAAS Platforms</shortName>
+    <description>Cisco Wide-Area Application Services devices</description>
+    <softwareVersionRegEx>V{0,1}(\d+)\.?(\d*)\(?(\d*)\.?(\d*)([A-Za-z]*)\)?([A-Za-z]*)(\d*)\(?(\d*)\.?(\d*)([A-Za-z]*)\)?\w*</softwareVersionRegEx>
+    <biosVersionRegEx>V{0,1}(\d+)\.?(\d*)\(?(\d*)\.?(\d*)([A-Za-z]*)\)?([A-Za-z]*)(\d*)\(?(\d*)\.?(\d*)([A-Za-z]*)\)?\w*</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>% Invalid input detected at</errorRegEx>
+        <errorRegEx>% (Ambiguous|Unknown) command</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="reboot">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="Cisco\s+(Wide Area.+)" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

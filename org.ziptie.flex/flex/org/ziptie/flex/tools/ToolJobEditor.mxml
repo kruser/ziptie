@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobs:JobEditor
+	  xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      xmlns:tools="org.ziptie.flex.tools.*"
+      xmlns:editor="org.ziptie.flex.editor.*"
+      creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.events.ItemClickEvent;
+			import mx.core.Container;
+			import org.ziptie.flex.CsvElf;
+			import mx.rpc.AsyncToken;
+			import org.ziptie.flex.progress.ProgressManager;
+			import mx.utils.ObjectUtil;
+			import org.ziptie.flex.services.ResultElf;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.jobs.JobElf;
+			import mx.rpc.AbstractOperation;
+			import org.ziptie.flex.services.WebServiceElf;
+			import mx.controls.Alert;
+			import org.ziptie.flex.DisplayElf;
+
+            [Bindable]
+            private var _job:Object;
+
+            [Bindable]
+            private var _dirty:Boolean = false;
+            private var _devicesChanged:Boolean = false;
+
+            private var _defaults:PluginDefaults;
+
+            private var _pluginDescriptor:PluginDescriptor;
+
+            private function init():void
+            {
+            	WebServiceElf.call('scheduler', 'getJob', onLoad, input.jobName, input.jobGroup);
+            	if (input.jobType != 'BIRT Report')
+            	{
+            		_pages.removeChild(_notificationPage);
+            		_notificationPage = null;
+            	}
+            }
+
+			private function onLoad(event:ResultEvent):void
+			{
+				_job = event.result;
+                PluginElf.getPluginDescriptor(JobElf.getParam(_job, 'tool'), pluginDescriptor);
+			}
+
+            private function pluginDescriptor(pd:PluginDescriptor):void
+            {
+            	_pluginDescriptor = pd;
+            	var scheme:String = JobElf.getParam(_job, 'ipResolutionScheme');
+            	if (scheme == 'ipCsv')
+            	{
+            		var csv:String = JobElf.getParam(_job, 'ipResolutionData');
+            		var devices:Array = CsvElf.toArray(csv)[0];
+            		if (devices.length == 1 || (devices.length == 2 && devices[1] == ''))
+            		{
+            			var device:String = devices[0];
+            			if (device != '')
+            			{
+                			var ipNet:Array = device.split('@');
+
+                            _defaults = new PluginDefaults(pd, ipNet[0], ipNet.length > 1 ? ipNet[1] : null);
+                            _defaults.addEventListener(Event.COMPLETE, onLoadDefaults);
+                            _defaults.load();
+                        }
+            		}
+            	}
+
+            	_toolInputControl.pluginDescriptor = pd;
+
+            	var values:Object = new Object();
+
+            	var params:Object = ResultElf.array(_job.jobParameters);
+            	for each (var entry:Object in params)
+            	{
+            		if (String(entry.key).indexOf('input.') == 0)
+            		{
+            			values[entry.key] = entry.value;
+            		}
+            	}
+
+            	_toolInputControl.values = values;
+
+            	// only add listener after the initial values are set.
+            	_toolInputControl.addEventListener(Event.CHANGE, valueChanged);
+            }
+
+            private function onLoadDefaults(event:Event):void
+            {
+            	_toolInputControl.defaultValues = _defaults.values;
+            }
+
+			private function valueChanged(event:Event = null):void
+			{
+				if (!_dirty)
+				{
+				    _dirty = true;
+				    label = '*' + label;
+				}
+			}
+
+            private function save(jobAdded:Function = null):void
+            {
+            	if (false) // TODO lbayer: cannot save due to validation failure
+            	{
+            		Alert.show('blah', 'blah');
+            		return;
+            	}
+
+                _job.jobDescription = _txtDescription.text;
+
+                var values:Object = _toolInputControl.values
+                for (var input:String in values)
+                {
+                	JobElf.setParam(_job, input, values[input]); 
+                }
+
+                if (_devicesChanged)
+                {
+	                JobElf.setParam(_job, 'ipResolutionData', _devicesPage.resolutionData);
+	                JobElf.setParam(_job, 'ipResolutionScheme', _devicesPage.resolutionScheme);
+                }
+
+                if (_notificationPage != null)
+                {
+                	_notificationPage.save();
+                }
+
+                WebServiceElf.call('scheduler', 'addJob', jobAdded, _job, true);
+
+                _dirty = false;
+                _devicesChanged = false;
+
+                label = label.substring(1);
+            }
+
+            private function devicesChanged():void
+            {
+            	_devicesChanged = true;
+            	valueChanged();
+            }
+
+            private function showConfirmRun(event:ResultEvent = null):void
+            {
+                Alert.show(
+                    resourceManager.getString('messages', 'RunNowAction_confirm_message'),
+                    resourceManager.getString('messages', 'RunNowAction_confirm_title'),
+                    Alert.YES | Alert.NO,
+                    null,
+                    onConfirmRun);
+            }
+
+            private function onConfirmRun(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+                	ProgressManager.run(RunTool.newFromExisting(_job.jobName, _job.jobGroup, _job.jobType, _pluginDescriptor));
+                }
+            }
+
+            private function run():void
+            {
+                if (_dirty)
+                {
+                    save(showConfirmRun);
+                }
+                else
+                {
+                    showConfirmRun();
+                }
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%">
+    <mx:HBox horizontalAlign="right" width="100%" horizontalGap="2" paddingRight="2">
+        <mx:Label styleName="editorPageTitle" width="100%" text="{_pages.selectedChild.label}"/>
+        <mx:Button enabled="{_dirty}" toolTip="@Resource(key='save', bundle='messages')" icon="@Embed(source='/save.gif')" disabledIcon="@Embed(source='/save_edit.gif')" width="26" click="save()"/>
+        <mx:VRule height="24" />
+        <mx:ToggleButtonBar dataProvider="{_pages}" buttonWidth="26" />
+        <mx:VRule height="24" />
+        <mx:Button icon="@Embed(source='/play.png')" toolTip="@Resource(key='JobsView_runNow', bundle='messages')" width="26" click="run()"/>
+    </mx:HBox>
+	<mx:ViewStack
+		  width="100%" height="100%"
+		  id="_pages">
+	    <mx:VBox
+              id="_generalPage"
+              label="@Resource(key='ToolJobEditor_general', bundle='messages')"
+              styleName="editorPage"
+              icon="@Embed(source='/wrench.png')">
+	      <mx:HBox width="100%" height="100%">
+		    <mx:Panel title="Job">
+		        <mx:Form>
+		            <mx:FormItem label="@Resource(key='JobEditor_name', bundle='messages')">
+		            	<mx:TextInput editable="false" text="{_job.jobName}"/>
+		            </mx:FormItem>
+		            <mx:FormItem label="@Resource(key='JobEditor_group', bundle='messages')">
+                        <mx:TextInput editable="false" text="{_job.jobGroup}"/>
+                    </mx:FormItem>
+                    <mx:FormItem label="@Resource(key='JobEditor_comment', bundle='messages')">
+                        <mx:TextInput id="_txtDescription" text="{_job.description}" change="valueChanged()"/>
+                    </mx:FormItem>
+		        </mx:Form>
+       	    </mx:Panel>
+       	    <mx:Panel title="@Resource(key='ToolJobEditor_toolInputs', bundle='messages')" width="100%">
+       	    	<tools:ToolInputControl
+       	    		  id="_toolInputControl"
+                      width="100%" />
+       	    </mx:Panel>
+	      </mx:HBox>
+	    </mx:VBox>
+	    <tools:NotificationPage
+              id="_notificationPage"
+              styleName="editorPage"
+              job="{_job}"
+              icon="@Embed(source='/email.gif')"
+              label="@Resource(key='ToolJobEditor_emailNotification', bundle='messages')"
+              toolTip="@Resource(key='ToolJobEditor_emailNotification', bundle='messages')"
+              change="valueChanged()"/>
+	    <jobs:DevicesPage
+              id="_devicesPage"
+              icon="@Embed(source='/devices.png')"
+              label="@Resource(key='ToolJobEditor_devices', bundle='messages')"
+              toolTip="@Resource(key='ToolJobEditor_devices', bundle='messages')"
+              styleName="editorPage"
+              change="devicesChanged()"
+              job="{_job}" />
+	    <jobs:SchedulePage
+              id="_schedulePage"
+              styleName="editorPage"
+              icon="@Embed(source='/calendar.png')"
+              label="@Resource(key='ToolJobEditor_schedule', bundle='messages')"
+              toolTip="@Resource(key='ToolJobEditor_schedule', bundle='messages')"
+              job="{_job}" />
+	</mx:ViewStack>
+	</mx:VBox>
+</jobs:JobEditor>

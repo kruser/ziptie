@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+	  xmlns:mx="http://www.adobe.com/2006/mxml"
+	  xmlns:jobs="org.ziptie.flex.jobs.*">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.controls.Menu;
+        	import mx.events.MenuEvent;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import org.ziptie.flex.progress.ProgressItem;
+        	import mx.collections.ListCollectionView;
+        	import mx.collections.ICollectionView;
+        	import mx.core.Application;
+        	import org.ziptie.flex.editor.EditorElf;
+        	import mx.managers.PopUpManager;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import org.ziptie.flex.Registry;
+        	import mx.utils.ObjectUtil;
+
+            private function compareNames(jobA:Object, jobB:Object):int
+            {
+            	return ObjectUtil.stringCompare(jobA.jobName, jobB.jobName, true);
+            }
+
+            private function compareGroups(jobA:Object, jobB:Object):int
+            {
+            	return ObjectUtil.stringCompare(jobA.jobGroup, jobB.jobGroup, true);
+            }
+
+            private function compareTypes(jobA:Object, jobB:Object):int
+            {
+                return ObjectUtil.stringCompare(jobA.jobType, jobB.jobType, true);
+            }
+
+            private function compareDescriptions(jobA:Object, jobB:Object):int
+            {
+                return ObjectUtil.stringCompare(jobA.jobDescription, jobB.jobDescription, true);
+            }
+
+            private function getJobType(job:Object, column:DataGridColumn):String
+            {
+            	return Registry.jobTypes[job.jobType].displayName;
+            }
+
+            private function deleteJob():void
+            {
+            	var job:Object = table.selectedItem;
+            	if (job == null)
+            	{
+            		return;
+            	}
+
+            	WebServiceElf.call('scheduler', 'deleteJob', null, job.jobName, job.jobGroup);
+            }
+
+            private function rename():void
+            {
+            	if (table.selectedItem == null)
+            	{
+            		return;
+            	}
+
+            	var d:RenameJobDialog = PopUpManager.createPopUp(Application.application.mainPage, RenameJobDialog, true) as RenameJobDialog;
+            	PopUpManager.centerPopUp(d);
+            	d.job = table.selectedItem;
+            }
+
+            private function getDataProvider():ICollectionView
+            {
+            	var jobs:ListCollectionView = new ListCollectionView(JobElf.allJobs);
+            	jobs.filterFunction = filterJob;
+            	jobs.refresh();
+            	return jobs;
+            }
+
+            private function filterJob(job:Object):Boolean
+            {
+            	return String(job.jobGroup).charAt(0) != '_';
+            }
+
+            private function open():void
+            {
+                var selected:Object = table.selectedItem;
+                if (selected != null)
+                {
+                    EditorElf.open('Job:' + table.selectedItem.jobType, selected)
+            	}
+            }
+
+            private function runNow():void
+            {
+            	var selected:Object = table.selectedItem;
+                if (selected != null)
+                {
+                	var jobType:String = selected.jobType;
+                    var type:Object = Registry.jobTypes[jobType];
+                    var item:ProgressItem = type.runExisting(selected.jobName, selected.jobGroup, jobType);
+
+                    ProgressManager.run(item);
+                }
+            }
+
+            private function showJobsMenu():void
+            {
+                var ops:ArrayCollection = new ArrayCollection();
+                for each (var jobType:Object in Registry.jobTypes)
+                {
+                    var clazz:Function = jobType.create;
+                    if (clazz != null)
+                    {
+                        ops.addItem(jobType);
+                    }
+                }
+
+                var menu:Menu = Menu.createMenu(this, ops);
+                menu.labelField = 'displayName';
+                menu.addEventListener('itemClick', newJob);
+                var point:Point = _btnNewJob.localToGlobal(new Point(0, _btnNewJob.height));
+                menu.show(point.x, point.y);
+                
+                // ensure that menu doesn't go off the edge of the screen.
+                point.x = Math.min(Application.application.width - menu.width, point.x);
+                menu.move(point.x, point.y);
+            }
+
+            private function newJob(event:MenuEvent):void
+            {
+                event.item.create([]);
+            }
+        ]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%" styleName="tabVBox">
+        <mx:HBox horizontalAlign="right" width="100%" paddingRight="2">
+            <mx:Button label="@Resource(key='JobsView_delete', bundle='messages')" icon="@Embed('/img/delete2.png')" click="deleteJob()"/>
+            <mx:Button label="@Resource(key='RenameJobAction_title', bundle='messages')" icon="@Embed('/img/Rename.png')" click="rename()" />
+            <mx:Button label="@Resource(key='JobsView_runNow', bundle='messages')" icon="@Embed('/img/run.png')" click="runNow()"  />
+            <mx:Button id="_btnNewJob" label="@Resource(key='JobsView_newJob', bundle='messages')" icon="{Registry.openJobPng}" click="showJobsMenu()" />
+        </mx:HBox>
+	    <mx:DataGrid
+              id="table"
+              width="100%" height="100%"
+              dataProvider="{getDataProvider()}"
+	    	  doubleClickEnabled="true"
+	    	  doubleClick="open()">
+	        <mx:columns>
+	            <mx:DataGridColumn
+                      headerText=""
+                      width="25"
+                      textAlign="center"
+                      sortCompareFunction="compareTypes">
+                    <mx:itemRenderer>
+                        <mx:Component>
+                            <jobs:JobTypeIconRenderer data="{data}" />
+                        </mx:Component>
+                    </mx:itemRenderer>
+	            </mx:DataGridColumn>
+	            <mx:DataGridColumn
+                      headerText="@Resource(key='jobsView_column_name', bundle='messages')"
+                      dataField="jobName"
+                      sortCompareFunction="compareNames"/>
+	            <mx:DataGridColumn
+                      headerText="@Resource(key='jobsView_column_group', bundle='messages')"
+                      dataField="jobGroup"
+                      sortCompareFunction="compareGroups"/>
+	            <mx:DataGridColumn
+                      headerText="@Resource(key='jobsView_column_type', bundle='messages')"
+                      labelFunction="getJobType"
+                      dataField="jobType"
+                      sortCompareFunction="compareTypes"/>
+	            <mx:DataGridColumn
+                      headerText="@Resource(key='jobsView_column_comment', bundle='messages')"
+                      dataField="jobDescription"
+                      sortCompareFunction="compareDescriptions"/>
+	        </mx:columns>
+	    </mx:DataGrid>
+    </mx:VBox>
+
+</mx:Canvas>

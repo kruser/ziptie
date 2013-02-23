@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" show="searchInput.setFocus()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import org.ziptie.flex.CompareElf;
+			import mx.resources.ResourceManager;
+			import mx.resources.IResourceManager;
+			import org.ziptie.flex.editor.EditorElf;
+			import mx.collections.ArrayCollection;
+			import org.ziptie.flex.services.ResultElf;
+			import mx.core.Application;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+			
+			[Bindable] private var searchResults:ArrayCollection;
+			         	
+			private function init():void
+			{
+				searchResults = new ArrayCollection();
+			}
+			
+			private function doSearch():void
+			{
+				if (!goButton.enabled)
+				{
+					return;
+				}
+				var rm:IResourceManager = ResourceManager.getInstance();
+				resultsLabel.text = rm.getString('messages', 'config_search_in_progress');
+				searchResults.removeAll();
+				WebServiceElf.call("configsearch", "searchConfig", results, searchInput.text);
+			}
+			
+			private function results(event:ResultEvent):void
+			{
+				searchResults = ResultElf.array(event);
+				var rm:IResourceManager = ResourceManager.getInstance();
+				var matchCount:int = searchResults.length;
+				resultsLabel.text = rm.getString('messages', 'config_search_matches', new Array(String(matchCount)));
+			}
+			
+			private function updateGoButtonStatus():void
+			{
+				goButton.enabled = (searchInput.length > 0);
+			}
+			
+			private function openConfigEditor():void
+			{
+				var selection:Object = searchGrid.selectedItem;
+				var device:Object = new Object();
+				device.ipAddress = selection.ipAddress;
+				device.hostname = selection.ipAddress;
+				device.managedNetwork = selection.managedNetwork
+				var revision:Object = new Object();
+				revision.path = selection.path;
+				revision.lastChanged = selection.lastChanged;
+				EditorElf.open('Config', {device:device, revision:revision, search:selection});
+			}
+
+            private function compareIp(a:Object, b:Object, fields:Array = null):int
+            {
+            	return CompareElf.compare(a.ipAddress, b.ipAddress);
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox x="0" y="0" height="100%" width="100%" styleName="tabVBox">
+		<mx:HBox width="100%">
+			<mx:Label text="@Resource(key='config_search_input_label', bundle='messages')"/>
+			<mx:TextInput id="searchInput" enter="doSearch()" enabled="true" width="100%" change="updateGoButtonStatus()"/>
+			<mx:Button id="goButton" label="@Resource(key='go', bundle='messages')" click="doSearch()" enabled="false"/>
+		</mx:HBox>
+		<mx:HBox width="100%">
+			<mx:Label id="resultsLabel" width="100%"/>
+			<mx:LinkButton
+                  icon="@Embed('/img/unknown.png')"
+                  label="@Resource(key='config_search_help_label', bundle='messages')"
+                  click="navigateToURL(new URLRequest(resourceManager.getString('messages', 'config_search_help_url')));"/>
+		</mx:HBox>
+		<mx:HRule width="100%"/>
+		<mx:HBox width="100%" height="100%">
+			<mx:DataGrid id="searchGrid" width="100%" height="100%" sortableColumns="true" dataProvider="{searchResults}"
+				   doubleClickEnabled="true" doubleClick="openConfigEditor()">
+				<mx:columns>
+					<mx:DataGridColumn headerText="@Resource(key='config_search_device_header', bundle='messages')" dataField="ipAddress" sortCompareFunction="compareIp"/>
+					<mx:DataGridColumn headerText="@Resource(key='config_search_filename_header', bundle='messages')" dataField="path"/>
+					<mx:DataGridColumn headerText="@Resource(key='config_search_date_header', bundle='messages')" dataField="lastChanged"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>

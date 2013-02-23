@@ -1,0 +1,10 @@
+<sim-config
+     name="default"
+     mapIp="false"
+     default="recording:default.record"
+     rate="0.0"
+     operationTimeout="5"
+     maxBufferLength="1000000"
+     respondOnlyOnNewline="false"
+     doEcho="false">
+</sim-config> 

@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.localdirector"
+	name="ziptie.adapters.cisco.localdirector"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.localdirector" location="adapters/" version="" />
+</crate>

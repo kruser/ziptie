@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="init()"
+      change="valueChanged()">
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.CsvElf;
+    		private function init():void
+    		{
+    			if (field.metadata.hasOwnProperty('multi'))
+                {
+                    _list.allowMultipleSelection = true;
+                }
+    		}
+
+            private function valueChanged():void
+            {
+            	_list.selectedItems = CsvElf.toArray(value)[0];
+            }
+
+            private function change():void
+            {
+            	value = CsvElf.toCsv(_list.selectedItems);
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%">
+    	<mx:Label text="{field.label}" />
+    	<mx:List
+              id="_list"
+              width="100%"
+              dataProvider="{defaultValueArray}"
+              click="change()"/>
+    </mx:VBox>
+</InputContributor>

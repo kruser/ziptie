@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.eltek.bcjc
+Bundle-SymbolicName: ziptie.adapters.eltek.bcjc
+Bundle-Version: 2012.4.2
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

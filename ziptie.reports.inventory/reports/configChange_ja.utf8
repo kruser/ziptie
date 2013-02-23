@@ -1,0 +1,7 @@
+input.1.group=日付範囲
+menu.label=コンフィギュレーション変更
+input.0.label=開始日
+input.0.group=日付範囲
+menu.tooltip=コンフィギュレーション変更
+report.title=コンフィギュレーション変更レポート
+input.1.label=完了日

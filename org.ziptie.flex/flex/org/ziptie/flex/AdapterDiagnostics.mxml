@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="vertical"
+      width="452" height="326"
+      styleName="popupVBox"
+      creationComplete="init()"
+      title="@Resource(key='AdapterDiagnostics_title', bundle='messages')">
+    <mx:Script>
+        <![CDATA[
+            import mx.managers.PopUpManager;
+            import mx.events.PropertyChangeEvent;
+            import mx.rpc.events.ResultEvent;
+            import org.ziptie.flex.services.WebServiceElf;
+
+            private function init():void
+            {
+                WebServiceElf.call('nilsettings', 'isRecordingAdapterOperationsEnabled', recordingEnabled);
+                WebServiceElf.call('nilsettings', 'isLoggingAdapterOperationsToFileEnabled', logOpsToFile);
+                WebServiceElf.call('nilsettings', 'getAdapterLoggingLevel', logLevel);
+            }
+
+            private function ok():void
+            {
+                WebServiceElf.call('nilsettings', 'enableLoggingAdapterOperationsToFile', logLevel, logToFile.selected);
+                WebServiceElf.call('nilsettings', 'enableRecordingAdapterOperations', logLevel, enableRecording.selected);
+                WebServiceElf.call('nilsettings', 'setAdapterLoggingLevel', close, logging.selectedValue);
+                btnOk.enabled = false;
+            }
+
+			private function recordingEnabled(event:ResultEvent):void
+			{
+                enableRecording.selected = event.result
+			}
+
+            private function logOpsToFile(event:ResultEvent):void
+            {
+                logToFile.selected = event.result
+            }
+
+			private function logLevel(event:ResultEvent):void
+			{
+                logging.selectedValue = event.result as int
+			}
+
+            private function close():void
+            {
+                PopUpManager.removePopUp(this);
+            }
+        ]]>
+    </mx:Script>
+    <mx:Text
+        width="400" 
+        text="@Resource(key='AdapterDiagnostics_message', bundle='messages')"/>
+    <mx:RadioButtonGroup id="logging"/>
+    <mx:RadioButton value="0" label="@Resource(key='AdapterDiagnostics_logBoth', bundle='messages')" groupName="logging"/>
+    <mx:RadioButton value="1" label="@Resource(key='AdapterDiagnostics_logFatal', bundle='messages')" groupName="logging"/>
+    <mx:CheckBox id="logToFile" label="@Resource(key='AdapterDiagnostics_logToFile', bundle='messages')"/>
+    <mx:CheckBox id="enableRecording" label="@Resource(key='AdapterDiagnostics_enableRecording', bundle='messages')"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" label="@Resource(key='ok', bundle='messages')" click="ok()"/>
+        <mx:Button id="btnCancel" label="@Resource(key='cancel', bundle='messages')" click="close()"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

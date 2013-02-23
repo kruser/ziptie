@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.enterasys.ssr"
+	name="ziptie.adapters.enterasys.ssr"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.enterasys.ssr" location="adapters/" version="" />
+</crate>

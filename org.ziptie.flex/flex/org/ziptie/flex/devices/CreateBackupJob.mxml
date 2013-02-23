@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobs:JobWizard
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      jobType="Backup Configuration"
+      title="@Resource(key='createBackupJob', bundle='messages')">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		public static function run(devices:*):void
+    		{
+    			JobWizard.run(CreateBackupJob, devices);
+    		}
+    	]]>
+    </mx:Script>
+</jobs:JobWizard>

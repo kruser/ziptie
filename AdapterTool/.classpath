@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.adapters"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net.util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.server.core.jobs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net.client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net"/>
+	<classpathentry kind="lib" path="/org.ziptie.log4j/lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/diffx-0.6.jar" sourcepath="/Users/lbayer/Downloads/diffx-0/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net.ftp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net.tftp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.perl"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.ziptie.net.sim"/>
+	<classpathentry kind="lib" path="/org.ziptie.derby/lib/derby-10.3.2.1.jar"/>
+	<classpathentry kind="lib" path="/org.ziptie.metro.client/lib/jsr173_api.jar"/>
+	<classpathentry kind="lib" path="/org.ziptie.metro.client/lib/sjsxp.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

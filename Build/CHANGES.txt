@@ -1,0 +1,35 @@
+-----------------
+ZipTie Change Log
+-----------------
+
+
+Changes Since 1.0 Milestone 2 (1.0.0.v20070220184502)
+-----------------------------------------------------
+ * Added startup wizard.
+ * Remove the old welcome page.
+ * Added a subnet calculator
+
+Changes Since 1.0 Milestone 1 (1.0.0.v20061113170425)
+-----------------------------------------------------
+
+ * Added Device Auto-discovery capability.
+ * Added interactive tools and new sample tool "Switch Port/IP Mapping"
+ * Resolve  hostnames on import.
+ * Change import format. (Now of the form: "IP or Hostname, OS Type, Folder")
+ * Configuration version history.  (Backed by RCS)
+ * Welcome Page
+ * Backups are now mutli-threaded
+ * Removed dependency on DateTime.pm
+ * Fixed eclipse update site/packaging.
+ * Stability fixes for the device tree. (fixed refresh/move/delete issues esp. on windows)
+ * Added "Search By" API.
+ * Progress bar added to splash screen.
+ * Remove the "Project" menu from the application main menu within the RCP.
+ * PIX adapter can be used to back up PIX firewalls, Firewall Service Modules (FWSM), and Adaptive Security Appliances (ASA)
+ * Only allow for one backup job at a time to prevent exceeding concurrency.
+ * Cleaned up error handling for backup.
+ * Add inventory view extension API to make integration simpler.
+ * Introduced a Perl-based adapter that supports IOS, CatIOS, and MSFC devices.  Requires Net::Telnet, XML::Simple, and Getopt::Long to be installed.
+ * One click setup for iptables port redirection to support running servers on linux as non-root.
+ * Added find next for tools table.
+ * Added Interface Brief tool.

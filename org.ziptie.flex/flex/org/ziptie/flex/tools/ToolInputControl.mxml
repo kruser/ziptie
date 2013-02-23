@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+	  xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Metadata>
+        [Event(name='change', type='flash.events.Event')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import memorphic.xpath.XPathQuery;
+			import mx.utils.Base64Decoder;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+			import org.ziptie.flex.jobs.JobElf;
+			import mx.core.Container;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.resources.ResourceBundle;
+			import org.ziptie.flex.Registry;
+
+            private var _contributors:Object = new Object();
+
+            public function get values():Object
+            {
+            	var result:Object = new Object();
+            	for (var input:String in _contributors)
+            	{
+            		result[input] = InputContributor(_contributors[input]).value;
+            	}
+
+            	return result; 
+            }
+
+            public function set values(values:Object):void
+            {
+            	for (var key:String in values)
+            	{
+            		InputContributor(_contributors[key]).value = values[key];
+            	}
+            }
+
+            public function set defaultValues(values:Object):void
+            {
+            	for (var key:String in values)
+                {
+                    InputContributor(_contributors[key]).defaultValue = values[key];
+                }
+            }
+
+            public function set pluginDescriptor(pd:PluginDescriptor):void
+            {
+				var inputGroups:Object = new Object();
+                for each (var field:Field in pd.fields)
+				{
+					var type:Class = Registry.inputTypeContributors[field.type];
+					if (type == null)
+					{
+						Alert.show("Tool specified field of type " + field.type + " but no supporting input contributor was found.", "Error");
+						continue;
+					}
+
+                    var contributor:InputContributor = new type();
+                    _contributors["input." + field.name] = contributor;
+
+                    var container:Container = _inputArea;
+                    var displayGroup:String = field.group;
+                    if (displayGroup != '')
+                    {
+                    	var group:Container = inputGroups[displayGroup];
+                    	if (group == null)
+                    	{
+                    		group = new InputGroup();
+                    		group.percentWidth = 100;
+                    		group.label = displayGroup;
+                    		container.addChild(group);
+                    		inputGroups[displayGroup] = group;
+                    	}
+                    	container = group;
+                    }
+
+                    contributor.percentWidth = 100;
+                    contributor.field = field;
+                    contributor.addEventListener(Event.CHANGE, onChange);
+                    container.addChild(contributor);
+				}
+			}
+
+            private function onChange(event:Event):void
+            {
+            	dispatchEvent(new Event(Event.CHANGE));
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox id="_inputArea" width="95%" horizontalCenter="0" />
+</mx:Canvas>

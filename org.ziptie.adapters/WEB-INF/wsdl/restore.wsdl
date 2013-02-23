@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+     targetNamespace="http://www.ziptie.org/adapters/restore"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://www.ziptie.org/adapters/restore"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     name="RestoreService">
+
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.ziptie.org/adapters/restore" schemaLocation="restore-types.xsd" />
+    </xsd:schema>
+  </types>
+
+  <message name="restore">
+    <part name="connectionPath" element="tns:restore"/>
+  </message>
+  <message name="restoreResponse">
+    <part name="response" element="tns:restoreResponse"/>
+  </message>
+  <portType name="Restore">
+    <operation name="restore">
+      <input message="tns:restore"/>
+      <output message="tns:restoreResponse"/>
+    </operation>
+  </portType>
+  <binding name="RestorePortBinding" type="tns:Restore">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="restore">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="RestoreService">
+    <port name="RestorePort" binding="tns:RestorePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Slf4j Plug-in
+Bundle-SymbolicName: org.ziptie.slf4j
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ZipTie
+Bundle-ClassPath: lib/slf4j-api-1.4.3.jar,
+ lib/slf4j-log4j12-1.4.3.jar
+Require-Bundle: org.eclipse.osgi
+Export-Package: org.slf4j,
+ org.slf4j.helpers,
+ org.slf4j.impl,
+ org.slf4j.spi
+Import-Package: org.apache.log4j

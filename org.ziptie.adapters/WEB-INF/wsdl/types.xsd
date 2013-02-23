@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ ! Defines the standard types used for invoking adapter operations.
+ !-->
+<xsd:schema targetNamespace="http://ziptie.org/adapters/types/1.1"
+    xmlns:tns="http://ziptie.org/adapters/types/1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Credentials -->
+    <xsd:complexType name="credentials">
+        <xsd:annotation>
+            <xsd:documentation>A set of credentials</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="credential" type="tns:credential" minOccurs="1" maxOccurs="unbounded"
+            />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="credential">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="value" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- Protocols -->
+
+    <xsd:complexType name="protocols">
+        <xsd:annotation>
+            <xsd:documentation>A set of protocols</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="protocol" type="tns:protocol" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="protocol">
+        <xsd:sequence>
+            <xsd:element name="properties" type="tns:properties" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="sim-config" type="tns:sim-config" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="port" type="xsd:int" use="required"/>
+        <xsd:attribute name="validatedOnDevice" type="xsd:boolean" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="sim-config">
+        <xsd:annotation>
+            <xsd:documentation>Indicates that a protocol should negotiate with a remote simulator
+                rather than a real device.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="name" type="xsd:string" use="required" fixed="handshake"/>
+        <xsd:attribute name="daIp" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>The IP address of the calling client.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="deviceIp" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>The IP address of the targetted device.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="properties">
+        <xsd:annotation>
+            <xsd:documentation>A set of properties</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="property" type="tns:property" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="property">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="value" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- File Server -->
+
+    <xsd:complexType name="fileServers">
+        <xsd:annotation>
+            <xsd:documentation>A set of objects defining metadata regarding a file
+            server.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="fileServer" type="tns:fileServer" minOccurs="0" maxOccurs="unbounded"
+            />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="fileServer">
+        <xsd:attribute name="protocol" type="xsd:string" use="required"/>
+        <xsd:attribute name="ip" type="xsd:string" use="required"/>
+        <xsd:attribute name="port" type="xsd:int" use="required"/>
+        <xsd:attribute name="rootDir" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- Connection Path -->
+
+    <xsd:complexType name="connectionPath">
+        <xsd:annotation>
+            <xsd:documentation>Contains all of the protocol and credential information for
+                connecting to a network device at a specified IP address.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="credentials" type="tns:credentials" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="protocols" type="tns:protocols" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="fileServers" type="tns:fileServers" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="connectionPath" type="tns:connectionPath" minOccurs="0"
+                maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="host" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="discoveryParams">
+        <xsd:annotation>
+            <xsd:documentation>Contains configuration information about the discovery engine. This
+                data should be used in the telemetry implementation to make decisions on which
+                pieces of information to gather.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="calculateAdminIp" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>If true, the telemetry implementation should take steps to
+                    calculate the administrative IP address. If false, the telemetry implementation
+                    should set the admin IP equal to the incoming IP address that it is
+                polling.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!-- CommandList -->
+    <xsd:complexType name="commandList">
+        <xsd:annotation>
+            <xsd:documentation> Contains a set of commands to be performed using a given adapter.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="commandData" type="tns:commandData" minOccurs="0"
+                maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="commandData">
+        <xsd:annotation>
+            <xsd:documentation>Identifies a single command to be executed on the CLI of a device
+                using the adapter for connection and disconnection.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="command" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>This is the actual command to be executed. e.g. 'show
+                version'.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="promptOverride" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>If set, this is the prompt that the command will wait for. Set
+                    this only if the default device prompt should be interrupted. This value is a
+                    regex.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="stripPrompt" type="xsd:boolean" use="required">
+            <xsd:annotation>
+                <xsd:documentation>Set this to true if the response delivered back by the adapter
+                    should have the prompt stripped out.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!-- RestoreFileInfo -->
+    <xsd:complexType name="restoreFileInfo">
+        <xsd:annotation>
+            <xsd:documentation> The restoreFileInfo type is to be used in an adapter operation to
+                restore or promote a configuration file. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:all>
+            <xsd:element name="base64EncodedFileBlob" maxOccurs="1" minOccurs="1" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The contents of the file to be restored, base64
+                    encoded.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+        <xsd:attribute name="fullPathOnDevice" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation>This is the full path to where the file should be restored
+                to.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+</xsd:schema>

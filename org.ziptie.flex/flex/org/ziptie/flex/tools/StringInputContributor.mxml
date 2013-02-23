@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="currentState = field.metadata['multi'] == null ? 'single' : 'multi'">
+    <mx:Box id="box" width="100%">
+        <mx:Label text="{field.label}" />
+    </mx:Box>
+    <states>
+        <mx:State name="multi">
+            <mx:SetProperty target="{box}" name="direction" value="vertical" />
+            <mx:AddChild relativeTo="{box}">
+                <mx:TextArea
+                      id="_txtLong"
+                      text="{value}"
+                      width="100%"
+                      height="200" 
+                      change="value = _txtLong.text"/>
+            </mx:AddChild>
+        </mx:State>
+        <mx:State name="single">
+            <mx:SetProperty target="{box}" name="direction" value="horizontal" />
+            <mx:SetStyle target="{box}" name="verticalAlign" value="middle" />
+            <mx:AddChild relativeTo="{box}">
+                <mx:TextInput
+                      id="_txtShort"
+                      text="{value}"
+                      width="100%"
+                      change="value = _txtShort.text"/>
+            </mx:AddChild>
+        </mx:State>
+    </states>
+</InputContributor>

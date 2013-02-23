@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sjsxp Plug-in
+Bundle-SymbolicName: org.ziptie.sjsxp
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Bundle-ClassPath: lib/jsr173_api.jar,
+ lib/sjsxp.jar,
+ lib/stax-ex.jar,
+ lib/streambuffer.jar,
+ .
+Export-Package: javax.xml.stream,
+ javax.xml.stream.events,
+ javax.xml.stream.util

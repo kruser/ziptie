@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::ThreeCom::Switch4400</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>3Com 4400</shortName>
+    <description>3Com SuperStack 3 Switch 4400</description>
+    <softwareVersionRegEx>([\d]+)\.*(\d*)</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.(\d*)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    	<matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.43\.10\.27\.4\.1\.2\.4" ignoreCase="false" multiline="false" singleline="false"/>
+    	<matchRegex dataSource="sysDescr" regex="3Com SuperStack 3" ignoreCase="true" multiline="false" singleline="false"/>
+		<matchRegex dataSource="sysDescr" regex="\.43\." singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

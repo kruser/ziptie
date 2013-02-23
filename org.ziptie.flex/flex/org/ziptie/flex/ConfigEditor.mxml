@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<editor:Editor
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:editor="org.ziptie.flex.editor.*"
+      creationComplete="init()"
+      remove="onRemove()"
+      label="{DisplayElf.format('Config', input)}">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.textClasses.TextRange;
+			import org.ziptie.flex.services.ResultElf;
+			import org.ziptie.flex.services.EventManager;
+			import org.ziptie.flex.services.ServerEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+			import mx.utils.Base64Decoder;
+			import mx.rpc.events.ResultEvent;
+
+            [Bindable]
+		    private var _lineNumbers:String;
+
+            private var _containedCrs:Boolean = false;
+
+		    private var _removeSubscription:int;
+
+            override public function inputEquals(other:Object):Boolean
+            {
+                return other.device.ipAddress == input.device.ipAddress &&
+                    other.device.managedNetwork == input.device.managedNetwork &&
+                    other.revision.path == input.revision.path &&
+                    other.revision.lastChanged == input.revision.lastChanged;
+            }
+
+            private function init():void
+            {
+            	_removeSubscription = EventManager.subscribe('devices', 'deleted', onDelete);
+
+            	WebServiceElf.call(
+                        'configstore',
+                        'retrieveRevision',
+                        revision,
+				        input.device.ipAddress,
+				        input.device.managedNetwork,
+				        input.revision.path,
+				        input.revision.lastChanged);
+            }
+
+            private function onRemove():void
+            {
+            	EventManager.unsubscribe(_removeSubscription);
+            }
+
+            private function onDelete(event:ServerEvent):void
+            {
+                var ip:String = event.xml.entry.(@key=='IpAddress');
+                var net:String = event.xml.entry.(@key=='ManagedNetwork');
+                if (ip == input.device.ipAddress && net == input.device.managedNetwork)
+                {
+                    parent.removeChild(this);
+                }
+            }
+
+            private function revision(event:ResultEvent):void
+            {
+                var revision:Object = event.result;
+
+                var decoder:Base64Decoder = new Base64Decoder();
+                decoder.decode(revision.content);
+
+                var configText:String = decoder.toByteArray().toString();
+                if (configText.match(/\r/) != null)
+                {
+                    configText = configText.replace(/\r/g, '');
+                    _containedCrs = true;
+                }
+
+                text.text = configText;
+
+                _lineNumbers = "";
+                var count:Number = configText.split('\n').length;
+                var digits:Number = (count + "").length;
+
+                var lastLine:String;
+                for (var i:Number = 0 ; i < count; i++)
+                {
+                	var number:String = (i + 1) + "";
+                	while (number.length < digits)
+                	{
+                		number = " " + number;
+                	}
+                	_lineNumbers += number + "\n";
+
+                	lastLine = number;
+                }
+
+                ruler.width = ruler.measureText(lastLine).width + 8;
+
+                callLater(textChanged);
+            }
+
+            private function textChanged():void
+            {
+            	var firstLine:int = -1;
+                var config:String = text.text;
+
+                if (input.search != null)
+                {
+                	for each (var term:Object in ResultElf.array(input.search.terms))
+                	{
+                		var startOffset:int = term.startOffset;
+                		var endOffset:int = term.endOffset;
+
+                        if (_containedCrs || firstLine == -1)
+                        {
+			                var lineNumber:int = 0;
+	                        var start:int = -1;
+
+	                        while (true)
+	                        {
+	                            start = config.indexOf('\r', start+1);
+			                    if (start < 0 || start > startOffset)
+			                    {
+			                        break;
+			                    }
+			                    if (_containedCrs)
+	                            {
+	                                startOffset--;
+	                                endOffset--;
+			                    }
+			                    lineNumber++;
+			                }
+
+			                if (firstLine == -1)
+			                {
+			                	firstLine = lineNumber;
+			                }
+                        }
+
+                		var range:TextRange = new TextRange(text, false, startOffset, endOffset);
+                		range.color = 0xFF0022;
+                		range.textDecoration = 'underline';
+                	}
+                }
+
+                text.verticalScrollPosition = firstLine == -1 ? 0 : firstLine; 
+            }
+
+            private function saveFile(event:Event):void
+            {
+            	var file:FileReference = FileReference(event.target);
+            }
+		]]>
+	</mx:Script>
+
+	<mx:TextArea
+		id="ruler"
+		top="0"
+		left="0"
+		bottom="0"
+		width="20"
+		verticalScrollPosition="{text.verticalScrollPosition}"
+		verticalScrollPolicy="off"
+		editable="false"
+		selectable="false"
+		fontFamily="Courier New"
+		text="{_lineNumbers}"/>
+	<mx:TextArea
+		id="text"
+		top="0"
+		left="{ruler.width + 1}"
+		bottom="0"
+		right="0"
+		editable="false"
+		fontFamily="Courier New"/>
+</editor:Editor>

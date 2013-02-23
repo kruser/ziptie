@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::ArrowPoint</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco CSS/ArrowPoint</shortName>
+    <description>Cisco Content Services Switches and ArrowPoint Load Balancers</description>
+    <softwareVersionRegEx>([\d]+)\.([\d]+)\s+.*?\s+(\d+)?</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.([\d]+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>% Invalid input detected</errorRegEx>
+        <errorRegEx>Not in \S+ command</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>startup-config</restoreValidationRegex>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    <matchRegex dataSource="sysDescr" regex="Content Switch.*" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

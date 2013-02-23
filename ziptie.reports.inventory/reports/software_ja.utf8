@@ -1,0 +1,6 @@
+sw.os_vendor=メーカ
+sw.os_version=バージョン
+sw.count=頻度
+report.title=ZipTieソフトウェアサマリレポート
+menu.label=ソフトウェアサマリ
+menu.tooltip=ソフトウェアサマリレポート

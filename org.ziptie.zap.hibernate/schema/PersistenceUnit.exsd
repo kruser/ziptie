@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.ziptie.zap.hibernate">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.ziptie.zap.hibernate" id="PersistenceUnit" name="PersistenceUnit"/>
+      </appInfo>
+      <documentation>
+         Allow plugins to contribute annotated hibernated classes to the runtime environment.
+
+A plugin that wishes to incorporate annotated classes into one of the Hibernate configurations should extend this point and list their annotated classes by name.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="persistence-unit"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="persistence-unit">
+      <annotation>
+         <documentation>
+            The persistence-unit describe an extension&apos;s persistence class contributions to named Hibernate AnnotationConfigurations.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="class" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="resource" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name a given Hibernate AnnotationConfiguration.  This configuration must be properly configured via a hibernate.cfg.xml somewhere.  The zap.hibernate bundle will log errors if a plugin names a configuration that hasn&apos;t been configured.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="class">
+      <annotation>
+         <documentation>
+            Name one annotated class to be added to the containing persistence-unit.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified name of an annotated class.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="resource">
+      <complexType>
+         <sequence>
+            <element ref="override" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of a resource to be loaded - typically an XML file adhering to the hibernate-mapping DTD.  This allows for externalized query strings.  This resource can be overridden on a per-dialect basis by specifying dialect_override children.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="override">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of a resource to be loaded - typically an XML file adhering to the hibernate-mapping DTD.  This resource will be used in lieu of the parent resource[name] if and only if the dialect attribute on this dialect_override matches the current Hibernate dialect.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="dialect" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The classname (simpleName) of a Hibernate dialect.  For example, SQLServerDialect, or MySQL5InnoDBDialect.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

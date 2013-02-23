@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        
+        <!-- property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property -->
+        <property name="transaction.factory_class">org.ziptie.zap.hibernate.internal.ZTransactionFactory</property>
+        <property name="transaction.manager_lookup_class">org.ziptie.zap.hibernate.internal.ZTransactionManagerLookup</property>
+        <!-- property name="jta.UserTransaction">java:comp/UserTransaction</property -->
+
+        <property name="connection.provider_class">org.ziptie.zap.hibernate.internal.CustomConnectionProvider</property>
+        <property name="connection.provider_class.jndiUrl">java:comp/DataSource</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+        <property name="connection.autocommit">false</property>
+
+        <property name="current_session_context_class">jta</property>
+
+        <!-- Show and print nice SQL on stdout -->
+        <property name="show_sql">false</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">validate</property>
+
+        <!-- Disable caching.  The only cache we should use is a transactional cache like JBoss TreeCache -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+
+        <property name="jdbc.batch_size">1000</property>
+        <!-- order_inserts is off so that the cascade persist will delete then insert for modified collections -->
+        <property name="hibernate.order_inserts">false</property>
+    </session-factory>
+</hibernate-configuration>

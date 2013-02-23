@@ -1,0 +1,4 @@
+menu.label=ポートマップ
+menu.tooltop=開放されているデバイスのポートを確認します。
+column.1=デバイス
+column.10=その他

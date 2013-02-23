@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Telemetry Plug-in
+Bundle-SymbolicName: org.ziptie.provider.telemetry
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.telemetry.TelemetryActivator
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.xml.bind.annotation,
+ javax.xml.ws,
+ org.apache.log4j,
+ org.eclipse.osgi.util;version="1.0.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.2",
+ org.ziptie.zap.jta
+Eclipse-LazyStart: false
+Require-Bundle: org.ziptie.net,
+ org.ziptie.net.util,
+ org.ziptie.server.discovery,
+ org.ziptie.zap.hibernate,
+ org.ziptie.provider.devices
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

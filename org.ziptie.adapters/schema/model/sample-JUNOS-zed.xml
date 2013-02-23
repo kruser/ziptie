@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="UTF-8"?><ZiptieElementDocument xmlns="http://www.ziptie.org/model/common/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.ziptie.org/model/core/1.0" xmlns:common="http://www.ziptie.org/model/common/1.0" xsi:schemaLocation="http://www.ziptie.org/model/core/1.0 ziptie-core.xsd http://www.ziptie.org/model/common/1.0 ziptie-common.xsd">
+<core:systemName>DAL-M5</core:systemName>
+<core:osInfo>
+<core:fileName>4.1b3</core:fileName>
+<core:make>Juniper</core:make>
+<core:version>7.0R2.7</core:version>
+<core:osType>JUNOS</core:osType>
+</core:osInfo>
+<core:biosVersion>7.0R2.7</core:biosVersion>
+<core:deviceType>Router</core:deviceType>
+<core:lastReboot>1190048636</core:lastReboot>
+<chassis>
+<core:asset>
+  <core:assetType>Chassis</core:assetType>
+  <core:factoryinfo>
+    <core:make>Juniper</core:make>
+    <core:modelNumber>m5</core:modelNumber>
+    <core:serialNumber>50412</core:serialNumber>
+  </core:factoryinfo>
+</core:asset>
+<core:description>M5</core:description>
+<card>
+  <core:asset>
+    <core:assetType>Card</core:assetType>
+    <core:factoryinfo>
+      <core:make>Juniper</core:make>
+      <core:modelNumber>Unknown</core:modelNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>FPC</core:description>
+  <daughterCard>
+    <core:asset>
+      <core:assetType>Card</core:assetType>
+      <core:factoryinfo>
+        <core:hardwareVersion>REV 04</core:hardwareVersion>
+        <core:make>Juniper</core:make>
+        <core:modelNumber>Unknown</core:modelNumber>
+        <core:partNumber>750-002992</core:partNumber>
+        <core:serialNumber>HD0010</core:serialNumber>
+      </core:factoryinfo>
+    </core:asset>
+    <core:description>4x F/E, 100 BASE-TX</core:description>
+    <slotNumber>3</slotNumber>
+  </daughterCard>
+  <slotNumber>0</slotNumber>
+</card>
+<cpu>
+  <core:asset>
+    <core:assetType>CPU</core:assetType>
+    <core:factoryinfo>
+      <core:hardwareVersion>REV 08</core:hardwareVersion>
+      <core:make>Juniper</core:make>
+      <core:modelNumber>Unknown</core:modelNumber>
+      <core:partNumber>710-002503</core:partNumber>
+      <core:serialNumber>AL0635</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>Internet Processor IIv1</core:description>
+</cpu>
+<macAddress>009069674C00</macAddress>
+<memory>
+  <core:description>RAM</core:description>
+  <kind>RAM</kind>
+  <size>33554432</size>
+</memory>
+<powersupply>
+  <core:asset>
+    <core:assetType>PowerSupply</core:assetType>
+    <core:factoryinfo>
+      <core:hardwareVersion>Rev 04</core:hardwareVersion>
+      <core:make>Juniper</core:make>
+      <core:modelNumber>Unknown</core:modelNumber>
+      <core:partNumber>740-002497</core:partNumber>
+      <core:serialNumber>MB10851</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>AC Power Supply</core:description>
+  <number>1</number>
+</powersupply>
+<powersupply>
+  <core:asset>
+    <core:assetType>PowerSupply</core:assetType>
+    <core:factoryinfo>
+      <core:hardwareVersion>Rev 04</core:hardwareVersion>
+      <core:make>Juniper</core:make>
+      <core:modelNumber>Unknown</core:modelNumber>
+      <core:partNumber>740-002497</core:partNumber>
+      <core:serialNumber>MD12121</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>AC Power Supply</core:description>
+  <number>2</number>
+</powersupply>
+</chassis>
+<core:configRepository name="/">
+  <core:config>
+    <core:context>candidate</core:context>
+    <core:mediaType>text/plain</core:mediaType>
+    <core:name>candidate-config</core:name>
+    <core:promotable>false</core:promotable>
+    <core:textBlob>CnZlcnNpb24gNy4wUjIuNzsNCnN5c3RlbSB7DQogICAgaG9zdC1uYW1lIERBTC1NNTsNCiAgICBk
+b21haW4tbmFtZSBpbnNpZGUuZWNseXB0aWMuY29tOw0KICAgIHRpbWUtem9uZSBBbWVyaWNhL0No
+aWNhZ287DQogICAgYXV0aGVudGljYXRpb24tb3JkZXIgWyBwYXNzd29yZCB0YWNwbHVzIF07DQog
+ICAgcm9vdC1hdXRoZW50aWNhdGlvbiB7DQogICAgICAgIGVuY3J5cHRlZC1wYXNzd29yZCAiJDEk
+Z3hBcHB6SFYkU2lwSk5OMURxRzlWblFoRkVCc01HMCI7ICMjIFNFQ1JFVC1EQVRBDQogICAgfQ0K
+ICAgIG5hbWUtc2VydmVyIHsNCiAgICAgICAgMTAuMTAuMS45Ow0KICAgIH0NCiAgICB0YWNwbHVz
+LXNlcnZlciB7DQogICAgICAgIDEwLjEwMC4zMi4xMzcgew0KICAgICAgICAgICAgc2VjcmV0ICIk
+OSRNVnRYeGRhSkRrbVQ3LURrIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAgICAgIHNvdXJjZS1h
+ZGRyZXNzIDEwLjEwMC4yMC4yMTU7DQogICAgICAgIH0NCiAgICB9DQogICAgYWNjb3VudGluZyB7
+DQogICAgICAgIGV2ZW50cyBjaGFuZ2UtbG9nOw0KICAgICAgICBkZXN0aW5hdGlvbiB7DQogICAg
+ICAgICAgICB0YWNwbHVzOw0KICAgICAgICB9DQogICAgfQ0KICAgIGxvZ2luIHsNCiAgICAgICAg
+bWVzc2FnZSAiVGhpcyBpcyBhIHRlc3QiOw0KICAgICAgICB1c2VyIGFiY3ggew0KICAgICAgICAg
+ICAgdWlkIDIwMDk7DQogICAgICAgICAgICBjbGFzcyBzdXBlcnVzZXI7DQogICAgICAgICAgICBh
+dXRoZW50aWNhdGlvbiB7DQogICAgICAgICAgICAgICAgZW5jcnlwdGVkLXBhc3N3b3JkICIkMSQ0
+WExLcTBycCRMREtyWkd4a1cyUUdiSjZQRjdKOHAxIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAg
+ICAgIH0NCiAgICAgICAgfQ0KICAgICAgICB1c2VyIGFiY3kgew0KICAgICAgICAgICAgdWlkIDIw
+MDA7DQogICAgICAgICAgICBjbGFzcyBzdXBlcnVzZXI7DQogICAgICAgICAgICBhdXRoZW50aWNh
+dGlvbiB7DQogICAgICAgICAgICAgICAgZW5jcnlwdGVkLXBhc3N3b3JkICIkMSQ4NGMwdlRUTSRX
+Z0Zhc2NFQ2IxSEUyZy9BczhHVEEwIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAgICAgIH0NCiAg
+ICAgICAgfQ0KICAgICAgICB1c2VyIGJsYWggew0KICAgICAgICAgICAgdWlkIDIwMDQ7DQogICAg
+ICAgICAgICBjbGFzcyBvcGVyYXRvcjsNCiAgICAgICAgICAgIGF1dGhlbnRpY2F0aW9uIHsNCiAg
+ICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgcGFzc3dvcmQxMzsgIyMgU0VDUkVULURB
+VEENCiAgICAgICAgICAgIH0NCiAgICAgICAgfQ0KICAgICAgICB1c2VyIGViYXNoYW0gew0KICAg
+ICAgICAgICAgdWlkIDIwMDI7DQogICAgICAgICAgICBjbGFzcyBzdXBlci11c2VyOw0KICAgICAg
+ICB9DQogICAgICAgIHVzZXIgamVyb21lIHsNCiAgICAgICAgICAgIHVpZCAyMDAxOw0KICAgICAg
+ICAgICAgY2xhc3Mgc3VwZXJ1c2VyOw0KICAgICAgICAgICAgYXV0aGVudGljYXRpb24gew0KICAg
+ICAgICAgICAgICAgIGVuY3J5cHRlZC1wYXNzd29yZCAiJDEkRW1XUU5hNUokWGdUUHNSWXV3OGhU
+ak9HYUF3VUt1LiI7ICMjIFNFQ1JFVC1EQVRBDQogICAgICAgICAgICB9DQogICAgICAgIH0NCiAg
+ICAgICAgdXNlciByZW1vdGUgew0KICAgICAgICAgICAgdWlkIDIwMDM7DQogICAgICAgICAgICBj
+bGFzcyBzdXBlci11c2VyOw0KICAgICAgICB9DQogICAgICAgIHVzZXIgc3JodGVzdCB7DQogICAg
+ICAgICAgICB1aWQgMjAwNzsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAg
+ICAgIGF1dGhlbnRpY2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQg
+IiQxJGpMeXVNWFhKJE1YR2J0RmhPYVNBUmVqdVJMcnBTdC8iOyAjIyBTRUNSRVQtREFUQQ0KICAg
+ICAgICAgICAgfQ0KICAgICAgICB9DQogICAgICAgIHVzZXIgdGVzdDFhYiB7DQogICAgICAgICAg
+ICB1aWQgMjAwNjsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAgICAgIGF1
+dGhlbnRpY2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgIiQxJE9z
+aURTUUV2JFNBd2RUNndPRUJ2emN3a2xlRWNVODAiOyAjIyBTRUNSRVQtREFUQQ0KICAgICAgICAg
+ICAgfQ0KICAgICAgICB9DQogICAgICAgIHVzZXIgdGVzdGxhYiB7DQogICAgICAgICAgICB1aWQg
+MjAwODsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAgICAgIGF1dGhlbnRp
+Y2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgIiQxJGhRR3NxTzMw
+JFRlL08yYWRiSWIzN3VIc2tmL0JDWS8iOyAjIyBTRUNSRVQtREFUQQ0KICAgICAgICAgICAgfQ0K
+ICAgICAgICB9DQogICAgfQ0KICAgIHNlcnZpY2VzIHsNCiAgICAgICAgZnRwOw0KICAgICAgICBz
+c2ggew0KICAgICAgICAgICAgcm9vdC1sb2dpbiBhbGxvdzsNCiAgICAgICAgICAgIHByb3RvY29s
+LXZlcnNpb24gWyB2MiB2MSBdOw0KICAgICAgICAgICAgcmF0ZS1saW1pdCAyNTA7DQogICAgICAg
+IH0NCiAgICAgICAgdGVsbmV0IHsNCiAgICAgICAgICAgIGNvbm5lY3Rpb24tbGltaXQgMjUwOw0K
+ICAgICAgICAgICAgcmF0ZS1saW1pdCAyNTA7DQogICAgICAgIH0NCiAgICB9DQogICAgc3lzbG9n
+IHsNCiAgICAgICAgdXNlciAqIHsNCiAgICAgICAgICAgIGFueSBlbWVyZ2VuY3k7DQogICAgICAg
+IH0NCiAgICAgICAgaG9zdCAxMC4xMDAuNy4xMDEgew0KICAgICAgICAgICAgYW55IGFueTsNCiAg
+ICAgICAgfQ0KICAgICAgICBmaWxlIG1lc3NhZ2VzIHsNCiAgICAgICAgICAgIGFueSBub3RpY2U7
+DQogICAgICAgICAgICBhdXRob3JpemF0aW9uIGluZm87DQogICAgICAgIH0NCiAgICB9DQogICAg
+bnRwIHsNCiAgICAgICAgcGVlciAxMC4xMC4xLjU4Ow0KICAgICAgICBzZXJ2ZXIgMTAuMTAuMS41
+ODsNCiAgICAgICAgc2VydmVyIDEwLjEwLjEwLjEwOw0KICAgIH0NCn0NCmNoYXNzaXMgew0KICAg
+IHNvdXJjZS1yb3V0ZTsNCn0NCmludGVyZmFjZXMgew0KICAgIGZlLTAvMy8wIHsNCiAgICAgICAg
+dW5pdCAwIHsNCiAgICAgICAgICAgIGJhbmR3aWR0aCAxMG07DQogICAgICAgICAgICBmYW1pbHkg
+aW5ldCB7DQogICAgICAgICAgICAgICAgYWRkcmVzcyAxMC4xMDAuMjAuODEvMzA7DQogICAgICAg
+ICAgICB9DQogICAgICAgICAgICBmYW1pbHkgbXBsczsNCiAgICAgICAgfQ0KICAgIH0NCiAgICBm
+ZS0wLzMvMSB7DQogICAgICAgIHVuaXQgMCB7DQogICAgICAgICAgICBmYW1pbHkgaW5ldCB7DQog
+ICAgICAgICAgICAgICAgYWRkcmVzcyAxMC4xMDAuMjAuMjEvMzA7DQogICAgICAgICAgICB9DQog
+ICAgICAgICAgICBmYW1pbHkgaW5ldDYgew0KICAgICAgICAgICAgICAgIGFkZHJlc3MgN0ZGRTpG
+RkZGOjA6QzAwMjo6LzU0Ow0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgZmFtaWx5IG1wbHM7
+DQogICAgICAgIH0NCiAgICB9DQogICAgZmUtMC8zLzIgew0KICAgICAgICB1bml0IDAgew0KICAg
+ICAgICAgICAgZmFtaWx5IGluZXQgew0KICAgICAgICAgICAgICAgIGFkZHJlc3MgMTAuMTAwLjIw
+LjQxLzMwOw0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgZmFtaWx5IG1wbHM7DQogICAgICAg
+IH0NCiAgICB9DQogICAgZmUtMC8zLzMgew0KICAgICAgICB1bml0IDAgew0KICAgICAgICAgICAg
+YmFuZHdpZHRoIDEwbTsNCiAgICAgICAgICAgIGZhbWlseSBpbmV0IHsNCiAgICAgICAgICAgICAg
+ICBhZGRyZXNzIDEwLjEwMC4yMC4zNy8zMDsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIGZh
+bWlseSBtcGxzOw0KICAgICAgICB9DQogICAgfQ0KICAgIGZ4cDAgew0KICAgICAgICBzcGVlZCAx
+MG07DQogICAgICAgIHVuaXQgMCB7DQogICAgICAgICAgICBmYW1pbHkgaW5ldDsNCiAgICAgICAg
+fQ0KICAgIH0NCiAgICBsbzAgew0KICAgICAgICBkZXNjcmlwdGlvbiAiIjsNCiAgICAgICAgdW5p
+dCAwIHsNCiAgICAgICAgICAgIGZhbWlseSBpbmV0IHsNCiAgICAgICAgICAgICAgICBhZGRyZXNz
+IDEwLjEwMC4yMC4yMTUvMzI7DQogICAgICAgICAgICB9DQogICAgICAgICAgICBmYW1pbHkgaXNv
+Ow0KICAgICAgICB9DQogICAgfQ0KfQ0Kc25tcCB7DQogICAgZGVzY3JpcHRpb24gZXJpYzsNCiAg
+ICBsb2NhdGlvbiBIb2xsYW5kOw0KICAgIGNvbnRhY3QgVHVsaXBzOw0KICAgIGNvbW11bml0eSBw
+dWJsaWMgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAgICB9DQogICAgY29t
+bXVuaXR5IHRlc3RlbnYgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtd3JpdGU7DQogICAg
+ICAgIGNsaWVudHMgew0KICAgICAgICAgICAgMTAuMTAwLjMyLjUzLzMyOw0KICAgICAgICAgICAg
+MTAuMC4wLjAvMzI7DQogICAgICAgIH0NCiAgICB9DQogICAgY29tbXVuaXR5IGd1UFI3SGV4RXM1
+dW5hdlUgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAgICAgICAgY2xpZW50
+cyB7DQogICAgICAgICAgICA2NS44OC44NS4wLzI0Ow0KICAgICAgICB9DQogICAgfQ0KICAgIGNv
+bW11bml0eSBBZDM1NG1nbXQgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAg
+ICAgICAgY2xpZW50cyB7DQogICAgICAgICAgICAxMC4yNTIuNDYuMC8yNDsNCiAgICAgICAgICAg
+IDE3Mi4yMS4xLjAvMjQ7DQogICAgICAgICAgICAxNzIuMjEuNzkuMC8yNDsNCiAgICAgICAgICAg
+IDE3Mi4yOC4zMi40MC8zMjsNCiAgICAgICAgfQ0KICAgIH0NCiAgICBjb21tdW5pdHkgcHVibGlj
+MTsNCiAgICBjb21tdW5pdHkgcHVibGljMiB7DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC13
+cml0ZTsNCiAgICB9DQogICAgY29tbXVuaXR5IHB1YmxpYzMgew0KICAgICAgICBhdXRob3JpemF0
+aW9uIHJlYWQtd3JpdGU7DQogICAgfQ0KICAgIGNvbW11bml0eSBwdWJsaWM2IHsNCiAgICAgICAg
+YXV0aG9yaXphdGlvbiByZWFkLXdyaXRlOw0KICAgIH0NCiAgICBjb21tdW5pdHkgcHVibGljNCB7
+DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC13cml0ZTsNCiAgICB9DQogICAgY29tbXVuaXR5
+IHB1YmxpYzcgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtd3JpdGU7DQogICAgfQ0KICAg
+IGNvbW11bml0eSBrcmlzc3lnb2xpYyB7DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC1vbmx5
+Ow0KICAgIH0NCiAgICB0cmFwLWdyb3VwIGZyZWQgew0KICAgICAgICBjYXRlZ29yaWVzIHsNCiAg
+ICAgICAgICAgIHNvbmV0LWFsYXJtczsNCiAgICAgICAgfQ0KICAgICAgICB0YXJnZXRzIHsNCiAg
+ICAgICAgICAgIDEuMS4xLjE7DQogICAgICAgIH0NCiAgICB9DQogICAgdHJhcC1ncm91cCB0ZXN0
+MSB7DQogICAgICAgIHRhcmdldHMgew0KICAgICAgICAgICAgMi4yLjIuMjsNCiAgICAgICAgfQ0K
+ICAgIH0NCiAgICB0cmFwLWdyb3VwIHB1YmxpYzcgew0KICAgICAgICB0YXJnZXRzIHsNCiAgICAg
+ICAgICAgIDcuNy43Ljc7DQogICAgICAgIH0NCiAgICB9DQogICAgdHJhcC1ncm91cCBwdWJsaWM4
+IHsNCiAgICAgICAgdGFyZ2V0cyB7DQogICAgICAgICAgICA4LjguOC44Ow0KICAgICAgICB9DQog
+ICAgfQ0KICAgIHRyYXAtZ3JvdXAgcHVibGljMSB7DQogICAgICAgIHRhcmdldHMgew0KICAgICAg
+ICAgICAgMS4yLjMuNDsNCiAgICAgICAgfQ0KICAgIH0NCn0NCnJvdXRpbmctb3B0aW9ucyB7DQog
+ICAgcm91dGVyLWlkIDEwLjEwMC4yMC4yMTU7DQogICAgYXV0b25vbW91cy1zeXN0ZW0gMjAwOw0K
+fQ0KcHJvdG9jb2xzIHsNCiAgICByc3ZwIHsNCiAgICAgICAgaW50ZXJmYWNlIGFsbDsNCiAgICB9
+DQogICAgbXBscyB7DQogICAgICAgIGludGVyZmFjZSBhbGw7DQogICAgfQ0KICAgIGJncCB7DQog
+ICAgICAgIGdyb3VwIGJncC10cmlhbCB7DQogICAgICAgICAgICB0eXBlIGludGVybmFsOw0KICAg
+ICAgICAgICAgbG9jYWwtYWRkcmVzcyAxMC4xMDAuMjAuMjE1Ow0KICAgICAgICAgICAgbmVpZ2hi
+b3IgMTAuMTAwLjIwLjIyMjsNCiAgICAgICAgICAgIG5laWdoYm9yIDEwLjEwMC4yMC4yMTA7DQog
+ICAgICAgICAgICBuZWlnaGJvciAxMC4xMDAuMjAuMjEzOw0KICAgICAgICAgICAgbmVpZ2hib3Ig
+MTAuMTAwLjIwLjIxNDsNCiAgICAgICAgICAgIG5laWdoYm9yIDEwLjEwMC4yMC4yMjE7DQogICAg
+ICAgICAgICBuZWlnaGJvciAxMC4xMDAuMjAuMjEyOw0KICAgICAgICB9DQogICAgfQ0KICAgIG9z
+cGYgew0KICAgICAgICBhcmVhIDAuMC4wLjAgew0KICAgICAgICAgICAgaW50ZXJmYWNlIGFsbDsN
+CiAgICAgICAgICAgIGludGVyZmFjZSBmZS0wLzMvMy4wOw0KICAgICAgICAgICAgaW50ZXJmYWNl
+IGZlLTAvMy8yLjA7DQogICAgICAgICAgICBpbnRlcmZhY2UgZmUtMC8zLzEuMCB7DQogICAgICAg
+ICAgICAgICAgbWV0cmljIDMyOw0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgaW50ZXJmYWNl
+IGZlLTAvMy8wLjA7DQogICAgICAgIH0NCiAgICB9DQogICAgb3NwZjMgew0KICAgICAgICBhcmVh
+IDAuMC4wLjAgew0KICAgICAgICAgICAgaW50ZXJmYWNlIGZlLTAvMy8xLjA7DQogICAgICAgIH0N
+CiAgICB9DQogICAgbGRwIHsNCiAgICAgICAgaW50ZXJmYWNlIGFsbDsNCiAgICB9DQp9DQpwb2xp
+Y3ktb3B0aW9ucyB7DQogICAgcHJlZml4LWxpc3QgbmV0MjIgew0KICAgICAgICAyMi4wLjAuMC84
+Ow0KICAgICAgICAyMy41LjAuMC8xNjsNCiAgICB9DQogICAgcG9saWN5LXN0YXRlbWVudCBmcm9t
+X29zcGYgew0KICAgICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByb3RvY29sIG9zcGY7DQogICAg
+ICAgICAgICBwcmVmaXgtbGlzdCBuZXQyMjsNCiAgICAgICAgfQ0KICAgICAgICB0aGVuIGFjY2Vw
+dDsNCiAgICB9DQogICAgcG9saWN5LXN0YXRlbWVudCBmcm9tX290aGVyIHsNCiAgICAgICAgdGVy
+bSB0ZXJtX3JpY2sgew0KICAgICAgICAgICAgZnJvbSB7DQogICAgICAgICAgICAgICAgcHJvdG9j
+b2wgYWdncmVnYXRlOw0KICAgICAgICAgICAgICAgIHJvdXRlLWZpbHRlciAyNC41LjAuMC8xNiBv
+cmxvbmdlcjsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgICAg
+ICB9DQogICAgICAgIGZyb20gcHJvdG9jb2wgWyBkaXJlY3Qgc3RhdGljIF07DQogICAgICAgIHRo
+ZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVtZW50IGZyb21fcmFuZ2Ugew0KICAg
+ICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByZWZpeC1saXN0IG5ldDIyOw0KICAgICAgICB9DQog
+ICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVtZW50IGNpc2NvX25l
+dHdvcmsgew0KICAgICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByZWZpeC1saXN0IG5ldDIyOw0K
+ICAgICAgICB9DQogICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVt
+ZW50IHJpcG5nIHsNCiAgICAgICAgZnJvbSBwcm90b2NvbCByaXBuZzsNCiAgICAgICAgdGhlbiBh
+Y2NlcHQ7DQogICAgfQ0KfQ0KZmlyZXdhbGwgew0KICAgIHBvbGljZXIgdGVzdHBvbGljZXIgew0K
+ICAgICAgICBpZi1leGNlZWRpbmcgew0KICAgICAgICAgICAgYmFuZHdpZHRoLWxpbWl0IDFtOw0K
+ICAgICAgICAgICAgYnVyc3Qtc2l6ZS1saW1pdCAzNTZrOw0KICAgICAgICB9DQogICAgICAgIHRo
+ZW4gZGlzY2FyZDsNCiAgICB9DQogICAgZmFtaWx5IGluZXQgew0KICAgICAgICBmaWx0ZXIgdHJp
+YWwgew0KICAgICAgICAgICAgdGVybSAxIHsNCiAgICAgICAgICAgICAgICBmcm9tIHsNCiAgICAg
+ICAgICAgICAgICAgICAgYWRkcmVzcyB7DQogICAgICAgICAgICAgICAgICAgICAgICAxMC4wLjAu
+MC84Ow0KICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgICAgIHByb3RvY29s
+IFsgdGNwIHVkcCBdOw0KICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICB0aGVuIGFj
+Y2VwdDsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIHRlcm0gMiB7DQogICAgICAgICAgICAg
+ICAgZnJvbSB7DQogICAgICAgICAgICAgICAgICAgIGRlc3RpbmF0aW9uLWFkZHJlc3Mgew0KICAg
+ICAgICAgICAgICAgICAgICAgICAgNDQuNDQuMjIuMzQvMzI7DQogICAgICAgICAgICAgICAgICAg
+IH0NCiAgICAgICAgICAgICAgICAgICAgcG9ydCBbIDEwNTAtMTA3MCB0ZWxuZXQgXTsNCiAgICAg
+ICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgdGhlbiB7DQogICAgICAgICAgICAgICAgICAg
+IGxvZzsNCiAgICAgICAgICAgICAgICAgICAgYWNjZXB0Ow0KICAgICAgICAgICAgICAgIH0NCiAg
+ICAgICAgICAgIH0NCiAgICAgICAgICAgIHRlcm0gMyB7DQogICAgICAgICAgICAgICAgZnJvbSB7
+DQogICAgICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAgICAgICAgICAg
+ICAgICAgIDE5Mi41NS4xMi4wLzI1Ow0KICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAg
+ICAgICAgICAgIGRlc3RpbmF0aW9uLWFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICAgICAg
+NjguMy4wLjAvMzI7DQogICAgICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICAgICAg
+c291cmNlLXBvcnQgZmluZ2VyOw0KICAgICAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbi1wb3J0
+IGxkYXA7DQogICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAg
+fQ0KICAgIGZpbHRlciB0ZXN0b3V0cHV0ZmlsdGVyIHsNCiAgICAgICAgdGVybSBhIHsNCiAgICAg
+ICAgICAgIGZyb20gew0KICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAg
+ICAgICAgICAgICAgMC4wLjAuMC8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAg
+ICAgZGVzdGluYXRpb24tYWRkcmVzcyB7DQogICAgICAgICAgICAgICAgICAgIDAuMC4wLjAvMzI7
+DQogICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgdGhlbiBwb2xp
+Y2VyIHRlc3Rwb2xpY2VyOw0KICAgICAgICB9DQogICAgfQ0KICAgIGZpbHRlciB0ZXN0aW5wdXRm
+aWx0ZXIgew0KICAgICAgICB0ZXJtIGEgew0KICAgICAgICAgICAgZnJvbSB7DQogICAgICAgICAg
+ICAgICAgc291cmNlLWFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICAwLjAuMC4wLzMyOw0K
+ICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbi1hZGRyZXNzIHsN
+CiAgICAgICAgICAgICAgICAgICAgMC4wLjAuMC8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAg
+ICAgICAgICB9DQogICAgICAgICAgICB0aGVuIHBvbGljZXIgdGVzdHBvbGljZXI7DQogICAgICAg
+IH0NCiAgICB9DQogICAgZmlsdGVyIG5ld2d1eSB7DQogICAgICAgIHRlcm0gdW5vIHsNCiAgICAg
+ICAgICAgIGZyb20gew0KICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAg
+ICAgICAgICAgICAgODguNDQuMjIuMC8zMjsNCiAgICAgICAgICAgICAgICAgICAgOTkuNDQuMjIu
+MS8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgcG9ydCBzbm1wOw0KICAg
+ICAgICAgICAgfQ0KICAgICAgICAgICAgdGhlbiB7DQogICAgICAgICAgICAgICAgcmVqZWN0Ow0K
+ICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAgICAgIHRlcm0gZG9zIHsNCiAgICAgICAgICAg
+IGZyb20gew0KICAgICAgICAgICAgICAgIGFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICA3
+MS4yLjIuMS8zMjsNCiAgICAgICAgICAgICAgICAgICAgNDAuMC4wLjAvODsNCiAgICAgICAgICAg
+ICAgICB9DQogICAgICAgICAgICAgICAgcG9ydCBbIDU0IDU1IDEwNTUgMTA1MyBdOw0KICAgICAg
+ICAgICAgfQ0KICAgICAgICAgICAgdGhlbiBhY2NlcHQ7DQogICAgICAgIH0NCiAgICB9DQp9DQo=
+</core:textBlob>
+  </core:config>
+  <core:config>
+    <core:context>active</core:context>
+    <core:mediaType>text/plain</core:mediaType>
+    <core:name>active-config</core:name>
+    <core:promotable>false</core:promotable>
+    <core:textBlob>CnZlcnNpb24gNy4wUjIuNzsNCnN5c3RlbSB7DQogICAgaG9zdC1uYW1lIERBTC1NNTsNCiAgICBk
+b21haW4tbmFtZSBpbnNpZGUuZWNseXB0aWMuY29tOw0KICAgIHRpbWUtem9uZSBBbWVyaWNhL0No
+aWNhZ287DQogICAgYXV0aGVudGljYXRpb24tb3JkZXIgWyBwYXNzd29yZCB0YWNwbHVzIF07DQog
+ICAgcm9vdC1hdXRoZW50aWNhdGlvbiB7DQogICAgICAgIGVuY3J5cHRlZC1wYXNzd29yZCAiJDEk
+Z3hBcHB6SFYkU2lwSk5OMURxRzlWblFoRkVCc01HMCI7ICMjIFNFQ1JFVC1EQVRBDQogICAgfQ0K
+ICAgIG5hbWUtc2VydmVyIHsNCiAgICAgICAgMTAuMTAuMS45Ow0KICAgIH0NCiAgICB0YWNwbHVz
+LXNlcnZlciB7DQogICAgICAgIDEwLjEwMC4zMi4xMzcgew0KICAgICAgICAgICAgc2VjcmV0ICIk
+OSRNVnRYeGRhSkRrbVQ3LURrIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAgICAgIHNvdXJjZS1h
+ZGRyZXNzIDEwLjEwMC4yMC4yMTU7DQogICAgICAgIH0NCiAgICB9DQogICAgYWNjb3VudGluZyB7
+DQogICAgICAgIGV2ZW50cyBjaGFuZ2UtbG9nOw0KICAgICAgICBkZXN0aW5hdGlvbiB7DQogICAg
+ICAgICAgICB0YWNwbHVzOw0KICAgICAgICB9DQogICAgfQ0KICAgIGxvZ2luIHsNCiAgICAgICAg
+bWVzc2FnZSAiVGhpcyBpcyBhIHRlc3QiOw0KICAgICAgICB1c2VyIGFiY3ggew0KICAgICAgICAg
+ICAgdWlkIDIwMDk7DQogICAgICAgICAgICBjbGFzcyBzdXBlcnVzZXI7DQogICAgICAgICAgICBh
+dXRoZW50aWNhdGlvbiB7DQogICAgICAgICAgICAgICAgZW5jcnlwdGVkLXBhc3N3b3JkICIkMSQ0
+WExLcTBycCRMREtyWkd4a1cyUUdiSjZQRjdKOHAxIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAg
+ICAgIH0NCiAgICAgICAgfQ0KICAgICAgICB1c2VyIGFiY3kgew0KICAgICAgICAgICAgdWlkIDIw
+MDA7DQogICAgICAgICAgICBjbGFzcyBzdXBlcnVzZXI7DQogICAgICAgICAgICBhdXRoZW50aWNh
+dGlvbiB7DQogICAgICAgICAgICAgICAgZW5jcnlwdGVkLXBhc3N3b3JkICIkMSQ4NGMwdlRUTSRX
+Z0Zhc2NFQ2IxSEUyZy9BczhHVEEwIjsgIyMgU0VDUkVULURBVEENCiAgICAgICAgICAgIH0NCiAg
+ICAgICAgfQ0KICAgICAgICB1c2VyIGJsYWggew0KICAgICAgICAgICAgdWlkIDIwMDQ7DQogICAg
+ICAgICAgICBjbGFzcyBvcGVyYXRvcjsNCiAgICAgICAgICAgIGF1dGhlbnRpY2F0aW9uIHsNCiAg
+ICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgcGFzc3dvcmQxMzsgIyMgU0VDUkVULURB
+VEENCiAgICAgICAgICAgIH0NCiAgICAgICAgfQ0KICAgICAgICB1c2VyIGViYXNoYW0gew0KICAg
+ICAgICAgICAgdWlkIDIwMDI7DQogICAgICAgICAgICBjbGFzcyBzdXBlci11c2VyOw0KICAgICAg
+ICB9DQogICAgICAgIHVzZXIgamVyb21lIHsNCiAgICAgICAgICAgIHVpZCAyMDAxOw0KICAgICAg
+ICAgICAgY2xhc3Mgc3VwZXJ1c2VyOw0KICAgICAgICAgICAgYXV0aGVudGljYXRpb24gew0KICAg
+ICAgICAgICAgICAgIGVuY3J5cHRlZC1wYXNzd29yZCAiJDEkRW1XUU5hNUokWGdUUHNSWXV3OGhU
+ak9HYUF3VUt1LiI7ICMjIFNFQ1JFVC1EQVRBDQogICAgICAgICAgICB9DQogICAgICAgIH0NCiAg
+ICAgICAgdXNlciByZW1vdGUgew0KICAgICAgICAgICAgdWlkIDIwMDM7DQogICAgICAgICAgICBj
+bGFzcyBzdXBlci11c2VyOw0KICAgICAgICB9DQogICAgICAgIHVzZXIgc3JodGVzdCB7DQogICAg
+ICAgICAgICB1aWQgMjAwNzsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAg
+ICAgIGF1dGhlbnRpY2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQg
+IiQxJGpMeXVNWFhKJE1YR2J0RmhPYVNBUmVqdVJMcnBTdC8iOyAjIyBTRUNSRVQtREFUQQ0KICAg
+ICAgICAgICAgfQ0KICAgICAgICB9DQogICAgICAgIHVzZXIgdGVzdDFhYiB7DQogICAgICAgICAg
+ICB1aWQgMjAwNjsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAgICAgIGF1
+dGhlbnRpY2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgIiQxJE9z
+aURTUUV2JFNBd2RUNndPRUJ2emN3a2xlRWNVODAiOyAjIyBTRUNSRVQtREFUQQ0KICAgICAgICAg
+ICAgfQ0KICAgICAgICB9DQogICAgICAgIHVzZXIgdGVzdGxhYiB7DQogICAgICAgICAgICB1aWQg
+MjAwODsNCiAgICAgICAgICAgIGNsYXNzIHN1cGVydXNlcjsNCiAgICAgICAgICAgIGF1dGhlbnRp
+Y2F0aW9uIHsNCiAgICAgICAgICAgICAgICBlbmNyeXB0ZWQtcGFzc3dvcmQgIiQxJGhRR3NxTzMw
+JFRlL08yYWRiSWIzN3VIc2tmL0JDWS8iOyAjIyBTRUNSRVQtREFUQQ0KICAgICAgICAgICAgfQ0K
+ICAgICAgICB9DQogICAgfQ0KICAgIHNlcnZpY2VzIHsNCiAgICAgICAgZnRwOw0KICAgICAgICBz
+c2ggew0KICAgICAgICAgICAgcm9vdC1sb2dpbiBhbGxvdzsNCiAgICAgICAgICAgIHByb3RvY29s
+LXZlcnNpb24gWyB2MiB2MSBdOw0KICAgICAgICAgICAgcmF0ZS1saW1pdCAyNTA7DQogICAgICAg
+IH0NCiAgICAgICAgdGVsbmV0IHsNCiAgICAgICAgICAgIGNvbm5lY3Rpb24tbGltaXQgMjUwOw0K
+ICAgICAgICAgICAgcmF0ZS1saW1pdCAyNTA7DQogICAgICAgIH0NCiAgICB9DQogICAgc3lzbG9n
+IHsNCiAgICAgICAgdXNlciAqIHsNCiAgICAgICAgICAgIGFueSBlbWVyZ2VuY3k7DQogICAgICAg
+IH0NCiAgICAgICAgaG9zdCAxMC4xMDAuNy4xMDEgew0KICAgICAgICAgICAgYW55IGFueTsNCiAg
+ICAgICAgfQ0KICAgICAgICBmaWxlIG1lc3NhZ2VzIHsNCiAgICAgICAgICAgIGFueSBub3RpY2U7
+DQogICAgICAgICAgICBhdXRob3JpemF0aW9uIGluZm87DQogICAgICAgIH0NCiAgICB9DQogICAg
+bnRwIHsNCiAgICAgICAgcGVlciAxMC4xMC4xLjU4Ow0KICAgICAgICBzZXJ2ZXIgMTAuMTAuMS41
+ODsNCiAgICAgICAgc2VydmVyIDEwLjEwLjEwLjEwOw0KICAgIH0NCn0NCmNoYXNzaXMgew0KICAg
+IHNvdXJjZS1yb3V0ZTsNCn0NCmludGVyZmFjZXMgew0KICAgIGZlLTAvMy8wIHsNCiAgICAgICAg
+dW5pdCAwIHsNCiAgICAgICAgICAgIGJhbmR3aWR0aCAxMG07DQogICAgICAgICAgICBmYW1pbHkg
+aW5ldCB7DQogICAgICAgICAgICAgICAgYWRkcmVzcyAxMC4xMDAuMjAuODEvMzA7DQogICAgICAg
+ICAgICB9DQogICAgICAgICAgICBmYW1pbHkgbXBsczsNCiAgICAgICAgfQ0KICAgIH0NCiAgICBm
+ZS0wLzMvMSB7DQogICAgICAgIHVuaXQgMCB7DQogICAgICAgICAgICBmYW1pbHkgaW5ldCB7DQog
+ICAgICAgICAgICAgICAgYWRkcmVzcyAxMC4xMDAuMjAuMjEvMzA7DQogICAgICAgICAgICB9DQog
+ICAgICAgICAgICBmYW1pbHkgaW5ldDYgew0KICAgICAgICAgICAgICAgIGFkZHJlc3MgN0ZGRTpG
+RkZGOjA6QzAwMjo6LzU0Ow0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgZmFtaWx5IG1wbHM7
+DQogICAgICAgIH0NCiAgICB9DQogICAgZmUtMC8zLzIgew0KICAgICAgICB1bml0IDAgew0KICAg
+ICAgICAgICAgZmFtaWx5IGluZXQgew0KICAgICAgICAgICAgICAgIGFkZHJlc3MgMTAuMTAwLjIw
+LjQxLzMwOw0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgZmFtaWx5IG1wbHM7DQogICAgICAg
+IH0NCiAgICB9DQogICAgZmUtMC8zLzMgew0KICAgICAgICB1bml0IDAgew0KICAgICAgICAgICAg
+YmFuZHdpZHRoIDEwbTsNCiAgICAgICAgICAgIGZhbWlseSBpbmV0IHsNCiAgICAgICAgICAgICAg
+ICBhZGRyZXNzIDEwLjEwMC4yMC4zNy8zMDsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIGZh
+bWlseSBtcGxzOw0KICAgICAgICB9DQogICAgfQ0KICAgIGZ4cDAgew0KICAgICAgICBzcGVlZCAx
+MG07DQogICAgICAgIHVuaXQgMCB7DQogICAgICAgICAgICBmYW1pbHkgaW5ldDsNCiAgICAgICAg
+fQ0KICAgIH0NCiAgICBsbzAgew0KICAgICAgICBkZXNjcmlwdGlvbiAiIjsNCiAgICAgICAgdW5p
+dCAwIHsNCiAgICAgICAgICAgIGZhbWlseSBpbmV0IHsNCiAgICAgICAgICAgICAgICBhZGRyZXNz
+IDEwLjEwMC4yMC4yMTUvMzI7DQogICAgICAgICAgICB9DQogICAgICAgICAgICBmYW1pbHkgaXNv
+Ow0KICAgICAgICB9DQogICAgfQ0KfQ0Kc25tcCB7DQogICAgZGVzY3JpcHRpb24gZXJpYzsNCiAg
+ICBsb2NhdGlvbiBIb2xsYW5kOw0KICAgIGNvbnRhY3QgVHVsaXBzOw0KICAgIGNvbW11bml0eSBw
+dWJsaWMgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAgICB9DQogICAgY29t
+bXVuaXR5IHRlc3RlbnYgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtd3JpdGU7DQogICAg
+ICAgIGNsaWVudHMgew0KICAgICAgICAgICAgMTAuMTAwLjMyLjUzLzMyOw0KICAgICAgICAgICAg
+MTAuMC4wLjAvMzI7DQogICAgICAgIH0NCiAgICB9DQogICAgY29tbXVuaXR5IGd1UFI3SGV4RXM1
+dW5hdlUgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAgICAgICAgY2xpZW50
+cyB7DQogICAgICAgICAgICA2NS44OC44NS4wLzI0Ow0KICAgICAgICB9DQogICAgfQ0KICAgIGNv
+bW11bml0eSBBZDM1NG1nbXQgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtb25seTsNCiAg
+ICAgICAgY2xpZW50cyB7DQogICAgICAgICAgICAxMC4yNTIuNDYuMC8yNDsNCiAgICAgICAgICAg
+IDE3Mi4yMS4xLjAvMjQ7DQogICAgICAgICAgICAxNzIuMjEuNzkuMC8yNDsNCiAgICAgICAgICAg
+IDE3Mi4yOC4zMi40MC8zMjsNCiAgICAgICAgfQ0KICAgIH0NCiAgICBjb21tdW5pdHkgcHVibGlj
+MTsNCiAgICBjb21tdW5pdHkgcHVibGljMiB7DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC13
+cml0ZTsNCiAgICB9DQogICAgY29tbXVuaXR5IHB1YmxpYzMgew0KICAgICAgICBhdXRob3JpemF0
+aW9uIHJlYWQtd3JpdGU7DQogICAgfQ0KICAgIGNvbW11bml0eSBwdWJsaWM2IHsNCiAgICAgICAg
+YXV0aG9yaXphdGlvbiByZWFkLXdyaXRlOw0KICAgIH0NCiAgICBjb21tdW5pdHkgcHVibGljNCB7
+DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC13cml0ZTsNCiAgICB9DQogICAgY29tbXVuaXR5
+IHB1YmxpYzcgew0KICAgICAgICBhdXRob3JpemF0aW9uIHJlYWQtd3JpdGU7DQogICAgfQ0KICAg
+IGNvbW11bml0eSBrcmlzc3lnb2xpYyB7DQogICAgICAgIGF1dGhvcml6YXRpb24gcmVhZC1vbmx5
+Ow0KICAgIH0NCiAgICB0cmFwLWdyb3VwIGZyZWQgew0KICAgICAgICBjYXRlZ29yaWVzIHsNCiAg
+ICAgICAgICAgIHNvbmV0LWFsYXJtczsNCiAgICAgICAgfQ0KICAgICAgICB0YXJnZXRzIHsNCiAg
+ICAgICAgICAgIDEuMS4xLjE7DQogICAgICAgIH0NCiAgICB9DQogICAgdHJhcC1ncm91cCB0ZXN0
+MSB7DQogICAgICAgIHRhcmdldHMgew0KICAgICAgICAgICAgMi4yLjIuMjsNCiAgICAgICAgfQ0K
+ICAgIH0NCiAgICB0cmFwLWdyb3VwIHB1YmxpYzcgew0KICAgICAgICB0YXJnZXRzIHsNCiAgICAg
+ICAgICAgIDcuNy43Ljc7DQogICAgICAgIH0NCiAgICB9DQogICAgdHJhcC1ncm91cCBwdWJsaWM4
+IHsNCiAgICAgICAgdGFyZ2V0cyB7DQogICAgICAgICAgICA4LjguOC44Ow0KICAgICAgICB9DQog
+ICAgfQ0KICAgIHRyYXAtZ3JvdXAgcHVibGljMSB7DQogICAgICAgIHRhcmdldHMgew0KICAgICAg
+ICAgICAgMS4yLjMuNDsNCiAgICAgICAgfQ0KICAgIH0NCn0NCnJvdXRpbmctb3B0aW9ucyB7DQog
+ICAgcm91dGVyLWlkIDEwLjEwMC4yMC4yMTU7DQogICAgYXV0b25vbW91cy1zeXN0ZW0gMjAwOw0K
+fQ0KcHJvdG9jb2xzIHsNCiAgICByc3ZwIHsNCiAgICAgICAgaW50ZXJmYWNlIGFsbDsNCiAgICB9
+DQogICAgbXBscyB7DQogICAgICAgIGludGVyZmFjZSBhbGw7DQogICAgfQ0KICAgIGJncCB7DQog
+ICAgICAgIGdyb3VwIGJncC10cmlhbCB7DQogICAgICAgICAgICB0eXBlIGludGVybmFsOw0KICAg
+ICAgICAgICAgbG9jYWwtYWRkcmVzcyAxMC4xMDAuMjAuMjE1Ow0KICAgICAgICAgICAgbmVpZ2hi
+b3IgMTAuMTAwLjIwLjIyMjsNCiAgICAgICAgICAgIG5laWdoYm9yIDEwLjEwMC4yMC4yMTA7DQog
+ICAgICAgICAgICBuZWlnaGJvciAxMC4xMDAuMjAuMjEzOw0KICAgICAgICAgICAgbmVpZ2hib3Ig
+MTAuMTAwLjIwLjIxNDsNCiAgICAgICAgICAgIG5laWdoYm9yIDEwLjEwMC4yMC4yMjE7DQogICAg
+ICAgICAgICBuZWlnaGJvciAxMC4xMDAuMjAuMjEyOw0KICAgICAgICB9DQogICAgfQ0KICAgIG9z
+cGYgew0KICAgICAgICBhcmVhIDAuMC4wLjAgew0KICAgICAgICAgICAgaW50ZXJmYWNlIGFsbDsN
+CiAgICAgICAgICAgIGludGVyZmFjZSBmZS0wLzMvMy4wOw0KICAgICAgICAgICAgaW50ZXJmYWNl
+IGZlLTAvMy8yLjA7DQogICAgICAgICAgICBpbnRlcmZhY2UgZmUtMC8zLzEuMCB7DQogICAgICAg
+ICAgICAgICAgbWV0cmljIDMyOw0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgaW50ZXJmYWNl
+IGZlLTAvMy8wLjA7DQogICAgICAgIH0NCiAgICB9DQogICAgb3NwZjMgew0KICAgICAgICBhcmVh
+IDAuMC4wLjAgew0KICAgICAgICAgICAgaW50ZXJmYWNlIGZlLTAvMy8xLjA7DQogICAgICAgIH0N
+CiAgICB9DQogICAgbGRwIHsNCiAgICAgICAgaW50ZXJmYWNlIGFsbDsNCiAgICB9DQp9DQpwb2xp
+Y3ktb3B0aW9ucyB7DQogICAgcHJlZml4LWxpc3QgbmV0MjIgew0KICAgICAgICAyMi4wLjAuMC84
+Ow0KICAgICAgICAyMy41LjAuMC8xNjsNCiAgICB9DQogICAgcG9saWN5LXN0YXRlbWVudCBmcm9t
+X29zcGYgew0KICAgICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByb3RvY29sIG9zcGY7DQogICAg
+ICAgICAgICBwcmVmaXgtbGlzdCBuZXQyMjsNCiAgICAgICAgfQ0KICAgICAgICB0aGVuIGFjY2Vw
+dDsNCiAgICB9DQogICAgcG9saWN5LXN0YXRlbWVudCBmcm9tX290aGVyIHsNCiAgICAgICAgdGVy
+bSB0ZXJtX3JpY2sgew0KICAgICAgICAgICAgZnJvbSB7DQogICAgICAgICAgICAgICAgcHJvdG9j
+b2wgYWdncmVnYXRlOw0KICAgICAgICAgICAgICAgIHJvdXRlLWZpbHRlciAyNC41LjAuMC8xNiBv
+cmxvbmdlcjsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgICAg
+ICB9DQogICAgICAgIGZyb20gcHJvdG9jb2wgWyBkaXJlY3Qgc3RhdGljIF07DQogICAgICAgIHRo
+ZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVtZW50IGZyb21fcmFuZ2Ugew0KICAg
+ICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByZWZpeC1saXN0IG5ldDIyOw0KICAgICAgICB9DQog
+ICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVtZW50IGNpc2NvX25l
+dHdvcmsgew0KICAgICAgICBmcm9tIHsNCiAgICAgICAgICAgIHByZWZpeC1saXN0IG5ldDIyOw0K
+ICAgICAgICB9DQogICAgICAgIHRoZW4gYWNjZXB0Ow0KICAgIH0NCiAgICBwb2xpY3ktc3RhdGVt
+ZW50IHJpcG5nIHsNCiAgICAgICAgZnJvbSBwcm90b2NvbCByaXBuZzsNCiAgICAgICAgdGhlbiBh
+Y2NlcHQ7DQogICAgfQ0KfQ0KZmlyZXdhbGwgew0KICAgIHBvbGljZXIgdGVzdHBvbGljZXIgew0K
+ICAgICAgICBpZi1leGNlZWRpbmcgew0KICAgICAgICAgICAgYmFuZHdpZHRoLWxpbWl0IDFtOw0K
+ICAgICAgICAgICAgYnVyc3Qtc2l6ZS1saW1pdCAzNTZrOw0KICAgICAgICB9DQogICAgICAgIHRo
+ZW4gZGlzY2FyZDsNCiAgICB9DQogICAgZmFtaWx5IGluZXQgew0KICAgICAgICBmaWx0ZXIgdHJp
+YWwgew0KICAgICAgICAgICAgdGVybSAxIHsNCiAgICAgICAgICAgICAgICBmcm9tIHsNCiAgICAg
+ICAgICAgICAgICAgICAgYWRkcmVzcyB7DQogICAgICAgICAgICAgICAgICAgICAgICAxMC4wLjAu
+MC84Ow0KICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgICAgIHByb3RvY29s
+IFsgdGNwIHVkcCBdOw0KICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICB0aGVuIGFj
+Y2VwdDsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICAgIHRlcm0gMiB7DQogICAgICAgICAgICAg
+ICAgZnJvbSB7DQogICAgICAgICAgICAgICAgICAgIGRlc3RpbmF0aW9uLWFkZHJlc3Mgew0KICAg
+ICAgICAgICAgICAgICAgICAgICAgNDQuNDQuMjIuMzQvMzI7DQogICAgICAgICAgICAgICAgICAg
+IH0NCiAgICAgICAgICAgICAgICAgICAgcG9ydCBbIDEwNTAtMTA3MCB0ZWxuZXQgXTsNCiAgICAg
+ICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgdGhlbiB7DQogICAgICAgICAgICAgICAgICAg
+IGxvZzsNCiAgICAgICAgICAgICAgICAgICAgYWNjZXB0Ow0KICAgICAgICAgICAgICAgIH0NCiAg
+ICAgICAgICAgIH0NCiAgICAgICAgICAgIHRlcm0gMyB7DQogICAgICAgICAgICAgICAgZnJvbSB7
+DQogICAgICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAgICAgICAgICAg
+ICAgICAgIDE5Mi41NS4xMi4wLzI1Ow0KICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAg
+ICAgICAgICAgIGRlc3RpbmF0aW9uLWFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICAgICAg
+NjguMy4wLjAvMzI7DQogICAgICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICAgICAg
+c291cmNlLXBvcnQgZmluZ2VyOw0KICAgICAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbi1wb3J0
+IGxkYXA7DQogICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAg
+fQ0KICAgIGZpbHRlciB0ZXN0b3V0cHV0ZmlsdGVyIHsNCiAgICAgICAgdGVybSBhIHsNCiAgICAg
+ICAgICAgIGZyb20gew0KICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAg
+ICAgICAgICAgICAgMC4wLjAuMC8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAg
+ICAgZGVzdGluYXRpb24tYWRkcmVzcyB7DQogICAgICAgICAgICAgICAgICAgIDAuMC4wLjAvMzI7
+DQogICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfQ0KICAgICAgICAgICAgdGhlbiBwb2xp
+Y2VyIHRlc3Rwb2xpY2VyOw0KICAgICAgICB9DQogICAgfQ0KICAgIGZpbHRlciB0ZXN0aW5wdXRm
+aWx0ZXIgew0KICAgICAgICB0ZXJtIGEgew0KICAgICAgICAgICAgZnJvbSB7DQogICAgICAgICAg
+ICAgICAgc291cmNlLWFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICAwLjAuMC4wLzMyOw0K
+ICAgICAgICAgICAgICAgIH0NCiAgICAgICAgICAgICAgICBkZXN0aW5hdGlvbi1hZGRyZXNzIHsN
+CiAgICAgICAgICAgICAgICAgICAgMC4wLjAuMC8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAg
+ICAgICAgICB9DQogICAgICAgICAgICB0aGVuIHBvbGljZXIgdGVzdHBvbGljZXI7DQogICAgICAg
+IH0NCiAgICB9DQogICAgZmlsdGVyIG5ld2d1eSB7DQogICAgICAgIHRlcm0gdW5vIHsNCiAgICAg
+ICAgICAgIGZyb20gew0KICAgICAgICAgICAgICAgIHNvdXJjZS1hZGRyZXNzIHsNCiAgICAgICAg
+ICAgICAgICAgICAgODguNDQuMjIuMC8zMjsNCiAgICAgICAgICAgICAgICAgICAgOTkuNDQuMjIu
+MS8zMjsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgcG9ydCBzbm1wOw0KICAg
+ICAgICAgICAgfQ0KICAgICAgICAgICAgdGhlbiB7DQogICAgICAgICAgICAgICAgcmVqZWN0Ow0K
+ICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAgICAgIHRlcm0gZG9zIHsNCiAgICAgICAgICAg
+IGZyb20gew0KICAgICAgICAgICAgICAgIGFkZHJlc3Mgew0KICAgICAgICAgICAgICAgICAgICA3
+MS4yLjIuMS8zMjsNCiAgICAgICAgICAgICAgICAgICAgNDAuMC4wLjAvODsNCiAgICAgICAgICAg
+ICAgICB9DQogICAgICAgICAgICAgICAgcG9ydCBbIDU0IDU1IDEwNTUgMTA1MyBdOw0KICAgICAg
+ICAgICAgfQ0KICAgICAgICAgICAgdGhlbiBhY2NlcHQ7DQogICAgICAgIH0NCiAgICB9DQp9DQo=
+</core:textBlob>
+  </core:config>
+</core:configRepository>
+<filterLists>
+<filterList>
+<filterEntry>
+  <log>false</log>
+  <name>1</name>
+  <primaryAction>permit</primaryAction>
+  <protocol>tcp</protocol>
+  <protocol>udp</protocol>
+  <sourceIpAddr>
+    <network>
+      <address>10.0.0.0</address>
+      <mask>8</mask>
+    </network>
+  </sourceIpAddr>
+</filterEntry>
+<filterEntry>
+  <destinationIpAddr>
+    <network>
+      <address>44.44.22.34</address>
+      <mask>32</mask>
+    </network>
+  </destinationIpAddr>
+  <log>true</log>
+  <name>2</name>
+  <primaryAction>permit</primaryAction>
+  <sourceService>
+    <portRange>
+      <portEnd>1070</portEnd>
+      <portStart>1050</portStart>
+    </portRange>
+  </sourceService>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>23</port>
+    </portExpression>
+  </sourceService>
+</filterEntry>
+<filterEntry>
+  <destinationIpAddr>
+    <network>
+      <address>68.3.0.0</address>
+      <mask>32</mask>
+    </network>
+  </destinationIpAddr>
+  <destinationService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>389</port>
+    </portExpression>
+  </destinationService>
+  <log>false</log>
+  <name>3</name>
+  <primaryAction>none</primaryAction>
+  <sourceIpAddr>
+    <network>
+      <address>192.55.12.0</address>
+      <mask>25</mask>
+    </network>
+  </sourceIpAddr>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>79</port>
+    </portExpression>
+  </sourceService>
+</filterEntry>
+<mode>stateless</mode>
+<name>trial</name>
+</filterList>
+<filterList>
+<filterEntry>
+  <destinationIpAddr>
+    <network>
+      <address>0.0.0.0</address>
+      <mask>32</mask>
+    </network>
+  </destinationIpAddr>
+  <log>false</log>
+  <name>a</name>
+  <primaryAction>none</primaryAction>
+  <sourceIpAddr>
+    <network>
+      <address>0.0.0.0</address>
+      <mask>32</mask>
+    </network>
+  </sourceIpAddr>
+</filterEntry>
+<mode>stateless</mode>
+<name>testoutputfilter</name>
+</filterList>
+<filterList>
+<filterEntry>
+  <destinationIpAddr>
+    <network>
+      <address>0.0.0.0</address>
+      <mask>32</mask>
+    </network>
+  </destinationIpAddr>
+  <log>false</log>
+  <name>a</name>
+  <primaryAction>none</primaryAction>
+  <sourceIpAddr>
+    <network>
+      <address>0.0.0.0</address>
+      <mask>32</mask>
+    </network>
+  </sourceIpAddr>
+</filterEntry>
+<mode>stateless</mode>
+<name>testinputfilter</name>
+</filterList>
+<filterList>
+<filterEntry>
+  <log>false</log>
+  <name>uno</name>
+  <primaryAction>deny</primaryAction>
+  <sourceIpAddr>
+    <network>
+      <address>88.44.22.0</address>
+      <mask>32</mask>
+    </network>
+  </sourceIpAddr>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>161</port>
+    </portExpression>
+  </sourceService>
+</filterEntry>
+<filterEntry>
+  <log>false</log>
+  <name>dos</name>
+  <primaryAction>permit</primaryAction>
+  <sourceIpAddr>
+    <network>
+      <address>71.2.2.1</address>
+      <mask>32</mask>
+    </network>
+  </sourceIpAddr>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>54</port>
+    </portExpression>
+  </sourceService>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>55</port>
+    </portExpression>
+  </sourceService>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>1055</port>
+    </portExpression>
+  </sourceService>
+  <sourceService>
+    <portExpression>
+      <operator>eq</operator>
+      <port>1053</port>
+    </portExpression>
+  </sourceService>
+</filterEntry>
+<mode>stateless</mode>
+<name>newguy</name>
+</filterList>
+</filterLists>
+<interfaces>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>009069674c5d</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fe-0/3/0</name>
+  <physical>true</physical>
+  <speed>100000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>10.100.20.81</ipAddress>
+      <mask>30</mask>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceOspf>
+    <area>0.0.0.0</area>
+    <cost>10</cost>
+    <helloInterval>10</helloInterval>
+    <networkType>BROADCAST</networkType>
+    <retransmitInterval>5</retransmitInterval>
+    <routerPriority>128</routerPriority>
+    <routerState>DR</routerState>
+  </interfaceOspf>
+  <interfaceType>ethernet</interfaceType>
+  <name>fe-0/3/0.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>009069674c5e</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fe-0/3/1</name>
+  <physical>true</physical>
+  <speed>100000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>10.100.20.21</ipAddress>
+      <mask>30</mask>
+    </ipConfiguration>
+    <ipConfiguration>
+      <ipAddress>7ffe:ffff:0:c002::</ipAddress>
+      <mask>54</mask>
+    </ipConfiguration>
+    <ipConfiguration>
+      <ipAddress>fe80::290:69ff:fe67:4c5e</ipAddress>
+      <mask>64</mask>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceOspf>
+    <area>0.0.0.0</area>
+    <cost>32</cost>
+    <helloInterval>10</helloInterval>
+    <networkType>BROADCAST</networkType>
+    <retransmitInterval>5</retransmitInterval>
+    <routerPriority>128</routerPriority>
+    <routerState>BDR</routerState>
+  </interfaceOspf>
+  <interfaceType>ethernet</interfaceType>
+  <name>fe-0/3/1.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>009069674c5f</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fe-0/3/2</name>
+  <physical>true</physical>
+  <speed>100000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>10.100.20.41</ipAddress>
+      <mask>30</mask>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceOspf>
+    <area>0.0.0.0</area>
+    <cost>1</cost>
+    <helloInterval>10</helloInterval>
+    <networkType>BROADCAST</networkType>
+    <retransmitInterval>5</retransmitInterval>
+    <routerPriority>128</routerPriority>
+    <routerState>DR</routerState>
+  </interfaceOspf>
+  <interfaceType>ethernet</interfaceType>
+  <name>fe-0/3/2.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>009069674c60</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fe-0/3/3</name>
+  <physical>true</physical>
+  <speed>100000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>10.100.20.37</ipAddress>
+      <mask>30</mask>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceOspf>
+    <area>0.0.0.0</area>
+    <cost>10</cost>
+    <helloInterval>10</helloInterval>
+    <networkType>BROADCAST</networkType>
+    <retransmitInterval>5</retransmitInterval>
+    <routerPriority>128</routerPriority>
+    <routerState>DR</routerState>
+  </interfaceOspf>
+  <interfaceType>ethernet</interfaceType>
+  <name>fe-0/3/3.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>dsc</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>00a0a5124949</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fxp0</name>
+  <physical>false</physical>
+  <speed>10000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>ethernet</interfaceType>
+  <name>fxp0.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <macAddress>00a0a5124948</macAddress>
+  </interfaceEthernet>
+  <interfaceType>ethernet</interfaceType>
+  <mtu>1514</mtu>
+  <name>fxp1</name>
+  <physical>false</physical>
+  <speed>100000000</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>4</ipAddress>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceType>ethernet</interfaceType>
+  <name>fxp1.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>gre</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>gre</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>ipip</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>lo0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceIp>
+    <ipConfiguration>
+      <ipAddress>10.100.20.215</ipAddress>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceOspf>
+    <area>0.0.0.0</area>
+    <cost>0</cost>
+    <helloInterval>10</helloInterval>
+    <networkType>BROADCAST</networkType>
+    <retransmitInterval>5</retransmitInterval>
+    <routerPriority>128</routerPriority>
+    <routerState>DR</routerState>
+  </interfaceOspf>
+  <interfaceType>other</interfaceType>
+  <name>lo0.0</name>
+  <physical>false</physical>
+  <speed>0</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>1496</mtu>
+  <name>lsi</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>gre</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>mtun</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>pimd</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>pime</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceType>other</interfaceType>
+  <mtu>2147483647</mtu>
+  <name>tap</name>
+  <physical>false</physical>
+  <speed>2147483647</speed>
+</interface>
+</interfaces>
+<routing>
+<bgp>
+  <asNumber>200</asNumber>
+  <neighbor>
+    <address>10.100.20.210</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <neighbor>
+    <address>10.100.20.212</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <neighbor>
+    <address>10.100.20.213</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <neighbor>
+    <address>10.100.20.214</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <neighbor>
+    <address>10.100.20.221</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <neighbor>
+    <address>10.100.20.222</address>
+    <asNumber>200</asNumber>
+  </neighbor>
+  <routerId>10.100.20.215</routerId>
+</bgp>
+</routing>
+<snmp>
+  <community>
+    <accessType>RO</accessType>
+    <communityString>public</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>testenv</communityString>
+    <embeddedAccessFilter>
+      <network>
+        <address>10.100.32.53</address>
+        <mask>32</mask>
+      </network>
+    </embeddedAccessFilter>
+    <embeddedAccessFilter>
+      <network>
+        <address>10.0.0.0</address>
+        <mask>32</mask>
+      </network>
+    </embeddedAccessFilter>
+  </community>
+  <community>
+    <accessType>RO</accessType>
+    <communityString>guPR7HexEs5unavU</communityString>
+    <embeddedAccessFilter>
+      <network>
+        <address>65.88.85.0</address>
+        <mask>24</mask>
+      </network>
+    </embeddedAccessFilter>
+  </community>
+  <community>
+    <accessType>RO</accessType>
+    <communityString>Ad354mgmt</communityString>
+    <embeddedAccessFilter>
+      <network>
+        <address>10.252.46.0</address>
+        <mask>24</mask>
+      </network>
+    </embeddedAccessFilter>
+    <embeddedAccessFilter>
+      <network>
+        <address>172.21.1.0</address>
+        <mask>24</mask>
+      </network>
+    </embeddedAccessFilter>
+    <embeddedAccessFilter>
+      <network>
+        <address>172.21.79.0</address>
+        <mask>24</mask>
+      </network>
+    </embeddedAccessFilter>
+    <embeddedAccessFilter>
+      <network>
+        <address>172.28.32.40</address>
+        <mask>32</mask>
+      </network>
+    </embeddedAccessFilter>
+  </community>
+  <community>
+    <accessType>RO</accessType>
+    <communityString>public1</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>public2</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>public3</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>public6</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>public4</communityString>
+  </community>
+  <community>
+    <accessType>RW</accessType>
+    <communityString>public7</communityString>
+  </community>
+  <community>
+    <accessType>RO</accessType>
+    <communityString>krissygolic</communityString>
+  </community>
+  <sysContact>Tulips</sysContact>
+  <sysLocation>Holland</sysLocation>
+  <sysName>DAL-M5</sysName>
+  <trapHosts>
+    <ipAddress>1.1.1.1</ipAddress>
+  </trapHosts>
+  <trapHosts>
+    <ipAddress>2.2.2.2</ipAddress>
+  </trapHosts>
+  <trapHosts>
+    <ipAddress>7.7.7.7</ipAddress>
+  </trapHosts>
+  <trapHosts>
+    <ipAddress>8.8.8.8</ipAddress>
+  </trapHosts>
+  <trapHosts>
+    <ipAddress>1.2.3.4</ipAddress>
+  </trapHosts>
+</snmp>
+</ZiptieElementDocument>
+
+

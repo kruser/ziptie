@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="650" height="470" xmlns:flex="org.ziptie.flex.*"
+	title="@Resource(key='launcher_title', bundle='messages')"
+	creationComplete="init()"
+	>
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.services.ResultElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import mx.collections.ArrayCollection;
+    		import mx.rpc.events.ResultEvent;
+    		import mx.managers.PopUpManager;
+    		
+    		[Bindable]
+    		private var launchers:ArrayCollection;
+    		
+    		private var newLaunchers:ArrayCollection;
+    		private var deleteLaunchers:ArrayCollection;
+    		
+    		private static var urlPrefix:String = 'http://';
+
+			private function init():void
+			{
+				newLaunchers = new ArrayCollection();
+				deleteLaunchers = new ArrayCollection();
+				WebServiceElf.call('launchers', 'getLaunchers', loadLaunchers);
+			}
+			
+			private function loadLaunchers(result:ResultEvent):void
+			{
+				launchers = ResultElf.array(result);
+				addButton.enabled = true;
+			}
+			
+			private function addNew():void
+			{
+				var launcher:Object = {name:fname.text, url:furl.text};
+				newLaunchers.addItem(launcher);
+				launchers.addItem(launcher);
+				fname.text = '';
+				furl.text = urlPrefix;
+			}
+			
+			private function save():void
+			{
+				// save new
+				for each (var newLauncher:Object in newLaunchers)
+				{
+					WebServiceElf.call('launchers', 'addOrUpdateLauncher', null, newLauncher.name, newLauncher.url);
+				}
+				
+				// delete
+				for each (var delLauncher:Object in deleteLaunchers)
+				{
+					WebServiceElf.call('launchers', 'deleteLauncher', null, delLauncher.name);
+				}
+				PopUpManager.removePopUp(this);
+			}
+			
+			/**
+			 * Add a variable over the selection in the URL text input
+			 */
+			public function addVariable(event:MouseEvent):void
+			{
+				var start:int = furl.selectionBeginIndex;
+				var end:int = furl.selectionEndIndex;
+				if (start == 0 && end == 0)
+				{
+					furl.text += variables.selectedItem.value;
+				}
+				else
+				{
+					var currentText:String = furl.text;
+					var part1:String = currentText.substring(0, start);
+					var part2:String = currentText.substring(end, currentText.length);
+				
+					furl.text = part1 + variables.selectedItem.value + part2;
+				}
+				furl.setFocus();
+				furl.setSelection( furl.length, furl.length );
+			}
+			
+			public function deleteLauncher(event:MouseEvent):void
+			{
+				var index:int = launchersGrid.selectedIndex;
+				var isNew:int = newLaunchers.getItemIndex(launchersGrid.selectedItem);
+				if (isNew >= 0)
+				{
+					newLaunchers.removeItemAt(isNew);
+				}
+				else
+				{
+					deleteLaunchers.addItem(launchersGrid.selectedItem);
+				}
+				launchers.removeItemAt(index);
+			}
+			
+    	]]>
+    </mx:Script>
+    <mx:VBox height="100%" width="98%" styleName="tabVBox" horizontalCenter="0">
+                	
+        <mx:HBox width="100%" height="190" horizontalCenter="0">
+            <mx:Form width="300" height="100%">
+                <mx:FormHeading label="@Resource(key='launcher_form_header', bundle='messages')"/>
+                <mx:FormItem label="@Resource(key='launcher_header_name', bundle='messages')">
+                    <mx:TextInput id="fname" width="200"/>
+                </mx:FormItem>
+                
+                <mx:FormItem label="@Resource(key='launcher_header_url', bundle='messages')">
+                    <mx:TextInput id="furl" width="200" text="http://" enter="addNew()"/>
+                </mx:FormItem>
+                
+                <mx:FormItem>
+                	<mx:Button label="@Resource(key='add', bundle='messages')" id="addButton" click="addNew()" enabled="false"/>
+                </mx:FormItem>
+            </mx:Form>
+
+            <mx:VBox height="100%">
+                <mx:Spacer height="5"/>
+                <mx:DataGrid width="150" height="170" id="variables">
+                <mx:dataProvider>
+                    <mx:Object label="@Resource(key='DeviceField_hostname', bundle='messages')" value="\{device.hostname\}"/>
+                	<mx:Object label="@Resource(key='DeviceField_ipAddress', bundle='messages')" value="\{device.ipAddress\}"/>
+                	<mx:Object label="@Resource(key='DeviceField_make', bundle='messages')" value="\{device.hardwareVendor\}"/>
+                	<mx:Object label="@Resource(key='DeviceField_model', bundle='messages')" value="\{device.model\}"/>
+                	<mx:Object label="@Resource(key='DeviceField_serialNumber', bundle='messages')" value="\{device.assetIdentity\}"/>
+                	<mx:Object label="@Resource(key='DeviceField_softwareVersion', bundle='messages')" value="\{device.osVersion\}"/>
+                </mx:dataProvider>
+                
+                <mx:columns>
+                	<mx:DataGridColumn editable="false" width="24" sortable="false" >
+                	<mx:itemRenderer>
+                		<mx:Component>
+                			<mx:VBox horizontalAlign="center">
+                				<mx:Button width="20" height="20" overIcon="@Embed(source='/img/back.gif')" toolTip="@Resource(key='launcher_var_tooltip', bundle='messages')" icon="@Embed(source='/img/back_off.gif')" click="outerDocument.addVariable(event)"/>
+                			</mx:VBox>
+                		</mx:Component>
+                	</mx:itemRenderer>
+                	</mx:DataGridColumn>
+                	<mx:DataGridColumn headerText="@Resource(key='launcher_var_headers', bundle='messages')" dataField="label"/>
+                </mx:columns>
+                </mx:DataGrid>
+            </mx:VBox>
+        </mx:HBox>
+                <mx:HRule width="100%"/>
+        <mx:DataGrid width="100%" id="launchersGrid" dataProvider="{launchers}" rowHeight="24">
+            <mx:columns>
+            	<mx:DataGridColumn editable="false" width="24" sortable="false">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:VBox horizontalAlign="center">
+								<mx:Button width="20" height="20" overIcon="@Embed(source='/img/delete2.png')" icon="@Embed(source='/img/delete2_off.png')" click="outerDocument.deleteLauncher(event)"/>
+							</mx:VBox>
+						</mx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+                <mx:DataGridColumn headerText="@Resource(key='launcher_header_name', bundle='messages')" dataField="name" width="100"/>
+                <mx:DataGridColumn headerText="@Resource(key='launcher_header_url', bundle='messages')" dataField="url"/>
+            </mx:columns>
+        </mx:DataGrid>
+
+    </mx:VBox>
+
+	<mx:StringValidator source="{fname}" property="text" minLength="1" maxLength="20"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="save()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+
+</mx:TitleWindow>

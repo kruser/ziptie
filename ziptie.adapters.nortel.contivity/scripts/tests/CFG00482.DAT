@@ -1,0 +1,933 @@
+AddressAcquisition.ReadType=Config
++AttackTrap[Failed Login]
++AttackTrap[Firewall]
++AttackTrap[Security Intrusion]
++CfgAddresses.Address[cn=any]
+CfgAddresses.Address[cn=any].Key=cn=any
+CfgAddresses.Address[cn=any].Wildcard=255.255.255.255
++CfgARules.Rule[cn=deny all/in]
+CfgARules.Rule[cn=deny all/in].AckBit=FALSE
+CfgARules.Rule[cn=deny all/in].DestAddress=cn=any
+CfgARules.Rule[cn=deny all/in].DestPort=cn=any
+CfgARules.Rule[cn=deny all/in].Key=cn=deny all/in
+CfgARules.Rule[cn=deny all/in].Protocol=cn=ip
+CfgARules.Rule[cn=deny all/in].SrcPort=cn=any
++CfgARules.Rule[cn=deny all/out]
+CfgARules.Rule[cn=deny all/out].AckBit=FALSE
+CfgARules.Rule[cn=deny all/out].DestPort=cn=any
+CfgARules.Rule[cn=deny all/out].Direction=out
+CfgARules.Rule[cn=deny all/out].Key=cn=deny all/out
+CfgARules.Rule[cn=deny all/out].Protocol=cn=ip
+CfgARules.Rule[cn=deny all/out].SrcAddress=cn=any
+CfgARules.Rule[cn=deny all/out].SrcPort=cn=any
++CfgARules.Rule[cn=permit all/in]
+CfgARules.Rule[cn=permit all/in].AckBit=FALSE
+CfgARules.Rule[cn=permit all/in].Action=permit
+CfgARules.Rule[cn=permit all/in].DestAddress=cn=any
+CfgARules.Rule[cn=permit all/in].DestPort=cn=any
+CfgARules.Rule[cn=permit all/in].Key=cn=permit all/in
+CfgARules.Rule[cn=permit all/in].Protocol=cn=ip
+CfgARules.Rule[cn=permit all/in].SrcPort=cn=any
++CfgARules.Rule[cn=permit all/out]
+CfgARules.Rule[cn=permit all/out].AckBit=FALSE
+CfgARules.Rule[cn=permit all/out].Action=permit
+CfgARules.Rule[cn=permit all/out].DestPort=cn=any
+CfgARules.Rule[cn=permit all/out].Direction=out
+CfgARules.Rule[cn=permit all/out].Key=cn=permit all/out
+CfgARules.Rule[cn=permit all/out].Protocol=cn=ip
+CfgARules.Rule[cn=permit all/out].SrcAddress=cn=any
+CfgARules.Rule[cn=permit all/out].SrcPort=cn=any
++CfgARules.Rule[cn=permit DnsTcpReplyIn]
+CfgARules.Rule[cn=permit DnsTcpReplyIn].Action=permit
+CfgARules.Rule[cn=permit DnsTcpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit DnsTcpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsTcpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit DnsTcpReplyIn].Key=cn=permit DnsTcpReplyIn
+CfgARules.Rule[cn=permit DnsTcpReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit DnsTcpReplyIn].SrcPort=cn=DNS
++CfgARules.Rule[cn=permit DnsTcpReplyOut]
+CfgARules.Rule[cn=permit DnsTcpReplyOut].Action=permit
+CfgARules.Rule[cn=permit DnsTcpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsTcpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit DnsTcpReplyOut].Direction=out
+CfgARules.Rule[cn=permit DnsTcpReplyOut].Key=cn=permit DnsTcpReplyOut
+CfgARules.Rule[cn=permit DnsTcpReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit DnsTcpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit DnsTcpReplyOut].SrcPort=cn=DNS
++CfgARules.Rule[cn=permit DnsTcpReqIn]
+CfgARules.Rule[cn=permit DnsTcpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsTcpReqIn].Action=permit
+CfgARules.Rule[cn=permit DnsTcpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit DnsTcpReqIn].DestPort=cn=DNS
+CfgARules.Rule[cn=permit DnsTcpReqIn].Key=cn=permit DnsTcpReqIn
+CfgARules.Rule[cn=permit DnsTcpReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit DnsTcpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsTcpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit DnsTcpReqOut]
+CfgARules.Rule[cn=permit DnsTcpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsTcpReqOut].Action=permit
+CfgARules.Rule[cn=permit DnsTcpReqOut].DestPort=cn=DNS
+CfgARules.Rule[cn=permit DnsTcpReqOut].Direction=out
+CfgARules.Rule[cn=permit DnsTcpReqOut].Key=cn=permit DnsTcpReqOut
+CfgARules.Rule[cn=permit DnsTcpReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit DnsTcpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit DnsTcpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsTcpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit DnsUdpReplyIn]
+CfgARules.Rule[cn=permit DnsUdpReplyIn].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsUdpReplyIn].Action=permit
+CfgARules.Rule[cn=permit DnsUdpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit DnsUdpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsUdpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit DnsUdpReplyIn].Key=cn=permit DnsUdpReplyIn
+CfgARules.Rule[cn=permit DnsUdpReplyIn].Protocol=cn=Udp
+CfgARules.Rule[cn=permit DnsUdpReplyIn].SrcPort=cn=DNS
++CfgARules.Rule[cn=permit DnsUdpReplyOut]
+CfgARules.Rule[cn=permit DnsUdpReplyOut].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsUdpReplyOut].Action=permit
+CfgARules.Rule[cn=permit DnsUdpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsUdpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit DnsUdpReplyOut].Direction=out
+CfgARules.Rule[cn=permit DnsUdpReplyOut].Key=cn=permit DnsUdpReplyOut
+CfgARules.Rule[cn=permit DnsUdpReplyOut].Protocol=cn=Udp
+CfgARules.Rule[cn=permit DnsUdpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit DnsUdpReplyOut].SrcPort=cn=DNS
++CfgARules.Rule[cn=permit DnsUdpReqIn]
+CfgARules.Rule[cn=permit DnsUdpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsUdpReqIn].Action=permit
+CfgARules.Rule[cn=permit DnsUdpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit DnsUdpReqIn].DestPort=cn=DNS
+CfgARules.Rule[cn=permit DnsUdpReqIn].Key=cn=permit DnsUdpReqIn
+CfgARules.Rule[cn=permit DnsUdpReqIn].Protocol=cn=Udp
+CfgARules.Rule[cn=permit DnsUdpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsUdpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit DnsUdpReqOut]
+CfgARules.Rule[cn=permit DnsUdpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit DnsUdpReqOut].Action=permit
+CfgARules.Rule[cn=permit DnsUdpReqOut].DestPort=cn=DNS
+CfgARules.Rule[cn=permit DnsUdpReqOut].Direction=out
+CfgARules.Rule[cn=permit DnsUdpReqOut].Key=cn=permit DnsUdpReqOut
+CfgARules.Rule[cn=permit DnsUdpReqOut].Protocol=cn=Udp
+CfgARules.Rule[cn=permit DnsUdpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit DnsUdpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit DnsUdpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit EntrustCaReplyIn]
+CfgARules.Rule[cn=permit EntrustCaReplyIn].Action=permit
+CfgARules.Rule[cn=permit EntrustCaReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit EntrustCaReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit EntrustCaReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit EntrustCaReplyIn].Key=cn=permit EntrustCaReplyIn
+CfgARules.Rule[cn=permit EntrustCaReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit EntrustCaReplyIn].SrcPort=cn=Entrust CA
++CfgARules.Rule[cn=permit EntrustCaReplyOut]
+CfgARules.Rule[cn=permit EntrustCaReplyOut].Action=permit
+CfgARules.Rule[cn=permit EntrustCaReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit EntrustCaReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit EntrustCaReplyOut].Direction=out
+CfgARules.Rule[cn=permit EntrustCaReplyOut].Key=cn=permit EntrustCaReplyOut
+CfgARules.Rule[cn=permit EntrustCaReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit EntrustCaReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit EntrustCaReplyOut].SrcPort=cn=Entrust CA
++CfgARules.Rule[cn=permit EntrustCaReqIn]
+CfgARules.Rule[cn=permit EntrustCaReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit EntrustCaReqIn].Action=permit
+CfgARules.Rule[cn=permit EntrustCaReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit EntrustCaReqIn].DestPort=cn=Entrust CA
+CfgARules.Rule[cn=permit EntrustCaReqIn].Key=cn=permit EntrustCaReqIn
+CfgARules.Rule[cn=permit EntrustCaReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit EntrustCaReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit EntrustCaReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit EntrustCaReqOut]
+CfgARules.Rule[cn=permit EntrustCaReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit EntrustCaReqOut].Action=permit
+CfgARules.Rule[cn=permit EntrustCaReqOut].DestPort=cn=Entrust CA
+CfgARules.Rule[cn=permit EntrustCaReqOut].Direction=out
+CfgARules.Rule[cn=permit EntrustCaReqOut].Key=cn=permit EntrustCaReqOut
+CfgARules.Rule[cn=permit EntrustCaReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit EntrustCaReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit EntrustCaReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit EntrustCaReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FingerReplyIn]
+CfgARules.Rule[cn=permit FingerReplyIn].Action=permit
+CfgARules.Rule[cn=permit FingerReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FingerReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FingerReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit FingerReplyIn].Key=cn=permit FingerReplyIn
+CfgARules.Rule[cn=permit FingerReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FingerReplyIn].SrcPort=cn=Finger
++CfgARules.Rule[cn=permit FingerReplyOut]
+CfgARules.Rule[cn=permit FingerReplyOut].Action=permit
+CfgARules.Rule[cn=permit FingerReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FingerReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit FingerReplyOut].Direction=out
+CfgARules.Rule[cn=permit FingerReplyOut].Key=cn=permit FingerReplyOut
+CfgARules.Rule[cn=permit FingerReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FingerReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FingerReplyOut].SrcPort=cn=Finger
++CfgARules.Rule[cn=permit FingerReqIn]
+CfgARules.Rule[cn=permit FingerReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit FingerReqIn].Action=permit
+CfgARules.Rule[cn=permit FingerReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FingerReqIn].DestPort=cn=Finger
+CfgARules.Rule[cn=permit FingerReqIn].Key=cn=permit FingerReqIn
+CfgARules.Rule[cn=permit FingerReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FingerReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FingerReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FingerReqOut]
+CfgARules.Rule[cn=permit FingerReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit FingerReqOut].Action=permit
+CfgARules.Rule[cn=permit FingerReqOut].DestPort=cn=Finger
+CfgARules.Rule[cn=permit FingerReqOut].Direction=out
+CfgARules.Rule[cn=permit FingerReqOut].Key=cn=permit FingerReqOut
+CfgARules.Rule[cn=permit FingerReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FingerReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FingerReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FingerReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FtpDataReplyIn]
+CfgARules.Rule[cn=permit FtpDataReplyIn].Action=permit
+CfgARules.Rule[cn=permit FtpDataReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FtpDataReplyIn].DestPort=cn=FTP Data
+CfgARules.Rule[cn=permit FtpDataReplyIn].Key=cn=permit FtpDataReplyIn
+CfgARules.Rule[cn=permit FtpDataReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpDataReplyIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpDataReplyIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FtpDataReplyOut]
+CfgARules.Rule[cn=permit FtpDataReplyOut].Action=permit
+CfgARules.Rule[cn=permit FtpDataReplyOut].DestPort=cn=FTP Data
+CfgARules.Rule[cn=permit FtpDataReplyOut].Direction=out
+CfgARules.Rule[cn=permit FtpDataReplyOut].Key=cn=permit FtpDataReplyOut
+CfgARules.Rule[cn=permit FtpDataReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpDataReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FtpDataReplyOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpDataReplyOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FtpDataReqIn]
+CfgARules.Rule[cn=permit FtpDataReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit FtpDataReqIn].Action=permit
+CfgARules.Rule[cn=permit FtpDataReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FtpDataReqIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpDataReqIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit FtpDataReqIn].Key=cn=permit FtpDataReqIn
+CfgARules.Rule[cn=permit FtpDataReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpDataReqIn].SrcPort=cn=FTP Data
++CfgARules.Rule[cn=permit FtpDataReqOut]
+CfgARules.Rule[cn=permit FtpDataReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit FtpDataReqOut].Action=permit
+CfgARules.Rule[cn=permit FtpDataReqOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpDataReqOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit FtpDataReqOut].Direction=out
+CfgARules.Rule[cn=permit FtpDataReqOut].Key=cn=permit FtpDataReqOut
+CfgARules.Rule[cn=permit FtpDataReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpDataReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FtpDataReqOut].SrcPort=cn=FTP Data
++CfgARules.Rule[cn=permit FtpReplyIn]
+CfgARules.Rule[cn=permit FtpReplyIn].Action=permit
+CfgARules.Rule[cn=permit FtpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FtpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit FtpReplyIn].Key=cn=permit FtpReplyIn
+CfgARules.Rule[cn=permit FtpReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpReplyIn].SrcPort=cn=FTP Control
++CfgARules.Rule[cn=permit FtpReplyOut]
+CfgARules.Rule[cn=permit FtpReplyOut].Action=permit
+CfgARules.Rule[cn=permit FtpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit FtpReplyOut].Direction=out
+CfgARules.Rule[cn=permit FtpReplyOut].Key=cn=permit FtpReplyOut
+CfgARules.Rule[cn=permit FtpReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FtpReplyOut].SrcPort=cn=FTP Control
++CfgARules.Rule[cn=permit FtpReqIn]
+CfgARules.Rule[cn=permit FtpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit FtpReqIn].Action=permit
+CfgARules.Rule[cn=permit FtpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit FtpReqIn].DestPort=cn=FTP Control
+CfgARules.Rule[cn=permit FtpReqIn].Key=cn=permit FtpReqIn
+CfgARules.Rule[cn=permit FtpReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit FtpReqOut]
+CfgARules.Rule[cn=permit FtpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit FtpReqOut].Action=permit
+CfgARules.Rule[cn=permit FtpReqOut].DestPort=cn=FTP Control
+CfgARules.Rule[cn=permit FtpReqOut].Direction=out
+CfgARules.Rule[cn=permit FtpReqOut].Key=cn=permit FtpReqOut
+CfgARules.Rule[cn=permit FtpReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit FtpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit FtpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit FtpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit HttpReplyIn]
+CfgARules.Rule[cn=permit HttpReplyIn].Action=permit
+CfgARules.Rule[cn=permit HttpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit HttpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit HttpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit HttpReplyIn].Key=cn=permit HttpReplyIn
+CfgARules.Rule[cn=permit HttpReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit HttpReplyIn].SrcPort=cn=HTTP
++CfgARules.Rule[cn=permit HttpReplyOut]
+CfgARules.Rule[cn=permit HttpReplyOut].Action=permit
+CfgARules.Rule[cn=permit HttpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit HttpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit HttpReplyOut].Direction=out
+CfgARules.Rule[cn=permit HttpReplyOut].Key=cn=permit HttpReplyOut
+CfgARules.Rule[cn=permit HttpReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit HttpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit HttpReplyOut].SrcPort=cn=HTTP
++CfgARules.Rule[cn=permit HttpReqIn]
+CfgARules.Rule[cn=permit HttpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit HttpReqIn].Action=permit
+CfgARules.Rule[cn=permit HttpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit HttpReqIn].DestPort=cn=HTTP
+CfgARules.Rule[cn=permit HttpReqIn].Key=cn=permit HttpReqIn
+CfgARules.Rule[cn=permit HttpReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit HttpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit HttpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit HttpReqOut]
+CfgARules.Rule[cn=permit HttpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit HttpReqOut].Action=permit
+CfgARules.Rule[cn=permit HttpReqOut].DestPort=cn=HTTP
+CfgARules.Rule[cn=permit HttpReqOut].Direction=out
+CfgARules.Rule[cn=permit HttpReqOut].Key=cn=permit HttpReqOut
+CfgARules.Rule[cn=permit HttpReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit HttpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit HttpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit HttpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit icmp in]
+CfgARules.Rule[cn=permit icmp in].AckBit=FALSE
+CfgARules.Rule[cn=permit icmp in].Action=permit
+CfgARules.Rule[cn=permit icmp in].DestAddress=cn=any
+CfgARules.Rule[cn=permit icmp in].DestPort=cn=any
+CfgARules.Rule[cn=permit icmp in].Key=cn=permit icmp in
+CfgARules.Rule[cn=permit icmp in].Protocol=cn=icmp
+CfgARules.Rule[cn=permit icmp in].SrcPort=cn=any
++CfgARules.Rule[cn=permit icmp out]
+CfgARules.Rule[cn=permit icmp out].AckBit=FALSE
+CfgARules.Rule[cn=permit icmp out].Action=permit
+CfgARules.Rule[cn=permit icmp out].DestPort=cn=any
+CfgARules.Rule[cn=permit icmp out].Direction=out
+CfgARules.Rule[cn=permit icmp out].Key=cn=permit icmp out
+CfgARules.Rule[cn=permit icmp out].Protocol=cn=icmp
+CfgARules.Rule[cn=permit icmp out].SrcAddress=cn=any
+CfgARules.Rule[cn=permit icmp out].SrcPort=cn=any
++CfgARules.Rule[cn=permit LdapReplyIn]
+CfgARules.Rule[cn=permit LdapReplyIn].Action=permit
+CfgARules.Rule[cn=permit LdapReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit LdapReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit LdapReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit LdapReplyIn].Key=cn=permit LdapReplyIn
+CfgARules.Rule[cn=permit LdapReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit LdapReplyIn].SrcPort=cn=LDAP
++CfgARules.Rule[cn=permit LdapReplyOut]
+CfgARules.Rule[cn=permit LdapReplyOut].Action=permit
+CfgARules.Rule[cn=permit LdapReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit LdapReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit LdapReplyOut].Direction=out
+CfgARules.Rule[cn=permit LdapReplyOut].Key=cn=permit LdapReplyOut
+CfgARules.Rule[cn=permit LdapReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit LdapReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit LdapReplyOut].SrcPort=cn=LDAP
++CfgARules.Rule[cn=permit LdapReqIn]
+CfgARules.Rule[cn=permit LdapReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit LdapReqIn].Action=permit
+CfgARules.Rule[cn=permit LdapReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit LdapReqIn].DestPort=cn=LDAP
+CfgARules.Rule[cn=permit LdapReqIn].Key=cn=permit LdapReqIn
+CfgARules.Rule[cn=permit LdapReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit LdapReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit LdapReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit LdapReqOut]
+CfgARules.Rule[cn=permit LdapReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit LdapReqOut].Action=permit
+CfgARules.Rule[cn=permit LdapReqOut].DestPort=cn=LDAP
+CfgARules.Rule[cn=permit LdapReqOut].Direction=out
+CfgARules.Rule[cn=permit LdapReqOut].Key=cn=permit LdapReqOut
+CfgARules.Rule[cn=permit LdapReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit LdapReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit LdapReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit LdapReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit NntpReplyIn]
+CfgARules.Rule[cn=permit NntpReplyIn].Action=permit
+CfgARules.Rule[cn=permit NntpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit NntpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NntpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit NntpReplyIn].Key=cn=permit NntpReplyIn
+CfgARules.Rule[cn=permit NntpReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit NntpReplyIn].SrcPort=cn=NNTP
++CfgARules.Rule[cn=permit NntpReplyOut]
+CfgARules.Rule[cn=permit NntpReplyOut].Action=permit
+CfgARules.Rule[cn=permit NntpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NntpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit NntpReplyOut].Direction=out
+CfgARules.Rule[cn=permit NntpReplyOut].Key=cn=permit NntpReplyOut
+CfgARules.Rule[cn=permit NntpReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit NntpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit NntpReplyOut].SrcPort=cn=NNTP
++CfgARules.Rule[cn=permit NntpReqIn]
+CfgARules.Rule[cn=permit NntpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit NntpReqIn].Action=permit
+CfgARules.Rule[cn=permit NntpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit NntpReqIn].DestPort=cn=NNTP
+CfgARules.Rule[cn=permit NntpReqIn].Key=cn=permit NntpReqIn
+CfgARules.Rule[cn=permit NntpReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit NntpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NntpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit NntpReqOut]
+CfgARules.Rule[cn=permit NntpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit NntpReqOut].Action=permit
+CfgARules.Rule[cn=permit NntpReqOut].DestPort=cn=NNTP
+CfgARules.Rule[cn=permit NntpReqOut].Direction=out
+CfgARules.Rule[cn=permit NntpReqOut].Key=cn=permit NntpReqOut
+CfgARules.Rule[cn=permit NntpReqOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit NntpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit NntpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NntpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit NTPin static port]
+CfgARules.Rule[cn=permit NTPin static port].AckBit=FALSE
+CfgARules.Rule[cn=permit NTPin static port].Action=permit
+CfgARules.Rule[cn=permit NTPin static port].DestAddress=cn=any
+CfgARules.Rule[cn=permit NTPin static port].DestPort=cn=NTP
+CfgARules.Rule[cn=permit NTPin static port].Key=cn=permit NTPin static port
+CfgARules.Rule[cn=permit NTPin static port].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NTPin static port].SrcPort=cn=NTP
++CfgARules.Rule[cn=permit NTPout static port]
+CfgARules.Rule[cn=permit NTPout static port].AckBit=FALSE
+CfgARules.Rule[cn=permit NTPout static port].Action=permit
+CfgARules.Rule[cn=permit NTPout static port].DestPort=cn=NTP
+CfgARules.Rule[cn=permit NTPout static port].Direction=out
+CfgARules.Rule[cn=permit NTPout static port].Key=cn=permit NTPout static port
+CfgARules.Rule[cn=permit NTPout static port].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NTPout static port].SrcAddress=cn=any
+CfgARules.Rule[cn=permit NTPout static port].SrcPort=cn=NTP
++CfgARules.Rule[cn=permit NtpReplyIn]
+CfgARules.Rule[cn=permit NtpReplyIn].Action=permit
+CfgARules.Rule[cn=permit NtpReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit NtpReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NtpReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit NtpReplyIn].Key=cn=permit NtpReplyIn
+CfgARules.Rule[cn=permit NtpReplyIn].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NtpReplyIn].SrcPort=cn=NTP
++CfgARules.Rule[cn=permit NtpReplyOut]
+CfgARules.Rule[cn=permit NtpReplyOut].Action=permit
+CfgARules.Rule[cn=permit NtpReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NtpReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit NtpReplyOut].Direction=out
+CfgARules.Rule[cn=permit NtpReplyOut].Key=cn=permit NtpReplyOut
+CfgARules.Rule[cn=permit NtpReplyOut].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NtpReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit NtpReplyOut].SrcPort=cn=NTP
++CfgARules.Rule[cn=permit NtpReqIn]
+CfgARules.Rule[cn=permit NtpReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit NtpReqIn].Action=permit
+CfgARules.Rule[cn=permit NtpReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit NtpReqIn].DestPort=cn=NTP
+CfgARules.Rule[cn=permit NtpReqIn].Key=cn=permit NtpReqIn
+CfgARules.Rule[cn=permit NtpReqIn].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NtpReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NtpReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit NtpReqOut]
+CfgARules.Rule[cn=permit NtpReqOut].AckBit=FALSE
+CfgARules.Rule[cn=permit NtpReqOut].Action=permit
+CfgARules.Rule[cn=permit NtpReqOut].DestPort=cn=NTP
+CfgARules.Rule[cn=permit NtpReqOut].Direction=out
+CfgARules.Rule[cn=permit NtpReqOut].Key=cn=permit NtpReqOut
+CfgARules.Rule[cn=permit NtpReqOut].Protocol=cn=Udp
+CfgARules.Rule[cn=permit NtpReqOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit NtpReqOut].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit NtpReqOut].SrcPortOperand=GT
++CfgARules.Rule[cn=permit TelnetReplyIn]
+CfgARules.Rule[cn=permit TelnetReplyIn].Action=permit
+CfgARules.Rule[cn=permit TelnetReplyIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit TelnetReplyIn].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit TelnetReplyIn].DestPortOperand=GT
+CfgARules.Rule[cn=permit TelnetReplyIn].Key=cn=permit TelnetReplyIn
+CfgARules.Rule[cn=permit TelnetReplyIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit TelnetReplyIn].SrcPort=cn=Telnet
++CfgARules.Rule[cn=permit TelnetReplyOut]
+CfgARules.Rule[cn=permit TelnetReplyOut].Action=permit
+CfgARules.Rule[cn=permit TelnetReplyOut].DestPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit TelnetReplyOut].DestPortOperand=GT
+CfgARules.Rule[cn=permit TelnetReplyOut].Direction=out
+CfgARules.Rule[cn=permit TelnetReplyOut].Key=cn=permit TelnetReplyOut
+CfgARules.Rule[cn=permit TelnetReplyOut].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit TelnetReplyOut].SrcAddress=cn=any
+CfgARules.Rule[cn=permit TelnetReplyOut].SrcPort=cn=Telnet
++CfgARules.Rule[cn=permit TelnetReqIn]
+CfgARules.Rule[cn=permit TelnetReqIn].AckBit=FALSE
+CfgARules.Rule[cn=permit TelnetReqIn].Action=permit
+CfgARules.Rule[cn=permit TelnetReqIn].DestAddress=cn=any
+CfgARules.Rule[cn=permit TelnetReqIn].DestPort=cn=Telnet
+CfgARules.Rule[cn=permit TelnetReqIn].Key=cn=permit TelnetReqIn
+CfgARules.Rule[cn=permit TelnetReqIn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit TelnetReqIn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit TelnetReqIn].SrcPortOperand=GT
++CfgARules.Rule[cn=permit TelnetReqOn]
+CfgARules.Rule[cn=permit TelnetReqOn].AckBit=FALSE
+CfgARules.Rule[cn=permit TelnetReqOn].Action=permit
+CfgARules.Rule[cn=permit TelnetReqOn].DestPort=cn=Telnet
+CfgARules.Rule[cn=permit TelnetReqOn].Direction=out
+CfgARules.Rule[cn=permit TelnetReqOn].Key=cn=permit TelnetReqOn
+CfgARules.Rule[cn=permit TelnetReqOn].Protocol=cn=Tcp
+CfgARules.Rule[cn=permit TelnetReqOn].SrcAddress=cn=any
+CfgARules.Rule[cn=permit TelnetReqOn].SrcPort=cn=Dynamic Port Begin
+CfgARules.Rule[cn=permit TelnetReqOn].SrcPortOperand=GT
++CfgFilters.Filter[cn=deny all]
+CfgFilters.Filter[cn=deny all].Key=cn=deny all
++CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[0 cn=deny all/in]
+CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[0 cn=deny all/in].Key=0 cn=deny all/in
+CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[0 cn=deny all/in].RuleKey=cn=deny all/in
++CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[1 cn=deny all/out]
+CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[1 cn=deny all/out].Key=1 cn=deny all/out
+CfgFilters.Filter[cn=deny all].RuleRefs.RuleRef[1 cn=deny all/out].RuleKey=cn=deny all/out
++CfgFilters.Filter[cn=permit all]
+CfgFilters.Filter[cn=permit all].Key=cn=permit all
++CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[0 cn=permit all/in]
+CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[0 cn=permit all/in].Key=0 cn=permit all/in
+CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[0 cn=permit all/in].RuleKey=cn=permit all/in
++CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[1 cn=permit all/out]
+CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[1 cn=permit all/out].Key=1 cn=permit all/out
+CfgFilters.Filter[cn=permit all].RuleRefs.RuleRef[1 cn=permit all/out].RuleKey=cn=permit all/out
++CfgFilters.Filter[cn=permit DNS]
+CfgFilters.Filter[cn=permit DNS].Key=cn=permit DNS
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn].Key=0 cn=permit DnsTcpReqIn
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn].RuleKey=cn=permit DnsTcpReqIn
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut].Key=1 cn=permit DnsTcpReqOut
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut].RuleKey=cn=permit DnsTcpReqOut
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn].Key=2 cn=permit DnsTcpReplyIn
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn].RuleKey=cn=permit DnsTcpReplyIn
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut].Key=3 cn=permit DnsTcpReplyOut
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut].RuleKey=cn=permit DnsTcpReplyOut
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[4 cn=permit DnsUdpReqIn]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[4 cn=permit DnsUdpReqIn].Key=4 cn=permit DnsUdpReqIn
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[4 cn=permit DnsUdpReqIn].RuleKey=cn=permit DnsUdpReqIn
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[5 cn=permit DnsUdpReqOut]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[5 cn=permit DnsUdpReqOut].Key=5 cn=permit DnsUdpReqOut
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[5 cn=permit DnsUdpReqOut].RuleKey=cn=permit DnsUdpReqOut
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[6 cn=permit DnsUdpReplyIn]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[6 cn=permit DnsUdpReplyIn].Key=6 cn=permit DnsUdpReplyIn
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[6 cn=permit DnsUdpReplyIn].RuleKey=cn=permit DnsUdpReplyIn
++CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[7 cn=permit DnsUdpReplyOut]
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[7 cn=permit DnsUdpReplyOut].Key=7 cn=permit DnsUdpReplyOut
+CfgFilters.Filter[cn=permit DNS].RuleRefs.RuleRef[7 cn=permit DnsUdpReplyOut].RuleKey=cn=permit DnsUdpReplyOut
++CfgFilters.Filter[cn=permit DNS TCP]
+CfgFilters.Filter[cn=permit DNS TCP].Key=cn=permit DNS TCP
++CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn]
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn].Key=0 cn=permit DnsTcpReqIn
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[0 cn=permit DnsTcpReqIn].RuleKey=cn=permit DnsTcpReqIn
++CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut]
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut].Key=1 cn=permit DnsTcpReqOut
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[1 cn=permit DnsTcpReqOut].RuleKey=cn=permit DnsTcpReqOut
++CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn]
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn].Key=2 cn=permit DnsTcpReplyIn
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[2 cn=permit DnsTcpReplyIn].RuleKey=cn=permit DnsTcpReplyIn
++CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut]
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut].Key=3 cn=permit DnsTcpReplyOut
+CfgFilters.Filter[cn=permit DNS TCP].RuleRefs.RuleRef[3 cn=permit DnsTcpReplyOut].RuleKey=cn=permit DnsTcpReplyOut
++CfgFilters.Filter[cn=permit DNS UDP]
+CfgFilters.Filter[cn=permit DNS UDP].Key=cn=permit DNS UDP
++CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[0 cn=permit DnsUdpReqIn]
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[0 cn=permit DnsUdpReqIn].Key=0 cn=permit DnsUdpReqIn
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[0 cn=permit DnsUdpReqIn].RuleKey=cn=permit DnsUdpReqIn
++CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[1 cn=permit DnsUdpReqOut]
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[1 cn=permit DnsUdpReqOut].Key=1 cn=permit DnsUdpReqOut
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[1 cn=permit DnsUdpReqOut].RuleKey=cn=permit DnsUdpReqOut
++CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[2 cn=permit DnsUdpReplyIn]
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[2 cn=permit DnsUdpReplyIn].Key=2 cn=permit DnsUdpReplyIn
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[2 cn=permit DnsUdpReplyIn].RuleKey=cn=permit DnsUdpReplyIn
++CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[3 cn=permit DnsUdpReplyOut]
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[3 cn=permit DnsUdpReplyOut].Key=3 cn=permit DnsUdpReplyOut
+CfgFilters.Filter[cn=permit DNS UDP].RuleRefs.RuleRef[3 cn=permit DnsUdpReplyOut].RuleKey=cn=permit DnsUdpReplyOut
++CfgFilters.Filter[cn=permit entrust CA]
+CfgFilters.Filter[cn=permit entrust CA].Key=cn=permit entrust CA
++CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[0 cn=permit EntrustCaReqIn]
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[0 cn=permit EntrustCaReqIn].Key=0 cn=permit EntrustCaReqIn
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[0 cn=permit EntrustCaReqIn].RuleKey=cn=permit EntrustCaReqIn
++CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[1 cn=permit EntrustCaReqOut]
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[1 cn=permit EntrustCaReqOut].Key=1 cn=permit EntrustCaReqOut
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[1 cn=permit EntrustCaReqOut].RuleKey=cn=permit EntrustCaReqOut
++CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[2 cn=permit EntrustCaReplyIn]
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[2 cn=permit EntrustCaReplyIn].Key=2 cn=permit EntrustCaReplyIn
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[2 cn=permit EntrustCaReplyIn].RuleKey=cn=permit EntrustCaReplyIn
++CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[3 cn=permit EntrustCaReplyOut]
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[3 cn=permit EntrustCaReplyOut].Key=3 cn=permit EntrustCaReplyOut
+CfgFilters.Filter[cn=permit entrust CA].RuleRefs.RuleRef[3 cn=permit EntrustCaReplyOut].RuleKey=cn=permit EntrustCaReplyOut
++CfgFilters.Filter[cn=permit finger]
+CfgFilters.Filter[cn=permit finger].Key=cn=permit finger
++CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[0 cn=permit FingerReqIn]
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[0 cn=permit FingerReqIn].Key=0 cn=permit FingerReqIn
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[0 cn=permit FingerReqIn].RuleKey=cn=permit FingerReqIn
++CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[1 cn=permit FingerReqOut]
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[1 cn=permit FingerReqOut].Key=1 cn=permit FingerReqOut
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[1 cn=permit FingerReqOut].RuleKey=cn=permit FingerReqOut
++CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[2 cn=permit FingerReplyIn]
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[2 cn=permit FingerReplyIn].Key=2 cn=permit FingerReplyIn
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[2 cn=permit FingerReplyIn].RuleKey=cn=permit FingerReplyIn
++CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[3 cn=permit FingerReplyOut]
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[3 cn=permit FingerReplyOut].Key=3 cn=permit FingerReplyOut
+CfgFilters.Filter[cn=permit finger].RuleRefs.RuleRef[3 cn=permit FingerReplyOut].RuleKey=cn=permit FingerReplyOut
++CfgFilters.Filter[cn=permit FTP]
+CfgFilters.Filter[cn=permit FTP].Key=cn=permit FTP
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[0 cn=permit FtpReqIn]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[0 cn=permit FtpReqIn].Key=0 cn=permit FtpReqIn
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[0 cn=permit FtpReqIn].RuleKey=cn=permit FtpReqIn
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[1 cn=permit FtpReqOut]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[1 cn=permit FtpReqOut].Key=1 cn=permit FtpReqOut
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[1 cn=permit FtpReqOut].RuleKey=cn=permit FtpReqOut
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[2 cn=permit FtpReplyIn]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[2 cn=permit FtpReplyIn].Key=2 cn=permit FtpReplyIn
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[2 cn=permit FtpReplyIn].RuleKey=cn=permit FtpReplyIn
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[3 cn=permit FtpReplyOut]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[3 cn=permit FtpReplyOut].Key=3 cn=permit FtpReplyOut
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[3 cn=permit FtpReplyOut].RuleKey=cn=permit FtpReplyOut
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[4 cn=permit FtpDataReqIn]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[4 cn=permit FtpDataReqIn].Key=4 cn=permit FtpDataReqIn
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[4 cn=permit FtpDataReqIn].RuleKey=cn=permit FtpDataReqIn
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[5 cn=permit FtpDataReqOut]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[5 cn=permit FtpDataReqOut].Key=5 cn=permit FtpDataReqOut
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[5 cn=permit FtpDataReqOut].RuleKey=cn=permit FtpDataReqOut
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[6 cn=permit FtpDataReplyIn]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[6 cn=permit FtpDataReplyIn].Key=6 cn=permit FtpDataReplyIn
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[6 cn=permit FtpDataReplyIn].RuleKey=cn=permit FtpDataReplyIn
++CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[7 cn=permit FtpDataReplyOut]
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[7 cn=permit FtpDataReplyOut].Key=7 cn=permit FtpDataReplyOut
+CfgFilters.Filter[cn=permit FTP].RuleRefs.RuleRef[7 cn=permit FtpDataReplyOut].RuleKey=cn=permit FtpDataReplyOut
++CfgFilters.Filter[cn=permit HTTP]
+CfgFilters.Filter[cn=permit HTTP].Key=cn=permit HTTP
++CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[0 cn=permit HttpReqIn]
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[0 cn=permit HttpReqIn].Key=0 cn=permit HttpReqIn
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[0 cn=permit HttpReqIn].RuleKey=cn=permit HttpReqIn
++CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[1 cn=permit HttpReqOut]
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[1 cn=permit HttpReqOut].Key=1 cn=permit HttpReqOut
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[1 cn=permit HttpReqOut].RuleKey=cn=permit HttpReqOut
++CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[2 cn=permit HttpReplyIn]
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[2 cn=permit HttpReplyIn].Key=2 cn=permit HttpReplyIn
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[2 cn=permit HttpReplyIn].RuleKey=cn=permit HttpReplyIn
++CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[3 cn=permit HttpReplyOut]
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[3 cn=permit HttpReplyOut].Key=3 cn=permit HttpReplyOut
+CfgFilters.Filter[cn=permit HTTP].RuleRefs.RuleRef[3 cn=permit HttpReplyOut].RuleKey=cn=permit HttpReplyOut
++CfgFilters.Filter[cn=permit LDAP]
+CfgFilters.Filter[cn=permit LDAP].Key=cn=permit LDAP
++CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[0 cn=permit LdapReqIn]
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[0 cn=permit LdapReqIn].Key=0 cn=permit LdapReqIn
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[0 cn=permit LdapReqIn].RuleKey=cn=permit LdapReqIn
++CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[1 cn=permit LdapReqOut]
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[1 cn=permit LdapReqOut].Key=1 cn=permit LdapReqOut
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[1 cn=permit LdapReqOut].RuleKey=cn=permit LdapReqOut
++CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[2 cn=permit LdapReplyIn]
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[2 cn=permit LdapReplyIn].Key=2 cn=permit LdapReplyIn
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[2 cn=permit LdapReplyIn].RuleKey=cn=permit LdapReplyIn
++CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[3 cn=permit LdapReplyOut]
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[3 cn=permit LdapReplyOut].Key=3 cn=permit LdapReplyOut
+CfgFilters.Filter[cn=permit LDAP].RuleRefs.RuleRef[3 cn=permit LdapReplyOut].RuleKey=cn=permit LdapReplyOut
++CfgFilters.Filter[cn=permit NNTP]
+CfgFilters.Filter[cn=permit NNTP].Key=cn=permit NNTP
++CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[0 cn=permit NntpReqIn]
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[0 cn=permit NntpReqIn].Key=0 cn=permit NntpReqIn
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[0 cn=permit NntpReqIn].RuleKey=cn=permit NntpReqIn
++CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[1 cn=permit NntpReqOut]
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[1 cn=permit NntpReqOut].Key=1 cn=permit NntpReqOut
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[1 cn=permit NntpReqOut].RuleKey=cn=permit NntpReqOut
++CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[2 cn=permit NntpReplyIn]
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[2 cn=permit NntpReplyIn].Key=2 cn=permit NntpReplyIn
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[2 cn=permit NntpReplyIn].RuleKey=cn=permit NntpReplyIn
++CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[3 cn=permit NntpReplyOut]
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[3 cn=permit NntpReplyOut].Key=3 cn=permit NntpReplyOut
+CfgFilters.Filter[cn=permit NNTP].RuleRefs.RuleRef[3 cn=permit NntpReplyOut].RuleKey=cn=permit NntpReplyOut
++CfgFilters.Filter[cn=permit NTP]
+CfgFilters.Filter[cn=permit NTP].Key=cn=permit NTP
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[0 cn=permit NTPin static port]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[0 cn=permit NTPin static port].Key=0 cn=permit NTPin static port
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[0 cn=permit NTPin static port].RuleKey=cn=permit NTPin static port
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[1 cn=permit NTPout static port]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[1 cn=permit NTPout static port].Key=1 cn=permit NTPout static port
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[1 cn=permit NTPout static port].RuleKey=cn=permit NTPout static port
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[2 cn=permit NtpReplyIn]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[2 cn=permit NtpReplyIn].Key=2 cn=permit NtpReplyIn
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[2 cn=permit NtpReplyIn].RuleKey=cn=permit NtpReplyIn
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[3 cn=permit NtpReplyOut]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[3 cn=permit NtpReplyOut].Key=3 cn=permit NtpReplyOut
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[3 cn=permit NtpReplyOut].RuleKey=cn=permit NtpReplyOut
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[4 cn=permit NtpReqIn]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[4 cn=permit NtpReqIn].Key=4 cn=permit NtpReqIn
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[4 cn=permit NtpReqIn].RuleKey=cn=permit NtpReqIn
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[5 cn=permit NtpReqOut]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[5 cn=permit NtpReqOut].Key=5 cn=permit NtpReqOut
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[5 cn=permit NtpReqOut].RuleKey=cn=permit NtpReqOut
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[6 cn=permit NtpReplyIn]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[6 cn=permit NtpReplyIn].Key=6 cn=permit NtpReplyIn
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[6 cn=permit NtpReplyIn].RuleKey=cn=permit NtpReplyIn
++CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[7 cn=permit NtpReplyOut]
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[7 cn=permit NtpReplyOut].Key=7 cn=permit NtpReplyOut
+CfgFilters.Filter[cn=permit NTP].RuleRefs.RuleRef[7 cn=permit NtpReplyOut].RuleKey=cn=permit NtpReplyOut
++CfgFilters.Filter[cn=permit ping]
+CfgFilters.Filter[cn=permit ping].Key=cn=permit ping
++CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[0 cn=permit icmp in]
+CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[0 cn=permit icmp in].Key=0 cn=permit icmp in
+CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[0 cn=permit icmp in].RuleKey=cn=permit icmp in
++CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[1 cn=permit icmp out]
+CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[1 cn=permit icmp out].Key=1 cn=permit icmp out
+CfgFilters.Filter[cn=permit ping].RuleRefs.RuleRef[1 cn=permit icmp out].RuleKey=cn=permit icmp out
++CfgFilters.Filter[cn=permit Telnet]
+CfgFilters.Filter[cn=permit Telnet].Key=cn=permit Telnet
++CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[0 cn=permit TelnetReqIn]
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[0 cn=permit TelnetReqIn].Key=0 cn=permit TelnetReqIn
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[0 cn=permit TelnetReqIn].RuleKey=cn=permit TelnetReqIn
++CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[1 cn=permit TelnetReqOn]
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[1 cn=permit TelnetReqOn].Key=1 cn=permit TelnetReqOn
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[1 cn=permit TelnetReqOn].RuleKey=cn=permit TelnetReqOn
++CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[2 cn=permit TelnetReplyIn]
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[2 cn=permit TelnetReplyIn].Key=2 cn=permit TelnetReplyIn
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[2 cn=permit TelnetReplyIn].RuleKey=cn=permit TelnetReplyIn
++CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[3 cn=permit TelnetReplyOut]
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[3 cn=permit TelnetReplyOut].Key=3 cn=permit TelnetReplyOut
+CfgFilters.Filter[cn=permit Telnet].RuleRefs.RuleRef[3 cn=permit TelnetReplyOut].RuleKey=cn=permit TelnetReplyOut
++CfgPorts.Port[cn=any]
+CfgPorts.Port[cn=any].Key=cn=any
++CfgPorts.Port[cn=DNS]
+CfgPorts.Port[cn=DNS].Key=cn=DNS
+CfgPorts.Port[cn=DNS].Port=53
++CfgPorts.Port[cn=Dynamic Port Begin]
+CfgPorts.Port[cn=Dynamic Port Begin].Key=cn=Dynamic Port Begin
+CfgPorts.Port[cn=Dynamic Port Begin].Port=1023
++CfgPorts.Port[cn=Entrust CA]
+CfgPorts.Port[cn=Entrust CA].Key=cn=Entrust CA
+CfgPorts.Port[cn=Entrust CA].Port=829
++CfgPorts.Port[cn=Finger]
+CfgPorts.Port[cn=Finger].Key=cn=Finger
+CfgPorts.Port[cn=Finger].Port=79
++CfgPorts.Port[cn=FTP Control]
+CfgPorts.Port[cn=FTP Control].Key=cn=FTP Control
+CfgPorts.Port[cn=FTP Control].Port=21
++CfgPorts.Port[cn=FTP Data]
+CfgPorts.Port[cn=FTP Data].Key=cn=FTP Data
+CfgPorts.Port[cn=FTP Data].Port=20
++CfgPorts.Port[cn=Gopher]
+CfgPorts.Port[cn=Gopher].Key=cn=Gopher
+CfgPorts.Port[cn=Gopher].Port=70
++CfgPorts.Port[cn=HTTP]
+CfgPorts.Port[cn=HTTP].Key=cn=HTTP
+CfgPorts.Port[cn=HTTP].Port=80
++CfgPorts.Port[cn=LapLink]
+CfgPorts.Port[cn=LapLink].Key=cn=LapLink
+CfgPorts.Port[cn=LapLink].Port=1547
++CfgPorts.Port[cn=LDAP]
+CfgPorts.Port[cn=LDAP].Key=cn=LDAP
+CfgPorts.Port[cn=LDAP].Port=389
++CfgPorts.Port[cn=nbdatagram]
+CfgPorts.Port[cn=nbdatagram].Key=cn=nbdatagram
+CfgPorts.Port[cn=nbdatagram].Port=138
++CfgPorts.Port[cn=nbname]
+CfgPorts.Port[cn=nbname].Key=cn=nbname
+CfgPorts.Port[cn=nbname].Port=137
++CfgPorts.Port[cn=nbsession]
+CfgPorts.Port[cn=nbsession].Key=cn=nbsession
+CfgPorts.Port[cn=nbsession].Port=139
++CfgPorts.Port[cn=NNTP]
+CfgPorts.Port[cn=NNTP].Key=cn=NNTP
+CfgPorts.Port[cn=NNTP].Port=119
++CfgPorts.Port[cn=NTP]
+CfgPorts.Port[cn=NTP].Key=cn=NTP
+CfgPorts.Port[cn=NTP].Port=123
++CfgPorts.Port[cn=pcANYWHERE/Data]
+CfgPorts.Port[cn=pcANYWHERE/Data].Key=cn=pcANYWHERE/Data
+CfgPorts.Port[cn=pcANYWHERE/Data].Port=5631
++CfgPorts.Port[cn=pcANYWHERE/stat]
+CfgPorts.Port[cn=pcANYWHERE/stat].Key=cn=pcANYWHERE/stat
+CfgPorts.Port[cn=pcANYWHERE/stat].Port=5631
++CfgPorts.Port[cn=POP2]
+CfgPorts.Port[cn=POP2].Key=cn=POP2
+CfgPorts.Port[cn=POP2].Port=109
++CfgPorts.Port[cn=POP3]
+CfgPorts.Port[cn=POP3].Key=cn=POP3
+CfgPorts.Port[cn=POP3].Port=110
++CfgPorts.Port[cn=Portmap]
+CfgPorts.Port[cn=Portmap].Key=cn=Portmap
+CfgPorts.Port[cn=Portmap].Port=111
++CfgPorts.Port[cn=smtp]
+CfgPorts.Port[cn=smtp].Key=cn=smtp
+CfgPorts.Port[cn=smtp].Port=25
++CfgPorts.Port[cn=snmp]
+CfgPorts.Port[cn=snmp].Key=cn=snmp
+CfgPorts.Port[cn=snmp].Port=161
++CfgPorts.Port[cn=snmp-trap]
+CfgPorts.Port[cn=snmp-trap].Key=cn=snmp-trap
+CfgPorts.Port[cn=snmp-trap].Port=162
++CfgPorts.Port[cn=Telnet]
+CfgPorts.Port[cn=Telnet].Key=cn=Telnet
+CfgPorts.Port[cn=Telnet].Port=23
++CfgPorts.Port[cn=wais]
+CfgPorts.Port[cn=wais].Key=cn=wais
+CfgPorts.Port[cn=wais].Port=210
++CfgPorts.Port[cn=whois]
+CfgPorts.Port[cn=whois].Key=cn=whois
+CfgPorts.Port[cn=whois].Port=43
++CfgProtocols.Protocol[cn=Icmp]
+CfgProtocols.Protocol[cn=Icmp].Protocol=1
++CfgProtocols.Protocol[cn=Ip]
+CfgProtocols.Protocol[cn=Ip].Protocol=255
++CfgProtocols.Protocol[cn=Tcp]
+CfgProtocols.Protocol[cn=Tcp].Protocol=6
++CfgProtocols.Protocol[cn=Udp]
+CfgProtocols.Protocol[cn=Udp].Protocol=17
++DbSysLog.SysLogForward[0]
+DbSysLog.SysLogForward[0].Enabled=TRUE
+DbSysLog.SysLogForward[0].FilterSubentity=all
+DbSysLog.SysLogForward[0].ForwardAddress=10.100.32.88
++DbSysLog.SysLogForward[1]
+DbSysLog.SysLogForward[1].Enabled=TRUE
+DbSysLog.SysLogForward[1].FilterSubentity=all
+DbSysLog.SysLogForward[1].ForwardAddress=10.100.32.43
+DbSysLog.SysLogForward[1].ForwardFacility=LOCAL0
+DbSysLog.SysLogForward[1].ForwardLevel=NOTICE
++DbSysLog.SysLogForward[2]
+DbSysLog.SysLogForward[2].FilterSubentity=
++DbSysLog.SysLogForward[3]
+DbSysLog.SysLogForward[3].FilterSubentity=
+DC.DCEnable=TRUE
++DhcpGlobal.SubnetTable[0.0.0.0]
++DhcpGlobal.SubnetTable[0.0.0.0].HostTable[0]
+DhcpGlobal.SubnetTable[0.0.0.0].HostTable[0].Hostname=0
+DhcpGlobal.SubnetTable[0.0.0.0].HostTable[0].InheritedDefLease=FALSE
+DhcpGlobal.SubnetTable[0.0.0.0].HostTable[0].InheritedMaxLease=FALSE
++DhcpGlobal.SubnetTable[10.0.0.0]
+DhcpGlobal.SubnetTable[10.0.0.0].Description=blargthis
++DhcpGlobal.SubnetTable[10.0.0.0].HostTable[0]
+DhcpGlobal.SubnetTable[10.0.0.0].HostTable[0].Hostname=0
+DhcpGlobal.SubnetTable[10.0.0.0].HostTable[0].InheritedDefLease=FALSE
+DhcpGlobal.SubnetTable[10.0.0.0].HostTable[0].InheritedMaxLease=FALSE
+DhcpGlobal.SubnetTable[10.0.0.0].Mask=255.0.0.0
+DhcpGlobal.SubnetTable[10.0.0.0].Name=blarg
+DhcpGlobal.SubnetTable[10.0.0.0].Subnet=10.0.0.0
++DhcpServer[0]
++DhcpServer[1]
++DhcpServer[2]
+DirBackup.LastSpecifictime=14:11:00
+DirBackup.PrimarySpecifictime=14:11:00
+DirBackup.RedundantSpecificTime=14:11:59
+DirBackup.SecondarySpecifictime=14:11:00
+DirBackup.TertiarySpecifictime=14:11:00
+DNS.DomainName=alterpoint.com
+DNS.SystemName=NYC-Contivity
++Interface[256]
+Interface[256].DataRate=0
+Interface[256].DHCPServerEnabled=TRUE
+Interface[256].HasMACAddr=TRUE
+Interface[256].LineFramingMode=FLAGS
+Interface[256].Public=FALSE
+Interface[256].SubType=fast i8255x
+Interface[256].TxDataMonitor=enable
+Interface[256].Type=2
+Interface[256].WeightSync=2880154539
++Interface[257]
+Interface[257].DataRate=0
+Interface[257].FilterName=permit all
+Interface[257].HasMACAddr=TRUE
+Interface[257].LineFramingMode=FLAGS
+Interface[257].MACAddrOff=1
+Interface[257].SubType=fast i8255x
+Interface[257].TxDataMonitor=enable
+Interface[257].Type=2
+Interface[257].WeightSync=2880154539
++Interface[263]
+Interface[263].DataRate=33000
+Interface[263].LineFramingMode=FLAGS
+Interface[263].SubType=SerialUart
+Interface[263].TxDataMonitor=enable
+Interface[263].Type=3
+Interface[263].WeightSync=2880154539
++IpIntf[10.100.27.4]
+IpIntf[10.100.27.4].Desc=System Ip Address
+IpIntf[10.100.27.4].IsSystemIpAddr=YES
+IpIntf[10.100.27.4].Subnet=255.255.255.0
++IpIntf[10.100.27.5]
+IpIntf[10.100.27.5].DevLoc=256
+IpIntf[10.100.27.5].Subnet=255.255.255.0
++IpRoutingTable[0.0.0.0, 0.0.0.0, 10.100.27.1]
+IpRoutingTable[0.0.0.0, 0.0.0.0, 10.100.27.1].DevLoc=256
+IpRoutingTable[0.0.0.0, 0.0.0.0, 10.100.27.1].GwAddr=10.100.27.1
+IpRoutingTable[0.0.0.0, 0.0.0.0, 10.100.27.1].Netmask=0.0.0.0
++IpxIntfOmCls.IpxPrivateLANS[256]
+IpxIntfOmCls.IpxPrivateLANS[256].IpxAddress=N/A
+IpxIntfOmCls.IPXPublicAddress=N/A
++LdapProfileServer[0]
++LdapProfileServer[1]
++LdapProfileServer[2]
+Management.CfgVersion=50000
+Management.LastUpgrade=V06_00.310
+Ospf_Global.Ospf_ExternalMetricType=TYPE1
+Ospf_Global.Ospf_RtId=10.100.1.18
++Policy[RIP:0:NONE:0.0.0.0:]
+Policy[RIP:0:NONE:0.0.0.0:].ProtocolType=RIP
+Policy[RIP:0:NONE:0.0.0.0:].RedistributeMvaIntoBgp=2880154539
+Policy[RIP:0:NONE:0.0.0.0:].RedistributeMvaIntoOspf=2880154539
++Policy[OSPF:0:NONE:0.0.0.0:]
+Policy[OSPF:0:NONE:0.0.0.0:].ProtocolType=OSPF
+Policy[OSPF:0:NONE:0.0.0.0:].RedistributeMvaIntoBgp=2880154539
+Policy[OSPF:0:NONE:0.0.0.0:].RedistributeMvaIntoRip=2880154539
++Policy[BGP:0:NONE:0.0.0.0:]
+Policy[BGP:0:NONE:0.0.0.0:].ProtocolType=BGP
+Policy[BGP:0:NONE:0.0.0.0:].RedistributeMvaIntoOspf=2880154539
+Policy[BGP:0:NONE:0.0.0.0:].RedistributeMvaIntoRip=2880154539
++PppIntf[l2fdefault]
+PppIntf[l2fdefault].IpcpAcceptLocal=FALSE
+PppIntf[l2fdefault].IpcpAcceptRemote=FALSE
+PppIntf[l2fdefault].NoAccNeg=FALSE
+PppIntf[l2fdefault].NoAsyncmapNeg=FALSE
+PppIntf[l2fdefault].NoPcNeg=FALSE
+PppIntf[l2fdefault].NoVjNeg=FALSE
+PppIntf[l2fdefault].RequireChap=TRUE
+PppIntf[l2fdefault].RequirePap=TRUE
++PppIntf[l2tpdefault]
+PppIntf[l2tpdefault].IpcpAcceptLocal=FALSE
+PppIntf[l2tpdefault].IpcpAcceptRemote=FALSE
+PppIntf[l2tpdefault].NoAccNeg=FALSE
+PppIntf[l2tpdefault].NoAsyncmapNeg=FALSE
+PppIntf[l2tpdefault].NoPcNeg=FALSE
+PppIntf[l2tpdefault].NoVjNeg=FALSE
+PppIntf[l2tpdefault].RequireChap=TRUE
+PppIntf[l2tpdefault].RequirePap=TRUE
++PppIntf[pptpdefault]
+PppIntf[pptpdefault].IpcpAcceptLocal=FALSE
+PppIntf[pptpdefault].IpcpAcceptRemote=FALSE
+PppIntf[pptpdefault].NoAccNeg=FALSE
+PppIntf[pptpdefault].NoAsyncmapNeg=FALSE
+PppIntf[pptpdefault].NoPcNeg=FALSE
+PppIntf[pptpdefault].NoVjNeg=FALSE
+PppIntf[pptpdefault].RequireChap=TRUE
+PppIntf[pptpdefault].RequirePap=TRUE
+RtmStats.BestRoutes=4
+RtmStats.DirectRoutes=2
+RtmStats.StaticRoutes=1
+RtmStats.TotalRoutes=4
++Security.SSLServices[DEFAULT]
+Security.SystemID=10597
+Security.TrustedFTPEnabled=TRUE
+Security.TrustedTELNETEnabled=TRUE
+Security.UntrustedSSHEnabled=TRUE
+Settings.Isakmp_Default_Idle_Timeout=15
+Settings.MaxConcurrentIPSecLogins=30
+Slapd.IndexRestore=2
++SnmpHost[0.0.0.0]
+SnmpHost[0.0.0.0].Community=public
+SnmpHost[0.0.0.0].Enabled=TRUE
+SnmpHost[0.0.0.0].Name=0.0.0.0
++SnmpVars.Mibs[iptunnel]
++SnmpVars.Mibs[rip2]
++SnmpVars.Mibs[ospf]
++SnmpVars.Mibs[bgp]
++SnmpVars.Mibs[vrrp]
++SnmpVars.Mibs[ipx]
++SnmpVars.Mibs[ripsap]
++SnmpVars.Mibs[ds1]
+SnmpVars.SysContact=gfarris
+SnmpVars.SysLocation=Planet Earth
+SnmpVars.SysName=Contivity
++StdTrap[Physical Interfaces]
++StdTrap[Branch Office Nailed-Up Tunnel]
++StdTrap[Branch Office On-Demand Tunnel]
++StdTrap[VRRP]
++StdTrap[BGP]
++StdTrap[OSPF]
++StdTrap[DSU/CSU]

@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nokia.checkpoint"
+	name="ziptie.adapters.nokia.checkpoint"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nokia.checkpoint" location="adapters/" version="" />
+</crate>

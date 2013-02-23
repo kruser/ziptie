@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute" width="482" height="408"
+	title="@Resource(key='discovery_title', bundle='messages')"
+	creationComplete="input.setFocus()">
+	<mx:Metadata>
+	    [ResourceBundle("messages")]
+	</mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.events.ItemClickEvent;
+        	import org.ziptie.flex.NetworkAddressElf;
+        	import mx.controls.Alert;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import org.ziptie.flex.services.EventManager;
+            import mx.managers.PopUpManager;
+            import mx.collections.ArrayCollection;
+
+    	    [Bindable]
+    	    private var addresses:ArrayCollection = new ArrayCollection();
+    	    [Bindable]
+    	    private var addrCsv:String = "";
+
+    		private function add():void
+    		{
+    			var addr:String = input.text;
+    			if (!NetworkAddressElf.isValidAddressDefinition(addr))
+    			{
+    				Alert.show(resourceManager.getString('messages', 'invalidIp_message'), resourceManager.getString('messages', 'invalid_input'));
+    			}
+    			else
+    			{
+	                addresses.addItem(addr);
+	                input.setFocus();
+	    			input.text = '';
+    			}
+            }
+
+            private function run():void
+            {
+            	ProgressManager.run(Discovery.newFromArray(addresses, crawlButton.selected));
+            	PopUpManager.removePopUp(this);
+            }
+
+            internal function deleteAddress(event:MouseEvent):void
+            {
+            	if (table.selectedItem == null)
+            	{
+            		return;
+            	}
+
+            	var ndx:int = addresses.getItemIndex(table.selectedItem);
+            	if (ndx >= 0)
+            	{
+                    addresses.removeItemAt(ndx);
+            	}
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:VBox width="100%" height="100%" styleName="popupVBox">
+        <mx:Text text="@Resource(key='discovery_specifyAddresses', bundle='messages')" />
+        <mx:DataGrid width="100%" height="100%" id="table" dataProvider="{addresses}" showHeaders="false" rowHeight="24" verticalGridLines="false" horizontalGridLines="false">
+            <mx:columns>
+                <mx:DataGridColumn editable="false" width="24" sortable="false" resizable="false">
+                	<mx:itemRenderer>
+                        <mx:Component>
+                            <mx:VBox horizontalAlign="center">
+                                <mx:Button width="20" height="20" overIcon="@Embed(source='/img/delete2.png')" icon="@Embed(source='/img/delete2_off.png')" click="outerDocument.deleteAddress(event)"/>
+                            </mx:VBox>
+                        </mx:Component>
+                    </mx:itemRenderer>
+                </mx:DataGridColumn>
+            	<mx:DataGridColumn />
+            </mx:columns>
+        </mx:DataGrid>
+        <mx:HBox width="100%">
+            <mx:TextInput id="input" width="100%" enter="add()"/>
+            <mx:Button icon="@Embed('/img/add.gif')" click="add()"/>
+        </mx:HBox>
+        <mx:CheckBox label="@Resource(key='discovery_crawl', bundle='messages')" id="crawlButton" selected="true"/>
+    </mx:VBox>
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='run', bundle='messages')" click="run()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+
+</mx:TitleWindow>

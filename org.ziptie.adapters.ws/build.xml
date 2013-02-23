@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.adapters.ws">
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.adapters.ws.NilSettingsProviderDelegate" />
+            <property name="uptodate.test" value="NilSettings.wsdl" />
+        </ant>
+	</target>
+
+	<target name="pre_clean">
+		<delete dir="srcgen" />
+		<delete dir="WEB-INF" />
+
+		<mkdir dir="srcgen" />
+	</target>
+</project>

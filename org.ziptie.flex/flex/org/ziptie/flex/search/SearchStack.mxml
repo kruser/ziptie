@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns="org.ziptie.flex.search.*">
+    <mx:Metadata>
+    	[ResourceBundle('messages')]
+    	[Event(name='enter', type='flash.events.Event')]
+    	[Event(name='change', type='flash.events.Event')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.events.ListEvent;
+
+    		private function go():void
+            {
+                dispatchEvent(new Event('enter'));
+    		}
+
+            public function get scheme():String
+            {
+            	return selected.scheme;
+            }
+
+            public function get resolutionData():String
+            {
+            	return selected.resolutionData;
+            }
+
+            public function setValues(scheme:String, data:String):void
+            {
+                for each (var search:Search in _stack.getChildren())
+                {
+                	if (search.scheme == scheme)
+                	{
+                		combo.selectedItem = search;
+                		comboChange(null);
+                		search.resolutionData = data;
+                		return;
+                	}
+                }
+            }
+
+            private function get selected():Search
+            {
+                return combo.selectedItem as Search;
+            }
+
+            private function comboChange(event:ListEvent):void
+            {
+                _stack.selectedChild = selected;
+                change();
+            }
+
+            private function change():void
+            {
+            	dispatchEvent(new Event(Event.CHANGE));
+            }
+
+            private function selectionChanged():void
+            {
+            	_stack.height = _stack.selectedChild.measuredHeight + 10;
+            }
+
+            [Bindable(event='searchesNeverChange')]
+            private function get searches():Array
+            {
+            	return _stack.getChildren();
+            }
+    	]]>
+    </mx:Script>
+    <mx:ComboBox
+          id="combo"
+          width="100%"
+          dataProvider="{searches}"
+          change="comboChange(event); " />
+
+    <mx:ViewStack
+          id="_stack"
+          change="selectionChanged()"
+          width="100%" height="100%"
+          creationPolicy="all">
+		<SimpleSearch
+		    label="@Resource(bundle='messages', key='search_interfaceIp')"
+		    text="@Resource(bundle='messages', key='search_interfaceIp_label')"
+		    scheme="interfaceIpAddress"
+		    change="change()"
+		    enter="go()" />
+		<SimpleSearch
+		    label="@Resource(bundle='messages', key='search_ip')"
+		    text="@Resource(bundle='messages', key='search_ip_label')"
+		    scheme="ipAddress"
+		    change="change()"
+		    enter="go()" />
+		<OsVersionSearch
+              label="@Resource(bundle='messages', key='search_osVersion')"
+              change="change()"
+              enter="go()" />
+		<MakeModelSearch
+              label="@Resource(bundle='messages', key='search_model')"
+              change="change()"
+              enter="go()" />
+		<SimpleSearch
+		    label="@Resource(bundle='messages', key='search_hostname')"
+		    text="@Resource(bundle='messages', key='search_hostname_label')"
+		    scheme="hostname"
+		    change="change()"
+		    enter="go()" />
+		<SimpleSearch
+		    label="@Resource(bundle='messages', key='search_tags')"
+		    text="@Resource(bundle='messages', key='search_tags_label')"
+		    scheme="tag"
+		    change="change()"
+		    enter="go()" />
+	</mx:ViewStack>
+</mx:VBox>

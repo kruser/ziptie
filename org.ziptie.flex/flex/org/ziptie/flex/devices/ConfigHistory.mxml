@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="changeView()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import mx.utils.ObjectUtil;
+        	import org.ziptie.flex.DisplayElf;
+        	import org.ziptie.flex.editor.EditorElf;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import org.ziptie.flex.services.ResultElf;
+        	import org.ziptie.flex.compare.ConfigElf;
+        	import mx.rpc.events.ResultEvent;
+
+            private var _device:Object;
+
+            [Bindable]
+            private var shownRevisions:ArrayCollection;
+
+            private var currentRevisions:ArrayCollection;
+            private var historicRevisions:ArrayCollection;
+
+            public function refresh():void
+            {
+            	historicRevisions = null;
+            	currentRevisions = null;
+            	changeView();
+            }
+
+            public function set device(device:Object):void
+            {
+            	_device = device;
+            }
+
+            private function changeLog(event:ResultEvent):void
+            {
+            	historicRevisions = ConfigElf.flattenChangeLogs(ResultElf.array(event));
+            	changeView();
+            }
+
+            private function current(event:ResultEvent):void
+            {
+            	currentRevisions = ResultElf.array(event);
+            	changeView();
+            }
+
+            private function changeView():void
+            {
+            	if (_chkShowHistory.selected)
+            	{
+            		if (historicRevisions == null)
+            		{
+            			WebServiceElf.call(
+		                        'configstore',
+		                        'retrieveChangeLog',
+		                        changeLog,
+		                        _device.ipAddress,
+		                        _device.managedNetwork);
+            		}
+            		else
+            		{
+            			shownRevisions = historicRevisions;
+            		}
+            	}
+            	else
+            	{
+            		if (currentRevisions == null)
+            		{
+            			WebServiceElf.call(
+		                        'configstore',
+		                        'retrieveCurrentRevisionInfo',
+		                        current,
+		                        _device.ipAddress,
+		                        _device.managedNetwork);
+            		}
+            		else
+            		{
+            			shownRevisions = currentRevisions;
+            		}
+            	}
+            }
+
+            private function shortDate(item:Object, column:DataGridColumn):String
+            {
+                return DisplayElf.formatDate('medium', item.lastChanged);
+            }
+
+            private function compareDates(a:Object, b:Object):int
+            {
+            	return ObjectUtil.dateCompare(a.lastChanged as Date, b.lastChanged as Date);
+            }
+
+            private function restore():void
+            {
+            	var revision:Object = revisionTable.selectedItem;
+            	if (revision == null)
+            	{
+            		return;
+            	}
+
+            	ProgressManager.run(Restore.newFromConfig(_device, revision));
+            }
+
+            private function compareConfigs():void
+            {
+            	var items:Array = revisionTable.selectedItems;
+            	var input:Object = {
+            		device1: _device,
+            		revision1: items[0],
+            		device2: _device,
+            		revision2: items[1]
+            	}
+
+            	EditorElf.open('Diff', input);
+            }
+
+            private function updateEnablement():void
+            {
+            	var count:int = revisionTable.selectedItems.length;
+            	_btnRestore.enabled = count == 1 && isRestorable(revisionTable.selectedItem);
+            	_btnCompare.enabled = count == 2;
+            }
+
+            private function isRestorable(revision:Object):Boolean
+            {
+            	var adapter:Object = AdaptersElf.adaptersById[_device.adapterId];
+            	var strRegex:String = adapter.restoreValidationRegex;
+            	if (strRegex == null)
+            	{
+            		return false;
+            	}
+
+            	var regex:RegExp = new RegExp(strRegex);
+            	return regex.exec(revision.path) != null;
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:VBox width="100%" height="100%">
+        <mx:HBox id="_buttonBar" width="100%" horizontalAlign="right" paddingTop="2" horizontalGap="2">
+		    <mx:CheckBox
+		          id="_chkShowHistory"
+		          label="@Resource(key='compare_show_historical', bundle='messages')"
+		          change="changeView()" />
+		    <mx:Spacer width="100%" />
+            <mx:Button
+                  visible="{ZipTie.hasPermission('org.ziptie.job.restore.runPermission')}"
+                  id="_btnRestore"
+                  icon="@Embed('/img/restore.png')"
+                  disabledIcon="@Embed('/img/restore_off.png')"
+                  enabled="false"
+                  width="26"
+                  toolTip="@Resource(key='ConfigHistory_restore_tooltip', bundle='messages')"
+                  click="restore()"/>
+            <mx:Button 
+		          icon="@Embed('/img/compare.gif')"
+		          disabledIcon="@Embed('/img/compare_off.gif')"
+		          width="26"
+		          enabled="false"
+		          toolTip="@Resource(key='compare_tooltip', bundle='messages')"
+		          click="compareConfigs()"
+		          id="_btnCompare"/>
+        </mx:HBox>
+	    <mx:DataGrid id="revisionTable"
+	   	       dataProvider="{shownRevisions}"
+	   	       width="100%" height="100%"
+	   	       change="updateEnablement()"
+	   	       allowMultipleSelection="true"
+	   	       doubleClickEnabled="true"
+	    	   doubleClick="EditorElf.open('Config', {device:_device, revision:revisionTable.selectedItem})">
+	        <mx:columns>
+	        	<mx:DataGridColumn headerText="@Resource(key='compare_config_header', bundle='messages')" dataField="path"/>
+                <mx:DataGridColumn sortCompareFunction="compareDates" labelFunction="shortDate" headerText="@Resource(key='compare_last_updated_header', bundle='messages')"/>
+	        </mx:columns>
+	    </mx:DataGrid>
+    </mx:VBox>
+</mx:Panel>

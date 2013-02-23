@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Editor
+      xmlns="org.ziptie.flex.editor.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      label="{DisplayElf.format('Job', input)}"
+      creationComplete="init()"
+      remove="onRemove()">
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.DisplayElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import org.ziptie.flex.services.EventManager;
+    		import org.ziptie.flex.services.ServerEvent;
+
+            private var _subscription:int;
+
+            override public function inputEquals(other:Object):Boolean
+            {
+                return other.jobName == input.jobName && input.jobGroup == other.jobGroup;
+            }
+
+            private function onRemove():void
+            {
+                EventManager.unsubscribe(_subscription);
+            }
+
+            private function init():void
+            {
+                _subscription = EventManager.subscribe('scheduler', 'job.deleted', onDelete);
+            }
+
+            private function onDelete(event:ServerEvent):void
+            {
+                var group:String = event.xml.entry.(@key=='job.group');
+                var name:String = event.xml.entry.(@key=='job.name');
+                if (group == input.jobGroup && name == input.jobName)
+                {
+                    parent.removeChild(this);
+                }
+            }
+    	]]>
+    </mx:Script>
+</Editor>

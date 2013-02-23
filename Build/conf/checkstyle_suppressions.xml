@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+    <suppress checks="VisibilityModifier|StaticVariableName"
+             files="^*Messages\.java"/>
+    <suppress checks="StaticVariableName"
+        files="Messages\.java"/>
+    <suppress checks="MagicNumber|BooleanExpressionComplexity"
+        files="^.*(Action|Dialog|Wizard|Page|Control|Button|View|Editor|Advisor|Section)\.java"/>
+    <suppress checks=".*"
+        files="^.*(Test)\.java"/>
+    <suppress checks="MagicNumber"
+        files="^.*Base64\.java"/>
+</suppressions>

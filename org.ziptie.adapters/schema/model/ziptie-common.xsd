@@ -1,0 +1,4165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ziptie.org/model/common/1.0"
+    xmlns:dt="http://www.ziptie.org/model/netconftypes/1.0"
+    xmlns:core="http://www.ziptie.org/model/core/1.0"
+    xmlns:common="http://www.ziptie.org/model/common/1.0" elementFormDefault="qualified">
+
+    <import namespace="http://www.ziptie.org/model/netconftypes/1.0"
+        schemaLocation="netconftypes.xsd"/>
+    <import namespace="http://www.ziptie.org/model/core/1.0" schemaLocation="ziptie-core.xsd"/>
+
+    <complexType name="Card">
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element name="daughterCard" type="common:Card" maxOccurs="unbounded"
+                        minOccurs="0">
+                        <annotation>
+                            <documentation>Daughter cards are cards that are usually physically
+                                attached to another card, i.e. they can not be attached to the main
+                                chassis.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:memory" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes the type and amount of memory present on a card
+                                asset.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="portCount" type="int" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>The number of ports contained on this card. For example,
+                                if this is a ethernet board it might contain 24 ethernet
+                            ports.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="slotNumber" type="int" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>A chassis often has numbered slots that can hold one or
+                                more cards. The element often serves as a unique identifier for the
+                                position of cards on a chassis.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="slotType" type="string" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>The type of slot that this card is in.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="softwareVersion" type="core:VersionNumber" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>The software version is used when a card is running
+                                embedded software.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="status" type="string" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>A string representing the status of the card. This could
+                                be 'up', 'down', 'failure', 'ok', or whatever the hardware
+                                manufacturer would like.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="card" type="common:Card">
+        <annotation>
+            <documentation>A physical card asset.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Chassis">
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element ref="common:card" minOccurs="0" maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Extension cards present on the chassis. This could be a
+                                24 port ethernet card, a firewall module, a fiber module,
+                            etc.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:cpu" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation>A chassis can have several processors. This element
+                                should be populated where the vendor makes the information
+                                available.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:deviceStorage" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation/>
+                        </annotation>
+                    </element>
+                    <element ref="common:macAddress" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>A switch may have a designated hardware
+                            address.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:memory" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation>A chassis may have many distinct types and sizes of
+                                memory. For example, a chassis may have RAM and NVRAM as separate
+                                modules. When that is the case there should be two memory elements
+                                to this chassis.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:powersupply" minOccurs="0" maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Describes the physical power supplies powering this
+                                chassis.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="chassis" type="common:Chassis" substitutionGroup="core:platform">
+        <annotation>
+            <documentation>A chassis is most often the main physical box.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="CPU">
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element name="cpuType" type="string" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation> There are two desciptive elements in the cpu type. The
+                                first is description. It is required and should contain a verbose
+                                description of the cpu. The second is cpuType. It is optional and
+                                should contain a brief name of the class of CPU. For example,
+                                Pentium, or PowerPC, or Mips R4400, or ARM. Ideally, this would be a
+                                restricted list of names but the names vary enough and may include
+                                custom CPU types that would not meet these restrictions.
+                            </documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="cpu" type="common:CPU">
+        <annotation>
+            <documentation>Describes a central processing unit</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="DeviceStorage">
+        <annotation>
+            <documentation> DeviceStorage is used to describe hard drives, flash disks, etc.
+            </documentation>
+        </annotation>
+        <all>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The name of the storage, e.g. "c:" or "flash:1". Details of the
+                        storage device such as size and free space can be found here. The actual
+                        files inside the storage can be listed, but the contents won't be found
+                        here. This allows an application to know which image files may exist on a
+                        network device to make decisions on how to boot a device.</documentation>
+                </annotation>
+            </element>
+            <element name="storageType" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Describes the type of this file system.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="flash"/>
+                        <enumeration value="disk"/>
+                        <enumeration value="NVRAM"/>
+                        <enumeration value="other"/>
+                        <enumeration value="unknown"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="size" type="long" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The size of the storage in bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="freeSpace" type="long" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The free space of the storage location, expressed in
+                    bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="rootDir" type="common:FileDirectory" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The root directory must be defined to list any files found on
+                        this storage device.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="deviceStorage" type="common:DeviceStorage">
+        <annotation>
+            <documentation>DeviceStorage is used to describe hard drives, flash disks,
+            etc.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="FileDirectory">
+        <annotation>
+            <documentation> FileDirectory is used by DeviceStorage to describe an underlying file
+                system with attributes of the member files. </documentation>
+        </annotation>
+        <sequence>
+            <element name="directory" type="common:FileDirectory" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>A directory can, of course, contain other
+                    directories.</documentation>
+                </annotation>
+            </element>
+            <element name="file" type="common:FileEntity" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>The files found in this directory.</documentation>
+                </annotation>
+            </element>
+            <element name="mtime" type="dateTime" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The date and time when this directory was last
+                    modified.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The name of this directory. This should not include any file
+                        separators and can be left blank for a root directory.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="FileEntity">
+        <annotation>
+            <documentation> FileEntity describes a file but does not contain the file contents.
+            </documentation>
+        </annotation>
+        <all>
+            <element name="mtime" type="dateTime" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The date and time when this file was last
+                    modified.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>the name of this file not including path details.</documentation>
+                </annotation>
+            </element>
+            <element name="size" type="long" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The size of the file in bytes.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="Memory">
+        <annotation>
+            <documentation> The Memory type can be used to describe any type of memory component.
+            </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element name="kind" maxOccurs="1" minOccurs="1">
+                        <annotation>
+                            <documentation> Describes the type of this memory. The value must be one
+                                of these well known types. </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="ConfigurationMemory">
+                                    <annotation>
+                                        <documentation>Often referred to as NVRAM.</documentation>
+                                    </annotation>
+                                </enumeration>
+                                <enumeration value="Flash"/>
+                                <enumeration value="RAM"/>
+                                <enumeration value="ROM"/>
+                                <enumeration value="PacketMemory"/>
+                                <enumeration value="Other"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                    <element name="size" type="long" maxOccurs="1" minOccurs="1">
+                        <annotation>
+                            <documentation>The size of the memory in bytes.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="memory" type="common:Memory">
+        <annotation>
+            <documentation>Describes the many types of memory that can be present on physical
+                assets.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="ZiptieElementDocument">
+        <annotation>
+            <documentation> The root of the backup operation, the common ZED is an extension
+                of the core ZED and includes a rich configuration model in addition to the core
+                hardware and configuration file models. Adapter writers not wanted to extend the
+                model in any way must produce a ZiptieElementDocument that passes this schema.
+            </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="core:ZiptieElementDocument">
+                <sequence>
+                    <element ref="common:accessPorts" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes any ports used for device management. These
+                                could be offline ports such as console ports or online lines like a
+                                VTY. These are not to be confused with the interfaces model which
+                                will identify the network interfaces known to OSI layers 2 and
+                            3.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:objectGroups" minOccurs="0" maxOccurs="1">
+                        <annotation>
+                            <documentation>Object groups are a centrally defined place for addresses, protocols
+                                and services.  They can be reused from other parts of the configuration such
+                                as FiltersLists.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:filterLists" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes firewall rules, access lists and filters used
+                                to filter traffic on the device.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:interfaces" maxOccurs="1" minOccurs="1">
+                        <annotation>
+                            <documentation>Describes physical and logical interfaces on the
+                            device.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:localAccounts" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Lists any internal accounts found on the device that are
+                                used for management access.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:mpls" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes the MPLS configuration at the global device
+                                level.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:qos" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes the QOS configuration at the global device
+                                level.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:routing" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Contains configuration information regarding 
+                                routing protocols.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:services" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Contains models for common services on a network device,
+                                such as NTP.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:snmp" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Contains the configuration of SNMP related features such
+                                as community strings, system attributes and trap
+                            receivers.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:spanningTree" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes any system level Spanning Tree Protocol
+                                configuration details.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:staticRoutes" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Any static routes configured on the
+                            device.</documentation>
+                        </annotation>
+                    </element>
+                    <element ref="common:vlans" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Describes the virtual LANs (VLAN) that are known about on
+                                this device.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="ZiptieElementDocument" type="common:ZiptieElementDocument" substitutionGroup="core:ZiptieElementDocument"/>
+
+    <complexType name="PowerSupply">
+        <annotation>
+            <documentation> Provides a place to put factory information about a physical power
+                supply. </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element name="number" type="int" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>The ID or number of the power supply.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="status" type="string" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>The ID or number of the power supply.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="powersupply" type="common:PowerSupply">
+        <annotation>
+            <documentation> Provides a place to put factory information about a physical power
+                supply. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Stack">
+        <annotation>
+            <documentation> A collection of chassis elements. This would most likely be used in
+                place of a chassis where there is a single configuration, but devices are daisy
+                chained together for capacity, e.g. 4 24 port switches may be stacked to allow for
+                96 ports on a single "device". </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element ref="common:chassis" maxOccurs="unbounded" minOccurs="1">
+                        <annotation>
+                            <documentation>The stack can have more than one chassis.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="stack" type="common:Stack" substitutionGroup="core:platform">
+        <annotation>
+            <documentation>Represents where there are multiple physical chassis chained
+            together.</documentation>
+        </annotation>
+    </element>
+ 
+   <element name="interface" type="common:Interface"/>
+
+    <complexType name="Interface">
+        <sequence>
+            <element name="adminStatus" maxOccurs="1" minOccurs="0">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="up"/>
+                        <enumeration value="down"/>
+                    </restriction>
+                </simpleType>
+            </element>
+
+            <element name="description" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The user defined description or alias.</documentation>
+                </annotation>
+            </element>
+
+            <element name="egressFilter" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of the outbound filter applied to this interface. This
+                        should map to the filterLists/filterList/name element when appropriate. This
+                        value can be present when there is no filterList defined.</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:failover" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Describes any failover configuration on this
+                    interface.</documentation>
+                </annotation>
+            </element>
+            
+            <element name="ifIndex" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The SNMP ifIndex value of this interface.</documentation>
+                </annotation>
+            </element>
+
+            <element name="ingressFilter" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of the inbound filter applied to this interface. This
+                        should map to the filterLists/filterList/name element when appropriate. This
+                        value can be present when there is no filterList defined.</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceATM" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceEthernet" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceFrameRelay" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceIPX" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceIp" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceISDN" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceMPLS" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Describes any MPLS VRF forwarding information for this
+                    interface.</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceOspf" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfacePPP" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceQOS" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Describes any QOS policy mapping for this
+                    interface.</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceSerial" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceSpanningTree" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element ref="common:interfaceSonet" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element name="interfaceType" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation> Identifies a well known type for this interface.
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="other"/>
+                        <enumeration value="unknown"/>
+                        <enumeration value="atm"/>
+                        <enumeration value="ethernet"/>
+                        <enumeration value="frameRelay"/>
+                        <enumeration value="gre"/>
+                        <enumeration value="isdn"/>
+                        <enumeration value="modem"/>
+                        <enumeration value="ppp"/>
+                        <enumeration value="serial"/>
+                        <enumeration value="softwareLoopback"/>
+                        <enumeration value="sonet"/>
+                        <enumeration value="tokenRing"/>
+                    </restriction>
+                </simpleType>
+            </element>
+
+            <element ref="common:interfaceVlanTrunks" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference for more information</documentation>
+                </annotation>
+            </element>
+
+            <element name="mtu" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Maximum Transmission Unit (MTU) refers to the size (in bytes) of
+                        the largest packet that a given layer of a communications protocol can pass
+                        onwards.</documentation>
+                </annotation>
+            </element>
+
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The vendor defined name for this interface. This should be a
+                        unique identifier for the interface.</documentation>
+                </annotation>
+            </element>
+
+            <element name="ntpServerEnabled" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A flag indicating if an interface can act as an NTP
+                    server</documentation>
+                </annotation>
+            </element>
+
+            <element name="physical" type="boolean" maxOccurs="1" minOccurs="1" default="true">
+                <annotation>
+                    <documentation>When set to true, indicates that this interface has a 1-to-1
+                        mapping with a physical element. Set this to false for all softwareLoopback
+                        and other virtual interfaces. This field can be used when determining
+                        physical port capacity of a chassis.</documentation>
+                </annotation>
+            </element>
+
+            <element name="speed" type="long" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The speed of the interface, expressed in
+                    bits/second</documentation>
+                </annotation>
+            </element>
+
+        </sequence>
+    </complexType>
+
+    <element name="interfaceEthernet" type="common:EthernetInterface">
+        <annotation>
+            <documentation>Contains ethernet related properties of this interfaceContains IP related
+                properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceFrameRelay" type="common:FrameRelayInterface">
+        <annotation>
+            <documentation>Contains frame relay related properties of this interfaceContains IP
+                related properties of this interface and its virtual circuits.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceATM" type="common:AtmInterface">
+        <annotation>
+            <documentation>Contains ATM related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceISDN" type="common:IsdnInterface">
+        <annotation>
+            <documentation>Contains ISDN related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceIPX" type="common:IpxInterface">
+        <annotation>
+            <documentation>Contains IPX related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceIp" type="common:IpInterface">
+        <annotation>
+            <documentation>Contains IP related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceOspf" type="common:OspfInterface">
+        <annotation>
+            <documentation>Contains OSPF related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfacePPP" type="common:PppInterface">
+        <annotation>
+            <documentation>Contains PPP related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceSerial" type="common:SerialInterface">
+        <annotation>
+            <documentation>Contains Serial related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceSonet" type="common:SonetInterface">
+        <annotation>
+            <documentation>Contains SONET related properties of this interface.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceSpanningTree" type="common:SpanningTreePort">
+        <annotation>
+            <documentation>On a bridge port, identifies properties associated with the Spanning Tree
+                Protocol.</documentation>
+        </annotation>
+    </element>
+
+    <element name="interfaceVlanTrunks" type="common:PortVlanTrunk">
+        <annotation>
+            <documentation>If trunking is allowed over this port, list the vlans inside of one or
+                more common:PortVlanTrunk definitions.</documentation>
+        </annotation>
+    </element>
+
+    <simpleType name="LoopBack">
+        <annotation>
+            <documentation>A loopback interface is a logical reference back to the device itself.
+                The network block 127.0.0.0 is defined as the loopback network, meaning any traffic
+                sent to that network is sent the originating device.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="internal"/>
+            <enumeration value="line"/>
+            <enumeration value="network"/>
+            <enumeration value="diagnostic"/>
+        </restriction>
+    </simpleType>
+
+    <element name="loopBack" type="common:LoopBack">
+        <annotation>
+            <documentation>See the type definition.</documentation>
+        </annotation>
+    </element>
+
+    <element name="ipAddress" type="dt:IPAddress" default="127.0.0.1">
+        <annotation>
+            <documentation>A common IPv4 or IPv6 address.</documentation>
+        </annotation>
+    </element>
+
+    <element name="macAddress" type="dt:EthernetAddress" default="00FF00FF00FF">
+        <annotation>
+            <documentation>A media access control (MAC) address. Must not contain
+            delimiters.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="EthernetInterface">
+        <annotation>
+            <documentation> Contains ethernet properties of an interface. </documentation>
+        </annotation>
+        <sequence>
+            <element name="autoDuplex" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>whether the interface is configured to autonegotiate its duplex
+                        setting. If true, the interface will only have an operational duplex if the
+                        interface can communicate with the remote end of the line.</documentation>
+                </annotation>
+            </element>
+            <element name="autoSpeed" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>whether the interface is configured to autonegotiate its speed.
+                        The operational speed will be indicated by the ifSpeed (see interface speed
+                        above, in the generic interface parameters.) If set to autonegotiate, the
+                        interface will either not report a speed or may report a speed of 0 when the
+                        interface is down.</documentation>
+                </annotation>
+            </element>
+            <element name="encapsulation" type="string" default="ARPA" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>In the OSI model, encapsulation is used to package data between
+                        layers. Encapusulation on an interface is typically defined at a lower level
+                        as the next layer up. </documentation>
+                </annotation>
+            </element>
+            <element ref="common:loopBack" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference documentation.</documentation>
+                </annotation>
+            </element>
+            <element ref="common:macAddress" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>See the reference documentation.</documentation>
+                </annotation>
+            </element>
+            <element name="mediaType" type="string" default="10/100BaseTX" maxOccurs="1"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Ethernet runs over various media, such as 10BaseT, 1000BaseFX,
+                        etc.</documentation>
+                </annotation>
+            </element>
+            <element name="operationalDuplex" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation> Duplex defines the ability to send and receive traffic
+                        simultaneously (called full duplex.) Half duplex means the interface can
+                        either send or receive, but not both simultaneously.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="half"/>
+                        <enumeration value="full"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="PortVlanTrunk">
+        <annotation>
+            <documentation>When an interface allows VLAN trunking over itself, the VLANs allows can
+                be defined as single VLANs or VLAN ranges.</documentation>
+        </annotation>
+        <all>
+            <element name="startVlan" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>When a single VLAN is defined this is the only required
+                        attribute. When defining a range you must also use endVlan.</documentation>
+                </annotation>
+            </element>
+            <element name="endVlan" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Optional attribute, used when defining a VLAN
+                    range.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="IpInterface">
+        <annotation>
+            <documentation> Contains IP information on an interface. </documentation>
+        </annotation>
+        <sequence>
+            <element name="directedBroadcast" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Enables the interface to pass broadcasts (translate directed
+                        broadcasts to physical broadcasts).</documentation>
+                </annotation>
+            </element>
+            <element name="ipConfiguration" type="common:IpInterfaceAddresses" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>A place to list the actual IP address(es) configured on an
+                        interface.</documentation>
+                </annotation>
+            </element>
+            <element name="localProxyArp" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, the interface responds to ARP requests with the
+                        router's MAC for local queries.</documentation>
+                </annotation>
+            </element>
+            <element name="mRouteCache" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, enables local caching of multicast
+                    routes.</documentation>
+                </annotation>
+            </element>
+            <element name="redirects" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Enables sending redirect message if the router must
+                        resend a packet out the same interface on which it was
+                    received.</documentation>
+                </annotation>
+            </element>
+            <element name="routeCache" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, enables local caching of unicast
+                    routes.</documentation>
+                </annotation>
+            </element>
+            <element name="udpForwarder" type="dt:IPAddress" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Often called an IP helper address, the UDP forwarding address
+                        dictates where to forward a broadcast UDP packet such as a DHCP
+                    request.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="SpanningTreePort">
+        <all>
+            <element name="cost" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>>The cost value assigned to this port that is used in the
+                        algorithm to determine the root switch.</documentation>
+                </annotation>
+            </element>
+            <element name="state" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Represents the operational state of this port in the spanning
+                        tree.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="blocking"/>
+                        <enumeration value="disabled"/>
+                        <enumeration value="forwarding"/>
+                        <enumeration value="learning"/>
+                        <enumeration value="listening"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="priority" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The priority value assigned to this port that is used in the
+                        algorithm to determine the root switch.</documentation>
+                </annotation>
+            </element>
+            <element name="spanningTreeInstance" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>References a common SpanningTreeInstance by its
+                    name.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="IpxInterface">
+        <annotation>
+            <documentation>Defines the IPX properties of an interface.</documentation>
+        </annotation>
+        <sequence>
+            <element name="interfaceIPXAddress" type="common:IpxAddress" maxOccurs="unbounded"
+                minOccurs="0"/>
+            <element name="linkDelay" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="throughPut" type="int" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="IsdnInterface">
+        <annotation>
+            <documentation>Defines the ISDN properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="caller" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="keepAlive" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="loopback" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="referencePointType" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="spid1" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="spid2" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="switchType" type="string" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="SerialInterface">
+        <annotation>
+            <documentation>Defines the Serial properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="cableLength" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="crc" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="downWhenLooped" type="boolean" maxOccurs="1" minOccurs="0"/>
+            <element name="dsuBandwidth" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="dsuMode" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="framing" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="idleCharacter" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="keepAlive" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="loopback" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="scramble" type="string" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="AtmInterface">
+        <annotation>
+            <documentation>Defines the ATM properties of an interface.</documentation>
+        </annotation>
+        <sequence>
+            <element name="clock" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="flag" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="ilmiPVCDiscovery" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="interfaceLogicalATM" type="common:LogicalAtm" maxOccurs="unbounded"
+                minOccurs="0"/>
+            <element name="keepAlive" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="loopback" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="scrambling" type="string" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="LogicalAtm">
+        <annotation>
+            <documentation>Defines the properties of a logical ATM instance.</documentation>
+        </annotation>
+        <all>
+            <element name="average" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="burst" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="inarp" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="oam" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="peak" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="type" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="vcd" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="vci" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="vpi" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="qos" type="string" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="IpxAddress">
+        <annotation>
+            <documentation>Defines an IPX address.</documentation>
+        </annotation>
+        <sequence>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="ipxAddress" type="string" maxOccurs="1" minOccurs="1"/>
+            <element name="ipxOrder" type="int" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="SonetInterface">
+        <annotation>
+            <documentation>Defines the SONET properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="bandwidth" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="clockSource" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="crc" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="keepAlive" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="framing" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="flag" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="loopback" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="downWhenLooped" type="boolean" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="OspfInterface">
+        <annotation>
+            <documentation>Defines the OSPF properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="area" type="string" maxOccurs="1" minOccurs="1"/>
+            <element name="cost" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="deadInterval" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="helloInterval" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="networkType" maxOccurs="1" minOccurs="0">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="BROADCAST"/>
+                        <enumeration value="LOOPBACK"/>
+                        <enumeration value="NON_BROADCAST"/>
+                        <enumeration value="POINT_TO_POINT"/>
+                        <enumeration value="POINT_TO_MULTIPOINT"/>
+                        <enumeration value="VIRTUAL_LINK"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="passive" type="boolean" maxOccurs="1" minOccurs="0"/>
+            <element name="processId" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="retransmitInterval" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="routerPriority" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="routerState" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="transmitDelay" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="waitInterval" type="int" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="PppInterface">
+        <annotation>
+            <documentation>Defines the PPP properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="authenticationType" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="callBack" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="compression" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="password" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="username" type="string" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <complexType name="FrameRelayInterface">
+        <annotation>
+            <documentation>Defines frame relay properties on an interface. Note that frame relay
+                subinterfaces should be separate interfaces themselves with /interface/physical set
+                to false. This is the same manner as frame relay subinterfaes show up in the
+                standard interfaces SNMP MIB.</documentation>
+        </annotation>
+        <sequence>
+            <element name="encapsulation" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Defines a protocol over Frame Relay, most typically
+                    PPP</documentation>
+                </annotation>
+            </element>
+            <element name="lmiType" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Local Management Interface Type - may be ANSI, CCITT (Q933), or
+                        vendor defined.</documentation>
+                </annotation>
+            </element>
+            <element name="virtualFrameRelay" type="common:VirtualFrameRelay" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Defines the virtual circuits from the major interface's point of
+                        view.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="VirtualFrameRelay">
+        <annotation>
+            <documentation>Defines frame relay subinterface properties.</documentation>
+        </annotation>
+        <all>
+            <element name="cir" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Local Management Interface Type - may be ANSI, CCITT (Q933), or
+                        vendor defined.</documentation>
+                </annotation>
+            </element>
+            <element name="dlci" type="int" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Committed Information Rate, the average rate (in bit/s) at which
+                        the network guarantees to transfer information units over a measurement
+                        interval T. This T interval is defined as: T = Bc/CIR</documentation>
+                </annotation>
+            </element>
+            <element name="ipConfiguration" type="common:IpInterfaceAddresses" maxOccurs="1"
+                minOccurs="0">
+                <annotation>
+                    <documentation>The IP information on this virtual circuit map.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="IpInterfaceAddresses">
+        <annotation>
+            <documentation>This type represents how an IpInterface can be configured with IP
+                addresses. When configuring one or more IP addresses on an interface things such as
+                the order and subnet mask are important along with the base IP address.
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="broadcast" type="dt:IPAddress" maxOccurs="1" minOccurs="0"/>
+            <element name="ipAddress" type="dt:IPAddress" maxOccurs="1" minOccurs="1"/>
+            <element name="mask" type="dt:SubnetMask" maxOccurs="1" minOccurs="0"/>
+            <element name="precedence" type="positiveInteger" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The order in which this IP address is handled on the parent
+                        interface. On some operating systems, this indicates primary vs secondary IP
+                        addresses.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="interfaces" type="common:Interfaces">
+        <annotation>
+            <documentation>Describes physical and logical interfaces on the device. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Interfaces">
+        <sequence>
+            <element ref="common:interface" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="accessPorts" type="common:AccessPorts">
+        <annotation>
+            <documentation>The access ports are interfaces to devices that aren't part of the
+                devices network purpose. These can be console ports, vty lines, etc. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="AccessPorts">
+        <sequence>
+            <element name="accessPort" type="common:AccessPort" minOccurs="1" maxOccurs="unbounded"
+            />
+        </sequence>
+    </complexType>
+
+    <element name="accessPort" type="common:AccessPort"/>
+    <complexType name="AccessPort">
+        <all>
+            <element name="inactivityTimeout" type="long" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The number of seconds of inactivity that will trigger the user to
+                        be disconnected.</documentation>
+                </annotation>
+            </element>
+            <element name="absoluteTimeout" type="long" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The maximum number of seconds that any session, active or not,
+                        can be connected.</documentation>
+                </annotation>
+            </element>
+            <element name="sessionTimeout" type="long" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When the timeout for a session is seperate from the the
+                        inactivity timeout, that value can be placed here. The time unit is
+                    seconds.</documentation>
+                </annotation>
+            </element>
+            <element name="inboundProtocol" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>On a TTY line, this protocol can indicate SSH or
+                    Telnet.</documentation>
+                </annotation>
+            </element>
+            <element name="outboundProtocol" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>On a TTY line, this protocol can indicate SSH or
+                    Telnet.</documentation>
+                </annotation>
+            </element>
+            <element name="type" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The type of line. This can be 'console', 'tty', 'aux', 'serial',
+                        etc.</documentation>
+                </annotation>
+            </element>
+            <element name="startInstance" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When the port encompasses a single line, this value alone will
+                        suffice. Where line definitions encompass many, such as defining available
+                        vty connections, the endInstance value should be used.</documentation>
+                </annotation>
+            </element>
+            <element name="endInstance" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Used with startInstance to identify a definition that traverses
+                        several available lines.</documentation>
+                </annotation>
+            </element>
+            <element name="egressFilter" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="ingressFilter" type="string" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+
+    <element name="services" type="common:Services">
+        <annotation>
+            <documentation>Defines common services found on networking equipment.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Services">
+        <annotation>
+            <documentation>Defines common services found on networking equipment.</documentation>
+        </annotation>
+        <all>
+            <element ref="common:ntp" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Describes the time synchronization related features on this
+                        device.</documentation>
+                </annotation>
+            </element>
+            <element ref="common:jailer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Describes any sets of security keys or certificates held by the
+                        system such as key-chains or SSL certs.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <element name="objectGroups" type="common:ObjectGroups">
+        <annotation>
+            <documentation>Object groups are a centrally defined place for addresses, protocols
+                and services.  They can be reused from other parts of the configuration such
+                as FiltersLists.</documentation>
+        </annotation>
+    </element>
+
+    <element name="snmp" type="common:SNMP">
+        <annotation>
+            <documentation>Contains the configuration of SNMP related features such as community
+                strings, system attributes and trap receivers. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="SNMP">
+        <annotation>
+            <documentation>The SNMP type contains several system level attributes as described in
+                the RFC1213 MIB. It also contains community string and trap host configuration
+                information.</documentation>
+        </annotation>
+        <sequence>
+            <element name="community" type="common:SNMPCommunity" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>The SNMPv1 or v2 community strings configured on the
+                    device.</documentation>
+                </annotation>
+            </element>
+            <element name="sysContact" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The textual identification of the contact person for this managed
+                        node, together with information on how to contact this
+                    person.</documentation>
+                </annotation>
+            </element>
+            <element name="sysDescr" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The system description available via SNMP.</documentation>
+                </annotation>
+            </element>
+            <element name="sysLocation" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The physical location of this node.</documentation>
+                </annotation>
+            </element>
+            <element name="sysName" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>An administratively-assigned name for this managed node. By
+                        convention, this is the node's fully-qualified domain name.</documentation>
+                </annotation>
+            </element>
+            <element name="sysObjectId" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The system object ID in dotted decimal form.</documentation>
+                </annotation>
+            </element>
+            <element name="systemShutdownViaSNMP" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>If true, indicates that this device allows itself to be shutdown
+                        via SNMP.</documentation>
+                </annotation>
+            </element>
+            <element name="trapHosts" type="common:SNMPTrapHost" maxOccurs="unbounded" minOccurs="0"/>
+            <element name="trapSource" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>This is usually the name of the interface that SNMP traps should
+                        be sourced from. For example, a user may configure a software loopback
+                        management interface on a device and set all traps to come from the IP
+                        address configured on that interface.</documentation>
+                </annotation>
+            </element>
+            <element name="trapTimeout" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The timeout value, measured in milliseconds, of an SNMP
+                    trap.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="SNMPCommunity">
+        <annotation>
+            <documentation>Describes an SNMPv1 or SNMPv2c community string.</documentation>
+        </annotation>
+        <sequence>
+            <element name="accessType" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Indicates if the community string can be used for read-write(RW)
+                        or simply read-only(RO) operations.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="RO"/>
+                        <enumeration value="RW"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="communityString" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The communitry string password itself, e.g.
+                        &quot;public&quot;.</documentation>
+                </annotation>
+            </element>
+            <element name="embeddedAccessFilter" type="common:FilterIpAddress" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Some device operating systems allow filtering the use of a
+                        community string by specifying those addresses/networks that can use it. Use
+                        this in place of the filter element.</documentation>
+                </annotation>
+            </element>
+            <element name="filter" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of the filter applied to this interface. This should map
+                        to the filterLists/filterList/name element when appropriate. This value can
+                        be present when there is no filterList defined.</documentation>
+                </annotation>
+            </element>
+            <element name="mibView" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Indicates if this communitry string is restricted to viewing only
+                        a portion of the agents entire MIB table.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="SNMPTrapHost">
+        <annotation>
+            <documentation>Devices that are configured to send SNMP traps to particular hosts should
+                fill out this section of the ZED.</documentation>
+        </annotation>
+        <all>
+            <element name="communityString" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Some trap receivers require a community string for the traps to
+                        be validated. This field is that plain text community string
+                    password.</documentation>
+                </annotation>
+            </element>
+            <element name="mask" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The destination IP mask of the trap host.</documentation>
+                </annotation>
+            </element>
+            <element name="queueLength" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Establish the message queue length for each trap
+                    host.</documentation>
+                </annotation>
+            </element>
+            <element ref="common:ipAddress" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The destination IP address of the trap host.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="filterLists" type="common:FilterLists">
+        <annotation>
+            <documentation>Describes firewall rules, access lists and filters used to filter traffic
+                on the device. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="FilterLists">
+        <sequence>
+            <element name="filterList" type="common:FilterList" minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <element name="filterEntry" type="common:FilterEntry"/>
+
+    <complexType name="FilterList">
+        <annotation>
+            <documentation>FilterList represents a complete filter and can contain many filter
+                entries. It is sometimes referred to as an access control list or
+            ACL.</documentation>
+        </annotation>
+        <sequence>
+            <element name="description" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Use this field when the filter list provides a description or
+                        comment. This should not be the identifying piece of the filterList. That
+                        functionality is reserved for the 'name' element.</documentation>
+                </annotation>
+            </element>
+            <element name="direction" maxOccurs="1" minOccurs="0">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="ingress"/>
+                        <enumeration value="egress"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element ref="common:filterEntry" maxOccurs="unbounded" minOccurs="0"/>
+            <element name="mode" maxOccurs="1" minOccurs="1">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="stateful"/>
+                        <enumeration value="stateless"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The filter list name serves as the primary ID for the filter
+                        list. This can be a string name or number ID.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+        <attribute name="configPath" type="string" use="optional">
+            <annotation>
+                <documentation>The full path to the configuration file in which this FilterList was found.
+                    This will be helpful to an application using the FilterLists model in that the application
+                    can highlight the actual text configuration of this list.
+                </documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="FilterEntry">
+        <annotation>
+            <documentation>FilterEntry represents a single entry in a filter list. It is sometimes
+                referred to as an access control entry.</documentation>
+        </annotation>
+        <sequence>
+            <element name="destinationIpAddr" type="common:FilterIpAddress" maxOccurs="unbounded" minOccurs="0"/>
+            <element name="destinationService" type="common:Service" maxOccurs="unbounded" minOccurs="0"/>
+            <element name="established" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>If set to true, this indicates that this filter entry is only
+                        valid on established connections. For example, you may permit outbound web
+                        traffic on established connections if you are hosting web applications and
+                        then later deny all outbound web traffic on any other conversations that
+                        aren't established. This would prevent outbound web browsing while allowing
+                        your web hosting traffic to continue.</documentation>
+                </annotation>
+            </element>
+            <element name="log" type="boolean" maxOccurs="1" minOccurs="1" default="false">
+                <annotation>
+                    <documentation>Indicates if logging is turned on for this particular
+                    entry.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Used where the vendor specifies a unique name for a filter entry
+                        and the filter can be composed of terms with different
+                    names.</documentation>
+                </annotation>
+            </element>
+            <element name="precedence" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Specifically refers to the precedence field in an IP header, but
+                        can be used to apply to any precedence or tagging of traffic prioritization
+                        concept that has relavence to a filter entry.</documentation>
+                </annotation>
+            </element>
+            <element name="primaryAction" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The primary action is the action being taken on the packets
+                        traversing this filter entry. Examples are permit, deny or
+                    forward.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="deny"/>
+                        <enumeration value="drop"/>
+                        <enumeration value="forward"/>
+                        <enumeration value="none"/>
+                        <enumeration value="permit"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="processOrder" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Used when the order of filter terms has meaning, as it does in a
+                        Cisco IOS ACL.</documentation>
+                </annotation>
+            </element>
+            <element name="protocolFilter" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Used where a protocol can be further defined by some keyword and
+                        the filter is not defined by addressing. In the example above, the first
+                        ACLTerm in ACLSet 104 has an ICMP filter &quot;echo-reply&quot;,
+                        meaning that instead of applying to all ICMP traffic, the rule only applies
+                        to ICMP packets which are of type
+                    &quot;echo-reply&quot;.</documentation>
+                </annotation>
+            </element>
+            <element name="protocol" type="core:Protocol" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Use sourceService and destinationService when possible. This
+                        field is used when the filter entry applies to a protocol as a whole and not
+                        any specific underlying services of that protocol.</documentation>
+                </annotation>
+            </element>
+            <element name="protocolObjectGroupReference" type="string" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Use this field if the protocol is defined in an external object
+                        group rather than being defined inside of this filter entry.</documentation>
+                </annotation>
+            </element>
+            <element name="sourceIpAddr" type="common:FilterIpAddress" maxOccurs="unbounded"
+                minOccurs="0"/>
+            <element name="sourceService" type="common:Service" maxOccurs="unbounded" minOccurs="0"/>
+            <element name="timeAllowed" type="common:FilterTime" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Indicates if this entry is only applicable at certain time
+                        periods. When this is missing it can be assumed that the filter entry
+                        applies 24/7</documentation>
+                </annotation>
+            </element>
+            <element name="tos" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Specifically refers to the TOS(type of service) field in an IP
+                        header, but can be used to apply to any class concept that has relavence to
+                        a filter entry.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+        <attribute name="lineStart" type="integer" use="optional">
+            <annotation><documentation>The line of the configuration that this entry starts on.</documentation></annotation>
+        </attribute>
+        <attribute name="lineEnd" type="integer" use="optional">
+            <annotation><documentation>The line of the configuration that this entry starts on.</documentation></annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="FilterIpAddress">
+        <annotation>
+            <documentation>FilterIpAddress is used to identify source and destination IPv4 and IPv6
+                addresses, ranges, subnets and object-group references in
+            FilterEntries.</documentation>
+        </annotation>
+        <choice>
+            <element name="host" type="dt:IPAddress">
+                <annotation>
+                    <documentation>When this address refers to a single IP host.</documentation>
+                </annotation>
+            </element>
+            <element name="network" type="common:IPNetwork"/>
+            <element name="objectGroupReference" type="string">
+                <annotation>
+                    <documentation>A filter IP Address can be represented by an external ObjectGroup
+                        instead of being defined within the filter. If that is the case, this field
+                        should be populated with the ID of the object group.</documentation>
+                </annotation>
+            </element>
+            <element name="range" type="common:IPRange"/>
+        </choice>
+    </complexType>
+
+    <complexType name="FilterTime">
+        <annotation>
+            <documentation>FilterTime is used to identify source and destination IPv4 and IPv6
+                addresses in FilterEntries.</documentation>
+        </annotation>
+        <sequence>
+            <element name="days" maxOccurs="7" minOccurs="1">
+                <annotation>
+                    <documentation>Denotes the days to which this time applies. Use 'All' if all days
+                        apply.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="All"/>
+                        <enumeration value="Sun"/>
+                        <enumeration value="Mon"/>
+                        <enumeration value="Tue"/>
+                        <enumeration value="Wed"/>
+                        <enumeration value="Thur"/>
+                        <enumeration value="Fri"/>
+                        <enumeration value="Sat"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="endDate" type="date" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Applies when there is an absolute end date.</documentation>
+                </annotation>
+            </element>
+            <element name="endTime" type="time" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>24Hour format of the end time.</documentation>
+                </annotation>
+            </element>
+            <element name="startDate" type="date" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Applies when there is an absolute start date.</documentation>
+                </annotation>
+            </element>
+            <element name="startTime" type="time" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>24Hour format of the start time.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Service">
+        <annotation>
+            <documentation>Service is used to identify protocols and ports used in a
+            FilterEntry.</documentation>
+        </annotation>
+        <choice>
+            <element name="objectGroupReference" type="string">
+                <annotation>
+                    <documentation>A service can be represented by an external ObjectGroup instead
+                        of being defined within the filter. If that is the case, this field should
+                        be populated with the ID of the object group.</documentation>
+                </annotation>
+            </element>
+            <element name="portExpression" type="common:PortExpression">
+                <annotation><documentation>When a service is defined in relation to a port, e.g. 'lt 1024', 'eq 80', etc.</documentation></annotation>
+            </element>
+            <element name="portRange" type="common:PortRange">
+                <annotation>
+                    <documentation>Defines a range of IP ports</documentation>
+                </annotation>
+            </element>
+        </choice>
+    </complexType>
+
+    <element name="localAccounts" type="common:LocalAccounts">
+        <annotation>
+            <documentation>Locally configured accounts for device access. </documentation>
+        </annotation>
+    </element>
+    <complexType name="LocalAccounts">
+        <annotation>
+            <documentation> A collectino of local accounts. </documentation>
+        </annotation>
+        <sequence>
+            <element name="localAccount" type="common:LocalAccount" minOccurs="1"
+                maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="LocalAccount">
+        <annotation>
+            <documentation>LocalAccount represents a user account that is locally administered on
+                this managed device.</documentation>
+        </annotation>
+        <all>
+            <element name="accountName" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>A required element, this is the username of the
+                    account.</documentation>
+                </annotation>
+            </element>
+            <element name="accessGroup" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of the group that this user belongs to.</documentation>
+                </annotation>
+            </element>
+            <element name="accessLevel" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>On unix devices, this may be a GID. In IOS devices this may be
+                        the 0-15 privilege level.</documentation>
+                </annotation>
+            </element>
+            <element name="fullName" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Where available, this should be the full name of the person that
+                        this user account belongs to.</documentation>
+                </annotation>
+            </element>
+            <element name="password" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The password can be an encrypted string, or plain-text when
+                        available.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="routing" type="common:RoutingProtocols">
+        <annotation>
+            <documentation>Contains configuration information regarding popular routing protocols.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="RoutingProtocols">
+        <sequence>
+            <element name="bgp" type="common:BGP" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="ospf" type="common:OSPF" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="rip" type="common:RIP" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="RIP">
+        <annotation>
+            <documentation>Defines a single RIP instance.</documentation>
+        </annotation>
+        <sequence>
+            <element name="allInterfacesEnabled" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Some vendors allow all interfaces to be disabled (passive) or
+                        enabled by default. This allows for cleaner configurations where there are a
+                        large number of interfaces.</documentation>
+                </annotation>
+            </element>
+            <element name="autoSummarization" type="boolean" maxOccurs="1" minOccurs="0">
+            	<annotation>
+            		<documentation>Flag indicating if auto-summarization is enabled.</documentation>
+            	</annotation>
+            </element>
+            <element name="disabledInterface" type="string" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>The name of a disabled (passive) interface for this
+                    process.</documentation>
+                </annotation>
+            </element>
+            <element name="enabledInterface" type="string" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>The name of an enabled (non passive) interface for this
+                    process.</documentation>
+                </annotation>
+            </element>
+            <element name="network" type="common:IPNetwork" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Defines all networks participating in the RIP process.</documentation>
+                </annotation>
+            </element>
+            <element name="redistribution" type="common:redistribution" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Routing redistribution involves taking the routes from one source
+                        of routing information and sending those routes to another routing protocol.
+                        The element identifies those other protocols.</documentation>
+                </annotation>
+            </element>
+            <element name="version" type="integer" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The RIP routing protocol version in use on the device.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="OSPF">
+        <annotation>
+            <documentation>Defines a single OSPF instance. A device can be running multiple OSPF
+                instance.</documentation>
+        </annotation>
+        <sequence>
+            <element name="allInterfacesEnabled" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Some vendors allow all interfaces to be disabled (passive) or
+                        enabled by default. This allows for cleaner configurations where there are a
+                        large number of interfaces.</documentation>
+                </annotation>
+            </element>
+            <element name="area" type="common:ospfArea" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>An OSPF area usually indicates a region of an enterprise network.
+                        Area border routers (ABR) may know of two adjacent OSPF
+                    areas.</documentation>
+                </annotation>
+            </element>
+            <element name="disabledInterface" type="string" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>The name of a disabled (passive) interface for this
+                    process.</documentation>
+                </annotation>
+            </element>
+            <element name="enabledInterface" type="string" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>The name of an enabled (non passive) interface for this
+                    process.</documentation>
+                </annotation>
+            </element>
+            <element name="processId" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The vendor may define a unique process ID for an OSPF instnace.
+                        This is separate from the OSPF area.</documentation>
+                </annotation>
+            </element>
+            <element name="redistribution" type="common:redistribution" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Routing redistribution involves taking the routes from one source
+                        of routing information and sending those routes to another routing protocol.
+                        The element identifies those other protocols.</documentation>
+                </annotation>
+            </element>
+            <element name="routerId" type="dt:IPAddress" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The highest logical softwareLoopback IP address is usually picked
+                        to be the router ID. Although some vendors now support a user set router
+                    ID.</documentation>
+                </annotation>
+            </element>
+            <element name="summarizedAddress" type="common:IPNetwork" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>When network address summarization is explicitly
+                    defined.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="redistribution">
+        <annotation>
+            <documentation>Routing redistribution involves taking the routes from one source of
+                routing information and sending those routes to another routing protocol. This type
+                identifies the other protocol and process where needed.</documentation>
+        </annotation>
+        <all>
+            <element name="processId" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Used when redistributing to a routing protocol, e.g. OSPF, this field
+                        identifies the instance of that routing protocol on the
+                    device.</documentation>
+                </annotation>
+            </element>
+            <element name="targetProtocol" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Identifies the routing protocol that the parent is redistributing
+                        to.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="connected">
+                            <annotation>
+                                <documentation>When redistributing to connected
+                                subnets.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="static">
+                            <annotation>
+                                <documentation>When redistributing to static routes.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="rip"/>
+                        <enumeration value="rip2"/>
+                        <enumeration value="igrp"/>
+                        <enumeration value="isis"/>
+                        <enumeration value="ospf"/>
+                        <enumeration value="eigrp"/>
+                        <enumeration value="bgp"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="ospfArea">
+        <annotation>
+            <documentation>An OSPF area usually indicates a region of an enterprise
+            network.</documentation>
+        </annotation>
+        <sequence>
+            <element name="areaId" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The area ID, usually a number.</documentation>
+                </annotation>
+            </element>
+            <element name="areaType" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation> An OSPF network is divided into areas. These are logical
+                        groupings of routers whose information may be summarized towards the rest of
+                        the network. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="backbone">
+                            <annotation>
+                                <documentation>The backbone area (also known as area zero) forms the
+                                    core of an OSPF network.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="normal">
+                            <annotation>
+                                <documentation>The normal area.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="SA">
+                            <annotation>
+                                <documentation>A stub area (SA) is an area which does not receive
+                                    external routes.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="TSA">
+                            <annotation>
+                                <documentation>A totally stubby area (TSA) is similar to a stub
+                                    area, however this area does not allow summary routes in
+                                    addition to the external routes, that is, inter-area (IA) routes
+                                    are not summarized into totally stubby areas.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="NSSA">
+                            <annotation>
+                                <documentation>A not-so-stubby area (NSSA) is a type of stub area
+                                    that can import autonomous system (AS) external routes and send
+                                    them to the backbone, but cannot receive AS external routes from
+                                    the backbone or other areas.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="TNSSA">
+                            <annotation>
+                                <documentation>A totally not-so-stubby area (NSSA) is a type of stub
+                                    area that can import autonomous system (AS) external routes and
+                                    send them to the backbone, but cannot receive AS external routes
+                                    from the backbone or other areas.</documentation>
+                            </annotation>
+                        </enumeration>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="network" type="common:IPNetwork" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Defines all networks participating in this OSPF
+                    instance.</documentation>
+                </annotation>
+            </element>
+            <element name="summarization" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Indicates whether summary link state information is in this
+                    area.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="BGP">
+        <annotation>
+            <documentation>Defineds a single BGP instance. A device can be running multiple BGP
+                instances.</documentation>
+        </annotation>
+        <sequence>
+            <element name="asNumber" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="autoSummarization" type="boolean" maxOccurs="1" minOccurs="0"/>
+            <element name="neighbor" type="common:bgpNeighbor" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Defines all manually configured BGP neighbors.</documentation>
+                </annotation>
+            </element>
+            <element name="network" type="common:IPNetwork" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Defines all networks participating in this BGP
+                    instance.</documentation>
+                </annotation>
+            </element>
+            <element name="redistribution" type="common:redistribution" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Routing redistribution involves taking the routes from one source
+                        of routing information and sending those routes to another routing protocol.
+                        The element identifies those other protocols.</documentation>
+                </annotation>
+            </element>
+            <element name="routerId" type="dt:IPAddress" maxOccurs="1" minOccurs="0"/>
+            <element name="synchronization" type="boolean" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="bgpNeighbor">
+        <annotation>
+            <documentation>Defineds a single BGP neighbor configuration.</documentation>
+        </annotation>
+        <sequence>
+            <element name="address" type="dt:IPAddress" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The IP address of this neighbor.</documentation>
+                </annotation>
+            </element>
+            <element name="asNumber" type="int" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The remote autonomous system (AS).</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="vlans" type="common:VLANS">
+        <annotation>
+            <documentation>Represents a collection of VLANs. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="VLANS">
+        <sequence>
+            <element ref="common:vlan" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="vlan" type="common:VLAN"/>
+
+    <complexType name="VLAN">
+        <annotation>
+            <documentation>Defines a VLAN instance on a switch along with the interfaces that are
+                members of this vlan.</documentation>
+        </annotation>
+        <sequence>
+            <element name="areHops" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The maximum number of hops for all-routes explorer frames
+                    (ARE).</documentation>
+                </annotation>
+            </element>
+            <element name="backupCRFEnabled" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>When true, indicates that the backup CRF (concentrator relay
+                        function) is eanbled.</documentation>
+                </annotation>
+            </element>
+            <element name="bridgeMode" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Bridging mode such as SRB, DLSW, transparent, translating,
+                        encapsulation.</documentation>
+                </annotation>
+            </element>
+            <element name="bridgeNumber" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The source-route bridge number (usually 0-15).</documentation>
+                </annotation>
+            </element>
+            <element name="configSource" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Identifies if the VLAN was configured locally, learned through
+                        VTP, or came default.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="local"/>
+                        <enumeration value="learned"/>
+                        <enumeration value="default"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="enabled" type="boolean" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>True if the VLAN is enabled, false otherwise.</documentation>
+                </annotation>
+            </element>
+            <element name="implementationType" type="string" maxOccurs="1" minOccurs="0"/>
+            <element name="interfaceMember" type="string" maxOccurs="unbounded" minOccurs="0">
+                <annotation>
+                    <documentation>Identifies interfaces by name that are a member of this
+                    vlan.</documentation>
+                </annotation>
+            </element>
+            <element name="mtu" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The Maximum Transmission Unit.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Naming a VLAN is supported by most vendors in addition to the
+                        traditional VLAN number.</documentation>
+                </annotation>
+            </element>
+            <element name="number" type="int" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The unique identifier of this VLAN.</documentation>
+                </annotation>
+            </element>
+            <element name="parent" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>When there is a private VLAN implemention, there may be a parent
+                        VLAN. This field identifies that parent VLAN.</documentation>
+                </annotation>
+            </element>
+            <element name="ringNumber" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The ring number associated with this VLAN in a token ring or FDDI
+                        implementation.</documentation>
+                </annotation>
+            </element>
+            <element name="said" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The Security Association ID (SAID).</documentation>
+                </annotation>
+            </element>
+            <element name="steHops" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The maximum number of hops for spanning tree explorer
+                    frames.</documentation>
+                </annotation>
+            </element>
+            <element name="translationBridge1" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="translationBridge2" type="int" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <element name="spanningTree" type="common:SpanningTreeConfiguration">
+        <annotation>
+            <documentation>Describes any system level Spanning Tree Protocol configuration details.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="SpanningTreeConfiguration">
+        <annotation>
+            <documentation>These are system level configuration parameters of the Spanning Tree
+                Protocol.</documentation>
+        </annotation>
+        <sequence>
+            <element name="forwardDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, indicates how long a port will go from state
+                        to state.</documentation>
+                </annotation>
+            </element>
+            <element name="helloTime" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, indicates the interval at which the switch
+                        broadcasts its hello message to other switches.</documentation>
+                </annotation>
+            </element>
+            <element name="maxAge" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, protocol data older than this will be
+                        discarded.</documentation>
+                </annotation>
+            </element>
+            <element name="mode" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation/>
+                </annotation>
+            </element>
+            <element name="priority" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Used in the algorithm to determine the root
+                    bridge.</documentation>
+                </annotation>
+            </element>
+            <element name="spanningTreeInstance" minOccurs="0" maxOccurs="unbounded"
+                type="common:SpanningTreeInstance"/>
+            <element name="systemMacAddress" type="dt:EthernetAddress" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The system MAC that will be used in determining the root
+                    bridge.</documentation>
+                </annotation>
+            </element>
+            <element name="type" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation/>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="SpanningTreeInstance">
+        <annotation>
+            <documentation>A switch can learn of or be configured for several instances of spanning
+                tree across different VLANs.</documentation>
+        </annotation>
+        <all>
+            <element name="designatedRootCost" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>From the root bridge, an arbitrary cost value that is used to
+                        determine the root bridge.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootForwardDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>From the root bridge, measured in seconds, indicates how long a
+                        port will go from state to state.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootHelloTime" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>From the root bridge, measured in seconds, indicates the interval
+                        at which the switch broadcasts it hello messages.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootMacAddress" type="dt:EthernetAddress" minOccurs="0"
+                maxOccurs="1">
+                <annotation>
+                    <documentation>The MAC address of the designated root switch.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootMaxAge" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>From the root bridge, measured in seconds, protocol data older
+                        than this will be discarded.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootPort" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The near port of the root switch.</documentation>
+                </annotation>
+            </element>
+            <element name="designatedRootPriority" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The priority of the root switch.</documentation>
+                </annotation>
+            </element>
+            <element name="forwardDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, indicates how long a port will go from state
+                        to state.</documentation>
+                </annotation>
+            </element>
+            <element name="helloTime" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, indicates the interval at which the switch
+                        broadcasts its hello message to other switches.</documentation>
+                </annotation>
+            </element>
+            <element name="holdTime" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation/>
+                </annotation>
+            </element>
+            <element name="maxAge" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Measured in seconds, protocol data older than this will be
+                        discarded.</documentation>
+                </annotation>
+            </element>
+            <element name="priority" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Used in the algorithm to determine the root
+                    bridge.</documentation>
+                </annotation>
+            </element>
+            <element name="systemMacAddress" type="dt:EthernetAddress" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The MAC address of this bridge for this instance.</documentation>
+                </annotation>
+            </element>
+            <element name="vlan" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The VLAN associated with this spanning tree
+                    instance.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="staticRoutes" type="common:StaticRoutes">
+        <annotation>
+            <documentation> A collection of all the static routes configured on a device. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="StaticRoutes">
+        <sequence>
+            <element ref="common:staticRoute" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="staticRoute" type="common:StaticRoute"/>
+
+    <complexType name="StaticRoute">
+        <annotation>
+            <documentation> The configuration of a single static (non adaptive) route.
+            </documentation>
+        </annotation>
+        <all>
+            <element name="defaultGateway" type="boolean" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, this route is the default gateway. False
+                    otherwise.</documentation>
+                </annotation>
+            </element>
+            <element name="destinationAddress" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The address of the host or network that is the destination of
+                        this route. Where this is the default route, the address is 0.0.0.0 with a
+                        mask of 0.0.0.0, meaning all addresses.</documentation>
+                </annotation>
+            </element>
+            <element name="destinationMask" type="dt:SubnetMask" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The mask associated with the destination address.</documentation>
+                </annotation>
+            </element>
+            <element name="gatewayAddress" type="dt:IPAddress" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The gateway address for this route: where to send traffic for the
+                        destination address. The gateway address is always on a local network to the
+                        device.</documentation>
+                </annotation>
+            </element>
+            <element name="interface" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The interface to which packets for this route will be
+                    sent.</documentation>
+                </annotation>
+            </element>
+            <element name="routeMetric" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The &apos;distance&apos; to the target (usually counted
+                        in hops).</documentation>
+                </annotation>
+            </element>
+            <element name="routePreference" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The preference of this route (may also be called cost or
+                        priority, depending on the vendor specification.)</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="ntp" type="common:NTP">
+        <annotation>
+            <documentation>Contains the configuration of time synchronization related features such
+                as SNTP or NTP. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="NTP">
+        <annotation>
+            <documentation>The NTP type contains the system level time synchronization attributes as
+                described in RFCs 958/1119/1305 and 2030</documentation>
+        </annotation>
+        <sequence>
+            <element name="accessGroup" type="common:NTPaccessgroup" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A list of one or more access groups applied to the time
+                        synchronization</documentation>
+                </annotation>
+            </element>
+            <element name="enabled" type="boolean" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, time synchronization with an external source is
+                        enabled. Otherwise, false.</documentation>
+                </annotation>
+            </element>
+            <element name="localKeySettings" type="common:NTPkey" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>This defines one or more key groups for the local time
+                        synchronization services to use for authentication.</documentation>
+                </annotation>
+            </element>
+            <element name="masterStratum" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If this device is acting as an NTP master what what its
+                        defined stratum is.</documentation>
+                </annotation>
+            </element>
+            <element name="maxAssociations" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If set this limits the number of associations that can be made to
+                        the device and can be used to prevent the device from being
+                    overwhelmed.</documentation>
+                </annotation>
+            </element>
+            <element name="server" type="common:NTPserver" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Defines one or more time sychronisation server
+                    objects.</documentation>
+                </annotation>
+            </element>
+            <element name="sourceInterface" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The interface from which all NTP requests and/or replies will be
+                        sourced.</documentation>
+                </annotation>
+            </element>
+            <element name="useAuthentication" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>When true, then the time synchronization protocol configured will
+                        use authentication. Otherwise, false.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="NTPkey">
+        <annotation>
+            <documentation>This defines a group of common settings for time synchronization 
+                authentication.</documentation>
+        </annotation>
+        <all>
+            <element name="keyNumber" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>An integer listing the key's position in the enumeration
+                    order.</documentation>
+                </annotation>
+            </element>
+            <element name="keyType" type="common:NTPkeytype">
+                <annotation>
+                    <documentation>The encryption type of the key.</documentation>
+                </annotation>
+            </element>
+            <element name="serverKey" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>A string field containing the key.</documentation>
+                </annotation>
+            </element>
+            <element name="trusted" type="boolean" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>A boolean flag indicating if this key is trusted.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="NTPkeytype">
+        <annotation>
+            <documentation>This type defines the form that the NTP key type takes.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="Plain text"/>
+            <enumeration value="MD5"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="NTPserver">
+        <annotation>
+            <documentation>An object describing a single time synchronization source and associated
+                settings.</documentation>
+        </annotation>
+        <all>
+            <element name="mode" type="common:NTPmode" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>An enumeration of the time synchronization server
+                    type.</documentation>
+                </annotation>
+            </element>
+            <element name="serverIPaddress" type="dt:IPAddress" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The IP address of the time source.</documentation>
+                </annotation>
+            </element>
+            <element name="protocolVersion" type="common:NTPversion" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An enumeration of the remote time source protocol
+                    version.</documentation>
+                </annotation>
+            </element>
+            <element name="keyNumber" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>This defines the key set to be used for this
+                    association.</documentation>
+                </annotation>
+            </element>
+            <element name="sourceInterface" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The local interface from which all NTP requests will be
+                    sourced.</documentation>
+                </annotation>
+            </element>
+            <element name="preference" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A flag to indicate if this server has preference or
+                    not.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="NTPmode">
+        <annotation>
+            <documentation>An enumeration of the remote time source type</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="client"/>
+            <enumeration value="peer"/>
+            <enumeration value="server"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="NTPversion">
+        <annotation>
+            <documentation>The NTP protocol and version.</documentation>
+        </annotation>
+        <all>
+            <element name="protocol" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="version" type="integer" minOccurs="1" maxOccurs="1"/>
+        </all>
+    </complexType>
+
+    <complexType name="NTPaccessgroup">
+        <annotation>
+            <documentation>An object containing a single NTP access group.</documentation>
+        </annotation>
+        <all>
+            <element name="filterList" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The ACL number or name applied.</documentation>
+                </annotation>
+            </element>
+            <element name="groupType" type="common:NTPgrouptype" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The type of access group applied.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="NTPgrouptype">
+        <annotation>
+            <documentation>An enumeration of the available access group types for NTP
+                synchronization.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="peer"/>
+            <enumeration value="serve"/>
+            <enumeration value="serve-only"/>
+            <enumeration value="query-only"/>
+        </restriction>
+    </simpleType>
+
+    <element name="failover" type="common:failoverInterface">
+        <annotation>
+            <documentation>Contains the configuration of interface failover related features such as
+                VRRP or HSRP.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="failoverInterface">
+        <annotation>
+            <documentation>A sequence of interface failover protocol objects such as HSRP or
+            VRRP.</documentation>
+        </annotation>
+        <all>
+            <element name="hsrp" type="common:hsrpFailover" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An HRSP interface object.</documentation>
+                </annotation>
+            </element>
+            <element name="vrrp" type="common:vrrpFailover" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A VRRP interface object.</documentation>
+                </annotation>
+            </element>
+            <element name="glbp" type="common:glbpFailover" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A VRRP interface object.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="hsrpFailover">
+        <annotation>
+            <documentation>The failoverInterface type contains the interface failover attributes as
+                described, for example, in RFCs 2281 and 2338</documentation>
+        </annotation>
+        <sequence>
+            <element name="failoverGroup" type="common:failoverGroup" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A group of failover criteria for a single failover
+                    process</documentation>
+                </annotation>
+            </element>
+            <element name="icmpRedirect" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A flag to indicate if the failover IP interface will allow ICMP
+                        redirects when in use.</documentation>
+                </annotation>
+            </element>
+            <element name="interfaceDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The delay before activating failover after an interface statet
+                        changes.</documentation>
+                </annotation>
+            </element>
+            <element name="macRefresh" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The MAC refresh for this interface in seconds.</documentation>
+                </annotation>
+            </element>
+            <element name="reloadDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The delay before activating failover after a device
+                    reload.</documentation>
+                </annotation>
+            </element>
+            <element name="version" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The version of the specified failover type or protocol in use on
+                        this interface.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="vrrpFailover">
+        <annotation>
+            <documentation/>
+        </annotation>
+        <sequence>
+            <element name="failoverGroup" type="common:failoverGroup" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation/>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="glbpFailover">
+        <annotation>
+            <documentation/>
+        </annotation>
+        <sequence>
+            <element name="failoverGroup" type="common:failoverGroup" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation/>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="failoverGroup">
+        <annotation>
+            <documentation>A set of failover information for an HSRP process.</documentation>
+        </annotation>
+        <sequence>
+            <element name="glbpWeighting" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The GLBP weighting values.</documentation>
+                </annotation>
+                <complexType>
+                    <all>
+                        <element name="maximum" type="int" minOccurs="1" maxOccurs="1"/>
+                        <element name="lower" type="int" minOccurs="0" maxOccurs="1"/>
+                        <element name="upper" type="int" minOccurs="0" maxOccurs="1"/>
+                    </all>
+                </complexType>
+            </element>
+            <element name="groupID" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>A numerical value to identify the failover group.</documentation>
+                </annotation>
+            </element>
+            <element name="groupName" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An optional string value to identify the failover
+                    group.</documentation>
+                </annotation>
+            </element>
+            <element name="macAddress" type="dt:EthernetAddress" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The MAC address to use for the virtual interface.</documentation>
+                </annotation>
+            </element>
+            <element name="preempt" type="common:failoverPreempt" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A set of options for the preemption on this failover
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="primaryIPaddress" type="dt:IPAddress" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The primary failover IP address for this
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="priority" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The configured priority for this interface (not the current
+                        priority).</documentation>
+                </annotation>
+            </element>
+            <element name="secondaryIPaddress" type="dt:IPAddress" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A secondary failover IP address for this
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="security" type="common:failoverSecurity" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The security options in use on this interface for communication
+                        with partner failover devices.</documentation>
+                </annotation>
+            </element>
+            <element name="timers" type="common:failoverTimers" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A set of timers used by the failover service on this
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="track" type="common:failoverTrack" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A list of local interfaces whose states are tracked to decide
+                        whether to failover to this interface.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="failoverTimers">
+        <annotation>
+            <documentation>A set of timers used by the failover process on a specific failover
+                interface.</documentation>
+        </annotation>
+        <all>
+            <element name="helloTimer" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The configured 'Hello' time for the failover interface in ms -
+                        used by HSRP, VRRP and GLBP.</documentation>
+                </annotation>
+            </element>
+            <element name="holdTimer" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The configured 'Hold' time for the failover interface in ms -
+                        used by HSRP and GLBP.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="failoverPreempt">
+        <annotation>
+            <documentation>A set of options for the pre-emption on this failover
+            interface.</documentation>
+        </annotation>
+        <all>
+            <element name="state" type="boolean" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>A flag to indicate if preemption is enabled.</documentation>
+                </annotation>
+            </element>
+            <element name="delay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The delay before preemption will occur.</documentation>
+                </annotation>
+            </element>
+            <element name="reloadDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The delay after a device reload before preemption will
+                    occur.</documentation>
+                </annotation>
+            </element>
+            <element name="syncDelay" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The maximum synchronization period for IP redundancy
+                    clients.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="failoverTrack">
+        <annotation>
+            <documentation>A set of options for local interface tracking to decide whether to
+                failover to this interface.</documentation>
+        </annotation>
+        <all>
+            <element name="decrement" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The amount by which the failover priority will be decremented
+                        when the tracked device goes down.</documentation>
+                </annotation>
+            </element>
+            <element name="interface" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the interface to be tracked.</documentation>
+                </annotation>
+            </element>
+            <element name="objectID" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The ID of the device to be tracked.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="failoverSecurity">
+        <annotation>
+            <documentation>The security options in use on an interface for communication with
+                partner failover devices.</documentation>
+        </annotation>
+        <sequence>
+            <element name="encryption" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The encryption method in use for failover
+                    communication.</documentation>
+                </annotation>
+                <simpleType>
+                    <annotation>
+                        <documentation>An enumeration of the available encryption methods for use in
+                            failover configurations.</documentation>
+                    </annotation>
+                    <restriction base="string">
+                        <enumeration value="Plain text"/>
+                        <enumeration value="MD5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="keyString" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The key string used by the failover instance.</documentation>
+                </annotation>
+            </element>
+            <element name="timeout" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The period that both the old and new keys will be valid on the
+                        device.</documentation>
+                </annotation>
+            </element>
+            <element name="keyChain" type="common:failoverKeychain" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Identifies a group of one or more authentication
+                    keys.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="failoverKeychain">
+        <annotation>
+            <documentation>A group of one or more authentication keys.</documentation>
+        </annotation>
+        <sequence>
+            <element name="keyChainName" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name for the key chain.</documentation>
+                </annotation>
+            </element>
+            <element name="aKey" type="common:failoverSingleKey" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A single authentication key.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="failoverSingleKey">
+        <annotation>
+            <documentation>A single authentication key.</documentation>
+        </annotation>
+        <all>
+            <element name="keyID" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The key ID number.</documentation>
+                </annotation>
+            </element>
+            <element name="keyString" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The key string for this key.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="interfaceMPLS" type="common:mplsInterface">
+        <annotation>
+            <documentation>Describes an MPLS VRF switching interface as related to an
+            interface.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="mplsInterface">
+        <annotation>
+            <documentation>Describes an MPLS VRF switching interface.</documentation>
+        </annotation>
+        <sequence>
+            <element name="mode" type="common:mplsMode" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The switching method enabled for this VRF.</documentation>
+                </annotation>
+            </element>
+            <element name="VRFforwardname" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The VRF forwarding name</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="mplsMode">
+        <annotation>
+            <documentation>An enumeration of the MPLS VRF switching methods
+            available.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="Tag Switch"/>
+            <enumeration value="VRF Forward"/>
+        </restriction>
+    </simpleType>
+
+    <element name="mpls" type="common:mplsObject">
+        <annotation>
+            <documentation>Describes the MPLS configuration at the global device level. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="mplsObject">
+        <annotation>
+            <documentation>The mplsObject type contains the MPLS configuration settings for the
+                device.</documentation>
+        </annotation>
+        <sequence>
+            <element name="advertiseTags" type="common:mplsTagAdverts" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A group of settings for the advertisment of MPLS
+                    tags.</documentation>
+                </annotation>
+            </element>
+            <element name="VRFs" type="common:mplsVRF" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A list of VRF interfaces associated with this MPLS
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="labelProtocol" type="common:mplsLabelProtocol" minOccurs="0"
+                maxOccurs="1">
+                <annotation>
+                    <documentation>The selected tag advertising protocol for this MPLS
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="labelSettings" type="common:mplsLabel" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Defines the label authentication settings for this MPLS
+                    interface.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="mplsTagAdverts">
+        <annotation>
+            <documentation>A group of settings for the advertisment of MPLS tags.</documentation>
+        </annotation>
+        <all>
+            <element name="advertise" type="boolean" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>If true then the device will advertise the tags. If false then it
+                        won't.</documentation>
+                </annotation>
+            </element>
+            <element name="advertFilter" type="common:mplsAdvertFilter" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Select the filters to apply for tag advertisments</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="mplsAdvertFilter">
+        <annotation>
+            <documentation>Advertisment filter declarations</documentation>
+        </annotation>
+        <all>
+            <element name="filterListFrom" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The ACL name or number that will be used to filter adverts
+                    from.</documentation>
+                </annotation>
+            </element>
+            <element name="filterListTo" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The ACL name or number that will be used to filter adverts
+                    to.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="mplsVRF">
+        <annotation>
+            <documentation>The definition of a VRF interface.</documentation>
+        </annotation>
+        <sequence>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the VRF.</documentation>
+                </annotation>
+            </element>
+            <element name="routeDestinguisher" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The RD for the VRF.</documentation>
+                </annotation>
+            </element>
+            <element name="routeTarget" type="common:mplsTarget" minOccurs="1" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A list of route targets for this VRF.</documentation>
+                </annotation>
+            </element>
+            <element name="importMap" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The import map for the VRF.</documentation>
+                </annotation>
+            </element>
+            <element name="exportMap" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The export map for the VRF.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="mplsTarget">
+        <annotation>
+            <documentation>A definition of a single route target.</documentation>
+        </annotation>
+        <all>
+            <element name="direction" type="common:mplsTargetDirection" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>This describes the direction in which the route target
+                    operates.</documentation>
+                </annotation>
+            </element>
+            <element name="community" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The community string for the route target.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="mplsTargetDirection">
+        <annotation>
+            <documentation>An enumeration of MPLS route target directions</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="Import"/>
+            <enumeration value="Export"/>
+            <enumeration value="Both"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="mplsLabelProtocol">
+        <annotation>
+            <documentation>An enumeration of the MPLS tag protocol in use for this MPLS
+            interface.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="LDP"/>
+            <enumeration value="TDP"/>
+            <enumeration value="LDP and TDP"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="mplsLabel">
+        <annotation>
+            <documentation>Defines label authentication settings.</documentation>
+        </annotation>
+        <all>
+            <element name="IPaddress" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The remote LDP/TDP peet device's IP address.</documentation>
+                </annotation>
+            </element>
+            <element name="password" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The password to use for authentication with the remote LDP/TDP
+                        peer.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="interfaceQOS" type="common:qosInterface">
+        <annotation>
+            <documentation>Describes a QOS interface.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="qosInterface">
+        <annotation>
+            <documentation>Describes a QOS object.</documentation>
+        </annotation>
+        <sequence>
+            <element name="policyMap" type="common:qosInterfacePolicyMap" minOccurs="0"
+                maxOccurs="unbounded">
+                <annotation>
+                    <documentation>One or more policy maps applied to this
+                    interface.</documentation>
+                </annotation>
+            </element>
+            <element name="rateLimit" type="common:rateLimit" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>One or more committed access rate policies applied to this interface.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="qosInterfacePolicyMap">
+        <annotation>
+            <documentation>Describes a policy map applied to an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the policy map</documentation>
+                </annotation>
+            </element>
+            <element name="direction" type="common:qosInterfaceDirection" minOccurs="1"
+                maxOccurs="1">
+                <annotation>
+                    <documentation>The direction in which this policy map is
+                    applied.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="qosInterfaceDirection">
+        <annotation>
+            <documentation>An enumeration of the direction that QOS is applied.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="Inbound"/>
+            <enumeration value="Outbound"/>
+        </restriction>
+    </simpleType>
+    
+    <complexType name="rateLimit">
+        <annotation>
+            <documentation>Parameters for traffic policing.</documentation>
+        </annotation>
+        <all>
+            <element name="direction" type="common:qosInterfaceDirection" minOccurs="1"
+                maxOccurs="1">
+                <annotation>
+                    <documentation>The direction in which this rate limit is applied.</documentation>
+                </annotation>
+            </element>
+            <element name="dscp" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Applies the rate limit to matching DSCP packets.</documentation>
+                </annotation>
+            </element>
+            <element name="accessGroup" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Applies the rate limit to the access list specified.</documentation>
+                </annotation>
+            </element>
+            <element name="bps" type="common:qosBandwidth" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Committed information rate (CIR)</documentation>
+                </annotation>
+            </element>
+            <element name="normalBurst" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Normal burst bucket size in bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="pir" type="common:qosBandwidth" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Peak information rate (PIR)</documentation>
+                </annotation>
+            </element>
+            <element name="maxBurst" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Excess burst bucket size in bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="conformAction" type="common:policeAction" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Action to take on packets that conform to the rate limit.</documentation>
+                </annotation>
+            </element>
+            <element name="exceedAction" type="common:policeAction" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Action to take on packets that exceed the rate limit.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <element name="qos" type="common:qosObject">
+        <annotation>
+            <documentation>Describes the QOS configuration at the global device level. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="qosObject">
+        <annotation>
+            <documentation>The qosObject type contains the QOS configuration settings for the device.</documentation>
+        </annotation>
+        <sequence>
+            <element name="qosClasses" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A list of class maps configured on the device.</documentation>
+                </annotation>
+                <complexType>
+                    <sequence>
+                        <element name="classMap" type="common:qosClassmap" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="qosPolicies" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A list of policy maps configured on the device.</documentation>
+                </annotation>
+                <complexType>
+                    <sequence>
+                        <element name="policyMap" type="common:qosPolicymap" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="qosClassmap">
+        <annotation>
+            <documentation>Describes a QOS class map.</documentation>
+        </annotation>
+        <sequence>
+            <element name="domain" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the class map.</documentation>
+                </annotation>
+            </element>
+            <element name="match" type="common:qosClassType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The type of matching within the class map.</documentation>
+                </annotation>
+            </element>
+            <element name="matchAccessGroup" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using an ACL.</documentation>
+                </annotation>
+            </element>
+            <element name="matchAny" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Match any packets.</documentation>
+                </annotation>
+            </element>
+            <element name="matchClassMap" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using another class map.</documentation>
+                </annotation>
+            </element>
+            <element name="matchDestinationMAC" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the destination MAC address.</documentation>
+                </annotation>
+            </element>
+            <element name="matchDiscardClass" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the discard class.</documentation>
+                </annotation>
+            </element>
+            <element name="matchFrDE" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the Frame Relay DE header bit.</documentation>
+                </annotation>
+            </element>
+            <element name="matchFlow" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using a flow method (eg. pdp)</documentation>
+                </annotation>
+            </element>
+            <element name="matchFrDLCI" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the Frame Relay DLCI.</documentation>
+                </annotation>
+            </element>
+            <element name="matchInputInterface" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the packet's input interface on this
+                    device.</documentation>
+                </annotation>
+            </element>
+            <element name="matchIpCOS" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the COS bits in the header.</documentation>
+                </annotation>
+            </element>
+            <element name="matchIpDSCP" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the IP DSCP bits in the header.</documentation>
+                </annotation>
+            </element>
+            <element name="matchIpPrecedence" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the IP precedence bits in the header.</documentation>
+                </annotation>
+            </element>
+            <element name="matchPacketLength" type="common:qosMatchPacket" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the packet's length.</documentation>
+                </annotation>
+            </element>
+            <element name="matchProtocol" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the packets protocol.</documentation>
+                </annotation>
+            </element>
+            <element name="matchQosGroup" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the QOS group setting.</documentation>
+                </annotation>
+            </element>
+            <element name="matchRTPport" type="common:qosMatchRTP" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using a range of RTP ports.</documentation>
+                </annotation>
+            </element>
+            <element name="matchSourceMAC" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the packet's source MAC address.</documentation>
+                </annotation>
+            </element>
+            <element name="matchVlan" type="common:qosMatchItem" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Match using the inbound Vlan ID.</documentation>
+                </annotation>
+            </element>
+            <element name="shapeAverage" type="common:qosShapeAverage" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Specify average or peak rate traffic shaping</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="qosMatchItem">
+        <annotation>
+            <documentation>Describes the parameters for a QOS class map match.</documentation>
+        </annotation>
+        <sequence>
+            <element name="reverseLogic" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If true then the class map match is reveresed (NOT
+                    logic).</documentation>
+                </annotation>
+            </element>
+            <element name="value" type="string" minOccurs="1" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>The match value(s). The value depends on the parent of this
+                    object.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="qosMatchPacket">
+        <annotation>
+            <documentation>Describes the parameters for a QOS class map packet
+            match.</documentation>
+        </annotation>
+        <all>
+            <element name="reverseLogic" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If true then the class map match is reveresed (NOT
+                    logic).</documentation>
+                </annotation>
+            </element>
+            <element name="minValue" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The minimum packet size boundary.</documentation>
+                </annotation>
+            </element>
+            <element name="maxValue" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The maximum packet size boundary.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="qosMatchRTP">
+        <annotation>
+            <documentation>This describes the parameters for a QOS class map RTP protocol
+            match.</documentation>
+        </annotation>
+        <all>
+            <element name="reverseLogic" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If true then the class map match is reveresed (NOT
+                    logic).</documentation>
+                </annotation>
+            </element>
+            <element name="startPort" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The RTP protocol lower port boundary.</documentation>
+                </annotation>
+            </element>
+            <element name="endPort" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The RTP protocol higher port boundary.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="qosClassType">
+        <annotation>
+            <documentation>An enumeration of the different matching methods within a class
+            map.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="any"/>
+            <enumeration value="all"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="qosShapeAverage">
+        <annotation>
+            <documentation>Defines average or peak rate traffic shaping.</documentation>
+        </annotation>
+        <all>
+            <element name="shapeRates" type="common:qosShaperates" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Describe the normal traffic shaping rate.</documentation>
+                </annotation>
+            </element>
+            <element name="burstSize" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The burst shaping size in bps.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="qosShaperates">
+        <annotation>
+            <documentation>Describes the normal traffic shaping rates.</documentation>
+        </annotation>
+        <choice>
+            <element name="percentage" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The percentage of bandwidth assigned for this
+                    shaping.</documentation>
+                </annotation>
+            </element>
+            <element name="rate" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The bandwidth shaping value in bps.</documentation>
+                </annotation>
+            </element>
+        </choice>
+    </complexType>
+
+    <complexType name="qosPolicymap">
+        <annotation>
+            <documentation>Describes a QOS policy map.</documentation>
+        </annotation>
+        <sequence>
+            <element name="class" type="common:qosClass" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A list of classes associated with this policy
+                    map.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the policy map.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="qosClass">
+        <annotation>
+            <documentation>A single class object for use within policy maps.</documentation>
+        </annotation>
+        <all>
+            <element name="classDomain" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name for the class definition.</documentation>
+                </annotation>
+            </element>
+            <element name="shaping" type="common:qosShaping" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Parameters for average or peak rate traffic shaping.</documentation>
+                </annotation>
+            </element>
+            <element name="bandwidth" type="common:qosBandwidth" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The bandwidth allocation for this class.</documentation>
+                </annotation>
+            </element>
+            <element name="ipPrecedence" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the ipPrecedence bit in the packet to this new
+                    value.</documentation>
+                </annotation>
+            </element>
+            <element name="ipDSCP" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the ipDSCP bit in the packet to this new
+                    value.</documentation>
+                </annotation>
+            </element>
+            <element name="qosGroup" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the QOS group to this new value.</documentation>
+                </annotation>
+            </element>
+            <element name="cosValue" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the COS bit in the packet to this new value.</documentation>
+                </annotation>
+            </element>
+            <element name="discardClass" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set a new discard class for the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="atmCLP" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the ATM CLP bit in the ATM header.</documentation>
+                </annotation>
+            </element>
+            <element name="frDE" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Set the Frame-Relay Discard Eligable flag in the FR
+                    header.</documentation>
+                </annotation>
+            </element>
+            <element name="drop" type="boolean" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Mark the packet to be forcefully dropped.</documentation>
+                </annotation>
+            </element>
+            <element name="police" type="common:qosPolice" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Traffic policing configuration parameters.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="qosShaping">
+        <annotation>
+            <documentation>Peak or average rate traffic shaping parameters.</documentation>
+        </annotation>
+        <all>
+            <element name="type" type="common:qosType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Type of traffic shaping to be used.</documentation>
+                </annotation>
+            </element>
+            <element name="rate" type="common:qosRate" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Use normal traffic shaping values.</documentation>
+                </annotation>
+            </element>
+            <element name="percent" type="common:qosPercent" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Use percentage based traffic shaping values.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <simpleType name="qosType">
+        <annotation>
+            <documentation>Type of traffic shaping available.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="average">
+                <annotation>
+                    <documentation>Use average rate shaping.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="peak">
+                <annotation>
+                    <documentation>Use peak rate shaping.</documentation>
+                </annotation>
+            </enumeration>
+        </restriction>
+    </simpleType>
+    
+    <complexType name="qosRate">
+        <annotation>
+            <documentation>Normal traffic shaping values.</documentation>
+        </annotation>
+        <all>
+            <element name="targetRate" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The target bit rate in bits per second.</documentation>
+                </annotation>
+            </element>
+            <element name="sustainedRate" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The bits per interval sustained rate.</documentation>
+                </annotation>
+            </element>
+            <element name="excessRate" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The bits per interval excess rate.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <complexType name="qosPercent">
+        <annotation>
+            <documentation>Percentage based traffic shaping values.</documentation>
+        </annotation>
+        <all>
+            <element name="cirPercentage" type="int" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The CIR expressed as a percentage of the bandwidth.</documentation>
+                </annotation>
+            </element>
+            <element name="sustainedPeriod" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The sustained burst rate in milliseconds.</documentation>
+                </annotation>
+            </element>
+            <element name="excessPeriod" type="int" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The excess burst rate in milliseconds.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <complexType name="qosBandwidth">
+        <annotation>
+            <documentation>Class based bandwidth allocation.</documentation>
+        </annotation>
+        <choice>
+            <element name="bandwidthBits" type="int">
+                <annotation>
+                    <documentation>Amount of bandwidth assigned to this class.</documentation>
+                </annotation>
+            </element>
+            <element name="bandwidthPercent" type="int">
+                <annotation>
+                    <documentation>Percentage of available bandwidth assigned to this class.</documentation>
+                </annotation>
+            </element>
+            <element name="remainingPercent" type="int">
+                <annotation>
+                    <documentation>Percentage of remaining bandwidth assigned to this class.</documentation>
+                </annotation>
+            </element>
+        </choice>
+    </complexType>
+    
+    <complexType name="qosPolice">
+        <annotation>
+            <documentation>Parameters for traffic policing.</documentation>
+        </annotation>
+        <all>
+            <element name="bps" type="common:qosBandwidth" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Committed information rate (CIR)</documentation>
+                </annotation>
+            </element>
+            <element name="normalBurst" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Normal burst bucket size in bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="pir" type="common:qosBandwidth" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Peak information rate (PIR)</documentation>
+                </annotation>
+            </element>
+            <element name="maxBurst" type="integer" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Excess burst bucket size in bytes.</documentation>
+                </annotation>
+            </element>
+            <element name="conformAction" type="common:policeAction" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Action to take on packets that conform to the rate limit.</documentation>
+                </annotation>
+            </element>
+            <element name="exceedAction" type="common:policeAction" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Action to take on packets that exceed the rate limit.</documentation>
+                </annotation>
+            </element>
+            <element name="violateAction" type="common:policeAction" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Action to take on packets that exceed the normal and maximum burst sizes.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <complexType name="policeAction">
+        <annotation>
+            <documentation>Traffic police action to take.</documentation>
+        </annotation>
+        <choice>
+            <element name="continue" type="boolean">
+                <annotation>
+                    <documentation>Evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setClpContinue" type="boolean">
+                <annotation>
+                    <documentation>Set the packet's CLP flag and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setClpTransmit" type="boolean">
+                <annotation>
+                    <documentation>Set the packet's CLP flag and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setCosContinue" type="integer">
+                <annotation>
+                    <documentation>Set the new COS value and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setCosTransmit" type="integer">
+                <annotation>
+                    <documentation>Set the new COS value and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setDeContinue" type="boolean">
+                <annotation>
+                    <documentation>Set the packet's DE flag and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setDeTransmit" type="boolean">
+                <annotation>
+                    <documentation>Set the packet's DE flag and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="drop" type="boolean">
+                <annotation>
+                    <documentation>Drop the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setDSCPContinue" type="integer">
+                <annotation>
+                    <documentation>Set the new DSCP value and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setDSCPTransmit" type="integer">
+                <annotation>
+                    <documentation>Set the new DSCP value and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setMPLSexpContinue" type="integer">
+                <annotation>
+                    <documentation>Set the new MPLS experimental bit value and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setMPLSexpTransmit" type="integer">
+                <annotation>
+                    <documentation>Set the new MPLS experimental bit value and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setPrecedenceContinue" type="integer">
+                <annotation>
+                    <documentation>Set the new IP precedence and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setPrecedenceTransmit" type="integer">
+                <annotation>
+                    <documentation>Set the new IP precedence and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="setQosGroupContinue" type="string">
+                <annotation>
+                    <documentation>Set the new QOS group and evaluate the next command.</documentation>
+                </annotation>
+            </element>
+            <element name="setQosGroupTransmit" type="string">
+                <annotation>
+                    <documentation>Set the new QOS group and send the packet.</documentation>
+                </annotation>
+            </element>
+            <element name="transmit" type="boolean">
+                <annotation>
+                    <documentation>Send the packet.</documentation>
+                </annotation>
+            </element>
+        </choice>
+    </complexType>
+    
+    <element name="jailer" type="common:Jailer">
+        <annotation>
+            <documentation>Contains the configuration of any security key related features such as
+                key chains or security certificates. (place in parse_services</documentation>
+        </annotation>
+    </element>
+    
+    <complexType name="Jailer">
+        <annotation>
+            <documentation>The Jailor type contains the system level security attributes such as
+                key chains or SSL certificates.</documentation>
+        </annotation>
+        <sequence>
+                <element name="keyfob" type="common:Keyfob" minOccurs="0" maxOccurs="1">
+                    <annotation>
+                        <documentation>The keyfob holds one or more keyrings.</documentation>
+                    </annotation>
+                </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Keyfob">
+        <annotation>
+            <documentation>The keyfob holds one or more keyrings.</documentation>
+        </annotation>
+        <sequence>
+            <element name="keyring" type="common:KeyRing" minOccurs="1" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>The keyring holds one or more keys.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="KeyRing">
+        <annotation>
+            <documentation>The keyring holds one or more keys.</documentation>
+        </annotation>
+        <sequence>
+            <element name="key" minOccurs="1" maxOccurs="unbounded">
+                <complexType>
+                    <annotation>
+                        <documentation>Defines a single key.</documentation>
+                    </annotation>
+                    <all>
+                        <element name="number" type="int">
+                            <annotation>
+                                <documentation>The ID number for this key.</documentation>
+                            </annotation>
+                        </element>
+                        <element name="string" type="string">
+                            <annotation>
+                                <documentation>The keystring for this key.</documentation>
+                            </annotation>
+                        </element>
+                    </all>
+                </complexType>
+            </element>
+            <element name="ringName" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The name of the keyring.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    
+    
+    <complexType name="ObjectGroups">
+        <annotation>
+            <documentation>Contains abstract groups of networks, services, etc.</documentation>
+        </annotation>
+        <sequence>
+            <element name="icmpGroup" type="common:IcmpGroup" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A group defined by its ICMP type definitions.</documentation>
+                </annotation>
+            </element>
+            <element name="networkGroup" type="common:NetworkGroup" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A groups defined by its IP addressing.</documentation>
+                </annotation>
+            </element>
+            <element name="protocolGroup" type="common:ProtocolGroup" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A group defined by its protocols.</documentation>
+                </annotation>
+            </element>
+            <element name="serviceGroup" type="common:ServiceGroup" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>A group defined by its service definitions
+                        or ports.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="ObjectGroup">
+        <sequence>
+            <element name="description" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Describes this group.</documentation>
+                </annotation>
+            </element>
+            <element name="id" type="ID" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The unique identifier for this group.</documentation>
+                </annotation>
+            </element>
+            <element name="objectGroupReference" type="string" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation> This object group can reference other object groups here. This
+                        should refer to them by their ID. </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="IcmpGroup">
+        <complexContent>
+            <extension base="common:ObjectGroup">
+                <sequence>
+                    <element name="icmpObject" type="string" minOccurs="1" maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Identifies a particular ICMP type such as 'echo',
+                                'echo-reply', etc.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="NetworkGroup">
+        <annotation>
+            <documentation>Identifies a logical group of things based on their IP address
+                information.</documentation>
+        </annotation>
+        <complexContent>
+            <extension base="common:ObjectGroup">
+                <sequence>
+                    <element name="host" type="dt:IPAddress" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation>Defines a single host or the host address of a
+                            network.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="range" type="common:IPRange" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation>Defines a subnet, IPv4 or IPv6.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="subnet" type="common:IPNetwork" maxOccurs="unbounded" minOccurs="0">
+                        <annotation>
+                            <documentation>Defines a subnet, IPv4 or IPv6.</documentation>
+                        </annotation>
+                    </element>
+
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="ProtocolGroup">
+        <complexContent>
+            <extension base="common:ObjectGroup">
+                <sequence>
+                    <element name="protocol" type="core:Protocol" minOccurs="0"
+                        maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Defines the protocols inside of this
+                            group.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="ServiceGroup">
+        <complexContent>
+            <extension base="common:ObjectGroup">
+                <sequence>
+                    <element name="portExpression" type="common:PortExpression" minOccurs="0" maxOccurs="unbounded">
+                        <annotation><documentation>When a service is defined in relation to a port, e.g. 'lt 1024', 'eq 80', etc.</documentation></annotation>
+                    </element>
+                    <element name="portRange" type="common:PortRange" minOccurs="0" maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Defines a range of IP ports</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="IPNetwork">
+        <annotation>
+            <documentation> Defines an IP subnet. </documentation>
+        </annotation>
+        <all>
+            <element name="address" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The network or host address of this subnet.</documentation>
+                </annotation>
+            </element>
+            <element name="mask" type="dt:SubnetMask" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The subnet bit mask of this network.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="IPRange">
+        <annotation>
+            <documentation> Defines an range of IP addresses. </documentation>
+        </annotation>
+        <all>
+            <element name="startAddress" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The start of the range.</documentation>
+                </annotation>
+            </element>
+            <element name="endAddress" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The end of the range.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="PortRange">
+        <annotation>
+            <documentation>Defines a range of IP ports.</documentation>
+        </annotation>
+        <all>
+            <element name="portStart" type="core:PortNumber" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The start of the range.</documentation>
+                </annotation>
+            </element>
+            <element name="portEnd" type="core:PortNumber" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The end of the range.</documentation>
+                </annotation>
+            </element>
+            <element name="protocol" type="core:Protocol" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If this port range is specific to a certain IP protocol it can be
+                        defined here.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    
+    <complexType name="PortExpression">
+        <annotation>
+            <documentation>Defines a range of IP ports.</documentation>
+        </annotation>
+        <all>
+            <element name="port" type="core:PortNumber" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The start of the range.</documentation>
+                </annotation>
+            </element>
+            <element name="operator" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation></documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="lt"><annotation><documentation>less than</documentation></annotation></enumeration>
+                        <enumeration value="gt"><annotation><documentation>greater than</documentation></annotation></enumeration>
+                        <enumeration value="eq"><annotation><documentation>equals</documentation></annotation></enumeration>
+                        <enumeration value="ne"><annotation><documentation>not equals</documentation></annotation></enumeration>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="protocol" type="core:Protocol" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If this port range is specific to a certain IP protocol it can be
+                        defined here.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="Port">
+        <annotation>
+            <documentation>Defines a range of IP ports.</documentation>
+        </annotation>
+        <all>
+            <element name="portNumber" type="core:PortNumber" minOccurs="1" maxOccurs="1"/>
+            <element name="protocol" type="core:Protocol" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If this port is specific to a certain IP protocol it can be
+                        defined here.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+</schema>

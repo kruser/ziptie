@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="org.ziptie.provider.scheduler">
+	<description>
+            Build artifacts for org.ziptie.provider.scheduler
+    </description>
+
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.scheduler.SchedulerDelegate" />
+            <property name="uptodate.test" value="SchedulerService.wsdl" />
+            <property name="genwsdl.additional.classpath" value="../org.ziptie.zap.security/bin" />
+        </ant>
+	</target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

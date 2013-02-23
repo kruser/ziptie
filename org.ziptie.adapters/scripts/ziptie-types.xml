@@ -1,0 +1,8 @@
+<types>
+    <type name="connectionPath" method="ZipTie::ConnectionPath::from_xml"/>
+    <type name="credentials" method="ZipTie::Credentials::from_xml"/>
+    <type name="protocols" method="ZipTie::ConnectionPath::Protocol::from_xml"/>
+    <type name="fileServers" method="ZipTie::ConnectionPath::FileServer::from_xml"/>
+    <type name="restoreFileInfo" method="ZipTie::RestoreFile::from_xml"/>
+    <type name="filestoreRoot" method="ZipTie::Filestore::from_xml"/>
+</types>

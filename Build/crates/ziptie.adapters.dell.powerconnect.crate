@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.dell.powerconnect"
+	name="ziptie.adapters.dell.powerconnect"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.dell.powerconnect" location="adapters/" version="" />
+</crate>

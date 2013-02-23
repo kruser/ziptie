@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+    <extension point="org.ziptie.provider.scheduler.quartzJob">
+      <JobType
+            class="org.ziptie.server.restore.RestoreJob"
+            cudPermission="org.ziptie.job.restore.cudPermission"
+            name="Restore Configuration"
+            runPermission="org.ziptie.job.restore.runPermission">
+         <validKey name="ipResolutionData"/>
+         <validKey name="ipResolutionScheme"/>
+         <validKey name="configPath"/>
+         <validKey name="configTimestamp"/>
+      </JobType>
+   </extension>
+    <extension
+          point="org.ziptie.zap.security.SecurityPermissions">
+       <permission
+             display="%org.ziptie.job.restore.cudPermission"
+             id="org.ziptie.job.restore.cudPermission">
+       </permission>
+       <permission
+             display="%org.ziptie.job.restore.runPermission"
+             id="org.ziptie.job.restore.runPermission">
+       </permission>
+    </extension>
+</plugin>

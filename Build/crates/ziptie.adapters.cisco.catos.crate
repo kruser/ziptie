@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.catos"
+	name="ziptie.adapters.cisco.catos"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.catos" location="adapters/" version="" />
+</crate>

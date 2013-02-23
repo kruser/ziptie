@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::Linksys</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Linksys RV042</shortName>
+    <description>Cisco Linksys RV042 VPN Routers</description>
+    <softwareVersionRegEx>(\d+)\.*(\d*)[A-Za-z]*</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.*(\d*)\.*(\d*)\.*(\d*)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>%Invalid (.+)%</errorRegEx>
+        <errorRegEx>%Syntax (.+)%</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>HTTPS-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>HTTP-SNMP</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.3955\.250" ignoreCase="false" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

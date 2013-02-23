@@ -1,0 +1,20 @@
+Package: ziptie-server
+Version: 2008.10-2
+Section: networking
+Priority: optional
+Architecture: all
+Pre-Depends: perl
+Depends: sun-java6-jdk | sun-java5-jdk, libtext-csv-perl, libnet-telnet-perl, libipc-run-perl, libnet-ip-perl, libio-socket-inet6-perl, libxml-simple-perl, libwww-perl, libsocket6-perl, libcrypt-des-perl, libcrypt-ssleay-perl, libnet-snmp-perl, libnet-tftp-perl, libio-zlib-perl, libxml-xpath-perl, libarchive-tar-perl, libdigest-sha1-perl, libdigest-hmac-perl, libxml-parser-perl, libsoap-lite-perl, libexpat1, libxt-java, libterm-readline-perl-perl, libterm-readpassword-perl, libmath-bigint-gmp-perl   
+Recommends: sun-java6-jdk
+Maintainer: ZipTie.org
+Description: ZipTie Server
+ This package provides server functionality for the ZipTie framework.
+ .
+ Visit http://www.ziptie.org for more information.
+ .
+ WARNING: Please ensure that all of the necessary Perl dependencies are installed. After the files for the server have been extracted,
+ a check will performed to determine if all the Perl dependencies have been met. This will output either all the Perl modules that still must be installed, or a success message.
+  .
+ To manually perform the check to see if the Perl dependencies are met, run the following command:
+ .
+  perl /usr/share/ziptie-server/perlcheck.pl

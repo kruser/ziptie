@@ -1,0 +1,25 @@
+<body>
+This package contains classes that provide support for the NIO agent framework
+specific to datagram (UDP) transport.  The bases of datagram communication in
+Java NIO is the DatagramChannel.  The classes in this package typically contain
+DatagramChannels as member fields.  The chief vehicle for communicating with the
+underlying NIO agent framework is through implementing the KeyAttachement
+interface.  Most of the classes in this package implement that interface.
+DatagramAttachment forms the basis of datagram communication after the session
+has been estrablished between the client and server.  This communication takes
+place on a high port, not the well-known port of the server.  The
+ServerDatagramAttachment binds to the well-known server port for the protocol
+and accepts the initial packets from prospective clients.  After successfulling 
+receiving a packet from a client, the ServerDatagramAttachment creates a new 
+DatagramAttachment (and in turn a new DatagramChannel) specific to that client
+connection and connects it to the clients socket address.  The remaining
+transfer, including the initial response packet from the server, uses the newly
+created high-port DatagramChannel.  The ClientDatagramChannel support client
+communication by sending the initial request packet to the server on the
+well-known port.  After it receives the initial response from the server
+(presumably with the source port being a high port) it connects its underlying
+DatagramChannel to the servers socket address.  At the point at which the server
+datagram code and the client datagram code are using a connected
+DatagramChannel, all higher-level codec/protocol code can be common (for the
+packet types that are applicable to both server and client).
+</body>

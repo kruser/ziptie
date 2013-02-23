@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.vyatta.ofr"
+	name="ziptie.adapters.vyatta.ofr"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.vyatta.ofr" location="adapters/" version="" />
+</crate>

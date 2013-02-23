@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.vyatta.ofr
+Bundle-SymbolicName: ziptie.adapters.vyatta.ofr
+Bundle-Version: 2008.10.0
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Type: adapter

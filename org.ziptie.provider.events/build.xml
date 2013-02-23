@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.events">
+	<description>
+            Build artifacts for org.ziptie.provider.events
+    </description>
+
+    <target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.events.EventProviderDelegate" />
+            <property name="uptodate.test" value="Events.wsdl" />
+        </ant>
+    </target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

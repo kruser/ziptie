@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.juniper.junos
+Bundle-SymbolicName: ziptie.adapters.juniper.junos
+Bundle-Version: 2008.10.0
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Type: adapter

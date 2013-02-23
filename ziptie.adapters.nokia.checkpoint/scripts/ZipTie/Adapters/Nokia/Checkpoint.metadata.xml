@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Nokia::Checkpoint</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Nokia Checkpoint</shortName>
+    <description>Nokia Checkpoint Firewalls</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>\S+: command not found</errorRegEx>
+        <errorRegEx>cd: [^\n^\s]+: No such file or directory</errorRegEx>
+        <errorRegEx>\S+: illegal option -- [^\n]+\nusage: \s+</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+            <restoreValidationRegex>.*</restoreValidationRegex>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="IPSO" singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

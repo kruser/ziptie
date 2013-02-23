@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.pde.ui.EquinoxLauncher">
+<booleanAttribute key="automaticAdd" value="false"/>
+<booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/ZipTie Server"/>
+<booleanAttribute key="default_auto_start" value="true"/>
+<intAttribute key="default_start_level" value="4"/>
+<booleanAttribute key="includeOptional" value="false"/>
+<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-console -clean -dontdebug ${workspace_loc:Build/debug.options}"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.osgi.service.http.port=8080"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
+<stringAttribute key="target_bundles" value="org.eclipse.core.contenttype@default:default,org.eclipse.core.contenttype@default:default,org.eclipse.core.jobs@default:default,org.eclipse.core.runtime@default:default,org.eclipse.core.runtime.compatibility.registry@default:default,org.eclipse.equinox.common@default:default,org.eclipse.equinox.preferences@default:default,org.eclipse.equinox.registry@default:default,org.eclipse.osgi@:,org.eclipse.osgi@:,org.eclipse.osgi.services@default:default"/>
+<booleanAttribute key="tracing" value="false"/>
+<booleanAttribute key="useDefaultConfigArea" value="true"/>
+<stringAttribute key="workspace_bundles" value="org.ziptie.adapters@default:default,org.ziptie.adapters.ws@default:default,org.ziptie.client.adapters@default:default,org.ziptie.net@default:default,org.ziptie.net.ftp@default:default,org.ziptie.net.util@default:default,org.ziptie.server.dispatcher@default:default"/>
+</launchConfiguration>

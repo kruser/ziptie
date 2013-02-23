@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.enterasys.verticalhorizon"
+	name="ziptie.adapters.enterasys.verticalhorizon"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.enterasys.verticalhorizon" location="adapters/" version="" />
+</crate>

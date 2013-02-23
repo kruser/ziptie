@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.threecom.switch3300
+Bundle-SymbolicName: ziptie.adapters.threecom.switch3300
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Type: adapter

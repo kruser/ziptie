@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.argus.cordex
+Bundle-SymbolicName: ziptie.adapters.argus.cordex
+Bundle-Version: 2012.5.1
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

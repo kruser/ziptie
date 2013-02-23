@@ -1,0 +1,24 @@
+<xsd:schema
+	targetNamespace="http://www.ziptie.org/adapters/commands"
+	xmlns:tns="http://www.ziptie.org/adapters/commands"
+	xmlns:types="http://ziptie.org/adapters/types/1.1"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://ziptie.org/adapters/types/1.1" schemaLocation="types.xsd"/>
+
+    <xsd:element name="commandsResponse" type="tns:commandsResponse" />
+    <xsd:element name="commands" type="tns:commands" />
+
+    <xsd:complexType name="commands">
+      <xsd:sequence>
+        <xsd:element name="connectionPath" type="types:connectionPath" minOccurs="0"/>
+        <xsd:element name="commandList" type="types:commandList" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="commandsResponse">
+      <xsd:sequence>
+        <xsd:element name="return" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

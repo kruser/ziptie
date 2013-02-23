@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+	<adapterId>ZipTie::Adapters::Sunhillo::RICI</adapterId>
+	<supportedModelVersion>1.0</supportedModelVersion>
+	<shortName>Sunhillo RICI</shortName>
+	<description>Sunhillo RICI (Real Time Interface and Conversion Item)
+	</description>
+	<softwareVersionRegEx>\S*\s*(\d+)\.(\d+)\.(\d+)</softwareVersionRegEx>
+	<biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+	<lastRebootThreshold>5</lastRebootThreshold>
+	<errorForms>
+	</errorForms>
+	<operationConstraints>
+		<operation name="backup">
+			<supportedProtocolSet>SSH-SCP-SNMP</supportedProtocolSet>
+		</operation>
+		<operation name="commands">
+			<supportedProtocolSet>SSH</supportedProtocolSet>
+		</operation>
+		<operation name="restore">
+			<supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+			<restoreValidationRegex>.*</restoreValidationRegex>
+		</operation>
+	</operationConstraints>
+	<discoveryMappings>
+		<matchRegex dataSource="sysDescr" regex="RICI" ignoreCase="true"
+			multiline="false" singleline="false" />
+	</discoveryMappings>
+</AdapterMetadata>

@@ -1,0 +1,12 @@
+<sim-config
+     name="default"
+     mapIp="false"
+     default="recording:default.record"
+     rate="0.0"
+     operationTimeout="5"
+     maxBufferLength="1000000"
+     respondOnlyOnNewline="false"
+     doEcho="false">
+   <mask mask="127.0.0.0/255.0.0.0" session="recording:smoke-test.record"/>
+<single ip="127.1.0.23" session="recording:127.1.0.23.record"/>
+</sim-config> 

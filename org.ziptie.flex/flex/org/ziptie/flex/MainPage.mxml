@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:search="org.ziptie.flex.search.*"
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      xmlns:flex="org.ziptie.flex.*"
+      xmlns:code="http://code.google.com/p/flexlib/"
+      xmlns:progress="org.ziptie.flex.progress.*"
+      xmlns:arpsearch="org.ziptie.flex.arpsearch.*"
+      xmlns:configsearch="org.ziptie.flex.configsearch.*"
+      horizontalGap="2"
+      paddingRight="2"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.core.Container;
+        	import org.ziptie.flex.progress.ProgressManager;
+
+            private function init():void
+            {
+                for each (var view:Container in _views.getChildren())
+                {
+                	if (!view.enabled)
+                	{
+                		_views.removeChild(view);
+                	}
+                }
+            }
+        ]]>
+    </mx:Script>
+
+    <flex:AdminPage id="side" height="100%" width="175"/>
+
+    <mx:VBox height="100%" width="100%" verticalGap="2" paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10">
+	    <mx:VDividedBox id="main" label="View" height="100%" width="100%">
+	        <mx:TabNavigator id="_views" width="100%" height="210" tabChildren="true">
+	            <search:Devices
+                      toolTip="@Resource(key='devices_view_tooltip', bundle='messages')"
+                      label="@Resource(key='devices_view_title', bundle='messages')" />
+	            <jobs:JobsView
+                      toolTip="@Resource(key='jobs_tab_tooltip', bundle='messages')"
+                      label="@Resource(key='jobs_tab_title', bundle='messages')" />
+	            <jobs:HistoryView
+                      toolTip="@Resource(key='HistoryView_tab_tooltip', bundle='messages')"
+                      label="@Resource(key='HistoryView_title', bundle='messages')" />
+	            <configsearch:ConfigSearchView
+                      toolTip="@Resource(key='config_search_tab_tooltip', bundle='messages')"
+                      enabled="{ZipTie.hasPermission('org.ziptie.configs.view')}"
+                      label="@Resource(key='config_search_tab_title', bundle='messages')"/>
+	            <arpsearch:SwitchPortView
+                      toolTip="@Resource(key='switch_port_tab_tooltip', bundle='messages')"
+                      label="@Resource(key='switch_port_tab_title', bundle='messages')" />
+	            <arpsearch:ArpSearch
+                      toolTip="@Resource(key='arp_search_tab_tooltip', bundle='messages')"
+                      label="@Resource(key='arp_search_tab_title', bundle='messages')" />
+	        </mx:TabNavigator>
+	        <code:SuperTabNavigator id="content" height="100%" width="100%" />
+	    </mx:VDividedBox>
+
+        <progress:StatusBar width="100%" height="20" progressItems="{ProgressManager.progressItems}" />
+    </mx:VBox>
+</mx:HBox>

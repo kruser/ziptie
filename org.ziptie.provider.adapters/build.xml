@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.adapters">
+	<description>
+            Build artifacts for org.ziptie.provider.adapters
+    </description>
+
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.adapters.AdapterDelegate" />
+            <property name="uptodate.test" value="Adapters.wsdl" />
+           	<property name="aux.classpath" value="../org.ziptie.net.util/bin" />
+        </ant>
+	</target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

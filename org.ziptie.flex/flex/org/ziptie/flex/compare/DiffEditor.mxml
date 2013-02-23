@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<editor:Editor
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    label="{DisplayElf.format('Diff', input)}"
+    xmlns:devices="org.ziptie.flex.devices.*"
+    xmlns:editor="org.ziptie.flex.editor.*"
+    xmlns:six="com.silverisland.diff.mxml.*"
+    creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.rpc.events.ResultEvent;
+        	import mx.utils.Base64Decoder;
+        	import org.ziptie.flex.services.WebServiceElf;
+			import org.ziptie.flex.DisplayElf;
+			
+		 	private function init():void
+            {
+            	flexDiff.leftHeader.text = input.device1.hostname + ' - ' + input.revision1.path + ' (' + DisplayElf.formatDate('medium', input.revision1.lastChanged) + ')';
+            	flexDiff.rightHeader.text = input.device2.hostname + ' - ' + input.revision2.path + ' (' + DisplayElf.formatDate('medium', input.revision2.lastChanged) + ')';
+            	WebServiceElf.call('configstore', 'retrieveRevision', setLeftText, input.device1.ipAddress, input.device1.managedNetwork, input.revision1.path, input.revision1.lastChanged);
+            	WebServiceElf.call('configstore', 'retrieveRevision', setRightText, input.device2.ipAddress, input.device2.managedNetwork, input.revision2.path, input.revision2.lastChanged);
+            }
+            
+            private function setLeftText(event:ResultEvent):void
+            {
+            	var revision:Object = event.result;
+                var decoder:Base64Decoder = new Base64Decoder();
+                decoder.decode(revision.content);
+                flexDiff.leftText = decoder.toByteArray().toString();
+                computeDiff();
+            }
+            
+            private function setRightText(event:ResultEvent):void
+            {
+            	var revision:Object = event.result;
+                var decoder:Base64Decoder = new Base64Decoder();
+                decoder.decode(revision.content);
+                flexDiff.rightText = decoder.toByteArray().toString();
+                computeDiff();
+            }
+            
+            private function computeDiff():void
+            {
+            	if (flexDiff.leftText != null && flexDiff.rightText != null)
+            	{
+            		flexDiff.compute();
+            	}
+            }
+        ]]>
+    </mx:Script>
+
+
+	<six:FlexDiff left="10" right="0" top="10" bottom="10" id="flexDiff"  />
+</editor:Editor>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Metadata>
+    	[Event('enter')]
+    	[Event('change')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        private var _scheme:String;
+
+        [Bindable(event='change')]
+        public function get scheme():String
+        {
+            return _scheme;
+        }
+
+        public function set scheme(scheme:String):void
+        {
+            _scheme = scheme;
+        }
+
+        [Bindable(event='change')]
+        public function get resolutionData():String
+        {
+            return "";
+        }
+
+        public function set resolutionData(data:String):void
+        {
+        }
+
+        protected function change():void
+        {
+        	dispatchEvent(new Event(Event.CHANGE));
+        }
+        ]]>
+    </mx:Script>
+
+</mx:Canvas>

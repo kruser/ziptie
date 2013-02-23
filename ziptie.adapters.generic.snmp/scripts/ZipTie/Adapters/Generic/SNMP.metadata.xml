@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Generic::SNMP</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Generic SNMP</shortName>
+    <description>Generic SNMP Devices</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SNMP</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    </discoveryMappings>
+</AdapterMetadata>

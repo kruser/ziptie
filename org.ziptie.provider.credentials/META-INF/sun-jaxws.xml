@@ -1,0 +1,6 @@
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+    <endpoint
+        name='credentials'
+        implementation='org.ziptie.provider.credentials.CredentialsDelegate'
+        url-pattern='/server/credentials'/>
+</endpoints>

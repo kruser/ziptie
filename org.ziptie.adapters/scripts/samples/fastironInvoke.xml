@@ -1,0 +1,17 @@
+<backup xmlns="backup">
+    <connectionPath host="10.100.3.7" xmlns="">
+        <credentials>
+            <credential name="username" value="testlab"/>
+            <credential name="password" value="hobbit"/>
+            <credential name="enableUsername" value="testlab"/>
+            <credential name="enablePassword" value="hobbit"/>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="rwCommunityString" value="private"/>
+        </credentials>
+        <protocols>
+            <protocol name="SSH" port="22">
+                <properties/>
+            </protocol>
+        </protocols>
+    </connectionPath>
+</backup>

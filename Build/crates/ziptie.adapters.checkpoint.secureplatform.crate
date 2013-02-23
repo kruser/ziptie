@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.checkpoint.secureplatform"
+	name="ziptie.adapters.checkpoint.secureplatform"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.checkpoint.secureplatform" location="adapters/" version="" />
+</crate>

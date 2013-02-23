@@ -1,0 +1,16 @@
+<body>
+The classes in this package implement the TFTP protocol on top of the NIO agent
+framework.  The implementation supports the block size option, and timeout
+interval.  Runtime settings may be specified in a file named tftp.props in a
+directory that is on the classpath.  The request packet's filename field will be
+used to identify a file on the local filesystem to be used for producing or
+consuming the bytes contained in the data packets.  This default behavior can be
+overriden by implementing the DataConsumer and/or DataProducer interfaces.  When
+a request is receieved a SecurityManager validates that the request should be
+fullfilled.  If the request is denied then the server silently discards the
+request.  The default implementation of SecurityManager simply checks that the
+mode is octet, but it can be overriden.  An EventListener is used to field the
+callbacks for asynchrous events (e.g. transfer initiated, transfer complete).
+The callbacks include the local and remote socket address, so the various events
+surrounding a transfer can be correlated.
+</body>

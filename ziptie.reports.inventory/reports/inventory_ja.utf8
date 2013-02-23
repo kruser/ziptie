@@ -1,0 +1,14 @@
+inv.vendor_sw=OSメーカ
+inv.ip_address=IPアドレス
+inv.asset_identity=シリアル番号
+inv.model=モデル
+inv.hostname=ホスト名
+inv.last_backup=直近のバックアップ(GMT)
+inv.chart=チャートとリスト
+inv.hw_version=HWバージョン
+inv.network=ネットワーク
+inv.os_version=OSバージョン
+inv.vendor_hw=メーカ
+report.title=ZipTieインベントリレポート
+menu.label=インベントリレポート
+menu.tooltip=インベントリレポート

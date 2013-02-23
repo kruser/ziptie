@@ -1,0 +1,9 @@
+menu.label=Interface Brief
+menu.tooltip=デバイスのインタフェースを表示します。
+column.0=Admin
+column.1=Line
+column.2=説明
+column.3=IPアドレス
+column.4=MAC(16進数)
+column.5=If Speed
+column.6=High Speed

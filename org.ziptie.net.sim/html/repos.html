@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Recording Repository</title>
+</head>
+<body>
+  <a href="http://redwine/php/recordings/list.php">Repository</a>
+  <form action="/config/repos" method="get">
+    <table>
+      <tr><td colspan='2'>Load From Repository WHERE:</td></tr>
+      <tr><td>Adapter ID = </td><td><input name='adapter'></input></td></tr>
+      <tr><td>Adapter Version = </td><td><input name='adapter_version'></input></td></tr>
+      <tr><td>Make = </td><td><input name='make'></input></td></tr>
+      <tr><td>Model = </td><td><input name='model'></input></td></tr>
+      <tr><td>OS = </td><td><input name='os'></input></td></tr>
+      <tr><td>Customer = </td><td><input name='customer'></input></td></tr>
+      <tr><td>Server Build = </td><td><input name='server_build'></input></td></tr>
+      <tr><td>Recording ID = </td><td><input name='id'></input></td></tr>
+    </table>
+    <p><input type="submit" value="Download"/>
+  </form>
+</body>
+</html>

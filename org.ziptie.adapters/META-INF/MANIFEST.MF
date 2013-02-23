@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Adapters Plug-in
+Bundle-SymbolicName: org.ziptie.adapters
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.adapters.Activator
+Eclipse-LazyStart: true
+Bundle-ClassPath: adapters.jar
+Require-Bundle: org.ziptie.perl,
+ org.eclipse.osgi;version="[3.3.0)"
+Perl-Include: scripts
+Bundle-Type: adapter
+Perl-System-Path: bin/{os}
+Schema-Include: schema/model,
+ schema/adapters
+Export-Package: org.ziptie.adapters
+Import-Package: org.apache.log4j
+Bundle-Vendor: ziptie.org

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Common Perl Plug-in
+Bundle-SymbolicName: org.ziptie.perl.common
+Bundle-Version: 2008.10.0
+Perl-Include: lib
+Bundle-Vendor: ziptie.org

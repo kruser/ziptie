@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ziptie.org/model/telemetry/1.0"
+    xmlns:dt="http://www.ziptie.org/model/netconftypes/1.0" xmlns:telemetry="http://www.ziptie.org/model/telemetry/1.0"
+    elementFormDefault="qualified">
+    <annotation>
+        <documentation> The Telemetry documentation is a place to put all dynamic information learned about a network device. Things like
+            routing neighbors, CDP neighbors, ARP caches and MAC tables. </documentation>
+    </annotation>
+
+    <import namespace="http://www.ziptie.org/model/netconftypes/1.0" schemaLocation="netconftypes.xsd"/>
+
+    <element name="DiscoveryEvent" type="telemetry:DiscoveryEvent"/>
+
+    <complexType name="DiscoveryEvent">
+        <annotation>
+            <documentation>The DiscoveryEvent element outlines all information learned on a single network device during the discovery
+                operation.</documentation>
+        </annotation>
+        <all>
+            <element name="adminIp" type="dt:IPAddress" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation> The creator of this DiscoveryEvent should list the preferred IP address for future communication. Many
+                        times the input document will specify not to calculate an admin IP, in which case the adapter operation can simply
+                        print out the original IP address.</documentation>
+                </annotation>
+            </element>
+            <element name="sysName" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The device's system name.</documentation>
+                </annotation>
+            </element>
+            <element name="sysObjectId" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The device's system objectId. If not available, the creator of this document should provide the
+                        enterprise identification number.</documentation>
+                </annotation>
+            </element>
+            <element name="sysDescr" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>A system description string.</documentation>
+                </annotation>
+            </element>
+            <element name="neighbors" type="telemetry:Neighbors" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Any neighbors of this device found through routing, CDP, LLDP, ARP, etc.</documentation>
+                </annotation>
+            </element>
+            <element name="interfaces" type="telemetry:Interfaces" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>A list and the status of each interface on this device.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="Neighbors">
+        <annotation>
+            <documentation> A network device can have neighbors of different types. Those types and their metadata can be defined here.
+            </documentation>
+        </annotation>
+        <all>
+            <element name="routingNeighbors" type="telemetry:RoutingNeighbors" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Neighbors found via a routing protocol.</documentation>
+                </annotation>
+            </element>
+            <element name="discoveryProtocolNeighbors" type="telemetry:DiscoveryProtocolNeighbors" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Neighbors found via a discovery protocol.</documentation>
+                </annotation>
+            </element>
+            <element name="arpTable" type="telemetry:ArpTable" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An entire ARP (Address Resolution Protocol) table.</documentation>
+                </annotation>
+            </element>
+            <element name="macTable" type="telemetry:MacTable" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An entire MAC forwarding table.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="RoutingNeighbors">
+        <annotation>
+            <documentation>One or more routing neighbors.</documentation>
+        </annotation>
+        <sequence>
+            <element name="routingNeighbor" type="telemetry:RoutingNeighbor" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="RoutingNeighbor">
+        <annotation>
+            <documentation>A single neighbor found via a routing protocol.</documentation>
+        </annotation>
+        <attribute name="protocol" use="required">
+            <annotation>
+                <documentation>The name of the routing protocol.</documentation>
+            </annotation>
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="EIGRP"/>
+                    <enumeration value="OSPF"/>
+                    <enumeration value="IGRP"/>
+                    <enumeration value="BGP"/>
+                    <enumeration value="ISIS"/>
+                    <enumeration value="RIP"/>
+                    <enumeration value="RIP2"/>
+                    <enumeration value="UNKNOWN"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="ipAddress" type="dt:IPAddress" use="required">
+            <annotation>
+                <documentation>The IP address of this neighbor.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="routerId" type="dt:IPAddress" use="required">
+            <annotation>
+                <documentation>The router ID of this neighbor.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="interface" type="string" use="optional">
+            <annotation>
+                <documentation>The name of the interface that this neighbor is found on.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="DiscoveryProtocolNeighbors">
+        <annotation>
+            <documentation>One or more neighbors found via a discovery protocol such as LLDP.</documentation>
+        </annotation>
+        <sequence>
+            <element name="discoveryProtocolNeighbor" type="telemetry:DiscoveryProtocolNeighbor" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="DiscoveryProtocolNeighbor">
+        <annotation>
+            <documentation>A single neighbor found via a discovery protocol such as LLDP.</documentation>
+        </annotation>
+        <attribute name="protocol" use="required">
+            <annotation>
+                <documentation>The name of the discovery protocol.</documentation>
+            </annotation>
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="CDP">
+                        <annotation>
+                            <documentation>Cisco Discovery Protocol</documentation>
+                        </annotation>
+                    </enumeration>
+                    <enumeration value="LLDP">
+                        <annotation>
+                            <documentation>Link Layer Discovery Protocol</documentation>
+                        </annotation>
+                    </enumeration>
+                    <enumeration value="EDP">
+                        <annotation>
+                            <documentation>Extreme Discovery Protocol</documentation>
+                        </annotation>
+                    </enumeration>
+                    <enumeration value="FDP">
+                        <annotation>
+                            <documentation>Foundry Discovery Protocol</documentation>
+                        </annotation>
+                    </enumeration>
+                    <enumeration value="NDP">
+                        <annotation>
+                            <documentation>Neighbor Discovery Protocol (IPv6)</documentation>
+                        </annotation>
+                    </enumeration>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="sysName" type="string" use="optional">
+            <annotation>
+                <documentation>The device's system name.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="sysDescr" type="string" use="optional">
+            <annotation>
+                <documentation>A system description string.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="remoteInterface" type="string" use="optional">
+            <annotation>
+                <documentation>The interface on the neighbor.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="localInterface" type="string" use="optional">
+            <annotation>
+                <documentation>The interface the primary device that this neighbor was learned on.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="ipAddress" type="dt:IPAddress" use="optional">
+            <annotation>
+                <documentation>The IP address of this neighbor.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="macAddress" type="dt:EthernetAddress" use="optional">
+            <annotation>
+                <documentation>The MAC address of this entry.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="platform" type="string" use="optional">
+            <annotation>
+                <documentation>Identifies the make and model of this neighbor.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="ArpTable">
+        <annotation>
+            <documentation>An entire ARP table.</documentation>
+        </annotation>
+        <sequence>
+            <element name="arpEntry" type="telemetry:ArpEntry" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="ArpEntry">
+        <annotation>
+            <documentation>A single entry in an ARP table that describes the IP-to-MAC mapping.</documentation>
+        </annotation>
+        <attribute name="ipAddress" type="dt:IPAddress" use="required">
+            <annotation>
+                <documentation>The IP address of this entry.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="macAddress" type="dt:EthernetAddress" use="required">
+            <annotation>
+                <documentation>The MAC address of this entry.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="interface" type="string" use="optional">
+            <annotation>
+                <documentation>The interface that the entry is found on.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="MacTable">
+        <annotation>
+            <documentation>An entire MAC-to-port table.</documentation>
+        </annotation>
+        <sequence>
+            <element name="macEntry" type="telemetry:MacEntry" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="MacEntry">
+        <annotation>
+            <documentation>A single entry in a MAC table</documentation>
+        </annotation>
+        <attribute name="macAddress" type="dt:EthernetAddress" use="required">
+            <annotation>
+                <documentation>The MAC address.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="interface" type="string" use="required">
+            <annotation>
+                <documentation>The interface or port name that this MAC was found on.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="vlan" type="string" use="optional">
+            <annotation>
+                <documentation>The name of the VLAN that this entry was found on.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="Interfaces">
+        <annotation>
+            <documentation> The details, including operational status, of interfaces on a network device. </documentation>
+        </annotation>
+        <sequence>
+            <element name="interface" type="telemetry:Interface" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Interface">
+        <annotation>
+            <documentation>Information about the interface state.</documentation>
+        </annotation>
+        <sequence>
+            <element name="ipEntry" type="telemetry:IpEntry" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>An IP address as configured on a device.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+        <attribute name="type" type="dt:IfType" use="required">
+            <annotation>
+                <documentation>The type of this interface.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="operStatus" type="dt:OperStatus" use="required">
+            <annotation>
+                <documentation>The operational status of this interface.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="name" type="string" use="required">
+            <annotation>
+                <documentation>The interface name</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="inputBytes" type="long" use="required">
+            <annotation>
+                <documentation>The same value as ifInOctets in SNMP. This value can be compared to previous discovery events to see if there
+                    is really data going over an interface.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <complexType name="IpEntry">
+        <annotation>
+            <documentation> An IP Address as configured on an interface of a network device. </documentation>
+        </annotation>
+        <attribute name="ipAddress" type="dt:IPAddress" use="required">
+            <annotation>
+                <documentation>An IP Address as configured on this interface.</documentation>
+            </annotation>
+        </attribute>
+        <attribute name="mask" type="dt:SubnetMask" use="optional">
+            <annotation>
+                <documentation>The subnet mask as configured for this address on this interface.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <element name="neighbors" type="telemetry:Neighbors"/>
+</schema>

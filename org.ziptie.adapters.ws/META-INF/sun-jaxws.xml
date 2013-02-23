@@ -1,0 +1,6 @@
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+    <endpoint
+        name='nilsettings'
+        implementation='org.ziptie.adapters.ws.NilSettingsProviderDelegate'
+        url-pattern='/server/nilsettings'/>
+</endpoints>

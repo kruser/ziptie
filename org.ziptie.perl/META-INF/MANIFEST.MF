@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Perl Server Pool
+Bundle-SymbolicName: org.ziptie.perl
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.perl.internal.Activator
+Import-Package: org.apache.log4j,
+ org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: perl.jar
+Export-Package: org.ziptie.perl
+Bundle-Vendor: ziptie.org
+Require-Bundle: org.eclipse.osgi
+Eclipse-LazyStart: true
+Perl-Include: .

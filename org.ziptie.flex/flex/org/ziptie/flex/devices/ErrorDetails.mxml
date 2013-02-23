@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="absolute"
+      width="600" height="500"
+      title="{_title}">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.core.Application;
+    		import mx.managers.PopUpManager;
+
+            [Bindable]
+            private var _status:String;
+            [Bindable]
+            private var _title:String;
+            [Bindable]
+            private var _message:String;
+            [Bindable]
+            private var _detail:String;
+
+            public static function open(title:String, message:String, status:String, detail:String):void
+            {
+            	var d:ErrorDetails = PopUpManager.createPopUp(Application.application.mainPage, ErrorDetails, true) as ErrorDetails;
+            	d._title = title;
+            	d._message = message;
+            	d._status = status;
+            	d._detail = detail;
+                PopUpManager.centerPopUp(d);
+            } 
+    	]]>
+    </mx:Script>
+
+    <mx:Text x="0" y="0" text="{_message}"/>
+    <mx:Text x="0" y="21" text="{resourceManager.getString('messages', 'ErrorDetails_status') + _status}" visible="{_status != null}"/>
+    <mx:TextArea right="0" top="47" bottom="0" left="0" text="{_detail}" editable="false"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

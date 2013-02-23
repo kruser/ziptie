@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Script>
+    	<![CDATA[
+            private function onSelect(path:String):void
+            {
+            	_text.text = path;
+            	value = path;
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%">
+        <mx:Label text="{field.label}" />
+        <mx:HBox width="100%">
+        	<mx:TextInput width="100%" id="_text" text="{value}"/>
+        	<mx:Button label="..." click="ToolStoreBrowser.browse(this, onSelect)"/>
+        </mx:HBox>
+    </mx:VBox>
+</InputContributor>

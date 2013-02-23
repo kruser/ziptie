@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-Name: %nlFragmentName
+Bundle-SymbolicName: com.ibm.icu.source.nl1 ;singleton=true
+Bundle-Version: 3.4.5.v200609270227
+Bundle-ClassPath: nl1.jar
+Bundle-Vendor: %nlProviderName
+Fragment-Host: com.ibm.icu.source;bundle-version="[3.4.0,3.5.0)"
+Bundle-Localization: nl_fragment

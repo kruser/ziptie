@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.reports.inventory"
+	name="ziptie.reports.inventory"
+	version="2008.10.0" >
+
+<category name="reports"/>
+   <bundle id="ziptie.reports.inventory" location="reports/" version="" start="true"/>
+</crate>

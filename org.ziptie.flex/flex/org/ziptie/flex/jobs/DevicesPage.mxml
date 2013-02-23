@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      creationComplete="init()">
+    <mx:Metadata>
+        [Event(name='change', type='flash.events.Event')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+            [Bindable]
+            public var job:Object;
+
+            private function init():void
+            {
+            	_devices.addEventListener(Event.CHANGE, changed);
+            }
+
+            private function changed(event:Event):void
+            {
+            	dispatchEvent(new Event(Event.CHANGE));
+            }
+
+            public function get resolutionScheme():String
+            {
+            	return _devices.resolutionScheme;
+            }
+
+            public function get resolutionData():String
+            {
+            	return _devices.resolutionData;
+            }
+    	]]>
+    </mx:Script>
+	<jobs:DevicesPanel
+          title="@Resource(key='JobEditor_devicesPage_title', bundle='messages')"
+          layout="vertical"
+          id="_devices"
+          resolutionScheme="{JobElf.getParam(job, 'ipResolutionScheme')}"
+          resolutionData="{JobElf.getParam(job, 'ipResolutionData')}"
+          width="100%" height="100%" />
+</mx:Canvas>

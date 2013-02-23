@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Credentials Plug-in
+Bundle-SymbolicName: org.ziptie.provider.credentials;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.xml.bind.annotation,
+ javax.xml.ws,
+ org.apache.log4j,
+ org.eclipse.osgi.util;version="1.0.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.2",
+ org.ziptie.zap.jta
+Export-Package: org.ziptie.provider.credentials
+Require-Bundle: org.ziptie.net,
+ org.ziptie.net.util,
+ org.ziptie.provider.netman,
+ org.ziptie.provider.devices,
+ org.ziptie.server.security,
+ org.ziptie.zap.hibernate,
+ org.ziptie.zap.security
+Bundle-Activator: org.ziptie.provider.credentials.internal.CredentialsProviderActivator
+Eclipse-RegisterBuddy: org.ziptie.zap.metro
+Bundle-Localization: plugin

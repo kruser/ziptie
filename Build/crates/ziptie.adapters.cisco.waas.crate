@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.waas"
+	name="ziptie.adapters.cisco.waas"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.waas" location="adapters/" version="" />
+</crate>

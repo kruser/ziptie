@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension point="org.ziptie.zap.web.WebRegistry">
+      <resource alias="flex-web"  name="flex-web">
+         <url-pattern pattern="/flex-web/*" />
+      </resource>
+   </extension>
+</plugin>

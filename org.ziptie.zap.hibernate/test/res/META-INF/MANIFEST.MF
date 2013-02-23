@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Hibernate Test bundle
+Bundle-SymbolicName: org.ziptie.zap.hibernate.test;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.zap.hibernate.test.internal.Activator
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime, org.ziptie.zap.hibernate
+Eclipse-RegisterBuddy: org.ziptie.server.hibernate
+DynamicImport-Package: *
+Import-Package: org.apache.commons.logging, org.apache.log4j, org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: lib/junit.jar, .
+Export-Package: org.ziptie.zap.hibernate.test, org.ziptie.zap.hibernate.test.model
+Bundle-Vendor: ziptie.org

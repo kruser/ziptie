@@ -1,0 +1,24 @@
+<xsd:schema
+	targetNamespace="http://www.ziptie.org/adapters/telemetry"
+	xmlns:tns="http://www.ziptie.org/adapters/telemetry"
+	xmlns:types="http://ziptie.org/adapters/types/1.1"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://ziptie.org/adapters/types/1.1" schemaLocation="types.xsd"/>
+
+    <xsd:element name="telemetryResponse" type="tns:telemetryResponse" />
+    <xsd:element name="telemetry" type="tns:telemetry" />
+
+    <xsd:complexType name="telemetry">
+      <xsd:sequence>
+        <xsd:element name="connectionPath" type="types:connectionPath" minOccurs="0"/>
+        <xsd:element name="discoveryParams" type="types:discoveryParams" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="telemetryResponse">
+      <xsd:sequence>
+        <xsd:element name="return" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

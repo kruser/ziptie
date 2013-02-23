@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Events Plug-in
+Bundle-SymbolicName: org.ziptie.provider.events
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.events.internal.EventsActivator
+Bundle-Vendor: ZipTie.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker
+Eclipse-LazyStart: false
+Require-Bundle: org.ziptie.zap.jms,
+ org.ziptie.zap.metro,
+ org.ziptie.zap.security,
+ org.ziptie.server.security
+Export-Package: org.ziptie.provider.events
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

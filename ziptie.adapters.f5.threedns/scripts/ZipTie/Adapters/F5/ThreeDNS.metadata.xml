@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::F5::ThreeDNS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>F5 3DNS/BIG-IP v4</shortName>
+    <description>F5 3DNS Wide-Area Load Balancers and BIG-IP Local Area Load Balancers running version 4.x.</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>\S+: command not found</errorRegEx>
+        <errorRegEx>cd: [^\n^\s]+: No such file or directory</errorRegEx>
+        <errorRegEx>\S+: illegal option -- [^\n]+\nusage: \s+</errorRegEx>
+        <errorRegEx>:\s*syntax error</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+        </operation>
+        <operation name="restore">
+            <supportedProtocolSet>SSH-SCP</supportedProtocolSet>
+            <restoreValidationRegex>.*</restoreValidationRegex>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="BIG-IP 4" singleline="false" multiline="false" ignoreCase="false"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

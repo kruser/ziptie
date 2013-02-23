@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="vertical"
+      title="@Resource(key='toolStoreBrowser_title', bundle='messages')"
+      width="400" height="300">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.managers.PopUpManager;
+
+    		private var _callback:Function;
+
+    		public static function browse(parent:DisplayObject, callback:Function):void
+    		{
+    			var d:ToolStoreBrowser = PopUpManager.createPopUp(parent, ToolStoreBrowser, true) as ToolStoreBrowser;
+    			PopUpManager.centerPopUp(d);
+    			d._callback = callback;
+    		}
+
+            private function performOk():void
+            {
+            	if (_btnOk.enabled)
+            	{
+	            	_callback(ToolStoreNode(_tree.selectedItem).path);
+	            	PopUpManager.removePopUp(this);
+            	}
+            }
+    	]]>
+    </mx:Script>
+
+    <mx:Label text="@Resource(key='toolStoreBrowser_message', bundle='messages')" />
+    <mx:Tree
+          id="_tree"
+          dataProvider="{new ToolStoreNode('/')}"
+          dataDescriptor="{new ToolStoreDataDescriptor()}"
+          doubleClickEnabled="true"
+          doubleClick="performOk()"
+          showRoot="false"
+          change="_btnOk.enabled = _tree.selectedItem != null"
+          labelField="label"
+          width="100%" height="100%"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="_btnOk" enabled="false" label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

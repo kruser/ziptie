@@ -1,0 +1,155 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1' ?>
+<project name="DeviceSimulator" default="dist">
+    <property name="sim.zip" value="sim.zip"/>
+
+    <!--
+     ! Compiles all the source code to "build/classes/".
+     !-->
+    <target name="compile" description="Compile the source code.">
+        <mkdir dir="build"/>
+        <mkdir dir="build/classes"/>
+
+        <javac srcdir="src" destdir="build/classes" debug="yes">
+            <classpath>
+                <fileset dir="lib">
+                    <include name="*"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!--
+     ! Jars the compiled classes and copies important files to "dist/".
+     ! Results in a runnable distribution.
+     !-->
+    <target name="dist" depends="compile" description="Build distribution to dist directory.">
+        <mkdir dir="dist"/>
+        <mkdir dir="dist/log"/>
+        <mkdir dir="dist/recordings"/>
+    	<mkdir dir="dist/html"/>
+
+        <mkdir dir="recordings"/>
+    	
+        <jar destfile="dist/sim.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Class-Path" value="lib/commons-net-1.3.0.jar lib/jakarta-oro-2.0.8.jar lib/mysql-connector-java-3.0.14-production-bin.jar lib/log4j-1.2.8.jar lib/simple-2.5.4.jar"/>
+                <attribute name="Main-Class" value="org.ziptie.net.sim.DeviceSimulator" />
+            </manifest>
+    	</jar>
+
+        <copy todir="dist">
+            <fileset dir="">
+                <include name="recordings/*"/>
+                <include name="configs/*"/>
+                <include name="lib/*"/>
+            	<include name="html/*"/>
+                <include name="log4j.xml"/>
+                <include name="run.sh"/>
+                <include name="run.bat"/>
+            	<include name="simulator.properties"/>
+            </fileset>
+        </copy>
+    	
+    	<chmod  file="dist/run.sh" perm="ugo+rx"/>
+    	
+    </target>
+
+    <!--
+     ! Zips a runnable distribution for easy deployment.
+     ! Output is "/sim.zip"
+     !-->
+    <target name="zip" depends="dist" description="Zips the distribution into a neat package.">
+        <zip destfile="${sim.zip}">
+            <fileset dir="dist" includes="**/*"/>
+        </zip>
+    </target>
+
+    <!--
+     ! Runs the javadoc tool against the source tree.
+     ! Output is placed in "build/doc/"
+     !-->
+    <target name="javadoc" description="Generates Javadoc.">
+        <mkdir dir="build/doc"/>
+        <javadoc packagenames="org.ziptie.net.*" sourcepath="src" destdir="build/doc" author="true" version="true" use="true" maxmemory="512M">
+            <classpath>
+                <fileset dir="lib" includes="*"/>
+            </classpath>
+        </javadoc>
+    </target>
+
+    <!--
+     ! Cleans all artifacts of the build.
+     ! After this is run the project should look identical to an initial checkout.
+     !-->
+    <target name="clean" description="Clean all build artifacts.">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+        <delete file="${sim.zip}"/>
+    </target>
+
+    <!--
+     ! Run the set of JUnit tests against the simulator.
+     ! Any class that matches the patter "*Test.class" is assumed to be a TestCase.
+     ! Test output is saved to "build/tests/".
+     !-->
+    <target name="test" depends="dist" description="Runs the JUnit tests.">
+        <mkdir dir="build/tests"/>
+        <junit printsummary="true" haltonfailure="false" fork="true" dir="dist">
+            <classpath>
+                <fileset dir="dist" includes="**/*.jar"/>
+            </classpath>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <batchtest todir="build/tests">
+                <fileset dir="build/classes" includes="**/*Test.class"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!--
+     ! Does a CVS update on "./"
+     ! A CVS login is required for this to run.
+     ! This is most practically for automation, specifically for the autobuild.
+     !-->
+    <target name="update" description="Updates the source from CVS.">
+        <cvs command="update -dP" quiet="no" />
+    </target>
+
+    <!--
+     ! Runs an update, dist, and starts the simulator out of the "dist/" directory.
+     ! This will spawn the simulator in another process.
+     ! 'ant stop' must be called to stop the simulator
+     !-->
+    <target name="start" depends="update,dist" description="Spawns a simulator process.">
+        <copy file="${da.home}/DeviceAuthority/test/data/smoke-test.record" todir="dist/recordings"/>
+
+        <java classname="org.ziptie.net.sim.DeviceSimulator" dir="dist" fork="true" spawn="true">
+            <jvmarg value="-Xms256m"/>
+            <jvmarg value="-Xmx1g"/>
+            <classpath>
+                <fileset dir="dist">
+                    <include name="lib/*"/>
+                    <include name="sim.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
+    <!--
+     ! Stops a currently running simulator.
+     ! This should be used in connection with the 'start' target
+     !-->   
+    <target name="stop" description="Kills a running simulator process.">
+        <java classname="org.ziptie.net.sim.DeviceSimulator" dir="dist" fork="true">
+            <jvmarg value="-Xms256m"/>
+            <jvmarg value="-Xmx1g"/>
+            <arg value="--stop"/>
+            <classpath>
+                <fileset dir="dist">
+                    <include name="lib/*"/>
+                    <include name="sim.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+</project>

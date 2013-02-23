@@ -1,0 +1,4 @@
+menu.label=DNSルックアップ
+menu.tooltop=デバイスにDNSルックアップを実行します。
+column.1=デバイス
+column.2=DNS名前解決

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includepath>
+  <includepathentry path="${resource_loc:/org.ziptie.perl.common/lib}" />
+  <includepathentry path="${resource_loc:/org.ziptie.adapters/scripts}" />
+  <includepathentry path="${resource_loc:/ziptie.adapters.vyatta.ofr/scripts}" />
+</includepath>
+

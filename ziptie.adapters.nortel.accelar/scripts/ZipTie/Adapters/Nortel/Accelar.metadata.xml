@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Nortel::Accelar</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Nortel Accelar</shortName>
+    <description>Nortel Accelar device information parser</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)\.(\d+)\.?(\d*)</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.*(\d*)\(*(\d*)[A-Za-z]*\)*\w*</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH</supportedProtocolSet>         
+            <supportedProtocolSet>Telnet</supportedProtocolSet>         
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>SSH</supportedProtocolSet>         
+            <supportedProtocolSet>Telnet</supportedProtocolSet>         
+        </operation>
+		<operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+			<supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+			<restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    	<matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.2272\.2" ignoreCase="false" multiline="false" singleline="false"/>
+    	<matchRegex dataSource="sysDescr" regex="Accelar-1100.*" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

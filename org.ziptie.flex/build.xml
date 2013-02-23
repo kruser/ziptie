@@ -1,0 +1,36 @@
+<project name="org.ziptie.flex" default="pre_jar">
+   <property name="flex.bin.dir" value="${basedir}/../TargetPlatform/flex/bin" />
+
+   <condition property="mxmlc" value="${flex.bin.dir}/mxmlc.exe" else="${flex.bin.dir}/mxmlc">
+      <os family="windows"/>
+   </condition>
+
+   <target name="uptodate.check">
+      <uptodate property="uptodate" targetfile="${basedir}/flex-web/ZipTie.swf">
+          <srcfiles dir="${basedir}"/>
+      </uptodate>
+   </target>
+
+   <target name="pre_jar" depends="compile">
+   </target>
+
+   <target name="compile" depends="uptodate.check" unless="uptodate">
+      <property name="src.dir" value="${basedir}/flex" />
+
+      <exec executable="${mxmlc}" failonerror="true">
+         <arg value="-verbose-stacktraces=true" />
+         <arg value="-output=${basedir}/flex-web/ZipTie.swf" />
+         <arg value="-headless-server" />
+         <arg value="-library-path+=${basedir}/lib" />
+         <arg value="-source-path+=${basedir}/locale/{locale}" />
+         <arg value="-locale=en_US,ja_JP" />
+         <arg value="--" />
+         <arg value="${src.dir}/ZipTie.mxml" />
+      </exec>
+   </target>
+
+   <target name="pre_clean">
+   	  <delete dir="${basedir}" includes="**/*.cache" />
+      <delete file="flex-web/ZipTie.swf" />
+   </target>
+</project>

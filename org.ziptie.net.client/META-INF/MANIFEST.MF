@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Adapters Plug-in
+Bundle-SymbolicName: org.ziptie.net.client
+Bundle-Version: 2008.10.0
+Export-Package: org.ziptie.net.client
+Bundle-Vendor: ziptie.org
+Import-Package: javax.jws,
+ javax.xml.bind,
+ javax.xml.bind.annotation,
+ javax.xml.ws
+Bundle-ClassPath: .
+Require-Bundle: org.ziptie.metro.client;resolution:=optional,
+ org.ziptie.zap.metro;resolution:=optional,
+ org.ziptie.adapters.ws;resolution:=optional
+

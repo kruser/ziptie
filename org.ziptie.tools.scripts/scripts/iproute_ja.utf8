@@ -1,0 +1,6 @@
+menu.label=IPルーティングテーブル
+menu.tooltip=デバイスで定義されているIPルーティングを表示します。
+column.0=宛先ネットワークアドレス
+column.1=サブネットマスク
+column.2=ネクストホップ
+column.3=インタフェース

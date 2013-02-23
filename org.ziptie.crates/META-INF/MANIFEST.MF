@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bundle Crates
+Bundle-SymbolicName: org.ziptie.crates
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Bundle-Localization: plugin
+Export-Package: org.ziptie.crates
+Import-Package: org.apache.log4j,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.packageadmin;version="1.2.0",
+ org.osgi.service.startlevel;version="1.0.0"

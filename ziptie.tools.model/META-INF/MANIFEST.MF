@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.tools.model
+Bundle-SymbolicName: ziptie.tools.model
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+ZTool-Directory: scripts
+Bundle-Vendor: ziptie.org

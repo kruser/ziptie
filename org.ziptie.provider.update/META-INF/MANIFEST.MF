@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Update Plug-in
+Bundle-SymbolicName: org.ziptie.provider.update;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.update.internal.UpdateActivator
+Require-Bundle: org.eclipse.core.runtime,
+ org.mortbay.jetty.servlet-api-2.5,
+ org.ziptie.crates,
+ org.ziptie.log4j,
+ org.ziptie.zap.jta,
+ org.ziptie.zap.metro,
+ org.ziptie.zap.web
+Export-Package: org.ziptie.provider.update
+Eclipse-LazyStart: false
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

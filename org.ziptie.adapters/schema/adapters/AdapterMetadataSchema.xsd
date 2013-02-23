@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="AdapterMetadata">
+		<xs:annotation>
+			<xs:documentation>
+				Defines all of the metadata associated with a network
+				device adapter for ZipTie. This includes information
+				about the adapter itself, as well as metadata that can
+				be used against data that is retrieved from the adapter.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="adapterId" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="supportedModelVersion" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="shortName" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="description" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="softwareVersionRegEx" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="biosVersionRegEx" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="lastRebootThreshold" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="errorForms" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="operationConstraints" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="discoveryMappings" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="adapterId">
+		<xs:annotation>
+			<xs:documentation>
+				The ID of an adapter should be the same as the fully
+				qualified package name for the Perl module that
+				implements the adapter operations. For example:
+				"ZipTie::Adapters::Cisco::IOS".
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="64" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="shortName">
+		<xs:annotation>
+			<xs:documentation>
+				A short name for the adapter (30 characters or less).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="30" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="description">
+		<xs:annotation>
+			<xs:documentation>
+				A verbose description of the adapter and the network
+				devices that it supports.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="255" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:element name="supportedModelVersion" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Specifies which version of the ZipTie Element Document
+				(ZED) model that the adapter produces.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="biosVersionRegEx" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a regular expression to apply to text that
+				describes information about the BIOS for a network
+				device in order to extract the BIOS version
+				number/string.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="softwareVersionRegEx" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a regular expression to apply to text that
+				describes information about the software/OS for a
+				network device in order to extract the software/OS
+				version number/string.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="lastRebootThreshold" type="xs:int">
+		<xs:annotation>
+			<xs:documentation>
+				The amount time (in seconds) to reference when
+				determining whether or not
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="errorForms">
+		<xs:annotation>
+			<xs:documentation>
+				Contains a set of regular expressions that can be used
+				to match various error responses from a device.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="errorRegEx" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="errorRegEx" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a regular expression to apply to an error
+				response from a device.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="operationConstraints">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a set of operations that the associated adapter
+				implements and supports.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="operation" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="operation">
+		<xs:annotation>
+			<xs:documentation>
+				Defines an adapter operation that the adapter implements
+				and supports. It is expected that the corresponding Perl
+				module has a subroutine of the same name with the
+				desired functionality.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="supportedProtocolSet" maxOccurs="unbounded" />
+				<xs:element ref="restoreValidationRegex" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="supportedProtocolSet" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a set of protocols that the operation can use
+				when communicating with a device. Each protocol in the
+				set is delimited by a hyphen. For instance:
+				"Telnet-TFTP-SNMP".
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	<xs:element name="restoreValidationRegex" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>
+                Defines a regular expression to be used against the name/path of
+                a device configuration to determine whether or not it can be restored
+                by the "restore" operation of the adapter.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+	<xs:element name="discoveryMappings">
+		<xs:annotation>
+			<xs:documentation>
+				Defines the information that can be used to associate a
+				newly discovered device with the adapter.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="matchRegex" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="matchRegex">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a set of regular expressions that can used
+				against a specified SNMP data source to determine
+				whether or not the adapter should be associated with a
+				network device.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="multiline" type="xs:boolean"
+				use="required">
+				<xs:annotation>
+					<xs:documentation>
+						Whether or not the regular expression should be
+						evaluated in multi-line mode.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ignoreCase" type="xs:boolean"
+				use="required">
+				<xs:annotation>
+					<xs:documentation>
+						Whether or not the regular expression ignore
+						case sensitivity when being applied.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="singleline" type="xs:boolean"
+				use="required">
+				<xs:annotation>
+					<xs:documentation>
+						Whether or not the regular expression should be
+						used in single line mode.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="regex" type="xs:string"
+				use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The regular expression to apply to the SNMP data
+						source response.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="dataSource" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The SNMP data source to apply the regular
+						expression to. This can be either "sysDescr",
+						"sysOid", or "sysName".
+					</xs:documentation>
+				</xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="sysDescr" />
+                        <xs:enumeration value="sysOid" />
+                        <xs:enumeration value="sysName" />
+                    </xs:restriction>
+                </xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+
+	</xs:element>
+
+</xs:schema>

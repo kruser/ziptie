@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Bundle-Name: ziptie.adapters.cisco.acns
+Bundle-ManifestVersion: 2
+Bundle-Type: adapter
+Bundle-SymbolicName: ziptie.adapters.cisco.acns
+

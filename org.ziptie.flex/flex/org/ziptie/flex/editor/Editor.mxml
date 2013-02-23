@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+      xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Script>
+        <![CDATA[
+            [Bindable]
+            public var input:Object;
+
+            public var editorType:String;
+
+            public function inputEquals(other:Object):Boolean
+            {
+            	return input == other;
+            }
+        ]]>
+    </mx:Script>
+</mx:Canvas>

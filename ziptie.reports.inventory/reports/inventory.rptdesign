@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080227-1131></property>
+    <property name="units">in</property>
+    <property name="includeResource">inventory</property>
+    <text-property name="title">Inventory Report</text-property>
+    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="theme">ziptie.defaultTheme</property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">ziptie.rptlibrary</property>
+            <property name="namespace">ziptie</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="execution_id" id="95">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">-1</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ZipTie Derby Database" id="59"
+ extends="ziptie.ZipTie Derby Database">
+            <property name="odaDriverClass">org.apache.derby.jdbc.ClientDriver</property>
+            <property name="odaURL">jdbc:derby://192.168.11.23/ziptie</property>
+            <property name="odaUser">APP</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cGFzc3dvcmQ=</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Devices" id="60">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">NORMAL_IP_ADDRESS</property>
+                    <expression name="expression">row["IP_ADDRESS"].replace(/\.0+/g, ".").replace(/^0+/, "")</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">VENDOR_HW</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">HOSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">IP_ADDRESS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">MODEL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">OS_VERSION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ASSET_IDENTITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">LAST_BACKUP</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">NORMAL_IP_ADDRESS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">ZipTie Derby Database</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">execution_id</property>
+                    <property name="paramName">execution_id</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">-1</expression>
+                    <property name="isOptional">false</property>
+                    <property name="allowNull">true</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">VENDOR_HW</property>
+                    <property name="nativeName">vendor_hw</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">HOSTNAME</property>
+                    <property name="nativeName">hostname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">IP_ADDRESS</property>
+                    <property name="nativeName">ip_address</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">MODEL</property>
+                    <property name="nativeName">model</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">OS_VERSION</property>
+                    <property name="nativeName">os_version</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ASSET_IDENTITY</property>
+                    <property name="nativeName">asset_identity</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">LAST_BACKUP</property>
+                    <property name="nativeName">last_backup</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select D.vendor_hw AS VENDOR_HW,
+ D.hostname AS HOSTNAME,
+ D.ip_address AS IP_ADDRESS,
+ D.model AS MODEL,
+ D.os_version AS OS_VERSION,
+ D.asset_identity AS ASSET_IDENTITY,
+ D.last_backup AS LAST_BACKUP 
+from device D, birt_resolved_devices BIRT 
+where D.model is not null
+ AND D.device_id = BIRT.device_id
+ AND BIRT.execution_id = ?  
+order by D.ip_address
+</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:DataSetParameters>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>1</design:position>
+        <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+        <design:nullability>Nullable</design:nullability>
+        <design:uiHints/>
+      </design:attributes>
+      <design:inputAttributes>
+        <design:elementAttributes>
+          <design:defaultScalarValue>-1</design:defaultScalarValue>
+          <design:optional>false</design:optional>
+          <design:masksValue>false</design:masksValue>
+          <design:uiHints>
+            <design:promptStyle>TextField</design:promptStyle>
+          </design:uiHints>
+        </design:elementAttributes>
+      </design:inputAttributes>
+    </design:parameterDefinitions>
+  </design:DataSetParameters>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <grid id="6">
+            <property name="width">100%</property>
+            <column id="7"/>
+            <row id="8">
+                <cell id="9">
+                    <label id="58">
+                        <property name="style">ReportHeader</property>
+                        <text-property name="text" key="report.title">Report Header</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <table id="10">
+            <property name="fontSize">smaller</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Devices</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">VENDOR_HW</property>
+                    <expression name="expression">dataSetRow["VENDOR_HW"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">HOSTNAME</property>
+                    <expression name="expression">dataSetRow["HOSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">IP_ADDRESS</property>
+                    <expression name="expression">dataSetRow["IP_ADDRESS"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MODEL</property>
+                    <expression name="expression">dataSetRow["MODEL"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">OS_VERSION</property>
+                    <expression name="expression">dataSetRow["OS_VERSION"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ASSET_IDENTITY</property>
+                    <expression name="expression">dataSetRow["ASSET_IDENTITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LAST_BACKUP</property>
+                    <expression name="expression">dataSetRow["LAST_BACKUP"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMAL_IP_ADDRESS</property>
+                    <expression name="expression">dataSetRow["NORMAL_IP_ADDRESS"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="35">
+                <property name="width">25%</property>
+            </column>
+            <column id="36">
+                <property name="canShrink">true</property>
+            </column>
+            <column id="37">
+                <property name="canShrink">true</property>
+            </column>
+            <column id="38">
+                <property name="suppressDuplicates">false</property>
+                <property name="marginBottom">0pt</property>
+                <property name="canShrink">true</property>
+            </column>
+            <column id="39">
+                <property name="canShrink">true</property>
+            </column>
+            <column id="40">
+                <property name="canShrink">true</property>
+            </column>
+            <header>
+                <row id="11">
+                    <cell id="12">
+                        <property name="fontSize">small</property>
+                        <label id="92">
+                            <text-property name="text">Hostname</text-property>
+                        </label>
+                    </cell>
+                    <cell id="13">
+                        <property name="fontSize">small</property>
+                        <label id="81">
+                            <text-property name="text">IP Address</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <property name="fontSize">small</property>
+                        <label id="83">
+                            <text-property name="text">Model</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <property name="fontSize">small</property>
+                        <label id="85">
+                            <text-property name="text">OS Version</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <property name="fontSize">small</property>
+                        <label id="87">
+                            <text-property name="text">Serial Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <property name="fontSize">small</property>
+                        <label id="89">
+                            <text-property name="text">Last Backup</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="61">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["VENDOR_HW"]</expression>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+                <header>
+                    <row id="62">
+                        <property name="style">ReportBodyTitle</property>
+                        <cell id="63">
+                            <property name="fontSize">small</property>
+                            <data id="79">
+                                <property name="resultSetColumn">VENDOR_HW</property>
+                            </data>
+                        </cell>
+                        <cell id="64">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="65">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="66">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="67">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="68">
+                            <property name="fontSize">small</property>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="70">
+                        <cell id="71">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="72">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="73">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="74">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="75">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="76">
+                            <property name="fontSize">small</property>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="19">
+                    <property name="style">ReportBody</property>
+                    <cell id="20">
+                        <property name="fontSize">small</property>
+                        <data id="93">
+                            <property name="resultSetColumn">HOSTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="21">
+                        <property name="fontSize">small</property>
+                        <data id="94">
+                            <property name="resultSetColumn">NORMAL_IP_ADDRESS</property>
+                        </data>
+                    </cell>
+                    <cell id="22">
+                        <property name="fontSize">small</property>
+                        <data id="84">
+                            <property name="resultSetColumn">MODEL</property>
+                        </data>
+                    </cell>
+                    <cell id="23">
+                        <property name="fontSize">small</property>
+                        <data id="86">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="resultSetColumn">OS_VERSION</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <property name="fontSize">small</property>
+                        <data id="88">
+                            <property name="resultSetColumn">ASSET_IDENTITY</property>
+                        </data>
+                    </cell>
+                    <cell id="25">
+                        <property name="fontSize">small</property>
+                        <data id="90">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">yyyy/MM/dd kk:mm</property>
+                            </structure>
+                            <property name="resultSetColumn">LAST_BACKUP</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="27">
+                    <cell id="28">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="29">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="30">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="31">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="32">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="33">
+                        <property name="fontSize">small</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

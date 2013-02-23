@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.ziptie.zap.web">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.ziptie.zap.web" id="WebRegistry" name="WebRegistry"/>
+      </appInfo>
+      <documentation>
+         Plugins contributing servlets, filters, and potentially other supported web artifacts can extend this point.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="servlet" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="filter" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="resource" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="servlet">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="alias"/>
+         </appInfo>
+         <documentation>
+            Describe one mapped servlet
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="init-param" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="url-pattern" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified class name of this servlet.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":javax.servlet.Servlet"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="alias" type="string">
+            <annotation>
+               <documentation>
+                  The servlet alias, per the OSGi service compendium interpretation of &apos;alias.  This becomes the one, verbatim URL mapping for this servlet.  So if your alias is /foo/bar, the servlet will be mapped at location /foo/bar.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="context" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="filter">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="class"/>
+         </appInfo>
+         <documentation>
+            A web filter contribution.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="init-param" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="url-pattern" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="servlet-alias" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified class name of the web filter.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":javax.servlet.Filter"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="alias" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="init-param">
+      <annotation>
+         <documentation>
+            Zero or more parameters to be supplied as initialization parameters to your servlet.  According to pax-web (untested by me) you can supply a servlet-name init parameter and later use that name when mapping a filter (supply it as a servlet-alias to the filter.)
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="url-pattern">
+      <annotation>
+         <documentation>
+            Optional list of URL prefixes where this servlet should be mapped.  This seems to work with wildcards, i.e. /foo/*, but doesn&apos;t work so well (AFAICT) with ordinary names, like /foo/bar.  If you want an ordinary name, use the &apos;alias&apos; attribute on servlet itself.  This is probably a bug, and may work in a later release of pax-web... (0.3.1 is current as of this writing.)
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="pattern" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A pattern of the form /foo/*, or presumably a suffix mapping (untested by me) like *.foo.  According to pax-web a nonwildcard mapping like /foo/bar should also work, but it never has for me...  For servlets you can use the &apos;alias&apos; attribute for this purpose.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="servlet-alias">
+      <annotation>
+         <documentation>
+            In a filter context, this maps to a named servlet.  AFAIK (untested by me) this means that you can supply an init-param called &apos;servlet-name&apos; to a servlet, then in a filter add a servlet-alias child with the same name.  Note that this has *nothing* to do with the &apos;alias&apos; attribute on a servlet.  My bad, it&apos;s misnamed.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="resource">
+      <complexType>
+         <sequence>
+            <element ref="url-pattern" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="alias" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.alcatel.omniswitch"
+	name="ziptie.adapters.alcatel.omniswitch"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.alcatel.omniswitch" location="adapters/" version="" />
+</crate>

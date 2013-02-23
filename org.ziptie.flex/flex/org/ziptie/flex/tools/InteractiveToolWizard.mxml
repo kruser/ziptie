@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:tools="org.ziptie.flex.tools.*"
+      width="520"
+      height="{Math.min(500, _tic.height + controlBar.height + titleBar.height + 15)}"
+      title="{_pluginDescriptor.toolName}"
+      creationComplete="init()">
+    <mx:Script>
+        <![CDATA[
+        	import mx.rpc.events.FaultEvent;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.CsvElf;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.utils.Base64Decoder;
+        	import mx.rpc.events.ResultEvent;
+        	import memorphic.xpath.XPathQuery;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import mx.core.Application;
+        	import mx.managers.PopUpManager;
+
+            [Bindable]
+            private var _pluginDescriptor:PluginDescriptor;
+            [Bindable]
+            private var _devices:Array;
+            private var _pluginDefaults:PluginDefaults;
+
+    		public static function open(pluginDescriptor:PluginDescriptor, devices:Array):void
+    		{
+    			var parent:DisplayObject = Application.application.mainPage;
+    			var d:InteractiveToolWizard = PopUpManager.createPopUp(parent, InteractiveToolWizard, true) as InteractiveToolWizard;
+                d._devices = devices;
+                d._pluginDescriptor = pluginDescriptor;
+
+    			PopUpManager.centerPopUp(d);
+            }
+
+            private function init():void
+            {
+                if (_devices.length != 1)
+                {
+                    return;
+                }
+
+                if (_pluginDescriptor.requiresZedDefaults)
+                {
+                    var device:Object = _devices[0];
+                    _pluginDefaults = new PluginDefaults(_pluginDescriptor, device.ipAddress, device.managedNetwork);
+                    _pluginDefaults.addEventListener(Event.COMPLETE, onLoadDefaults);
+                    _pluginDefaults.load();
+                }
+            }
+
+            private function onLoadDefaults(event:Event):void
+            {
+                _tic.defaultValues = _pluginDefaults.values;
+    		}
+
+    		private function performOk():void
+    		{
+    			ProgressManager.run(RunTool.newFromArray(_pluginDescriptor, _devices, _tic.values));
+    			PopUpManager.removePopUp(this);
+    		}
+    	]]>
+    </mx:Script>
+    <tools:ToolInputControl
+          id="_tic"
+          width="100%"
+          pluginDescriptor="{_pluginDescriptor}"/>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

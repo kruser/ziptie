@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.nortel.accelar
+Bundle-SymbolicName: ziptie.adapters.nortel.accelar
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Type: adapter

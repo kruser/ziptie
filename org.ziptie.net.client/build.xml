@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.net.client" default="pre_build">
+	<target name="pre_build">
+        <ant antfile="../Build/buildCG.xml" target="gencode.metro">
+            <property name="wsdl.file" value="backup.wsdl" />
+            <property name="dir.origin" value="../org.ziptie.adapters" />
+            <property name="target.package" value="org.ziptie.net.client" />
+            <property name="uptodate.test" value="org/ziptie/net/client/Backup.java" />
+        </ant>
+				
+        <ant antfile="../Build/buildCG.xml" target="gencode.metro">
+            <property name="wsdl.file" value="commands.wsdl" />
+            <property name="dir.origin" value="../org.ziptie.adapters" />
+            <property name="target.package" value="org.ziptie.net.client" />
+            <property name="uptodate.test" value="org/ziptie/net/client/Commands.java" />
+        </ant>
+        
+        <ant antfile="../Build/buildCG.xml" target="gencode.metro">
+            <property name="wsdl.file" value="telemetry.wsdl" />
+            <property name="dir.origin" value="../org.ziptie.adapters" />
+            <property name="target.package" value="org.ziptie.net.client" />
+            <property name="uptodate.test" value="org/ziptie/net/client/Telemetry.java" />
+        </ant>
+		
+        <ant antfile="../Build/buildCG.xml" target="gencode.metro">
+            <property name="wsdl.file" value="restore.wsdl" />
+            <property name="dir.origin" value="../org.ziptie.adapters" />
+            <property name="target.package" value="org.ziptie.net.client" />
+            <property name="uptodate.test" value="org/ziptie/net/client/Restore.java" />
+        </ant>
+		
+		<ant antfile="../Build/buildCG.xml" target="gencode.metro">
+			<property name="wsdl.file" value="NilSettingsService.wsdl" />
+			<property name="dir.origin" value="../org.ziptie.adapters.ws" />
+			<property name="target.package" value="org.ziptie.net.client" />
+			<property name="uptodate.test" value="org/ziptie/net/client/NilSettingsService.java" />
+		</ant>
+    </target>
+
+	<target name="pre_clean">
+		<delete dir="srcgen" />
+		<delete dir="WEB-INF" />
+	</target>
+</project>

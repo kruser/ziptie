@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.threecom.switch4400
+Bundle-SymbolicName: ziptie.adapters.threecom.switch4400
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Vendor: ziptie.org
+Bundle-Type: adapter

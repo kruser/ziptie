@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.tools.cisco.ios"
+	name="ziptie.tools.cisco.ios"
+	version="2008.10.0" >
+
+	<category name="tools"/>
+	<bundle id="ziptie.tools.cisco.ios" location="tools/" version="" />
+</crate>

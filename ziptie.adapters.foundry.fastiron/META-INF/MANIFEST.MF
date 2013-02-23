@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.foundry.fastiron
+Bundle-SymbolicName: ziptie.adapters.foundry.fastiron
+Bundle-Version: 2008.10.0
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

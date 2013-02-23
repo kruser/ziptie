@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::APC::SmartUPS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>APC Smart-UPS</shortName>
+    <description>American Power Conversion Smart-UPS power supply</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet-FTP-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-FTP-SNMP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+            <supportedProtocolSet>Telnet-FTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-FTP</supportedProtocolSet>
+			<restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="APC Web/SNMP Management Card" ignoreCase="true" multiline="false" singleline="false"/>
+    </discoveryMappings>
+</AdapterMetadata>

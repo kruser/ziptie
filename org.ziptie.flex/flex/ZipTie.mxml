@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+    layout="absolute"
+    xmlns:ns1="org.ziptie.flex.*"
+    creationComplete="created()">
+    <mx:Style source="ZipTie.css" />
+    <mx:Metadata>
+        [Event(name=OpenEvent.TYPE, eventType='org.ziptie.flex.OpenEvent')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import org.ziptie.flex.services.ResultElf;
+        	import mx.collections.ArrayCollection;
+        	import mx.utils.URLUtil;
+
+            [Bindable]
+            public var server:String;
+            [Bindable]
+            public var hostname:String;
+
+            public var user:Object;
+            private var _permissions:Object;
+
+            public static function hasPermission(permission:String):Boolean
+            {
+            	return application.permissions.hasOwnProperty(permission);
+            }
+
+            public static function get username():String
+            {
+            	return application.user.name;
+            }
+
+            private function get permissions():Object
+            {
+            	if (_permissions == null)
+            	{
+            		_permissions = new Object();
+            		for each (var permission:String in ResultElf.array(user.role.permissions))
+            		{
+            			_permissions[permission] = 1;
+            		}
+            	}
+            	return _permissions;
+            }
+
+            private function created():void
+            {
+            	if (url.search(/^file:/) == 0)
+            	{
+            		server = "https://localhost:8080";
+            		hostname = 'localhost';
+            	}
+            	else
+            	{
+                	server = URLUtil.getProtocol(url) + "://" + URLUtil.getServerNameWithPort(url);
+            		hostname = URLUtil.getServerName(url);
+            	}
+            }
+        ]]>
+    </mx:Script>
+
+    <ns1:LoginPage id="loginPage"  login="currentState = 'authenticated';" width="100%" top="100"/>
+
+    <mx:states>
+        <mx:State name="authenticated">
+             <mx:RemoveChild target="{loginPage}" />
+             <mx:AddChild>
+                 <ns1:MainPage id="mainPage" width="100%" height="100%"/>
+             </mx:AddChild>
+        </mx:State>
+    </mx:states>
+</mx:Application>

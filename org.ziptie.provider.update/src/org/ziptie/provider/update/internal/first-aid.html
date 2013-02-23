@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+
+	<head>
+		<title>First Aid</title>
+	</head>
+	<body>
+        <h3>ZipTie Server</h3>
+        <hr/>
+        <ul>
+            <li><a href="?op=summary">Show Install Summary</a></li>
+            <li><a href="?op=log">Show Server Log</a></li>
+        </ul>
+
+        <hr/>
+        <h4>Send Install Summary To ZipTie Team</h4>
+        
+        <form action="/update" onsubmit="return validateFormOnSubmit(this)">
+            <input type="hidden" name="op" value="post"></input>
+            <table><tr><td>Your Name:</td>
+            <td><input type="text" name="name"></input></td></tr>
+            <tr><td>Your Email:</td>
+            <td><input type="text" name="email"></input></td><td>
+            <input type="submit" value="Send"></input></td></tr>
+        </form>
+	</body>
+
+<script>
+function validateFormOnSubmit(theForm)
+{
+    if (theForm.email.value.length == 0 || theForm.name.value.length == 0)
+    {
+        alert("Please specify both a name and email.");
+        return false;
+    }
+    return true;
+}
+</script>
+</html>

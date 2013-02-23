@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.checkpoint.secureplatform
+Bundle-SymbolicName: ziptie.adapters.checkpoint.secureplatform
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org
+Require-Bundle: ziptie.adapters.checkpoint.opsec

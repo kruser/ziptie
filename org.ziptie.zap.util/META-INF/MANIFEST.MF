@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Util Plug-in
+Bundle-Activator: org.ziptie.zap.util.internal.Activator
+Bundle-SymbolicName: org.ziptie.zap.util
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ZipTie.org
+Export-Package: org.ziptie.zap.util
+Require-Bundle: org.eclipse.osgi
+Import-Package: org.osgi.framework,
+ org.osgi.service.packageadmin,
+ org.osgi.util.tracker

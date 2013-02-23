@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ziptie.org/model/core/1.0"
+    xmlns:core="http://www.ziptie.org/model/core/1.0"
+    xmlns:dt="http://www.ziptie.org/model/netconftypes/1.0" elementFormDefault="qualified">
+
+    <import namespace="http://www.ziptie.org/model/netconftypes/1.0"/>
+
+    <complexType name="ZiptieElementDocument">
+        <annotation>
+            <documentation>The root of the device backup, adapters can optionally produce this core
+                version of the ZiptieElementDocument (ZED) or an extension to it such as the common
+                ZED.</documentation>
+        </annotation>
+        <sequence>
+            <element ref="core:systemName" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The system name is often referred to as the hostname of a device.
+                        Note that this is not the DNS fully qualified donain name, but the locally configured system name.
+                        This can be fully qualified or not, but most vendors usually do not include
+                        the domain name. </documentation>
+                </annotation>
+            </element>
+            <element ref="core:osInfo" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Information regarding the device's operating system including the
+                        software version and type.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:biosVersion" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The hardware BIOS version of the device.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:deviceType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Indicates the device's purpose on the
+                    network.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:contact" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The primary contact for the device as configured on the device
+                        itself. This is also commonly found in the sysContact SNMP
+                    propertie.</documentation>
+                </annotation>
+            </element>
+            <element name="lastReboot" type="core:SecondsSinceEpoch" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The number of seconds since epoch when the device was last
+                        reloaded. </documentation>
+                </annotation>
+            </element>
+            <element ref="core:platform" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Describes details of the platform, which may not include a
+                        physical chassis.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:configRepository" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>When backing up configurations for a device, the plain
+                        text documents go into this element.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="ZiptieElementDocument" type="core:ZiptieElementDocument"/>
+
+    <complexType name="Asset">
+        <annotation>
+            <documentation>Anything that can be purchased/installed separately that is typically
+                tracked by accountants, associated with service contracts, etc are Assets. A
+                physical device may consist of multiple assets. </documentation>
+        </annotation>
+        <all>
+            <element name="assetTag" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>An arbitrary tag or tracking ID for an asset.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:assetType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The physical type of an asset.</documentation>
+                </annotation>
+            </element>
+            <element name="dateCreated" type="dateTime" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Indicates when an asset was most likely
+                        manufactures.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:factoryinfo" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Assets can come from the factory with many attributes already
+                        integrated such as hardware version, serial number, etc.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:location" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Where this asset resides. This may be the same as the SNMP
+                        sysLocation field.</documentation>
+                </annotation>
+            </element>
+            <element name="owner" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The current owner of this asset. This can be a person, business
+                        name, business division name, and so on.</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+
+    <element name="asset" type="core:Asset">
+        <annotation>
+            <documentation>Provides for a generic asset type but generally a ZED will
+                only contain extensions to the asset, such as cards, memory, hard drives, CPU,
+            etc.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="AssetComponent">
+        <annotation>
+            <documentation> A component that can be tracked as a physical asset.
+                This organization permits the
+                construction of more complex types of devices that can contain many elements, some
+                of which may be tracked assets and some that are not. </documentation>
+        </annotation>
+        <sequence>
+            <element ref="core:asset" maxOccurs="1" minOccurs="0"> </element>
+            <element ref="core:description" maxOccurs="1" minOccurs="0"> </element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="AssetType">
+        <restriction base="string">
+            <enumeration value="Chassis"/>
+            <enumeration value="CPU"/>
+            <enumeration value="Card"/>
+            <enumeration value="PowerSupply"/>
+            <enumeration value="Backplane"/>
+            <enumeration value="Software"/>
+            <enumeration value="Stack"/>
+            <enumeration value="Memory"/>
+            <enumeration value="Other"/>
+        </restriction>
+    </simpleType>
+
+    <element name="assetType" type="core:AssetType"/>
+
+    <complexType name="ConfigurationEntity">
+        <annotation>
+            <documentation>Represents an actual file including the
+            contents.</documentation>
+        </annotation>
+        <sequence>
+            <element name="context" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Helps determine the
+                        configuration's purpose on the device. 
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="active">
+                            <annotation>
+                                <documentation>Signifies the in-memory configuration. Sometimes
+                                    known as the running
+                                configuration.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="boot">
+                            <annotation>
+                                <documentation>Signifies the configuration on disk that will be
+                                    loaded when the device boots up. Sometimes known as the
+                                    startup configuration.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="candidate">
+                            <annotation>
+                                <documentation>Signifies the configuration that is not active, nor
+                                    is the boot. This configuration has been changed but not
+                                saved.</documentation>
+                            </annotation>
+                        </enumeration>
+                        <enumeration value="N/A">
+                            <annotation>
+                                <documentation>Not applicable. This concept may not apply to many
+                                    devices.</documentation>
+                            </annotation>
+                        </enumeration>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="mediaType" default="text/plain" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>The MIME type of this entity.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <pattern
+                            value="(text|application|image|audio|video|model|multipart|message|x-[\-.a-z0-9]+)/[a-z0-9][\-.+a-z0-9]+(;\s?.+=.+)*"
+                        />
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The name of the file.</documentation>
+                </annotation>
+            </element>
+            <element name="promotable" type="boolean" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation> Set this to true if this file can be placed back on the device.
+                        This should be true on most Unix-based file systems, but would be set to
+                        false for devices that keep an in-memory version of a configuration. The startup-config should have this
+                        element set to true while the running-config should have it set to false.
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="textBlob" type="base64Binary" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The contents of the file, base64 encoded.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="biosVersion" type="core:VersionNumber">
+        <annotation>
+            <documentation>The hardware BIOS version of the device.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="ConfigurationRepository">
+        <sequence>
+            <element name="config" type="core:ConfigurationEntity" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Represents an actual file including the
+                        contents.</documentation>
+                </annotation>
+            </element>
+            <element name="folder" type="core:ConfigurationRepository" maxOccurs="unbounded"
+                minOccurs="0">
+                <annotation>
+                    <documentation>Represents nested
+                        directories on a file system.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+        <attribute name="name" type="string" use="required">
+            <annotation>
+                <documentation>The name of the folder.</documentation>
+            </annotation>
+        </attribute>
+    </complexType>
+
+    <element name="configRepository" type="core:ConfigurationRepository">
+        <annotation>
+            <documentation>Analogous to a directory on a file system.
+                It can contains files or folders. </documentation>
+        </annotation>
+    </element>
+
+    <element name="contact" type="string">
+        <annotation>
+            <documentation>The system contact. </documentation>
+        </annotation>
+    </element>
+
+    <element name="description">
+        <simpleType>
+            <restriction base="string">
+                <whiteSpace value="collapse"/>
+                <minLength value="1"/>
+                <maxLength value="512"/>
+            </restriction>
+        </simpleType>
+    </element>
+
+    <simpleType name="DeviceType">
+        <restriction base="string">
+            <enumeration value="Application Accelerator"/>
+            <enumeration value="Content Engine"/>
+            <enumeration value="Content Switch"/>
+            <enumeration value="Firewall"/>
+            <enumeration value="IDS/IPS"/>
+            <enumeration value="IP Camera"/>
+            <enumeration value="IP Phone"/>
+            <enumeration value="Load Balancer"/>
+            <enumeration value="Network Attached Storage"/>
+            <enumeration value="Power Supply"/>
+            <enumeration value="Printer"/>
+            <enumeration value="Router"/>
+            <enumeration value="Switch"/>
+            <enumeration value="Terminal Server"/>
+            <enumeration value="VPN Concentrator"/>
+            <enumeration value="Wireless Access Point"/>
+        </restriction>
+    </simpleType>
+
+    <element name="deviceType" type="core:DeviceType">
+        <annotation>
+            <documentation>Represents the function that this device serves on the
+                network.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="FactoryInfo">
+        <sequence>
+            <element name="firmwareVersion" type="core:VersionNumber" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The version of firmware that is loaded on this
+                    asset.</documentation>
+                </annotation>
+            </element>
+            <element name="fruPartNumber" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The FRU (field replacement unit) number as assigned by the
+                        vendor.</documentation>
+                </annotation>
+            </element>
+            <element name="hardwareVersion" type="core:VersionNumber" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>The hardware version of this asset. This value should not change
+                        for the life of this asset.</documentation>
+                </annotation>
+            </element>
+            <element name="make" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>Synonymous with the vendor.</documentation>
+                </annotation>
+            </element>
+            <element name="modelNumber" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The model number of this asset as described by the
+                    vendor.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="36"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="partNumber" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Use the part number when the model number is more descriptive
+                        text, but the part number is a fixed trackable number.</documentation>
+                </annotation>
+            </element>
+            <element name="revisionNumber" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>If an asset has been through revisions the vendor may assign
+                        numbers to each revision.</documentation>
+                </annotation>
+            </element>
+            <element name="rmaNumber" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The RMA (return mechandise authorization) number as assigned by
+                        the vendor.</documentation>
+                </annotation>
+            </element>
+            <element name="serialNumber" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The serial number on the asset as assigned by the
+                    vendor.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="factoryinfo" type="core:FactoryInfo">
+        <annotation>
+            <documentation>Describes several elements that come fixed from
+                the factory and should not change for the life of an asset.</documentation>
+        </annotation>
+    </element>
+
+    <element name="image" type="anyURI">
+        <annotation>
+            <documentation>If the software image for a device can be found through a file system, a
+                web address, or some other URI, it should be noted here.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Location">
+        <sequence>
+            <element ref="core:description" maxOccurs="1" minOccurs="1"> </element>
+            <!-- EdG: we should find a better 'address' definition than what we had in basicTyeps
+            <element ref="core:address" maxOccurs="1" minOccurs="0"> </element>
+            -->
+        </sequence>
+    </complexType>
+
+    <element name="location" type="core:Location">
+        <annotation>
+            <documentation>Where this asset resides. This may be the same as the SNMP sysLocation
+                field.</documentation>
+        </annotation>
+    </element>
+
+    <complexType name="OperatingSystem">
+        <complexContent>
+            <extension base="core:Software">
+                <sequence>
+                    <element name="osType" type="string" maxOccurs="1" minOccurs="1">
+                        <annotation>
+                            <documentation>Indicates the type of the operating system. Possibilities
+                                are 'IOS', 'JUNOS', 'Linux', etc.</documentation>
+                        </annotation>
+                    </element>
+                    <element name="softwareModule" type="core:SoftwareModule" minOccurs="0" maxOccurs="unbounded">
+                        <annotation><documentation>
+                            
+                        </documentation></annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    
+    <complexType name="SoftwareModule">
+        <complexContent>
+            <extension base="core:Software">
+                <sequence>
+                    <element name="moduleType">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="Base"><annotation><documentation>Describes a base software image, such as the main operating system.</documentation></annotation></enumeration>
+                                <enumeration value="Maintenance"><annotation><documentation>Describes a software module that is a maintenance pack.</documentation></annotation></enumeration>
+                                <enumeration value="Patch"><annotation><documentation>Describes a module that is a patch.</documentation></annotation></enumeration>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                    <element name="state">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="Active"><annotation><documentation>This file is active in thesystem.</documentation></annotation></enumeration>
+                                <enumeration value="InstPRel"><annotation><documentation>This file will run on the system after next reload.</documentation></annotation></enumeration>
+                                <enumeration value="IPRPndRo"><annotation><documentation>This file is both installed pending a reload and pending rollback. If the card reloads, it will be active on the system pending a rollback. If 'install activate' is done before a reload, the pending install and removal will cancel each other and the file will be removed.</documentation></annotation></enumeration>
+                                <enumeration value="Occluded"><annotation><documentation>This file has been occluded from the system, a newer version has superceded it.</documentation></annotation></enumeration>
+                                <enumeration value="PendInst"><annotation><documentation>This file is set to be made available to run on the system after next activation.</documentation></annotation></enumeration>
+                                <enumeration value="PendRoll"><annotation><documentation>This file is set to be rolled back after next activation.</documentation></annotation></enumeration>
+                                <enumeration value="Pruned"><annotation><documentation>This file has been pruned from the system.</documentation></annotation></enumeration>
+                                <enumeration value="RollPRel"><annotation><documentation>This file will be removed from the system after next reload.</documentation></annotation></enumeration>
+                                <enumeration value="RPRPndIn"><annotation><documentation>This file is both rolled back pending a reload and pending installation. On reload, this file will not run and will move to PendInst state. If 'install activate' is done before reload, pending removal and install cancel each other and the file remains active.</documentation></annotation></enumeration>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="osInfo" type="core:OperatingSystem">
+        <annotation>
+            <documentation>Details of an operating system. (place in
+            Parsers::parse_system)</documentation>
+        </annotation>
+    </element>
+
+    <element name="operatingSystem" type="core:OperatingSystem">
+        <annotation>
+            <documentation>Details of an operating system.</documentation>
+        </annotation>
+    </element>
+
+    <element name="platform" type="core:AssetComponent">
+        <annotation>
+            <documentation>The most likely implementation of the platform is the chassis. This will
+                contain hardware elements. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="Software">
+        <sequence>
+            <element name="fileName" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Many network devices load their operating system via a single
+                        file. This is the name of that file.</documentation>
+                </annotation>
+            </element>
+            <element name="make" type="string" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The name of the maker of this software; e.g. 'Cisco', 'Nortel',
+                        'Vyatta'.</documentation>
+                </annotation>
+            </element>
+            <element name="name" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of this software.</documentation>
+                </annotation>
+            </element>
+            <element ref="core:softwareImage" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>If the software image location is known, it can be listed
+                    here.</documentation>
+                </annotation>
+            </element>
+            <element name="version" type="core:VersionNumber" maxOccurs="1" minOccurs="1">
+                <annotation>
+                    <documentation>The version number, as described by the vendor.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="SoftwareImage">
+        <annotation>
+            <documentation>Contains information about the operating system software that can run on
+                a network device.</documentation>
+        </annotation>
+
+        <complexContent>
+            <extension base="core:AssetComponent">
+                <sequence>
+                    <element ref="core:image" maxOccurs="1" minOccurs="0">
+                        <annotation>
+                            <documentation>Indicates where the image file for a given piece of
+                                software can be found.</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="softwareImage" type="core:SoftwareImage">
+        <annotation>
+            <documentation>Contains details of the operating system software.</documentation>
+        </annotation>
+    </element>
+
+    <element name="systemName" type="string">
+        <annotation>
+            <documentation>The system name is often referred to as the hostname of a device. Note
+                that this is not the DNS fully qualified domain name, but the locally configured system name. This can be
+                fully qualified or not, but most vendors usually do not include the domain name.
+                </documentation>
+        </annotation>
+    </element>
+
+    <attribute name="protocolNumber">
+        <annotation>
+            <documentation>Used to enhance the protocol simpleType definition in this core schema namespace.</documentation>
+        </annotation>
+        <simpleType>
+            <annotation>
+                <documentation>A valid protocol number.</documentation>
+            </annotation>
+            <restriction base="int">
+                <minInclusive value="0"/>
+                <maxInclusive value="255"/>
+            </restriction>
+        </simpleType>
+    </attribute>
+
+    <simpleType name="Protocol">
+        <annotation>
+            <documentation>The name of the protocol. Examples are TCP, UDP or ICMP.</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="udp">
+                <annotation core:protocolNumber="17">
+                    <documentation>User Datagram</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="tcp">
+                <annotation core:protocolNumber="6">
+                    <documentation>Transmission control.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="icmp">
+                <annotation core:protocolNumber="1">
+                    <documentation>Internet control message.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="icmp6">
+                <annotation core:protocolNumber="1">
+                    <documentation>Internet control message for IPv6 addresses.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="igmp">
+                <annotation core:protocolNumber="1">
+                    <documentation>Internet group management protocol.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="eigrp">
+                <annotation core:protocolNumber="88">
+                    <documentation>EIGRP</documentation>
+                </annotation>
+            </enumeration>
+			<enumeration value="esp">
+                <annotation core:protocolNumber="50">
+                    <documentation>Encapsulating security payload.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="ip">
+                <annotation core:protocolNumber="4">
+                    <documentation>IP in IP (encapsulation).</documentation>
+                </annotation>
+            </enumeration>
+			<enumeration value="ipv6">
+                <annotation core:protocolNumber="6">
+                    <documentation>IPV6 in IP (encapsulation).</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="eigrp">
+                <annotation core:protocolNumber="88">
+                    <documentation>Enhanced Interior gateway routing protocol.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="ospf">
+                <annotation core:protocolNumber="89">
+                    <documentation>Open Shortest Path First - Routing Protocol.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="gre">
+                <annotation core:protocolNumber="47">
+                    <documentation>General routing encapsulation.</documentation>
+                </annotation>
+            </enumeration>
+        </restriction>
+    </simpleType>
+    
+    <simpleType name="PortNumber">
+        <annotation>
+            <documentation>Restricts an integer to a valid IP port number.</documentation>
+        </annotation>
+        <restriction base="int">
+            <minInclusive value="0"/>
+            <maxInclusive value="65536"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="SecondsSinceEpoch">
+        <annotation>
+            <documentation>
+                Timestamps should be represented as an XML dateTime
+                object.  However, certain timestamps - such as
+                lastReboot - are represented in seconds since epoch.
+            </documentation>
+        </annotation>
+        <restriction base="long"/>
+    </simpleType>
+
+    <simpleType name="VersionNumber">
+        <annotation>
+            <documentation>
+                A string that represents a version number.  
+                The format of this string is not distinguished - it can be
+                the standard dot notation (1.2.3.4) or something more
+                complex like a Cisco version number.
+            </documentation>
+        </annotation>
+        <restriction base="string"/>
+    </simpleType>
+</schema>

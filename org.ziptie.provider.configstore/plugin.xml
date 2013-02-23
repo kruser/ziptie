@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="newRevision" name="org.ziptie.provider.configstore.NewRevision" schema="schema/newRevision.exsd"/>
+   <extension
+         id="deviceConfigPersist"
+         name="deviceConfigPersist"
+         point="org.ziptie.server.core.jobs.backupPersist">
+      <Persister class="org.ziptie.provider.configstore.ConfigBackupPersister" />
+   </extension>
+
+   <extension
+         id="ConfigurationLuceneIndexer"
+         name="ConfigurationLuceneIndexer"
+         point="org.ziptie.provider.configstore.newRevision">
+      <RevisionObserver class="org.ziptie.provider.configstore.ConfigIndexerRevisionObserver"/>
+   </extension>
+
+   <extension
+         point="org.ziptie.provider.configstore.newRevision">
+      <RevisionObserver class="org.ziptie.provider.configstore.SnmpTrapRevisionObserver"/>
+   </extension>
+   <extension
+         point="org.ziptie.provider.devices.inventoryChange">
+      <observer
+            class="org.ziptie.provider.configstore.DeviceStoreObserver">
+      </observer>
+   </extension>
+   <extension
+         point="org.ziptie.zap.security.SecurityPermissions">
+      <permission
+            display="%org.ziptie.configs.view"
+            id="org.ziptie.configs.view">
+      </permission>
+   </extension>
+   <extension
+         point="org.ziptie.zap.hibernate.PersistenceUnit">
+      <persistence-unit
+            name="ziptie-ds">
+         <class
+               name="org.ziptie.provider.configstore.RevisionInfo">
+         </class>
+      </persistence-unit>
+   </extension>
+</plugin>

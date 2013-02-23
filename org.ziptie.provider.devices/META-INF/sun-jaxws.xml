@@ -1,0 +1,14 @@
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+    <endpoint
+        name='devices'
+        implementation='org.ziptie.provider.devices.DeviceProviderDelegate'
+        url-pattern='/server/devices'/>
+    <endpoint
+        name='devicetags'
+        implementation='org.ziptie.provider.devices.DeviceTagProviderDelegate'
+        url-pattern='/server/devicetags'/>
+    <endpoint
+        name='devicesearch'
+        implementation='org.ziptie.provider.devices.SimpleDeviceSearchDelegate'
+        url-pattern='/server/devicesearch'/>
+</endpoints>

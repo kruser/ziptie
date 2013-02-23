@@ -1,0 +1,178 @@
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<Configure id="ZipTie" class="org.mortbay.jetty.Server">
+   <!-- =========================================================== -->
+   <!-- Server Thread Pool                                          -->
+   <!-- =========================================================== -->
+   <Set name="ThreadPool">
+      <New class="org.mortbay.thread.BoundedThreadPool">
+         <Set name="minThreads">5</Set>
+         <Set name="maxThreads">100</Set>
+         <Set name="Name">Jetty</Set>
+         <Set name="Daemon">true</Set>
+      </New>
+   </Set>
+
+   <!-- =========================================================== -->
+   <!-- Set connectors                                              -->
+   <!-- =========================================================== -->
+   <Set name="connectors">
+      <Array type="org.mortbay.jetty.Connector">
+         <!-- Standard blocking SSL Connector -->
+         <Item>
+            <New class="org.mortbay.jetty.security.SslSocketConnector">
+               <Set name="name">Primary</Set>
+               <Set name="port">8080</Set>
+               <Set name="maxIdleTime">60000</Set>
+               <Set name="Acceptors">10</Set>
+               <Set name="keystore">
+                  <SystemProperty name="jetty.home" default="." />/osgi-config/.keystore
+               </Set>
+               <Set name="password">ziptie</Set>
+               <Set name="keyPassword">ziptie</Set>
+               <Set name="truststore">
+                  <SystemProperty name="jetty.home" default="." />/osgi-config/.keystore
+               </Set>
+               <Set name="trustPassword">ziptie</Set>
+            </New>
+         </Item>
+
+         <!-- NIO SSL Connector ... logs lots of warnings.  Annoying.
+         <Item>
+            <New class="org.mortbay.jetty.security.SslSelectChannelConnector">
+               <Set name="name">Primary</Set>
+               <Set name="port">8080</Set>
+               <Set name="maxIdleTime">30000</Set>
+               <Set name="Acceptors">10</Set>
+               <Set name="keystore">
+                  <SystemProperty name="jetty.home" default="." />/osgi-config/.keystore
+               </Set>
+               <Set name="password">ziptie</Set>
+               <Set name="keyPassword">ziptie</Set>
+               <Set name="truststore">
+                  <SystemProperty name="jetty.home" default="." />/osgi-config/.keystore
+               </Set>
+               <Set name="trustPassword">ziptie</Set>
+            </New>
+         </Item>
+         -->
+
+         <!-- Plain-socket connector
+         <Item>
+            <New class="org.mortbay.jetty.bio.SocketConnector">
+               <Set name="name">Primary</Set>
+               <Set name="Host">localhost</Set>
+               <Set name="Port">8080</Set>
+               <Set name="maxIdleTime">30000</Set>
+            </New>
+         </Item>
+         -->
+      </Array>
+   </Set>
+
+   <!-- Use this configuration if URL-rewrite is desired.  Otherwise, use the configuration
+        snippet that is commented out following this one.
+     -->
+   <Set name="handler">
+      <New id="Handlers" class="org.mortbay.jetty.handler.RewriteHandler">
+         <Set name="rewriteRequestURI">false</Set>
+         <Set name="rewritePathInfo">true</Set>
+         <Set name="originalPathAttribute">requestedPath</Set>
+         <Call name="addRewriteRule"><Arg>/</Arg><Arg>/flex-web/ZipTie.html</Arg></Call>
+      </New>
+   </Set>
+
+   <Call name="addHandler">
+      <Arg>
+         <New class="org.ziptie.zap.web.internal.ZResourceHandler"/>
+      </Arg>
+   </Call>
+
+   <Call name="addHandler">
+      <Arg>
+         <New id="Contexts" class="org.mortbay.jetty.handler.ContextHandlerCollection"/>
+      </Arg>
+   </Call>
+
+   <!-- This need NOT be removed in order to remove security, it is harmless left inline -->
+   <Call name="addUserRealm">
+      <Arg>
+         <New id="JaasRealm" class="org.mortbay.jetty.plus.jaas.JAASUserRealm">
+            <Set name="name">ZipTie</Set>
+            <Set name="LoginModuleName">ziptie</Set>
+            <Set name="CallbackHandlerClass">org.mortbay.jetty.plus.jaas.callback.DefaultCallbackHandler</Set>
+         </New>
+      </Arg>
+   </Call>
+
+   <!-- This creates an (optional) root web context at path "/", it can be removed
+        entirely but it's probably not a good idea unless you know what you're
+        doing.
+    -->
+   <Call name="addHandler">
+       <Arg>
+          <New class="org.mortbay.jetty.handler.ContextHandler">
+             <Arg><Ref id="Contexts"/></Arg>
+             <Arg>/</Arg>
+             <Set name="Handler">
+                <New id="SessionHandler" class="org.mortbay.jetty.servlet.SessionHandler">
+                    <Get name="SessionManager">
+                        <Set name="MaxInactiveInterval">1800</Set>
+                    </Get>
+    
+                    <Set name="Handler">
+                        <New id="zcontext" class="org.ziptie.zap.web.internal.ZContext">
+    
+                        <Set name="ServletHandler">
+                           <New class="org.mortbay.jetty.servlet.ServletHandler"/>
+                        </Set>
+
+                        <!-- Security handler ... safe to remove for NO security -->
+                        <Set name="SecurityHandler">
+                           <New class="org.mortbay.jetty.security.SecurityHandler">
+                              <Set name="Authenticator">
+                                 <New class="org.ziptie.server.security.ZAuthenticator"/>
+                              </Set>
+            
+                              <Set name="UserRealm">
+                                 <Ref id="JaasRealm" />
+                              </Set>
+            
+                              <Set name="ConstraintMappings">
+                                 <Array type="org.mortbay.jetty.security.ConstraintMapping">
+                                    <Item>
+                                       <New class="org.mortbay.jetty.security.ConstraintMapping">
+                                          <Set name="Constraint">
+                                             <New class="org.mortbay.jetty.security.Constraint">
+                                                <Arg>ZAUTH</Arg>
+                                                <Arg>*</Arg>
+                                                <Set name="Authenticate">true</Set>
+                                                <Set name="DataConstraint">2</Set>
+                                             </New>
+                                          </Set>
+                                          <Set name="PathSpec">/server/*</Set>
+                                       </New>
+                                    </Item>
+                                 </Array>
+                              </Set>
+    
+                              <Set name="Handler">
+                                 <New class="org.mortbay.jetty.servlet.ServletHandler"/>
+                              </Set>
+                           </New>
+                        </Set>
+                        <!-- Security handler ... optionally remove for NO security -->
+                     </New>
+                  </Set>
+                  <!-- ZContext handler -->
+               </New>
+            </Set>
+         </New>
+      </Arg>
+   </Call>
+
+   <!-- =========================================================== -->
+   <!-- extra options                                               -->
+   <!-- =========================================================== -->
+   <Set name="stopAtShutdown">false</Set>
+
+</Configure>

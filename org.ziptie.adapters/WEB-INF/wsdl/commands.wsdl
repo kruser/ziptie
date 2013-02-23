@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+     targetNamespace="http://www.ziptie.org/adapters/commands"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://www.ziptie.org/adapters/commands"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     name="CommandsService">
+
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.ziptie.org/adapters/commands" schemaLocation="commands-types.xsd" />
+    </xsd:schema>
+  </types>
+
+  <message name="commands">
+    <part name="connectionPath" element="tns:commands"/>
+  </message>
+  <message name="commandsResponse">
+    <part name="response" element="tns:commandsResponse"/>
+  </message>
+  <portType name="Commands">
+    <operation name="commands">
+      <input message="tns:commands"/>
+      <output message="tns:commandsResponse"/>
+    </operation>
+  </portType>
+  <binding name="CommandsPortBinding" type="tns:Commands">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="commands">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="CommandsService">
+    <port name="CommandsPort" binding="tns:CommandsPortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

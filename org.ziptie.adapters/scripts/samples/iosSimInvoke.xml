@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operationInputXML>
+	<connectionPath host="10.10.101.104">
+		<protocols>
+			<protocol name="Telnet" port="8023">
+				<sim-config name='handshake' daIp="10.10.1.157" deviceIp="127.8.1.4"></sim-config>
+			</protocol>
+		</protocols>
+		<credentials>
+			<credential name="roCommunityString" value="public"/>
+			<credential name="username" value="testlab"/>
+			<credential name="rwCommunityString" value="private"/>
+			<credential name="enableUsername" value=""/>
+			<credential name="password" value="hobbit"/>
+			<credential name="enablePassword" value="bigtex"/>
+		</credentials>
+		<fileServers/>
+	</connectionPath>
+</operationInputXML>

@@ -1,0 +1,9 @@
+<crate
+	id="ziptie.adapters.hp.procurve"
+	name="ziptie.adapters.hp.procurve"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.hp.procurve" location="adapters/" version="" />
+<bundle id="ziptie.adapters.hp.procurvem" location="adapters/" version="" />
+</crate>

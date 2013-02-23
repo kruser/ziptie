@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<editor:Editor
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    label="{DisplayElf.format('Neighbors', input)}"
+    xmlns:devices="org.ziptie.flex.devices.*"
+    xmlns:editor="org.ziptie.flex.editor.*"
+    creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.controls.Alert;
+        	import mx.resources.ResourceManager;
+        	import mx.resources.IResourceManager;
+        	import mx.core.Application;
+        	import org.ziptie.flex.services.ResultElf;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.rpc.events.ResultEvent;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.DisplayElf;
+            
+           	[Bindable]
+             [Embed(source="/device.png")]
+             public var deviceIcon:Class;
+            
+            [Bindable] private var neighbors:ArrayCollection;
+            [Bindable] private var path:ArrayCollection;
+            
+            private var currentDevice:Object;
+
+            override public function inputEquals(other:Object):Boolean
+            {
+            	return input.ipAddress == other.ipAddress && input.managedNetwork == other.managedNetwork;
+            }
+
+            private function init():void
+            {
+            	path = new ArrayCollection();
+            	currentDevice = input;
+            	WebServiceElf.call("telemetry", "getNeighbors", results, input.ipAddress, input.managedNetwork);
+            }
+            
+            private function results(event:ResultEvent):void
+			{
+				var myNeighbors:ArrayCollection = ResultElf.array(event);
+				if (myNeighbors.length > 0)
+				{
+					cleanUpDevicePath();
+					neighbors = myNeighbors;
+					path.addItem({neighbors:myNeighbors, timestamp:DisplayElf.formatDate('medium', currentDevice.lastTelemetry), ipAddress:currentDevice.ipAddress, label:shortName(currentDevice.hostname), icon:deviceIcon});
+					var newIndex:int = path.length - 1;
+					devicePath.scrollToIndex(newIndex);
+					devicePath.selectedIndex = newIndex;
+					changeNeighbors();
+				}
+				else
+				{
+					var rm:IResourceManager = ResourceManager.getInstance(); 
+					Alert.show(rm.getString('messages', 'neighbors_no_neighbors', new Array(currentDevice.ipAddress)), rm.getString('messages', 'error'));
+				}
+			}
+			
+			/**
+			 * Remove all devices in the path after the current selection.
+			 * To be called when a new neighbor is clicked on so that
+			 * if you click on a neighbor in a device that is in the middle of
+			 * the path, it will keep the integrity of the path.
+			 */
+			private function cleanUpDevicePath():void
+			{
+				var len:int = path.length;
+				var selection:int = devicePath.selectedIndex;
+				if (selection < 0)
+				{
+					selection = len - 1; // if there is no selection set it to the last one
+				}
+				var lastItem:int = len - 1;
+				for (lastItem; selection<lastItem; lastItem--)
+				{
+					path.removeItemAt(lastItem);
+				}
+			}
+			
+			private function hopToNextNeighbor():void
+			{
+				var selection:Object = neighborGrid.selectedItem;
+								
+				var page:Object = new Object();
+            	page.pageSize = 100;
+            	page.offset = 0;
+            	page['devices'] = new ArrayCollection();
+            	page.total = 1;
+            
+            	// would like to use the PagedDeviceQuery class here, but this will do since
+            	// more than 100 results for a single IP search shouldn't be possible
+            	var args:Array = new Array('interfaceIpAddress', selection.ipAddress, page, 'ipAddress', false);
+				WebServiceElf.callWithArgs('devicesearch', 'search', searchResult, args);
+			}
+			
+			private function changeNeighbors():void
+			{
+				var selection:Object = devicePath.selectedItem;
+				neighbors = selection.neighbors;
+				telemetryDate.text = selection.timestamp;
+			}
+			
+			private function searchResult(event:ResultEvent):void
+			{
+				var pageData:Object = event.result;
+				var nextDevices:ArrayCollection = ResultElf.array(pageData.devices);
+				var rm:IResourceManager = ResourceManager.getInstance(); 
+				if (nextDevices.length > 0)
+				{
+					var device:Object = nextDevices.getItemAt(0);
+					if (!highlightDeviceInPath(device.ipAddress))
+					{
+						if (device.lastTelemetry == null)
+						{
+							Alert.show(rm.getString('messages', 'neighbors_run_discovery', new Array(device.ipAddress)), rm.getString('messages', 'error'));
+						}
+						else
+						{
+							currentDevice = device;
+							WebServiceElf.call("telemetry", "getNeighbors", results, currentDevice.ipAddress, currentDevice.managedNetwork);				
+						}
+					}
+				}
+				else
+				{
+					//  TODO prompt to add the device via discovery
+					Alert.show(rm.getString('messages', 'neighbors_not_in_inventory', new Array(neighborGrid.selectedItem.ipAddress)), rm.getString('messages', 'error'));
+				}
+			}
+			
+			/**
+			 * Selects the device in the path for the given IP address.
+			 * 
+			 * Returns true if the device was selected, false if it didn't exist.
+			 */
+			private function highlightDeviceInPath(ipAddress:String):Boolean
+			{
+				for (var i:int=0; i<path.length; i++)
+				{
+					var device:Object = path.getItemAt(i);
+					if (device.ipAddress == ipAddress)
+					{
+						devicePath.selectedIndex = i;
+						devicePath.scrollToIndex(i);
+						changeNeighbors();
+						return true;
+					}
+				}
+				return false;
+			}
+			
+			/**
+			 * Pick out the hostname from a FQDN
+			 */
+			private function shortName(longName:String):String
+			{
+				var pattern:RegExp = /\..*$/;
+				return longName.replace(pattern, "");
+			}
+            
+        ]]>
+    </mx:Script>
+
+
+    <mx:VBox width="100%" height="100%" styleName="tabVBox">
+        <mx:HorizontalList dataTipField="ipAddress" showDataTips="true" change="changeNeighbors()" dataProvider="{path}" id="devicePath" width="100%" x="0" y="0"></mx:HorizontalList>
+        <mx:HBox width="100%">
+            <mx:Label text="@Resource(key='neighbors_data_last_updated', bundle='messages')"/>
+            <mx:Label id="telemetryDate"/>
+        </mx:HBox>
+        <mx:DataGrid id="neighborGrid" width="100%" height="100%" dataProvider="{neighbors}"
+        	doubleClickEnabled="true" doubleClick="hopToNextNeighbor()">
+    		<mx:columns>
+        		<mx:DataGridColumn headerText="@Resource(key='neighbors_header_protocol', bundle='messages')" width="75" dataField="protocol"/>
+        		<mx:DataGridColumn headerText="@Resource(key='neighbors_header_local_interface', bundle='messages')" dataField="localInterface"/>
+        		<mx:DataGridColumn headerText="@Resource(key='neighbors_header_address', bundle='messages')" dataField="ipAddress"/>
+        		<mx:DataGridColumn headerText="@Resource(key='neighbors_header_id', bundle='messages')" dataField="otherId"/>
+        		<mx:DataGridColumn headerText="@Resource(key='neighbors_header_interface', bundle='messages')" dataField="remoteInterface"/>
+        	</mx:columns>
+		</mx:DataGrid>
+        <mx:HBox width="100%">
+            <mx:Image source="@Embed('/img/lightbulb.png')"/>
+            <mx:Label text="@Resource(key='neighbors_grid_help', bundle='messages')"/>
+        </mx:HBox>
+    </mx:VBox>
+
+</editor:Editor>

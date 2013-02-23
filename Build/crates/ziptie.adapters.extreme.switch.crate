@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.extreme.switch"
+	name="ziptie.adapters.extreme.switch"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.extreme.switch" location="adapters/" version="" />
+</crate>

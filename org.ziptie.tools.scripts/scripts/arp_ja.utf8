@@ -1,0 +1,6 @@
+menu.label=ARPテーブル
+menu.tooltip=現在のIPアドレス->MACテーブルを表示します。
+input.0.label=ネットワークスイッチIPアドレス
+input.1.label=スイッチSNMPコミュニティ
+column.1=IPアドレス
+column.2=MAC

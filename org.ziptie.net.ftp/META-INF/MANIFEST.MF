@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FTP Plug-in
+Bundle-SymbolicName: org.ziptie.net.ftp
+Bundle-Version: 2008.10.0
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j,
+ org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: ftp.jar,
+ ftpserver-dev.jar
+Export-Package: org.apache.ftpserver,
+ org.apache.ftpserver.command,
+ org.apache.ftpserver.commandline,
+ org.apache.ftpserver.config,
+ org.apache.ftpserver.filesystem,
+ org.apache.ftpserver.ftplet,
+ org.apache.ftpserver.gui,
+ org.apache.ftpserver.interfaces,
+ org.apache.ftpserver.iprestrictor,
+ org.apache.ftpserver.message,
+ org.apache.ftpserver.socketfactory,
+ org.apache.ftpserver.ssl,
+ org.apache.ftpserver.usermanager,
+ org.apache.ftpserver.util,
+ org.ziptie.net.ftp
+Bundle-Vendor: ziptie.org

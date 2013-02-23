@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Editor
+      xmlns="org.ziptie.flex.editor.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="init()"
+      label="{DisplayElf.format('Plugin Output', input)}">
+    <mx:Metadata>
+    	[ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.SortField;
+			import mx.collections.Sort;
+			import mx.collections.ICollectionView;
+			import org.ziptie.flex.CompareElf;
+			import org.ziptie.flex.progress.ProgressItem;
+			import org.ziptie.flex.progress.ProgressManager;
+			import org.ziptie.flex.editor.EditorElf;
+			import mx.controls.TextArea;
+			import mx.core.Application;
+			import mx.utils.StringUtil;
+			import org.ziptie.flex.CsvElf;
+			import org.ziptie.flex.services.ResultElf;
+			import mx.rpc.events.ResultEvent;
+			import org.ziptie.flex.services.WebServiceElf;
+			import org.ziptie.flex.services.ServerEvent;
+			import org.ziptie.flex.services.EventManager;
+			import mx.collections.ArrayCollection;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import org.ziptie.flex.DisplayElf;
+
+			private var _completeListenerId:int;
+			private var _detail:TextArea;
+
+            [Bindable]
+			private var _gridRows:ArrayCollection = new ArrayCollection();
+			private var _detailRecords:Object = new Object();
+			private var _detailTexts:Object = new Object();
+			private var _detailLoaders:Object = new Object();
+
+            [Bindable]
+            private var _theOneDevice:String;
+
+            override public function inputEquals(other:Object):Boolean
+            {
+            	return input.execution.id == other.execution.id;
+            }
+
+            private function init():void
+            {
+            	var pd:PluginDescriptor = input.pluginDescriptor;
+            	ToolOutputIconColumnRenderer.loadImages(pd);
+
+            	var execution:Object = input.execution;
+
+            	var columns:ArrayCollection = new ArrayCollection();
+            	var unwidthedColumns:ArrayCollection = new ArrayCollection();
+
+                var totalWidth:int = 0;
+            	for each (var column:Column in pd.columns)
+            	{
+            		var dgc:DataGridColumn = new DataGridColumn();
+
+            		var width:Number = column.width;
+            		if (width == 0)
+            		{
+            			width = 0;
+            			unwidthedColumns.addItem(dgc);
+            		}
+            		else if (width <= 1)
+            		{
+            			width = width * _table.width;
+            		}
+
+            		totalWidth += width;
+
+            		dgc.headerText = column.name;
+            		dgc.dataField = String(column.index);
+            		dgc.sortCompareFunction = compare;
+            		dgc.width = width;
+            		dgc.resizable = column.resizable;
+
+            		if (column.imageKeys != null)
+            		{
+            			var factory:ClassFactory = new ClassFactory(ToolOutputIconColumnRenderer);
+            			factory.properties = {column: column, pluginDescriptor: pd};
+            			dgc.itemRenderer = factory;
+            		}
+            		columns.addItem(dgc);
+            	}
+
+                var unusedWidth:int = _table.width - totalWidth;
+                if (unwidthedColumns.length == 0)
+                {
+                	// make the last column long enough to fill the entire table.
+                	columns.getItemAt(columns.length - 1).width +=  unusedWidth;
+                }
+                else
+                {
+                	var w:int = unusedWidth / unwidthedColumns.length;
+                	// distribute the available width to the unwidthed columns
+                	for each (var col:DataGridColumn in unwidthedColumns)
+                	{
+                		col.width = w;
+                	}
+                }
+
+            	_table.columns = columns.toArray();
+
+                if (pd.detailVisible)
+                {
+                	_detail = new TextArea();
+                	_detail.percentHeight = 50;
+                	_detail.percentWidth = 100;
+                	_top.percentHeight = 50;
+                	_box.addChild(_detail);
+                }
+
+        		input.addEventListener(PluginRecordEvent.TYPE, addDetail);
+
+        		WebServiceElf.call('plugins', 'getExecutionDetails', onLoadDetails, execution.id);
+            }
+
+            private function addDetail(detail:PluginRecordEvent):void
+            {
+            	if (_detailRecords[detail.id] != null)
+            	{
+            		return;
+            	}
+
+                var device:String = detail.ipAddress;
+                if (_theOneDevice == null)
+                {
+                	_theOneDevice = device;
+                }
+                else if (_theOneDevice != device)
+                {
+                	_theOneDevice = '';
+                }
+
+                _detailRecords[detail.id] = detail;
+
+            	var csv:String = detail.gridData;
+            	if (csv != null)
+            	{
+            		var rows:Array = CsvElf.toArray(csv);
+            		for each (var row:Array in rows)
+            		{
+            			row.detail = detail;
+            			_gridRows.addItem(row);
+            		}
+            	}
+            }
+
+            private function onLoadDetails(event:ResultEvent):void
+            {
+                for each (var detail:Object in ResultElf.array(event))
+                {
+                	addDetail(new PluginRecordEvent(detail.id, detail.gridData, detail.ipAddress, detail.managedNetwork));
+                }
+            }
+
+            private function selectionChanged():void
+            {
+                var item:Object = _table.selectedItem;
+            	if (_detail == null || item == null)
+            	{
+            		return;
+            	}
+
+                var id:int = item.detail.id;
+
+                var text:String = _detailTexts[id];
+                if (text != null)
+                {
+                	_detail.text = text;
+                	return;
+                }
+
+                _detailTexts[id] = '';
+
+            	var loader:URLLoader = new URLLoader();
+                loader.addEventListener(Event.COMPLETE, onLoadDetailText);
+                _detailLoaders[loader] = id;
+
+            	var url:String = StringUtil.substitute('{0}/pluginDetail?executionId={1}&recordId={2}',
+            	       Application.application.server, input.execution.id, id);
+
+            	loader.load(new URLRequest(url));
+            }
+
+            private function  onLoadDetailText(event:Event):void
+            {
+            	var loader:URLLoader = URLLoader(event.currentTarget);
+            	var id:int = _detailLoaders[loader];
+            	delete _detailLoaders[loader];
+
+                var text:String = loader.data;
+                _detailTexts[id] = text;
+                if (_table.selectedItem.detail.id == id)
+                {
+                	_detail.text = loader.data;
+                }
+            }
+
+            private function compare(a:Object, b:Object, fields:Array = null):int
+            {
+            	var s:Sort = ICollectionView(_table.dataProvider).sort;
+            	var key:String = SortField(s.fields[0]).name;
+            	var result:int = CompareElf.compare(a[key], b[key]);
+            	return result;
+            }
+
+            private function findNext():void
+            {
+            	var text:String = _txtFind.text;
+
+            	var start:int = _table.selectedIndex;
+            	var arr:ArrayCollection = _table.dataProvider as ArrayCollection;
+
+            	for (var i:int = start + 1; i < arr.length; i++)
+            	{
+            		for each (var cell:String in arr.getItemAt(i))
+            		{
+            			if (cell.indexOf(text) >= 0)
+            			{
+            				_table.selectedIndex = i;
+            				_table.scrollToIndex(i);
+            				return;
+            			}
+            		}
+            	}
+
+                for (i = 0; i < start; i++)
+                {
+                	for each (cell in arr.getItemAt(i))
+                    {
+                        if (cell.indexOf(text) >= 0)
+                        {
+                            _table.selectedIndex = i;
+                            _table.scrollToIndex(i);
+                            return;
+                        }
+                    }
+                }
+            }
+        ]]>
+    </mx:Script>
+    <mx:VDividedBox id="_box" height="100%" width="100%">
+        <mx:VBox id="_top" width="100%" height="100%">
+            <mx:HBox width="100%" paddingRight="2" paddingLeft="2" horizontalAlign="right" verticalAlign="middle">
+                <mx:Label text="{_theOneDevice}" />
+                <mx:Spacer width="100%" />
+                <mx:Label text="@Resource(bundle='messages', key='findNext')" />
+        		<mx:TextInput id="_txtFind" enter="findNext()"/>
+        	</mx:HBox>
+		    <mx:DataGrid
+	              id="_table"
+	              height="100%" width="100%"
+	              dataProvider="{_gridRows}"
+	              change="selectionChanged()"/>
+        </mx:VBox>
+    </mx:VDividedBox>
+</Editor>

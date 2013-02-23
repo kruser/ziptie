@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CollectionEvent;
+			import mx.collections.ArrayCollection;
+			[Bindable]
+			public var progressItems:ArrayCollection;
+
+			[Bindable]
+			private var _item:ProgressItem;
+
+            private function init():void
+            {
+            	progressItems.addEventListener(CollectionEvent.COLLECTION_CHANGE, onChange);
+            }
+
+            private function onChange(event:CollectionEvent):void
+            {
+                useFirstItem();
+            }
+
+            private function useFirstItem(oldItem:ProgressItem = null):void
+            {
+            	if (progressItems.length > 0)
+            	{
+            		_item = progressItems.getItemAt(0) as ProgressItem;
+            		if (_item == oldItem)
+            		{
+            			return;
+            		}
+
+            		_item.addEventListener(Event.COMPLETE, onComplete);
+            		_item.addEventListener('messageChanged', onProgress);
+            		progressBar.label = _item.message;
+            		progressBar.visible = true;
+            	}
+            }
+
+            private function onProgress(event:Event):void
+            {
+            	progressBar.label = ProgressItem(event.target).message;
+            }
+
+            private function onComplete(event:Event):void
+            {
+            	progressBar.visible = false;
+            	var oldItem:ProgressItem = _item;
+
+            	_item = null;
+
+            	useFirstItem(oldItem);
+            }
+
+		]]>
+	</mx:Script>
+	<mx:ProgressBar
+		  id="progressBar"
+		  visible="false"
+		  left="5"
+		  top="0"
+		  bottom="0"
+		  right="5"
+		  labelPlacement="right"
+		  indeterminate="true"
+		  label="" />
+</mx:Canvas>

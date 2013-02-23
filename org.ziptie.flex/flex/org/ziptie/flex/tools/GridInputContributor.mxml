@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="init()"
+      change="valueChanged()"
+      defaultValueChanged="updateDefaults()">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.utils.ObjectUtil;
+    		import mx.collections.ListCollectionView;
+    		import mx.controls.List;
+    		import org.ziptie.flex.CsvElf;
+    		import mx.controls.dataGridClasses.DataGridColumn;
+    		import mx.collections.ArrayCollection;
+
+    		private function init():void
+    		{
+    			if (field.metadata.hasOwnProperty('multi'))
+    			{
+    				_grid.allowMultipleSelection = true;
+    			}
+
+                var columnCount:uint;
+
+                var columns:ArrayCollection = new ArrayCollection();
+
+                for each (var column:String in CsvElf.toArray(field.metadata.columns)[0])
+                {
+                	var dgc:DataGridColumn = new DataGridColumn();
+                	dgc.headerText = column;
+                	dgc.width = 100;
+                	dgc.labelFunction = getLabel;
+                	columns.addItem(dgc);
+                }
+            	_grid.columns = columns.toArray();
+
+                updateDefaults();
+    		}
+
+            private function updateDefaults():void
+            {
+                var rows:ArrayCollection = new ArrayCollection();
+
+                var row:ArrayCollection = new ArrayCollection();
+            	for each (var cell:String in defaultValueArray)
+            	{
+            		row.addItem(cell);
+            		if (row.length == _grid.columnCount)
+            		{
+            			rows.addItem(CsvElf.toCsv(row));
+            			row = new ArrayCollection();
+            		}
+            	}
+            	_grid.dataProvider = rows;
+            	valueChanged();
+            }
+
+            private function getLabel(object:Object, column:DataGridColumn):String
+            {
+            	var ndx:int = _grid.columns.indexOf(column);
+            	return CsvElf.toArray(object.toString())[0][ndx];
+            }
+
+            private function valueChanged():void
+            {
+            	var v:String = value;
+            	if (v != null)
+            	{
+                	_grid.selectedItems = CsvElf.toArray(v)[0];
+            	}
+            }
+
+            private function selected():void
+            {
+            	value = CsvElf.toCsv(_grid.selectedItems);
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%">
+        <mx:Label text="{field.label}" />
+        <mx:DataGrid
+              id="_grid"
+              width="100%"
+              click="selected()" />
+    </mx:VBox>
+</InputContributor>

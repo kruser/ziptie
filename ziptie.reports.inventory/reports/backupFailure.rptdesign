@@ -1,0 +1,1337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
+    <property name="units">in</property>
+    <property name="includeResource">backupFailure</property>
+    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a listing report with fields from the data source.</html-property>
+    <property name="theme">ziptie.defaultTheme</property>
+    <text-property name="displayName">Simple Listing</text-property>
+    <property name="iconFile">/templates/simple_listing.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">ziptie.rptlibrary</property>
+            <property name="namespace">ziptie</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="execution_id" id="87">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">-1</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ZipTie Derby Database" id="26"
+ extends="ziptie.ZipTie Derby Database">
+            <property name="odaDriverClass">org.gjt.mm.mysql.Driver</property>
+            <property name="odaURL">jdbc:mysql://192.168.11.23/ziptie</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cGFzc3dvcmQ=</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Backup Failures" id="59">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">NORMAL_IP_ADDRESS</property>
+                    <expression name="expression">row["ip_address"].replace(/\.0+(?=\d)/g, ".").replace(/^0+/, "")</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">hostname</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ip_address</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">vendor_sw</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">backup_status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">backup_message</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">last_backup</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">NORMAL_IP_ADDRESS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">ZipTie Derby Database</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">execution_id</property>
+                    <property name="paramName">execution_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">18</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">hostname</property>
+                    <property name="nativeName">HOSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ip_address</property>
+                    <property name="nativeName">IP_ADDRESS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">vendor_sw</property>
+                    <property name="nativeName">VENDOR_SW</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">backup_status</property>
+                    <property name="nativeName">BACKUP_STATUS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">backup_message</property>
+                    <property name="nativeName">BACKUP_MESSAGE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">last_backup</property>
+                    <property name="nativeName">LAST_BACKUP</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <property name="queryText">SELECT D.hostname AS HOSTNAME,
+ D.ip_address AS IP_ADDRESS,
+ D.vendor_sw AS VENDOR_SW,
+ D.backup_status AS BACKUP_STATUS,
+ D.backup_message AS BACKUP_MESSAGE,
+ D.last_backup AS LAST_BACKUP
+ FROM device D, birt_resolved_devices BIRT
+ WHERE D.backup_status IS NOT NULL
+ AND D.backup_status != 'SUCCESS'
+ AND D.device_id = BIRT.device_id
+ AND BIRT.execution_id = ?
+ ORDER BY D.ip_address</property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Status Summary" id="84">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">READABLE_STATUS</property>
+                    <expression name="expression">if (row["backup_status"] == null)
+{
+	"NOT BACKED UP"
+}
+else
+{
+	row["backup_status"].replace(/_/g, " ")
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CNT</property>
+                    <property name="displayName">CNT</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">backup_status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CNT</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">READABLE_STATUS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">ZipTie Derby Database</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">execution_id</property>
+                    <property name="paramName">execution_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">18</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">backup_status</property>
+                    <property name="nativeName">BACKUP_STATUS</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CNT</property>
+                    <property name="nativeName">CNT</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+            </list-property>
+            <property name="queryText">SELECT D.backup_status AS BACKUP_STATUS, count(*) AS CNT
+ FROM device D, birt_resolved_devices BIRT
+ WHERE D.device_id = BIRT.device_id
+ AND BIRT.execution_id = ?  
+ GROUP BY D.backup_status
+</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="NewStyle" id="89">
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+        </style>
+        <style name="NewStyle1" id="116">
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <label id="58">
+            <property name="style">ReportHeader</property>
+            <text-property name="text" key="report.title">Report Header</text-property>
+        </label>
+        <extended-item extensionName="Chart" name="NewChart" id="85">
+            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithoutAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Type>Pie Chart</Type>
+  <SubType>Standard Pie Chart</SubType>
+  <Block>
+    <Children xsi:type="layout:TitleBlock">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value>bkp.chartTitle=Pie Chart Title</Value>
+          <Font>
+            <Name>SansSerif</Name>
+            <Size>14.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+    </Children>
+    <Children xsi:type="layout:Plot">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <HorizontalSpacing>5</HorizontalSpacing>
+      <VerticalSpacing>5</VerticalSpacing>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>0.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>0.0</Right>
+        </Insets>
+      </ClientArea>
+    </Children>
+    <Children xsi:type="layout:Legend">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <Triggers>
+        <Condition>onmouseover</Condition>
+        <Action>
+          <Type>Show_Tooltip</Type>
+          <Value xsi:type="attribute:TooltipValue">
+            <Text></Text>
+            <Delay>200</Delay>
+          </Value>
+        </Action>
+      </Triggers>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>2.0</Top>
+          <Left>2.0</Left>
+          <Bottom>2.0</Bottom>
+          <Right>2.0</Right>
+        </Insets>
+      </ClientArea>
+      <Text>
+        <Value></Value>
+        <Font>
+          <Name>SansSerif</Name>
+          <Size>10.0</Size>
+          <Alignment/>
+        </Font>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>51</Red>
+          <Green>51</Green>
+          <Blue>51</Blue>
+        </Color>
+      </Text>
+      <Orientation>Vertical</Orientation>
+      <Direction>Top_Bottom</Direction>
+      <Separator>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>true</Visible>
+      </Separator>
+      <Position>Right</Position>
+      <ItemType>Categories</ItemType>
+      <Title>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Title>
+      <TitlePosition>Above</TitlePosition>
+    </Children>
+    <Bounds>
+      <Left>0.0</Left>
+      <Top>0.0</Top>
+      <Width>430.0</Width>
+      <Height>142.0</Height>
+    </Bounds>
+    <Insets>
+      <Top>3.0</Top>
+      <Left>3.0</Left>
+      <Bottom>3.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Row>-1</Row>
+    <Column>-1</Column>
+    <Rowspan>-1</Rowspan>
+    <Columnspan>-1</Columnspan>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+      <Visible>false</Visible>
+    </Outline>
+    <Visible>true</Visible>
+  </Block>
+  <Dimension>Two_Dimensional_With_Depth</Dimension>
+  <Units>Points</Units>
+  <SeriesThickness>10.0</SeriesThickness>
+  <GridColumnCount>1</GridColumnCount>
+  <SampleData>
+    <BaseSampleData>
+      <DataSetRepresentation>'A','B','C'</DataSetRepresentation>
+    </BaseSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>5.0,4.0,12.0</DataSetRepresentation>
+      <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+  </SampleData>
+  <Interactivity>
+    <Enable>true</Enable>
+    <LegendBehavior>None</LegendBehavior>
+  </Interactivity>
+  <SeriesDefinitions>
+    <Query>
+      <Definition></Definition>
+    </Query>
+    <SeriesPalette>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>80</Red>
+        <Green>166</Green>
+        <Blue>218</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>242</Red>
+        <Green>88</Green>
+        <Blue>106</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>232</Red>
+        <Green>172</Green>
+        <Blue>57</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>255</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>64</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>170</Red>
+        <Green>85</Green>
+        <Blue>85</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>192</Red>
+        <Green>192</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>192</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>7</Red>
+        <Green>146</Green>
+        <Blue>94</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>192</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>64</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>80</Red>
+        <Green>240</Green>
+        <Blue>120</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>0</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>0</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>64</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>128</Red>
+        <Green>128</Green>
+        <Blue>128</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>64</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Entries>
+      <Entries xsi:type="attribute:ColorDefinition">
+        <Transparency>255</Transparency>
+        <Red>255</Red>
+        <Green>128</Green>
+        <Blue>0</Blue>
+      </Entries>
+    </SeriesPalette>
+    <SeriesDefinitions>
+      <Query>
+        <Definition></Definition>
+      </Query>
+      <SeriesPalette>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>166</Green>
+          <Blue>218</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>242</Red>
+          <Green>88</Green>
+          <Blue>106</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>232</Red>
+          <Green>172</Green>
+          <Blue>57</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>64</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>170</Red>
+          <Green>85</Green>
+          <Blue>85</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>192</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>7</Red>
+          <Green>146</Green>
+          <Blue>94</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>64</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>240</Green>
+          <Blue>120</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>0</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+      </SeriesPalette>
+      <Series xsi:type="type:PieSeries">
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>true</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>row[&quot;CNT&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+        <Triggers>
+          <Condition>onmouseover</Condition>
+          <Action>
+            <Type>Show_Tooltip</Type>
+            <Value xsi:type="attribute:TooltipValue">
+              <Text></Text>
+              <Delay>200</Delay>
+            </Value>
+          </Action>
+        </Triggers>
+        <Explosion>0</Explosion>
+        <Title>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Size>16.0</Size>
+              <Bold>true</Bold>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>true</Visible>
+        </Title>
+        <TitlePosition>Below</TitlePosition>
+        <LeaderLineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>true</Visible>
+        </LeaderLineAttributes>
+        <LeaderLineStyle>Fixed_Length</LeaderLineStyle>
+        <LeaderLineLength>14.0</LeaderLineLength>
+        <Ratio>0.4</Ratio>
+      </Series>
+      <Grouping>
+        <Enabled>false</Enabled>
+        <GroupingInterval>2</GroupingInterval>
+        <GroupType>Text</GroupType>
+        <AggregateExpression>Sum</AggregateExpression>
+      </Grouping>
+      <Sorting>Ascending</Sorting>
+    </SeriesDefinitions>
+    <Series>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Label>
+      <DataDefinition>
+        <Definition>row[&quot;READABLE_STATUS&quot;]</Definition>
+      </DataDefinition>
+      <SeriesIdentifier></SeriesIdentifier>
+      <DataPoint>
+        <Components>
+          <Type>Orthogonal_Value</Type>
+        </Components>
+        <Separator>, </Separator>
+      </DataPoint>
+      <LabelPosition>Outside</LabelPosition>
+      <Stacked>false</Stacked>
+    </Series>
+    <Series>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Label>
+      <DataDefinition>
+        <Definition>row[&quot;READABLE_STATUS&quot;]</Definition>
+      </DataDefinition>
+      <SeriesIdentifier></SeriesIdentifier>
+      <DataPoint>
+        <Components>
+          <Type>Orthogonal_Value</Type>
+        </Components>
+        <Separator>, </Separator>
+      </DataPoint>
+      <LabelPosition>Outside</LabelPosition>
+      <Stacked>false</Stacked>
+    </Series>
+    <Grouping>
+      <Enabled>false</Enabled>
+      <GroupingInterval>2</GroupingInterval>
+      <GroupType>Text</GroupType>
+      <AggregateExpression>Sum</AggregateExpression>
+    </Grouping>
+  </SeriesDefinitions>
+</model:ChartWithoutAxes>
+]]></xml-property>
+            <property name="outputFormat">PNG</property>
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontStyle">normal</property>
+            <property name="marginTop">0pt</property>
+            <property name="dataSet">Status Summary</property>
+            <property name="height">1.9791666667in</property>
+            <property name="width">5.9791666667in</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">backup_status</property>
+                    <expression name="expression">dataSetRow["backup_status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CNT</property>
+                    <expression name="expression">dataSetRow["CNT"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">READABLE_STATUS</property>
+                    <expression name="expression">dataSetRow["READABLE_STATUS"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+        </extended-item>
+        <table id="4">
+            <property name="width">100%</property>
+            <property name="dataSet">Backup Failures</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">HOSTNAME</property>
+                    <expression name="expression">dataSetRow["hostname"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NORMAL_IP_ADDRESS</property>
+                    <expression name="expression">dataSetRow["NORMAL_IP_ADDRESS"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">VENDOR_SW</property>
+                    <expression name="expression">dataSetRow["vendor_sw"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BACKUP_STATUS</property>
+                    <expression name="expression">dataSetRow["backup_status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BACKUP_MESSAGE</property>
+                    <expression name="expression">dataSetRow["backup_message"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LAST_BACKUP</property>
+                    <expression name="expression">dataSetRow["last_backup"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <column id="20">
+                <property name="width">25%</property>
+            </column>
+            <column id="21">
+                <property name="canShrink">true</property>
+            </column>
+            <column id="22">
+                <property name="width">10%</property>
+                <property name="canShrink">false</property>
+            </column>
+            <column id="23">
+                <property name="width">25%</property>
+                <property name="canShrink">false</property>
+            </column>
+            <column id="78">
+                <property name="canShrink">true</property>
+            </column>
+            <header>
+                <row id="109">
+                    <cell id="111">
+                        <property name="colSpan">5</property>
+                        <property name="fontSize">small</property>
+                        <label id="115">
+                            <property name="style">NewStyle1</property>
+                            <text-property name="text" key="bkp.failuresTitle">Failures Title</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="5">
+                    <cell id="6">
+                        <property name="fontSize">small</property>
+                        <label id="61">
+                            <text-property name="text" key="bkp.hostname">HOSTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="7">
+                        <property name="fontSize">small</property>
+                        <label id="65">
+                            <text-property name="text" key="bkp.ip_address">NORMAL_IP_ADDRESS</text-property>
+                        </label>
+                    </cell>
+                    <cell id="8">
+                        <property name="fontSize">small</property>
+                        <label id="67">
+                            <text-property name="text" key="bkp.vendor">VENDOR_SW</text-property>
+                        </label>
+                    </cell>
+                    <cell id="9">
+                        <property name="fontSize">small</property>
+                        <label id="69">
+                            <text-property name="text" key="bkp.status">BACKUP_STATUS</text-property>
+                        </label>
+                    </cell>
+                    <cell id="75">
+                        <property name="fontSize">small</property>
+                        <label id="81">
+                            <text-property name="text" key="bkp.last_backup">LAST_BACKUP</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="10">
+                    <property name="style">ReportBody</property>
+                    <cell id="11">
+                        <property name="fontSize">small</property>
+                        <data id="62">
+                            <property name="resultSetColumn">HOSTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="12">
+                        <property name="fontSize">small</property>
+                        <data id="66">
+                            <property name="resultSetColumn">NORMAL_IP_ADDRESS</property>
+                        </data>
+                    </cell>
+                    <cell id="13">
+                        <property name="fontSize">small</property>
+                        <data id="68">
+                            <property name="resultSetColumn">VENDOR_SW</property>
+                        </data>
+                    </cell>
+                    <cell id="14">
+                        <property name="fontSize">small</property>
+                        <data id="86">
+                            <property name="resultSetColumn">BACKUP_STATUS</property>
+                        </data>
+                    </cell>
+                    <cell id="76">
+                        <property name="fontSize">small</property>
+                        <data id="82">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">YYYY/MM/dd kk:mm</property>
+                            </structure>
+                            <property name="resultSetColumn">LAST_BACKUP</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="15">
+                    <cell id="16">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="17">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="18">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="19">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="77">
+                        <property name="fontSize">small</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

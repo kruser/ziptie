@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::ThreeCom::Switch3300</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>3Com 3300</shortName>
+    <description>3Com SuperStack II Switch 3300</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet-SNMP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysOid" regex="1\.3\.6\.1\.4\.1\.43\.10\.27\.4\.1\.2\.2" singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

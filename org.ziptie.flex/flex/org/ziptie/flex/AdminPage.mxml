@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+      xmlns:mx="http://www.adobe.com/2006/mxml" 
+      xmlns:flex="org.ziptie.flex.*"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.rpc.events.ResultEvent;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.collections.ListCollectionView;
+        	import mx.collections.ICollectionView;
+        	import mx.controls.Alert;
+        	import mx.events.CloseEvent;
+        	import org.ziptie.flex.tools.QuickReports;
+        	import mx.events.MenuEvent;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.tools.PluginElf;
+        	import org.ziptie.flex.credentials.ManageProtocols;
+        	import org.ziptie.flex.devices.Backup;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import org.ziptie.flex.credentials.ManageCredentials;
+        	import org.ziptie.flex.jobs.ManageFilters;
+        	import org.ziptie.flex.tags.ManageTags;
+        	import org.ziptie.flex.devices.PeriodicDiscovery;
+        	import org.ziptie.flex.devices.EditDevice;
+        	import org.ziptie.flex.devices.DiscoverDevices;
+        	import mx.core.Application;
+            import mx.core.IFlexDisplayObject;
+            import mx.events.ListEvent;
+            import mx.managers.PopUpManager;
+            import mx.events.ItemClickEvent;
+
+            [Bindable]
+            private var _visiblePrefs:ICollectionView;
+
+            private function init():void
+            {
+                var preferences:Array = [
+                    {label:resourceManager.getString('messages', 'credentials'), clazz:ManageCredentials, icon:Registry.credsPng,
+                        permission:'org.ziptie.credentials.administer'},
+                    {label:resourceManager.getString('messages', 'AdminPage_protocols'), clazz:ManageProtocols, icon:Registry.protocolsPng,
+                        permission:'org.ziptie.credentials.administer'},
+                    {label:resourceManager.getString('messages', 'AdminPage_discoverDevices'), clazz:DiscoverDevices, icon:Registry.findPng,
+                        permission:'org.ziptie.job.discovery.runPermission'},
+                    {label:resourceManager.getString('messages', 'AdminPage_addDevice'), clazz:EditDevice, icon:Registry.adddevicePng,
+                        permission:'org.ziptie.devices.administer'},
+                    {label:resourceManager.getString('messages', 'discovery'), clazz:PeriodicDiscovery, icon:Registry.discoveryPng,
+                        permission:'org.ziptie.job.discovery.cudPermission'},
+                    {label:resourceManager.getString('messages', 'tags_manage'), clazz:ManageTags, icon:Registry.devicetagsPng,
+                        permission:'org.ziptie.tags.administer'},
+                    {label:resourceManager.getString('messages', 'filters'), clazz:ManageFilters, icon:Registry.calPng,
+                        permission:'org.ziptie.filters.administer'},
+                    {label:resourceManager.getString('messages', 'AdminPage_backupAll'), func:backupAll, icon:Registry.backup2Png,
+                        permission:'org.ziptie.job.backup.runPermission'},	
+                    {label:resourceManager.getString('messages', 'AdminPage_quickReports'), clazz:QuickReports, icon:Registry.report24png,
+                        permission:'org.ziptie.job.plugin.runPermission'},	
+					{label:resourceManager.getString('messages', 'AdminPage_adapterLogging'), clazz:AdapterDiagnostics, icon:Registry.adapterDiagPng},
+                    {label:resourceManager.getString('messages', 'AdminPage_launchers'), clazz:LaunchConfig, icon:Registry.urllauncherPng,
+                        permission:'org.ziptie.launchers.administer'} 
+                ];
+
+                _visiblePrefs = new ArrayCollection(preferences);
+                _visiblePrefs.filterFunction = hasPermission;
+                _visiblePrefs.refresh();
+            }
+
+            private function hasPermission(item:Object):Boolean
+            {
+            	return !item.hasOwnProperty('permission') || ZipTie.hasPermission(item.permission);
+            }
+
+            private function open(event:ItemClickEvent):void
+            {
+            	var func:Function = event.item.func;
+            	if (func != null)
+            	{
+            		func();
+            		return;
+            	}
+
+                var clazz:Class = event.item.clazz;
+                var popup:IFlexDisplayObject = PopUpManager.createPopUp(Application.application.mainPage, clazz, true);
+                PopUpManager.centerPopUp(popup);
+                popup.y = 100;
+            }
+
+            private function backupAll():void
+            {
+                var msg:String = resourceManager.getString('messages', 'Backup_all_confirm_message');
+                var title:String = resourceManager.getString('messages', 'Bakcup_all_confirm_title');
+                Alert.show(msg, title, Alert.YES | Alert.CANCEL, null, doBackup);
+            }
+
+            private function doBackup(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+                    ProgressManager.run(Backup.newFromScheme('ipAddress', ''));
+                }
+            }
+
+            private function logout():void
+            {
+            	WebServiceElf.call('security', 'logoutCurrentUser', loggedOut);
+            }
+
+            private function loggedOut(event:ResultEvent):void
+            {
+            	navigateToURL(new URLRequest(Application.application.server), '_self');
+            }
+        ]]>
+    </mx:Script>
+    <mx:VBox left="0" top="10" right="10" bottom="10">
+	    <mx:LinkBar
+	          width="100%" height="100%"
+	          direction="vertical"
+	          itemClick="open(event)"
+	    	  dataProvider="{_visiblePrefs}" />
+        <mx:LinkButton label="{resourceManager.getString('messages', 'AdminPage_logout', [ZipTie.username])}" click="logout()" />
+    </mx:VBox>
+</mx:Canvas>

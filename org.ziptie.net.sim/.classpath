@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.8.jar" sourcepath="C:/java/jakarta-log4j-1.2.8"/>
+	<classpathentry kind="lib" path="lib/commons-net-1.3.0.jar" sourcepath="C:/java/commons-net-1.3.0-src"/>
+	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.8.jar"/>
+	<classpathentry kind="lib" path="lib/simple-2.5.4.jar" sourcepath="C:/java/simple-2.5.4/source"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar" sourcepath="C:/java/apache-ant-1.6.2"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

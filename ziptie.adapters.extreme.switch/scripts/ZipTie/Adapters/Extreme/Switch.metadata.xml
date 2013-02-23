@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Extreme::Switch</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Extreme Extremeware</shortName>
+    <description>Extreme Switches running Extremeware</description>
+    <softwareVersionRegEx>([\d]+)\.*(\d*)[A-Za-z]*\.*(\d*)[A-Za-z]*\.*(\d*)</softwareVersionRegEx>
+    <biosVersionRegEx>([\d]+)\.*(\d*)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>Syntax error at token[^\n]+\n+Available commands:</errorRegEx>
+        <errorRegEx>Syntax error at token[^\n]+\n+Next possible completions:</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH-TFTP-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-SNMP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-SNMP</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="snmpcommunitychange">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="loginbanner">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings><matchRegex dataSource="sysDescr" regex="Summit.*|Alpine.*|BD68\d+" ignoreCase="true" multiline="false" singleline="false"/></discoveryMappings>
+</AdapterMetadata>

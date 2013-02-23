@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.oracle.tpmmv6
+Bundle-SymbolicName: ziptie.adapters.oracle.tpmmv6
+Bundle-Version: 2008.4.2
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

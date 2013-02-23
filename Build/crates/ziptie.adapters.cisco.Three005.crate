@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.cisco.Three005"
+	name="ziptie.adapters.cisco.Three005"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.cisco.Three005" location="adapters/" version="" />
+</crate>

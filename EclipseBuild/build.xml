@@ -1,0 +1,26 @@
+<project name="INE Build tools" default="dist">
+	<property name="ant.lib.dir" value="../TargetPlatform/eclipse/plugins/org.apache.ant_1.6.5/lib"/>
+    <property name="dist.dir" value="dist"/>
+	<property name="src.dir" value="src"/>
+    <property name="class.dir" value="bin"/>
+	<property name="dist.jar" value="${dist.dir}/ziptie-build-tools.jar"/>
+
+	<target name="compile" description="Compiles the source">
+		<mkdir dir="${class.dir}"/>
+		<javac srcdir="${src.dir}"
+         destdir="${class.dir}"
+         classpath="${ant.lib.dir}/ant.jar;../TargetPlatform/eclipse/plugins/org.eclipse.osgi_3.2.2.R32x_v20070118.jar"
+         debug="on"	/>
+	</target>
+
+	<target name="dist" depends="compile" description="Builds the jar file">
+		<mkdir dir="${dist.dir}"/>
+
+		<jar destfile="${dist.jar}" basedir="${class.dir}" />
+	</target>
+
+	<target name="clean" description="Cleans all build artifacts">
+		<delete dir="${class.dir}" failonerror="false"/>
+		<delete dir="${dist.dir}" failonerror="false"/>
+    </target>
+</project>

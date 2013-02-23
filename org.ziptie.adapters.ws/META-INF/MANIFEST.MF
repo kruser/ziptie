@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NIL Webservice
+Bundle-SymbolicName: org.ziptie.adapters.ws;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,
+ org.apache.xerces,
+ org.mortbay.jetty.servlet-api-2.5,
+ org.ziptie.adapters,
+ org.ziptie.log4j,
+ org.ziptie.net,
+ org.ziptie.net.servers,
+ org.ziptie.stax,
+ org.ziptie.zap.metro
+Eclipse-LazyStart: false
+Bundle-Activator: org.ziptie.adapters.ws.internal.AdaptersWsActivator
+Export-Package: org.ziptie.adapters.ws
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

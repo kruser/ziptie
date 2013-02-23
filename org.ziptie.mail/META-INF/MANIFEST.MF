@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JavaMail Plugin
+Bundle-SymbolicName: org.ziptie.mail;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ZipTie.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: lib/activation.jar,
+ lib/mail.jar,
+ .
+Export-Package: javax.activation,
+ javax.mail,
+ javax.mail.event,
+ javax.mail.internet,
+ javax.mail.search,
+ javax.mail.util
+Import-Package: org.osgi.framework
+Bundle-Activator: org.ziptie.mail.internal.MailActivator

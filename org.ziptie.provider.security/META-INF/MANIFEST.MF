@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Security Plug-in
+Bundle-SymbolicName: org.ziptie.provider.security
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.security.internal.SecurityProviderActivator
+Bundle-Vendor: ZipTie.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j,
+ org.eclipse.core.runtime,
+ org.osgi.framework;version="1.3.0"
+Eclipse-LazyStart: true
+Require-Bundle: org.ziptie.server.security,
+ org.ziptie.zap.hibernate,
+ org.ziptie.zap.metro,
+ org.ziptie.zap.jta,
+ org.ziptie.zap.security
+Export-Package: org.ziptie.provider.security
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

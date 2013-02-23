@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.checkpoint.opsec"
+	name="ziptie.adapters.checkpoint.opsec"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.checkpoint.opsec" location="adapters/" version="" />
+</crate>

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.nortel.passport1600
+Bundle-SymbolicName: ziptie.adapters.nortel.passport1600
+Bundle-Version: 2008.10.0
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

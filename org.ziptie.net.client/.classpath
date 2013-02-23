@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="srcgen"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/org.ziptie.metro.client/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="/org.ziptie.metro.client/lib/jaxws-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.nokia.checkpoint
+Bundle-SymbolicName: ziptie.adapters.nokia.checkpoint
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Perl-Include: scripts
+Bundle-Type: adapter

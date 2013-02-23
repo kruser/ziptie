@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()">
+	<mx:Metadata>
+		[Event(name='change', type='flash.events.Event')]
+		[Event(name='defaultValueChanged', type='flash.events.Event')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import org.ziptie.flex.CsvElf;
+
+            private var _field:Field;
+            private var _defaultValue:String;
+            protected var _value:String;
+
+            [Bindable(event='change')]
+            public function get value():String
+            {
+            	return _value;
+            }
+
+            public function set value(value:String):void
+            {
+            	_value = value;
+            	dispatchEvent(new Event(Event.CHANGE));
+            }
+
+            [Bindable(event='fieldChanged')]
+            public function get field():Field
+            {
+            	return _field;
+            }
+
+            public function set field(field:Field):void
+            {
+            	_field = field;
+            }
+
+            private function init():void
+            {
+            	
+            }
+
+            public function set defaultValue(value:String):void
+            {
+                _defaultValue = value;
+                dispatchEvent(new Event('defaultValueChanged'));
+            }
+
+            [Bindable(event='defaultValueChanged')]
+            public function get defaultValue():String
+            {
+            	if (_defaultValue == null)
+            	{
+            		_defaultValue = field.defaultValue;
+            	}
+            	return _defaultValue;
+            }
+
+            [Bindable(event='defaultValueChanged')]
+            protected function get defaultValueArray():Array
+            {
+            	return CsvElf.toArray(defaultValue)[0];
+            }
+		]]>
+	</mx:Script>
+</mx:Canvas>

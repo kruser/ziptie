@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="absolute"
+      width="400" height="500"
+      title="@Resource(key='tags_remove_title', bundle='messages')">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.Sort;
+    		import mx.collections.SortField;
+    		import mx.rpc.events.ResultEvent;
+    		import mx.managers.PopUpManager;
+    		import mx.collections.ArrayCollection;
+    		import org.ziptie.flex.services.ResultElf;
+    		import org.ziptie.flex.services.WebServiceElf;
+
+            [Bindable]
+            private var _tagList:ArrayCollection;
+
+            private var _devices:String;
+
+            public function set devices(devices:Array):void
+            {
+            	_devices = '';
+            	for each (var device:Object in devices)
+            	{
+            		_devices += device.ipAddress + '@' + device.managedNetwork + ',';
+            	}
+
+				WebServiceElf.call('devicetags', 'getUnionOfTags', tags, _devices);
+            }
+
+            private function tags(event:ResultEvent):void
+            {
+                var field:SortField = new SortField("name", true);
+                var sort:Sort = new Sort();
+                sort.fields = [field];
+
+                _tagList = new ArrayCollection();
+                _tagList.sort = sort;
+                _tagList.refresh();
+
+                for each (var tag:String in ResultElf.array(event))
+                {
+                	_tagList.addItem(new Tag(tag, false));
+                }
+            }
+
+            private function performOk():void
+            {
+            	for each (var tag:Tag in _tagList)
+            	{
+            		if (tag.applied)
+            		{
+            		    WebServiceElf.call('devicetags', 'untagDevices', null, tag.name, _devices);
+            		}
+            	}
+
+            	PopUpManager.removePopUp(this);
+            }
+
+    	]]>
+    </mx:Script>
+    <mx:VBox height="100%" width="100%" styleName="popupVBox">
+        <mx:Text text="@Resource(key='tags_remove_message', bundle='messages')"/>
+        <!-- TODO lbayer: Check/uncheck on space or enter pressed -->
+        <mx:List id="list" width="100%" height="100%" dataProvider="{_tagList}">
+            <mx:itemRenderer>
+                <mx:Component>
+                    <mx:CheckBox
+                        label="{data.name}"
+                        selected="{data.applied}"
+                        change="data.applied = !data.applied" />
+                </mx:Component>
+            </mx:itemRenderer>
+        </mx:List>
+    </mx:VBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

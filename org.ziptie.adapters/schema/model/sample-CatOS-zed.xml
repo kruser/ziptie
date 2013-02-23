@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="UTF-8"?><cisco:ZiptieElementDocument xmlns="http://www.ziptie.org/model/common/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cisco="http://www.ziptie.org/model/cisco/1.0" xmlns:core="http://www.ziptie.org/model/core/1.0" xmlns:common="http://www.ziptie.org/model/common/1.0" xsi:schemaLocation="http://www.ziptie.org/model/core/1.0 ziptie-core.xsd http://www.ziptie.org/model/common/1.0 ziptie-common.xsd http://www.ziptie.org/model/cisco/1.0 cisco.xsd">
+<core:systemName>LON-C5000</core:systemName>
+<core:osInfo>
+<core:make>Cisco</core:make>
+<core:name>WS-C5000</core:name>
+<core:version>6.4(10)</core:version>
+<core:osType>CatOS</core:osType>
+</core:osInfo>
+<core:biosVersion>5.1(1)</core:biosVersion>
+<core:deviceType>Switch</core:deviceType>
+<core:contact>emoney</core:contact>
+<core:lastReboot>1207069162</core:lastReboot>
+<chassis>
+<core:asset>
+  <core:assetType>Chassis</core:assetType>
+  <core:factoryinfo>
+    <core:hardwareVersion>1.2</core:hardwareVersion>
+    <core:make>Cisco</core:make>
+    <core:modelNumber>WS-C5000</core:modelNumber>
+    <core:serialNumber>021230524</core:serialNumber>
+  </core:factoryinfo>
+</core:asset>
+<core:description>WS-C5000 Software, Version McpSW: 6.4(10) NmpSW: 6.4(10)
+Copyright (c) 1995-2004 by Cisco Systems
+NMP S/W compiled on Apr 16 2004, 16:46:19
+MCP S/W compiled on Apr 16 2004, 15:16:24
+</core:description>
+<card>
+  <core:asset>
+    <core:assetType>Card</core:assetType>
+    <core:factoryinfo>
+      <core:firmwareVersion>5.1(1)</core:firmwareVersion>
+      <core:hardwareVersion>1.2</core:hardwareVersion>
+      <core:make>Cisco</core:make>
+      <core:modelNumber>WS-X5550</core:modelNumber>
+      <core:partNumber>WS-X5550</core:partNumber>
+      <core:serialNumber>00021230524</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>1000BaseX Supervisor IIIG</core:description>
+  <portCount>2</portCount>
+  <slotNumber>1</slotNumber>
+  <softwareVersion>6.4(10)</softwareVersion>
+  <status>faulty</status>
+</card>
+<card>
+  <core:asset>
+    <core:assetType>Card</core:assetType>
+    <core:factoryinfo>
+      <core:firmwareVersion>3.1(1)</core:firmwareVersion>
+      <core:hardwareVersion>1.4</core:hardwareVersion>
+      <core:make>Cisco</core:make>
+      <core:modelNumber>WS-X5224</core:modelNumber>
+      <core:partNumber>WS-X5224</core:partNumber>
+      <core:serialNumber>00009605133</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>10/100BaseTX Ethernet</core:description>
+  <portCount>24</portCount>
+  <slotNumber>2</slotNumber>
+  <softwareVersion>6.4(10)</softwareVersion>
+  <status>ok</status>
+</card>
+<card>
+  <core:asset>
+    <core:assetType>Card</core:assetType>
+    <core:factoryinfo>
+      <core:firmwareVersion>20.9</core:firmwareVersion>
+      <core:hardwareVersion>4.5</core:hardwareVersion>
+      <core:make>Cisco</core:make>
+      <core:modelNumber>WS-X5302</core:modelNumber>
+      <core:partNumber>WS-X5302</core:partNumber>
+      <core:serialNumber>00007459905</core:serialNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <core:description>Route Switch</core:description>
+  <portCount>1</portCount>
+  <slotNumber>4</slotNumber>
+  <softwareVersion>11.2(15a)P, P</softwareVersion>
+  <status>ok</status>
+</card>
+<memory>
+  <kind>RAM</kind>
+  <size>33554432</size>
+</memory>
+<memory>
+  <kind>ConfigurationMemory</kind>
+  <size>524288</size>
+</memory>
+<memory>
+  <kind>Flash</kind>
+  <size>8388608</size>
+</memory>
+<powersupply>
+  <core:asset>
+    <core:assetType>PowerSupply</core:assetType>
+    <core:factoryinfo>
+      <core:make>Cisco</core:make>
+      <core:modelNumber>WS-C5008A</core:modelNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <number>1</number>
+  <status>ok</status>
+</powersupply>
+<powersupply>
+  <core:asset>
+    <core:assetType>PowerSupply</core:assetType>
+    <core:factoryinfo>
+      <core:make>Cisco</core:make>
+      <core:modelNumber>WS-C5008A</core:modelNumber>
+    </core:factoryinfo>
+  </core:asset>
+  <number>2</number>
+  <status>faulty</status>
+</powersupply>
+</chassis>
+<core:configRepository>
+  <core:name>/</core:name>
+  <core:config>
+    <core:context>N/A</core:context>
+    <core:mediaType>text/plain</core:mediaType>
+    <core:name>config</core:name>
+    <core:promotable>true</core:promotable>
+    <core:textBlob>IQojICoqKioqIEFMTCAoREVGQVVMVCBhbmQgTk9OLURFRkFVTFQpIENPTkZJR1VSQVRJT04gKioq
+KioKIQohCiN0aW1lOiBTYXQgQXByIDMgMTk5MywgMTQ6MTA6MDcgCiEKI3ZlcnNpb24gNi40KDEw
+KQohCnNldCBvcHRpb24gZmRkaS11c2VyLXByaSBlbmFibGVkCnNldCBmZWF0dXJlIGZ3LWRpc2Fi
+bGUgZGlzYWJsZQpzZXQgZmVhdHVyZSBuby1pc2wtZW50cmllcyBkaXNhYmxlCnNldCBwYXNzd29y
+ZCAkMiQ1bFBDJGNmQkRlSlpXekV0QUdXWG5OcGVlZC8Kc2V0IGVuYWJsZXBhc3MgJDIkTFlsMyRh
+OTZsZUxLLkE5L0g4T1lhdEtmbzYuCnNldCBwcm9tcHQgY2lzY281MDAwCnNldCBsZW5ndGggMjQg
+ZGVmYXVsdApzZXQgbG9nb3V0IDIwCnNldCBjb25maWcgbW9kZSBiaW5hcnkKc2V0IGJhbm5lciBt
+b3RkIF5DCnRoaXMgaXMgYSBmdWxsIHRlc3QuXkMKIQojdGVzdApzZXQgdGVzdCBkaWFnbGV2ZWwg
+Y29tcGxldGUKc2V0IHRlc3QgcGFja2V0YnVmZmVyIHN1biAwMzozMApzZXQgdGVzdCBwYWNrZXRi
+dWZmZXIgZW5hYmxlCiEKI2Vycm9yZGV0ZWN0aW9uCnNldCBlcnJvcmRldGVjdGlvbiBpbmJhbmQg
+ZGlzYWJsZQpzZXQgZXJyb3JkZXRlY3Rpb24gbWVtb3J5IGRpc2FibGUKc2V0IGVycm9yZGV0ZWN0
+aW9uIHBvcnRjb3VudGVyIGRpc2FibGUKc2V0IGVycm9yZGV0ZWN0aW9uIHBhY2tldC1idWZmZXIg
+ZXJyZGlzYWJsZQohCiNzeXN0ZW0Kc2V0IHN5c3RlbSBiYXVkICA5NjAwCnNldCBzeXN0ZW0gbW9k
+ZW0gZGlzYWJsZQpzZXQgc3lzdGVtIG5hbWUgIExPTi1DNTAwMApzZXQgc3lzdGVtIGxvY2F0aW9u
+IEhlcmVkaWEKc2V0IHN5c3RlbSBjb250YWN0ICBlbW9uZXkKc2V0IHN5c3RlbSBjb3VudHJ5Y29k
+ZSAKc2V0IHRyYWZmaWMgbW9uaXRvciAxMDAKc2V0IGZlYXR1cmUgbG9nLWNvbW1hbmQgZW5hYmxl
+CnNldCBmZWF0dXJlIGxvb3AtZGV0ZWN0IGVuYWJsZQpzZXQgZmVhdHVyZSBzdXBtb24gZW5hYmxl
+CiEKI2ZyYW1lIGRpc3RyaWJ1dGlvbiBtZXRob2QKc2V0IHBvcnQgY2hhbm5lbCBhbGwgZGlzdHJp
+YnV0aW9uIG1hYyBib3RoCiEKI21hYyBhZGRyZXNzIHJlZHVjdGlvbgpzZXQgc3BhbnRyZWUgbWFj
+cmVkdWN0aW9uIGRpc2FibGUKIQojZGVmYXVsdCBwb3J0Y29zdCBtb2RlCnNldCBzcGFudHJlZSBk
+ZWZhdWx0Y29zdG1vZGUgc2hvcnQKIQojc25tcApzZXQgc25tcCBjb21tdW5pdHkgcmVhZC1vbmx5
+ICAgICAgcHVibGljCnNldCBzbm1wIGNvbW11bml0eSByZWFkLXdyaXRlICAgICB3cml0ZW9ubHkK
+c2V0IHNubXAgY29tbXVuaXR5IHJlYWQtd3JpdGUtYWxsIHNlY3JldApzZXQgc25tcCBybW9uIGRp
+c2FibGUKc2V0IHNubXAgcm1vbm1lbW9yeSA4NQpzZXQgc25tcCB0cmFwIGRpc2FibGUgbW9kdWxl
+CnNldCBzbm1wIHRyYXAgZGlzYWJsZSBjaGFzc2lzCnNldCBzbm1wIHRyYXAgZGlzYWJsZSBicmlk
+Z2UKc2V0IHNubXAgdHJhcCBkaXNhYmxlIHJlcGVhdGVyCnNldCBzbm1wIHRyYXAgZW5hYmxlICB2
+dHAKc2V0IHNubXAgdHJhcCBkaXNhYmxlIGF1dGgKc2V0IHNubXAgdHJhcCBkaXNhYmxlIGlwcGVy
+bWl0CnNldCBzbm1wIHRyYXAgZGlzYWJsZSB2bXBzCnNldCBzbm1wIHRyYXAgZGlzYWJsZSBlbnRp
+dHkKc2V0IHNubXAgdHJhcCBkaXNhYmxlIGNvbmZpZwpzZXQgc25tcCB0cmFwIGRpc2FibGUgc3Rw
+eApzZXQgc25tcCB0cmFwIGRpc2FibGUgc3lzbG9nCnNldCBzbm1wIHRyYXAgZGlzYWJsZSBzeXN0
+ZW0Kc2V0IHNubXAgZXh0ZW5kZWRybW9uIHZsYW5tb2RlIGRpc2FibGUKc2V0IHNubXAgZXh0ZW5k
+ZWRybW9uIHZsYW5hZ2VudCBkaXNhYmxlCnNldCBzbm1wIGV4dGVuZGVkcm1vbiBlbmFibGUKc2V0
+IHNubXAgdHJhcCAxMC4xMDAuMS4xMjUgYWJjZCBwb3J0IDE2MiBvd25lciBDTEkgaW5kZXggMwpz
+ZXQgc25tcCB0cmFwIDEuMS4xLjIgdGVzdCBwb3J0IDE2MiBvd25lciBDTEkgaW5kZXggMgohCiN0
+YWNhY3MrCnNldCB0YWNhY3Mgc2VydmVyIDEwLjEwMC4zMi4xMzcgcHJpbWFyeQpzZXQgdGFjYWNz
+IGF0dGVtcHRzIDMKc2V0IHRhY2FjcyBkaXJlY3RlZHJlcXVlc3QgZGlzYWJsZQpzZXQgdGFjYWNz
+IGtleSBjaXNjbwpzZXQgdGFjYWNzIHRpbWVvdXQgNQohCiNyYWRpdXMKc2V0IHJhZGl1cyBkZWFk
+dGltZSAwCnNldCByYWRpdXMgdGltZW91dCA1CnNldCByYWRpdXMgcmV0cmFuc21pdCAyCiEKI2tl
+cmJlcm9zCiEKI2F1dGhlbnRpY2F0aW9uCnNldCBhdXRoZW50aWNhdGlvbiBsb2dpbiB0YWNhY3Mg
+ZW5hYmxlIGNvbnNvbGUgcHJpbWFyeQpzZXQgYXV0aGVudGljYXRpb24gbG9naW4gdGFjYWNzIGVu
+YWJsZSB0ZWxuZXQgcHJpbWFyeQpzZXQgYXV0aGVudGljYXRpb24gbG9naW4gdGFjYWNzIGVuYWJs
+ZSBodHRwIHByaW1hcnkKc2V0IGF1dGhlbnRpY2F0aW9uIGVuYWJsZSB0YWNhY3MgZW5hYmxlIGNv
+bnNvbGUgcHJpbWFyeQpzZXQgYXV0aGVudGljYXRpb24gZW5hYmxlIHRhY2FjcyBlbmFibGUgdGVs
+bmV0IHByaW1hcnkKc2V0IGF1dGhlbnRpY2F0aW9uIGVuYWJsZSB0YWNhY3MgZW5hYmxlIGh0dHAg
+cHJpbWFyeQpzZXQgYXV0aGVudGljYXRpb24gbG9naW4gcmFkaXVzIGRpc2FibGUgY29uc29sZSAK
+c2V0IGF1dGhlbnRpY2F0aW9uIGxvZ2luIHJhZGl1cyBkaXNhYmxlIHRlbG5ldCAKc2V0IGF1dGhl
+bnRpY2F0aW9uIGxvZ2luIHJhZGl1cyBkaXNhYmxlIGh0dHAgCnNldCBhdXRoZW50aWNhdGlvbiBl
+bmFibGUgcmFkaXVzIGRpc2FibGUgY29uc29sZSAKc2V0IGF1dGhlbnRpY2F0aW9uIGVuYWJsZSBy
+YWRpdXMgZGlzYWJsZSB0ZWxuZXQgCnNldCBhdXRoZW50aWNhdGlvbiBlbmFibGUgcmFkaXVzIGRp
+c2FibGUgaHR0cCAKc2V0IGF1dGhlbnRpY2F0aW9uIGxvZ2luIGxvY2FsIGVuYWJsZSBjb25zb2xl
+IApzZXQgYXV0aGVudGljYXRpb24gbG9naW4gbG9jYWwgZW5hYmxlIHRlbG5ldCAKc2V0IGF1dGhl
+bnRpY2F0aW9uIGxvZ2luIGxvY2FsIGVuYWJsZSBodHRwIApzZXQgYXV0aGVudGljYXRpb24gZW5h
+YmxlIGxvY2FsIGVuYWJsZSBjb25zb2xlIApzZXQgYXV0aGVudGljYXRpb24gZW5hYmxlIGxvY2Fs
+IGVuYWJsZSB0ZWxuZXQgCnNldCBhdXRoZW50aWNhdGlvbiBlbmFibGUgbG9jYWwgZW5hYmxlIGh0
+dHAgCnNldCBhdXRoZW50aWNhdGlvbiBsb2dpbiBrZXJiZXJvcyBkaXNhYmxlIGNvbnNvbGUgCnNl
+dCBhdXRoZW50aWNhdGlvbiBsb2dpbiBrZXJiZXJvcyBkaXNhYmxlIHRlbG5ldCAKc2V0IGF1dGhl
+bnRpY2F0aW9uIGxvZ2luIGtlcmJlcm9zIGRpc2FibGUgaHR0cCAKc2V0IGF1dGhlbnRpY2F0aW9u
+IGVuYWJsZSBrZXJiZXJvcyBkaXNhYmxlIGNvbnNvbGUgCnNldCBhdXRoZW50aWNhdGlvbiBlbmFi
+bGUga2VyYmVyb3MgZGlzYWJsZSB0ZWxuZXQgCnNldCBhdXRoZW50aWNhdGlvbiBlbmFibGUga2Vy
+YmVyb3MgZGlzYWJsZSBodHRwIApzZXQgYXV0aGVudGljYXRpb24gbG9naW4gYXR0ZW1wdCAzIGNv
+bnNvbGUKc2V0IGF1dGhlbnRpY2F0aW9uIGxvZ2luIGF0dGVtcHQgMyB0ZWxuZXQKc2V0IGF1dGhl
+bnRpY2F0aW9uIGxvZ2luIGxvY2tvdXQgMCBjb25zb2xlCnNldCBhdXRoZW50aWNhdGlvbiBsb2dp
+biBsb2Nrb3V0IDAgdGVsbmV0CnNldCBhdXRoZW50aWNhdGlvbiBlbmFibGUgYXR0ZW1wdCAzIGNv
+bnNvbGUKc2V0IGF1dGhlbnRpY2F0aW9uIGVuYWJsZSBhdHRlbXB0IDMgdGVsbmV0CnNldCBhdXRo
+ZW50aWNhdGlvbiBlbmFibGUgbG9ja291dCAwIGNvbnNvbGUKc2V0IGF1dGhlbnRpY2F0aW9uIGVu
+YWJsZSBsb2Nrb3V0IDAgdGVsbmV0CiEKI2JyaWRnZQpzZXQgYnJpZGdlIGFwYXJ0IGVuYWJsZQpz
+ZXQgYnJpZGdlIGZkZGljaGVjayBkaXNhYmxlCnNldCBicmlkZ2UgaXB4IHNuYXB0b2V0aGVyICAg
+ODAyM3JhdwpzZXQgYnJpZGdlIGlweCA4MDIydG9ldGhlciAgIDgwMjMKc2V0IGJyaWRnZSBpcHgg
+ODAyM3Jhd3RvZmRkaSBzbmFwCiEKI3Z0cApzZXQgdnRwIGRvbWFpbiBhbHRlcnBvaW50CnNldCB2
+dHAgbW9kZSB0cmFuc3BhcmVudApzZXQgdnRwIHBhc3N3ZCBCbGEmaW4Kc2V0IHZ0cCB2MiBlbmFi
+bGUKc2V0IHZ0cCBwcnVuZWVsaWdpYmxlIDItMTAwMApjbGVhciB2dHAgcHJ1bmVlbGlnaWJsZSAx
+MDAxLTEwMDUKc2V0IHZsYW4gMSBuYW1lIGRlZmF1bHQgdHlwZSBldGhlcm5ldCBtdHUgMTUwMCBz
+YWlkIDEwMDAwMSBzdGF0ZSBhY3RpdmUgCnNldCB2bGFuIDExMCBuYW1lIEJsYSZpbiB0eXBlIGV0
+aGVybmV0IG10dSAxNTAwIHNhaWQgMTAwMTEwIHN0YXRlIGFjdGl2ZSAKc2V0IHZsYW4gMTIwIG5h
+bWUgUlNNLXZsYW4gdHlwZSBldGhlcm5ldCBtdHUgMTUwMCBzYWlkIDEwMDEyMCBzdGF0ZSBhY3Rp
+dmUgCnNldCB2bGFuIDEwMDIgbmFtZSBmZGRpLWRlZmF1bHQgdHlwZSBmZGRpIG10dSAxNTAwIHNh
+aWQgMTAxMDAyIHN0YXRlIGFjdGl2ZSAKc2V0IHZsYW4gMTAwNCBuYW1lIGZkZGluZXQtZGVmYXVs
+dCB0eXBlIGZkZGluZXQgbXR1IDE1MDAgc2FpZCAxMDEwMDQgc3RhdGUgYWN0aXZlIGJyaWRnZSAw
+eDAgc3RwIGllZWUgCnNldCB2bGFuIDEwMDUgbmFtZSB0cmJyZi1kZWZhdWx0IHR5cGUgdHJicmYg
+bXR1IDQ0NzIgc2FpZCAxMDEwMDUgc3RhdGUgYWN0aXZlIGJyaWRnZSAweGYgc3RwIGlibSAKc2V0
+IHZsYW4gNDAKc2V0IHZsYW4gMTAwMyBuYW1lIHRyY3JmLWRlZmF1bHQgdHlwZSB0cmNyZiBtdHUg
+NDQ3MiBzYWlkIDEwMTAwMyBzdGF0ZSBhY3RpdmUgcGFyZW50IDEwMDUgcmluZyAweGNjYyBtb2Rl
+IHNyYiBhcmVtYXhob3AgNyBzdGVtYXhob3AgNyBiYWNrdXBjcmYgb2ZmIApzZXQgZG90MXEtYWxs
+LXRhZ2dlZCBkaXNhYmxlCiEKI2lwCnNldCBmZWF0dXJlIG1kZyBlbmFibGUKc2V0IGZlYXR1cmUg
+cHN5bmMtcmVjb3Zlcnkgbm8tcG93ZXJkb3duCnNldCBpbnRlcmZhY2Ugc2MwIDEgMTkyLjE2OC41
+LjMvMjU1LjI1NS4yNTUuMCAxOTIuMTY4LjUuMjU1CgpzZXQgaW50ZXJmYWNlIHNjMCB1cApzZXQg
+aW50ZXJmYWNlIHNsMCAwLjAuMC4wIDAuMC4wLjAKc2V0IGludGVyZmFjZSBzbDAgdXAKc2V0IGFy
+cCBhZ2luZ3RpbWUgMTIwMApzZXQgaXAgcmVkaXJlY3QgICBlbmFibGUKc2V0IGlwIHVucmVhY2hh
+YmxlICAgZW5hYmxlCnNldCBpcCBmcmFnbWVudGF0aW9uIGVuYWJsZQpzZXQgaXAgcm91dGUgMC4w
+LjAuMC8wLjAuMC4wICAgICAgICAgMTkyLjE2OC41LjEgICAgCnNldCBpcCBhbGlhcyBkZWZhdWx0
+ICAgICAgICAgMC4wLjAuMAohCiNjb21tYW5kIGFsaWFzCiEKI3ZtcHMKc2V0IHZtcHMgc2VydmVy
+IHJldHJ5IDMKc2V0IHZtcHMgc2VydmVyIHJlY29uZmlybWludGVydmFsIDYwCnNldCB2bXBzIGRv
+d25sb2FkbWV0aG9kIHRmdHAgCnNldCB2bXBzIGRvd25sb2Fkc2VydmVyIDAuMC4wLjAgdm1wcy1j
+b25maWctZGF0YWJhc2UuMSAKc2V0IHZtcHMgc3RhdGUgZGlzYWJsZQoKIQojcmNwCnNldCByY3Ag
+dXNlcm5hbWUgCiEKI2RucwpzZXQgaXAgZG5zIGVuYWJsZQohCiNzcGFudHJlZQojdXBsaW5rZmFz
+dCBncm91cHMKc2V0IHNwYW50cmVlIHVwbGlua2Zhc3QgZGlzYWJsZQojYmFja2JvbmVmYXN0CnNl
+dCBzcGFudHJlZSBiYWNrYm9uZWZhc3QgZGlzYWJsZQojcG9ydGZhc3QKc2V0IHNwYW50cmVlIHBv
+cnRmYXN0IGJwZHUtZ3VhcmQgZGlzYWJsZQpzZXQgc3BhbnRyZWUgcG9ydGZhc3QgYnBkdS1maWx0
+ZXIgZGlzYWJsZQojYnBkdS1za2V3aW5nCnNldCBzcGFudHJlZSBicGR1LXNrZXdpbmcgZGlzYWJs
+ZQpzZXQgc3BhbnRyZWUgZW5hYmxlICBhbGwKI3ZsYW4gcGFyYW1ldGVycyAgICAgICAgICAgICAK
+c2V0IHNwYW50cmVlIGZ3ZGRlbGF5IDQgICAgICAxMDAzCnNldCBzcGFudHJlZSBoZWxsbyAgICAy
+ICAgICAgMTAwMwpzZXQgc3BhbnRyZWUgbWF4YWdlICAgMTAgICAgIDEwMDMKc2V0IHNwYW50cmVl
+IHByaW9yaXR5IDMyNzY4ICAxMDAzCnNldCBzcGFudHJlZSBwb3J0c3RhdGUgMTAwMyBibG9jayAx
+MDA1CnNldCBzcGFudHJlZSBwb3J0Y29zdCAxMDAzIDYyCnNldCBzcGFudHJlZSBwb3J0cHJpICAx
+MDAzIDQKc2V0IHNwYW50cmVlIHBvcnRmYXN0IDEwMDMgZGlzYWJsZQpzZXQgc3BhbnRyZWUgZndk
+ZGVsYXkgNCAgICAgIDEwMDUKc2V0IHNwYW50cmVlIGhlbGxvICAgIDIgICAgICAxMDA1CnNldCBz
+cGFudHJlZSBtYXhhZ2UgICAxMCAgICAgMTAwNQpzZXQgc3BhbnRyZWUgcHJpb3JpdHkgMzI3Njgg
+IDEwMDUKc2V0IHNwYW50cmVlIG11bHRpY2FzdC1hZGRyZXNzIDEwMDUgaWVlZQojdmxhbihkZWZh
+dWx0cykKc2V0IHNwYW50cmVlIGZ3ZGRlbGF5IDE1ICAgICAxLDQwLDExMCwxMjAKc2V0IHNwYW50
+cmVlIGhlbGxvICAgIDIgICAgICAxLDQwLDExMCwxMjAKc2V0IHNwYW50cmVlIG1heGFnZSAgIDIw
+ICAgICAxLDQwLDExMCwxMjAKc2V0IHNwYW50cmVlIHByaW9yaXR5IDMyNzY4ICAxLDQwLDExMCwx
+MjAKIQojY2dtcApzZXQgY2dtcCBkaXNhYmxlCnNldCBjZ21wIGxlYXZlIGRpc2FibGUKIQojc3lz
+bG9nCnNldCBsb2dnaW5nIGNvbnNvbGUgZW5hYmxlCnNldCBsb2dnaW5nIHRlbG5ldCBlbmFibGUK
+c2V0IGxvZ2dpbmcgc2VydmVyIGVuYWJsZQpzZXQgbG9nZ2luZyBzZXJ2ZXIgMTAuMTAwLjMyLjUz
+CnNldCBsb2dnaW5nIHNlcnZlciAxMC4xMDAuMi40CnNldCBsb2dnaW5nIHNlcnZlciAxMC4xMDAu
+Mi4zCnNldCBsb2dnaW5nIGxldmVsIGNkcCA0IGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgbWNh
+c3QgMiBkZWZhdWx0CnNldCBsb2dnaW5nIGxldmVsIGR0cCA1IGRlZmF1bHQKc2V0IGxvZ2dpbmcg
+bGV2ZWwgZHZsYW4gMiBkZWZhdWx0CnNldCBsb2dnaW5nIGxldmVsIGVhcmwgMiBkZWZhdWx0CnNl
+dCBsb2dnaW5nIGxldmVsIGZkZGkgMiBkZWZhdWx0CnNldCBsb2dnaW5nIGxldmVsIGlwIDMgZGVm
+YXVsdApzZXQgbG9nZ2luZyBsZXZlbCBwcnVuaW5nIDIgZGVmYXVsdApzZXQgbG9nZ2luZyBsZXZl
+bCBzbm1wIDIgZGVmYXVsdApzZXQgbG9nZ2luZyBsZXZlbCBzcGFudHJlZSAyIGRlZmF1bHQKc2V0
+IGxvZ2dpbmcgbGV2ZWwgc3lzIDUgZGVmYXVsdApzZXQgbG9nZ2luZyBsZXZlbCB0YWMgMiBkZWZh
+dWx0CnNldCBsb2dnaW5nIGxldmVsIHRjcCAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgdGVs
+bmV0IDIgZGVmYXVsdApzZXQgbG9nZ2luZyBsZXZlbCB0ZnRwIDIgZGVmYXVsdApzZXQgbG9nZ2lu
+ZyBsZXZlbCB2dHAgMiBkZWZhdWx0CnNldCBsb2dnaW5nIGxldmVsIHZtcHMgMiBkZWZhdWx0CnNl
+dCBsb2dnaW5nIGxldmVsIGtlcm5lbCAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgZmlsZXN5
+cyAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgZHJpcCAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcg
+bGV2ZWwgcGFncCA1IGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgbWdtdCA1IGRlZmF1bHQKc2V0
+IGxvZ2dpbmcgbGV2ZWwgbWxzIDUgZGVmYXVsdApzZXQgbG9nZ2luZyBsZXZlbCBwcm90ZmlsdCAy
+IGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgc2VjdXJpdHkgMiBkZWZhdWx0CnNldCBsb2dnaW5n
+IGxldmVsIHJhZGl1cyAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgdWRsZCA0IGRlZmF1bHQK
+c2V0IGxvZ2dpbmcgbGV2ZWwgZ3ZycCAyIGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgY29wcyAz
+IGRlZmF1bHQKc2V0IGxvZ2dpbmcgbGV2ZWwgcW9zIDMgZGVmYXVsdApzZXQgbG9nZ2luZyBzZXJ2
+ZXIgZmFjaWxpdHkgTE9DQUw3CnNldCBsb2dnaW5nIHNlcnZlciBzZXZlcml0eSA0CnNldCBsb2dn
+aW5nIHRpbWVzdGFtcCBlbmFibGUKc2V0IGxvZ2dpbmcgYnVmZmVyIDUwMApzZXQgbG9nZ2luZyBo
+aXN0b3J5IDUwMAohCiNudHAKc2V0IG50cCBicm9hZGNhc3RjbGllbnQgZGlzYWJsZQpzZXQgbnRw
+IGJyb2FkY2FzdGRlbGF5IDMwMDAKc2V0IG50cCBjbGllbnQgZW5hYmxlCnNldCBudHAgYXV0aGVu
+dGljYXRpb24gZGlzYWJsZQpzZXQgbnRwIHNlcnZlciAxMC4xMDAuNC44CnNldCBudHAgc2VydmVy
+IDEwLjEwMC4zMy41NQpjbGVhciB0aW1lem9uZQpzZXQgc3VtbWVydGltZSBlbmFibGUgCnNldCBz
+dW1tZXJ0aW1lIHJlY3VycmluZwohCiNzZXQgYm9vdCBjb21tYW5kCnNldCBib290IGF1dG8tY29u
+ZmlnIG5vbi1yZWN1cnJpbmcKIQojcGVybWl0IGxpc3QKc2V0IGlwIHBlcm1pdCBkaXNhYmxlIHRl
+bG5ldApzZXQgaXAgcGVybWl0IGVuYWJsZSBzc2gKc2V0IGlwIHBlcm1pdCBkaXNhYmxlIHNubXAK
+c2V0IGlwIHBlcm1pdCAxMC4wLjAuMCAyNTUuMC4wLjAKc2V0IGlwIHBlcm1pdCAxMC4yMTYuNDIu
+NDEgIHNubXAKc2V0IGlwIHBlcm1pdCAxOTIuMTY4LjAuMCAyNTUuMjU1LjAuMAohCiNwZXJtYW5l
+bnQgYXJwIGVudHJpZXMKIQojZHJpcApzZXQgdG9rZW5yaW5nIHJlZHVjdGlvbiBlbmFibGUKc2V0
+IHRva2VucmluZyBkaXN0cmliLWNyZiBkaXNhYmxlCiEKI2lnbXAKc2V0IGlnbXAgZGlzYWJsZQpz
+ZXQgaWdtcCBmYXN0bGVhdmUgZGlzYWJsZQohCiNyZ21wCnNldCByZ21wIGRpc2FibGUKIQojcHJv
+dG9jb2xmaWx0ZXIKc2V0IHByb3RvY29sZmlsdGVyIGRpc2FibGUKIQojbWxzCnNldCBtbHMgZW5h
+YmxlIGlwCnNldCBtbHMgZGlzYWJsZSBpcHgKc2V0IG1scyBmbG93IGRlc3RpbmF0aW9uCnNldCBt
+bHMgbmRlIGRpc2FibGUKc2V0IG1scyBhZ2luZ3RpbWUgbG9uZy1kdXJhdGlvbiAxOTIwCnNldCBt
+bHMgYWdpbmd0aW1lIDI1NgpzZXQgbWxzIGFnaW5ndGltZSBpcHggMjU2CnNldCBtbHMgYWdpbmd0
+aW1lIGZhc3QgMCAwCiEKI3N0YW5kYnkgcG9ydHMKc2V0IHN0YW5kYnlwb3J0cyBkaXNhYmxlCiEK
+I3ZsYW4gbWFwcGluZwohCiNnbXJwCnNldCBnbXJwIGRpc2FibGUKIQojZ2FycApzZXQgZ2FycCB0
+aW1lciBhbGwgMjAwIDYwMCAxMDAwMAohCiNjZHAKc2V0IGNkcCBpbnRlcnZhbCA2MApzZXQgY2Rw
+IGhvbGR0aW1lIDE4MApzZXQgY2RwIGVuYWJsZQpzZXQgY2RwIHZlcnNpb24gdjIKc2V0IGNkcCBm
+b3JtYXQgZGV2aWNlLWlkIG90aGVyCiEKI2RvdDF4CnNldCBkb3QxeCBzeXN0ZW0tYXV0aC1jb250
+cm9sIGVuYWJsZQpzZXQgZG90MXggcXVpZXQtcGVyaW9kIDYwCnNldCBkb3QxeCB0eC1wZXJpb2Qg
+MzAKc2V0IGRvdDF4IHN1cHAtdGltZW91dCAzMApzZXQgZG90MXggc2VydmVyLXRpbWVvdXQgMzAK
+c2V0IGRvdDF4IG1heC1yZXEgMgpzZXQgZG90MXggcmUtYXV0aHBlcmlvZCAzNjAwCiEKI2NvcHMK
+c2V0IGNvcHMgcmV0cnktaW50ZXJ2YWwgMzAgMzAgMzAwCiEKI3FvcwpzZXQgcW9zIGRpc2FibGUK
+c2V0IHFvcyBtYXAgMXE0dCAxIDEgY29zIDAKc2V0IHFvcyBtYXAgMXE0dCAxIDEgY29zIDEKc2V0
+IHFvcyBtYXAgMXE0dCAxIDIgY29zIDIKc2V0IHFvcyBtYXAgMXE0dCAxIDIgY29zIDMKc2V0IHFv
+cyBtYXAgMXE0dCAxIDMgY29zIDQKc2V0IHFvcyBtYXAgMXE0dCAxIDMgY29zIDUKc2V0IHFvcyBt
+YXAgMXE0dCAxIDQgY29zIDYKc2V0IHFvcyBtYXAgMXE0dCAxIDQgY29zIDcKc2V0IHFvcyB3cmVk
+LXRocmVzaG9sZCAxcTR0IHR4IHF1ZXVlIDEgMTAgMjAgNDAgMTAwIApzZXQgcW9zIHBvbGljeS1z
+b3VyY2UgbG9jYWwKIQojdWRsZApzZXQgdWRsZCBkaXNhYmxlCnNldCB1ZGxkIGludGVydmFsIDE1
+CiEKI3BvcnQgY2hhbm5lbAohCiNhY2NvdW50aW5nCnNldCBhY2NvdW50aW5nIGV4ZWMgZGlzYWJs
+ZQpzZXQgYWNjb3VudGluZyBjb25uZWN0IGRpc2FibGUKc2V0IGFjY291bnRpbmcgc3lzdGVtIGRp
+c2FibGUKc2V0IGFjY291bnRpbmcgY29tbWFuZHMgZGlzYWJsZQpzZXQgYWNjb3VudGluZyBzdXBw
+cmVzcyBudWxsLXVzZXJuYW1lIGRpc2FibGUKc2V0IGFjY291bnRpbmcgdXBkYXRlIG5ldy1pbmZv
+IAohCiNlcnJkaXNhYmxlIHRpbWVvdXQKc2V0IGVycmRpc2FibGUtdGltZW91dCBkaXNhYmxlIG90
+aGVyCnNldCBlcnJkaXNhYmxlLXRpbWVvdXQgZGlzYWJsZSB1ZGxkCnNldCBlcnJkaXNhYmxlLXRp
+bWVvdXQgZGlzYWJsZSBicGR1LWd1YXJkCnNldCBlcnJkaXNhYmxlLXRpbWVvdXQgZGlzYWJsZSBj
+aGFubmVsLW1pc2NvbmZpZwpzZXQgZXJyZGlzYWJsZS10aW1lb3V0IGludGVydmFsIDMwMAohCiNj
+cnlwdG8ga2V5CnNldCBjcnlwdG8ga2V5IHJzYSAxMDI0CiEKIyBkZWZhdWx0IHBvcnQgc3RhdHVz
+IGlzIGVuYWJsZQohCiEKI21vZHVsZSAxIDogMi1wb3J0IDEwMDBCYXNlWCBTdXBlcnZpc29yIElJ
+SUcKc2V0IG1vZHVsZSBuYW1lICAgIDEgICAgCnNldCB2bGFuIDEgICAgMS8xLTIKc2V0IHBvcnQg
+ZW5hYmxlICAgICAxLzEtMgpzZXQgcG9ydCBsZXZlbCAgICAgIDEvMS0yICBub3JtYWwKc2V0IHBv
+cnQgdHJhcCAgICAgICAxLzEtMiAgZGlzYWJsZQpzZXQgcG9ydCBuYW1lICAgICAgIDEvMS0yCnNl
+dCBwb3J0IGRvdDF4IDEvMS0yIHBvcnQtY29udHJvbCBmb3JjZS1hdXRob3JpemVkCnNldCBwb3J0
+IGRvdDF4IDEvMS0yIG11bHRpcGxlLWhvc3QgZGlzYWJsZQpzZXQgcG9ydCBkb3QxeCAxLzEtMiBy
+ZS1hdXRoZW50aWNhdGlvbiBkaXNhYmxlCnNldCBwb3J0IGJyb2FkY2FzdCAgMS8xLTIgIDEwMC4w
+MCUKc2V0IHBvcnQgcHJvdG9jb2wgMS8xLTIgaXAgb24Kc2V0IHBvcnQgcHJvdG9jb2wgMS8xLTIg
+aXB4IGF1dG8Kc2V0IHBvcnQgcHJvdG9jb2wgMS8xLTIgZ3JvdXAgYXV0bwpzZXQgcG9ydCBuZWdv
+dGlhdGlvbiAxLzEtMiBlbmFibGUKc2V0IHBvcnQgZmxvd2NvbnRyb2wgICAgMS8xLTIgc2VuZCBk
+ZXNpcmVkCnNldCBwb3J0IGZsb3djb250cm9sICAgIDEvMS0yIHJlY2VpdmUgb2ZmCnNldCBjZHAg
+ZW5hYmxlICAgMS8xLTIKc2V0IHVkbGQgZGlzYWJsZSAxLzIgCnNldCB1ZGxkIGFnZ3Jlc3NpdmUt
+bW9kZSBkaXNhYmxlIDEvMS0yIApzZXQgdHJ1bmsgMS8xICBhdXRvIG5lZ290aWF0ZSAxLTEwMDUK
+c2V0IHRydW5rIDEvMiAgYXV0byBuZWdvdGlhdGUgMS0xMDA1CnNldCBzcGFudHJlZSBwb3J0ZmFz
+dCAgICAxLzEtMiBkaXNhYmxlCnNldCBzcGFudHJlZSBwb3J0Y29zdCAgICAxLzEtMiAgNApzZXQg
+c3BhbnRyZWUgcG9ydHByaSAgICAgMS8xLTIgIDMyCnNldCBzcGFudHJlZSBwb3J0dmxhbnByaSAx
+LzEgIDAKc2V0IHNwYW50cmVlIHBvcnR2bGFucHJpIDEvMiAgMApzZXQgc3BhbnRyZWUgcG9ydHZs
+YW5jb3N0IDEvMSAgY29zdCAzCnNldCBzcGFudHJlZSBwb3J0dmxhbmNvc3QgMS8yICBjb3N0IDMK
+c2V0IHNwYW50cmVlIGd1YXJkIG5vbmUgMS8xLTIKc2V0IHBvcnQgZ3ZycCAgICAgMS8xLTIgIGRp
+c2FibGUKc2V0IGd2cnAgcmVnaXN0cmF0aW9uIG5vcm1hbCAgIDEvMS0yCnNldCBndnJwIGFwcGxp
+Y2FudCBub3JtYWwgICAxLzEtMgpzZXQgcG9ydCBnbXJwICAgMS8xLTIgIGVuYWJsZQpzZXQgZ21y
+cCByZWdpc3RyYXRpb24gbm9ybWFsICAgMS8xLTIKc2V0IGdtcnAgZndkYWxsIGRpc2FibGUgICAg
+MS8xLTIKc2V0IHBvcnQganVtYm8gIDEvMS0yICBkaXNhYmxlCiEKI21vZHVsZSAyIDogMjQtcG9y
+dCAxMC8xMDBCYXNlVFggRXRoZXJuZXQKc2V0IG1vZHVsZSBuYW1lICAgIDIgICAgCnNldCBtb2R1
+bGUgZW5hYmxlICAyCnNldCB2bGFuIDEgICAgMi8xLTI0CnNldCBwb3J0IGVuYWJsZSAgICAgMi8x
+LTI0CnNldCBwb3J0IGxldmVsICAgICAgMi8xLTI0ICBub3JtYWwKc2V0IHBvcnQgc3BlZWQgICAg
+ICAyLzEtMjQgIGF1dG8Kc2V0IHBvcnQgdHJhcCAgICAgICAyLzEtMjQgIGRpc2FibGUKc2V0IHBv
+cnQgbmFtZSAgICAgICAyLzEtMjQKc2V0IHBvcnQgZG90MXggMi8xLTI0IHBvcnQtY29udHJvbCBm
+b3JjZS1hdXRob3JpemVkCnNldCBwb3J0IGRvdDF4IDIvMS0yNCBtdWx0aXBsZS1ob3N0IGRpc2Fi
+bGUKc2V0IHBvcnQgZG90MXggMi8xLTI0IHJlLWF1dGhlbnRpY2F0aW9uIGRpc2FibGUKc2V0IHBv
+cnQgc2VjdXJpdHkgMi8xLTI0IGRpc2FibGUgYWdlIDAgbWF4aW11bSAxIHNodXRkb3duIDAgdmlv
+bGF0aW9uIHNodXRkb3duCnNldCBwb3J0IGJyb2FkY2FzdCAgMi8xLTI0ICAwCnNldCBwb3J0IG1l
+bWJlcnNoaXAgMi8xLTI0ICBzdGF0aWMKc2V0IHBvcnQgcHJvdG9jb2wgMi8xLTI0IGlwIG9uCnNl
+dCBwb3J0IHByb3RvY29sIDIvMS0yNCBpcHggYXV0bwpzZXQgcG9ydCBwcm90b2NvbCAyLzEtMjQg
+Z3JvdXAgYXV0bwpzZXQgY2RwIGVuYWJsZSAgIDIvMS0yNApzZXQgdWRsZCBkaXNhYmxlIDIvMS0y
+NCAKc2V0IHVkbGQgYWdncmVzc2l2ZS1tb2RlIGRpc2FibGUgMi8xLTI0IApzZXQgc3BhbnRyZWUg
+cG9ydGZhc3QgICAgMi8xLTI0IGRpc2FibGUKc2V0IHNwYW50cmVlIHBvcnRjb3N0ICAgIDIvMiAg
+MTkKc2V0IHNwYW50cmVlIHBvcnRjb3N0ICAgIDIvMSwyLzMtMjQgIDEwMApzZXQgc3BhbnRyZWUg
+cG9ydHByaSAgICAgMi8xLTI0ICAzMgpzZXQgc3BhbnRyZWUgZ3VhcmQgbm9uZSAyLzEtMjQKc2V0
+IHBvcnQgZ21ycCAgIDIvMS0yNCAgZW5hYmxlCnNldCBnbXJwIHJlZ2lzdHJhdGlvbiBub3JtYWwg
+ICAyLzEtMjQKc2V0IGdtcnAgZndkYWxsIGRpc2FibGUgICAgMi8xLTI0CnNldCBwb3J0IGp1bWJv
+ICAyLzEtMjQgIGRpc2FibGUKIQojbW9kdWxlIDMgZW1wdHkKIQojbW9kdWxlIDQgOiAxLXBvcnQg
+Um91dGUgU3dpdGNoCnNldCBtb2R1bGUgbmFtZSAgICA0ICAgIApzZXQgcG9ydCBsZXZlbCAgICAg
+IDQvMSAgbm9ybWFsCnNldCBwb3J0IG5hbWUgICAgICAgNC8xCnNldCBjZHAgZW5hYmxlICAgNC8x
+CnNldCB0cnVuayA0LzEgIG9uIGlzbCAxLTEwMDUKc2V0IHNwYW50cmVlIHBvcnRjb3N0ICAgIDQv
+MSAgNQpzZXQgc3BhbnRyZWUgcG9ydHByaSAgICAgNC8xICAzMgpzZXQgc3BhbnRyZWUgcG9ydHZs
+YW5wcmkgNC8xICAwCnNldCBzcGFudHJlZSBwb3J0dmxhbmNvc3QgNC8xICBjb3N0IDQKc2V0IHNw
+YW50cmVlIGd1YXJkIG5vbmUgNC8xCnNldCBwb3J0IGdtcnAgICA0LzEgIGVuYWJsZQpzZXQgZ21y
+cCByZWdpc3RyYXRpb24gbm9ybWFsICAgNC8xCnNldCBnbXJwIGZ3ZGFsbCBkaXNhYmxlICAgIDQv
+MQohCiNtb2R1bGUgNSBlbXB0eQohCiNtb2R1bGUgMTUgZW1wdHkKIQojbW9kdWxlIDE2IGVtcHR5
+CiEKI3N3aXRjaCBwb3J0IGFuYWx5emVyCiEKI2NhbQpzZXQgY2FtIGFnaW5ndGltZSAxLDQwLDEx
+MCwxMjAsMTAwMywxMDA1IDMwMAohCiNxb3MgbWFjLWNvcwohCiNxb3Mgcm91dGVyLW1hYwohCiNn
+dnJwCnNldCBndnJwIGR5bmFtaWMtdmxhbi1jcmVhdGlvbiBkaXNhYmxlCnNldCBndnJwIGRpc2Fi
+bGUKIQojYXV0aG9yaXphdGlvbgpzZXQgYXV0aG9yaXphdGlvbiBleGVjIGRpc2FibGUgY29uc29s
+ZQpzZXQgYXV0aG9yaXphdGlvbiBleGVjIGRpc2FibGUgdGVsbmV0CnNldCBhdXRob3JpemF0aW9u
+IGVuYWJsZSBkaXNhYmxlIGNvbnNvbGUKc2V0IGF1dGhvcml6YXRpb24gZW5hYmxlIGRpc2FibGUg
+dGVsbmV0CnNldCBhdXRob3JpemF0aW9uIGNvbW1hbmRzIGRpc2FibGUgY29uc29sZQpzZXQgYXV0
+aG9yaXphdGlvbiBjb21tYW5kcyBkaXNhYmxlIHRlbG5ldAplbmQK
+</core:textBlob>
+  </core:config>
+</core:configRepository>
+<interfaces>
+<interface>
+  <adminStatus>up</adminStatus>
+  <description>slip</description>
+  <interfaceType>other</interfaceType>
+  <name>sl0</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <description>vlan</description>
+  <interfaceIp>
+    <ipConfiguration>
+      <broadcast>192.168.5.255</broadcast>
+      <ipAddress>192.168.5.3</ipAddress>
+      <mask>24</mask>
+      <precedence>2</precedence>
+    </ipConfiguration>
+  </interfaceIp>
+  <interfaceType>other</interfaceType>
+  <name>sc0</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>false</autoDuplex>
+    <mediaType>No Connector</mediaType>
+    <operationalDuplex>full</operationalDuplex>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>4</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>1/1</name>
+  <physical>false</physical>
+  <speed>1000</speed>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>false</autoDuplex>
+    <mediaType>No Connector</mediaType>
+    <operationalDuplex>full</operationalDuplex>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>4</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>1/2</name>
+  <physical>false</physical>
+  <speed>1000</speed>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/1</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <autoSpeed>true</autoSpeed>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>19</cost>
+    <priority>32</priority>
+    <state>forwarding</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/2</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/3</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/4</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/5</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/6</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/7</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/8</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/9</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/10</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/11</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/12</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/13</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/14</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/15</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/16</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/17</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/18</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/19</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/20</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/21</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/22</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/23</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>down</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>true</autoDuplex>
+    <mediaType>10/100BaseTX</mediaType>
+  </interfaceEthernet>
+  <interfaceSpanningTree>
+    <cost>100</cost>
+    <priority>32</priority>
+    <state>disabled</state>
+  </interfaceSpanningTree>
+  <interfaceType>other</interfaceType>
+  <interfaceVlanTrunks>
+    <startVlan>1</startVlan>
+  </interfaceVlanTrunks>
+  <name>2/24</name>
+  <physical>false</physical>
+</interface>
+<interface>
+  <adminStatus>up</adminStatus>
+  <interfaceEthernet>
+    <autoDuplex>false</autoDuplex>
+    <mediaType>Route Switch</mediaType>
+    <operationalDuplex>half</operationalDuplex>
+  </interfaceEthernet>
+  <interfaceType>other</interfaceType>
+  <name>4/1</name>
+  <physical>false</physical>
+  <speed>400</speed>
+</interface>
+</interfaces>
+<localAccounts>
+<localAccount>
+  <accessLevel>0</accessLevel>
+  <accountName>password</accountName>
+  <password>$2$5lPC$cfBDeJZWzEtAGWXnNpeed/</password>
+</localAccount>
+<localAccount>
+  <accessLevel>15</accessLevel>
+  <accountName>enablepass</accountName>
+  <password>$2$LYl3$a96leLK.A9/H8OYatKfo6.</password>
+</localAccount>
+</localAccounts>
+<snmp>
+<community>
+  <accessType>RO</accessType>
+  <communityString>public</communityString>
+</community>
+<community>
+  <accessType>RW</accessType>
+  <communityString>writeonly</communityString>
+</community>
+<community>
+  <accessType>RW</accessType>
+  <communityString>secret</communityString>
+</community>
+<sysContact>emoney</sysContact>
+<sysLocation>Heredia</sysLocation>
+<sysName>LON-C5000</sysName>
+<trapHosts>
+  <communityString>abcd</communityString>
+  <ipAddress>10.100.1.125</ipAddress>
+</trapHosts>
+<trapHosts>
+  <communityString>test</communityString>
+  <ipAddress>1.1.1.2</ipAddress>
+</trapHosts>
+</snmp>
+<spanningTree>
+  <spanningTreeInstance>
+    <designatedRootCost>0</designatedRootCost>
+    <designatedRootForwardDelay>15</designatedRootForwardDelay>
+    <designatedRootHelloTime>2</designatedRootHelloTime>
+    <designatedRootMacAddress>0002BA62B400</designatedRootMacAddress>
+    <designatedRootMaxAge>20</designatedRootMaxAge>
+    <designatedRootPort>1/0</designatedRootPort>
+    <designatedRootPriority>32768</designatedRootPriority>
+    <forwardDelay>15</forwardDelay>
+    <helloTime>2</helloTime>
+    <maxAge>20</maxAge>
+    <priority>32768</priority>
+    <systemMacAddress>0002BA62B400</systemMacAddress>
+    <vlan>1</vlan>
+  </spanningTreeInstance>
+</spanningTree>
+<staticRoutes>
+  <staticRoute>
+    <defaultGateway>false</defaultGateway>
+    <destinationAddress>192.168.5.0</destinationAddress>
+    <destinationMask>24</destinationMask>
+    <gatewayAddress>192.168.5.3</gatewayAddress>
+    <interface>sc0</interface>
+  </staticRoute>
+</staticRoutes>
+<vlans>
+<vlan>
+  <configSource>default</configSource>
+  <enabled>true</enabled>
+  <implementationType>enet</implementationType>
+  <interfaceMember>1/1</interfaceMember>
+  <interfaceMember>1/2</interfaceMember>
+  <interfaceMember>2/1</interfaceMember>
+  <interfaceMember>2/2</interfaceMember>
+  <interfaceMember>2/3</interfaceMember>
+  <interfaceMember>2/4</interfaceMember>
+  <interfaceMember>2/5</interfaceMember>
+  <interfaceMember>2/6</interfaceMember>
+  <interfaceMember>2/7</interfaceMember>
+  <interfaceMember>2/8</interfaceMember>
+  <interfaceMember>2/9</interfaceMember>
+  <interfaceMember>2/10</interfaceMember>
+  <interfaceMember>2/11</interfaceMember>
+  <interfaceMember>2/12</interfaceMember>
+  <interfaceMember>2/13</interfaceMember>
+  <interfaceMember>2/14</interfaceMember>
+  <interfaceMember>2/15</interfaceMember>
+  <interfaceMember>2/16</interfaceMember>
+  <interfaceMember>2/17</interfaceMember>
+  <interfaceMember>2/18</interfaceMember>
+  <interfaceMember>2/19</interfaceMember>
+  <interfaceMember>2/20</interfaceMember>
+  <interfaceMember>2/21</interfaceMember>
+  <interfaceMember>2/22</interfaceMember>
+  <interfaceMember>2/23</interfaceMember>
+  <interfaceMember>2/24</interfaceMember>
+  <mtu>1500</mtu>
+  <name>default</name>
+  <number>1</number>
+  <said>100001</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>enet</implementationType>
+  <mtu>1500</mtu>
+  <name>VLAN0040</name>
+  <number>40</number>
+  <said>100040</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>enet</implementationType>
+  <mtu>1500</mtu>
+  <name>Bla&amp;in</name>
+  <number>110</number>
+  <said>100110</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>enet</implementationType>
+  <mtu>1500</mtu>
+  <name>RSM-vlan</name>
+  <number>120</number>
+  <said>100120</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>fddi</implementationType>
+  <mtu>1500</mtu>
+  <name>fddi-default</name>
+  <number>1002</number>
+  <said>101002</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <areHops>7</areHops>
+  <backupCRFEnabled>false</backupCRFEnabled>
+  <bridgeMode>srb</bridgeMode>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>trcrf</implementationType>
+  <mtu>4472</mtu>
+  <name>trcrf-default</name>
+  <number>1003</number>
+  <parent>1005</parent>
+  <ringNumber>3276</ringNumber>
+  <said>101003</said>
+  <steHops>7</steHops>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>fdnet</implementationType>
+  <mtu>1500</mtu>
+  <name>fddinet-default</name>
+  <number>1004</number>
+  <said>101004</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+<vlan>
+  <bridgeNumber>15</bridgeNumber>
+  <configSource>learned</configSource>
+  <enabled>true</enabled>
+  <implementationType>trbrf</implementationType>
+  <interfaceMember>1003</interfaceMember>
+  <mtu>4472</mtu>
+  <name>trbrf-default</name>
+  <number>1005</number>
+  <said>101005</said>
+  <translationBridge1>0</translationBridge1>
+  <translationBridge2>0</translationBridge2>
+</vlan>
+</vlans>
+<cisco:vlanTrunking>
+  <cisco:alarmNotificationEnabled>true</cisco:alarmNotificationEnabled>
+  <cisco:configVersion>0</cisco:configVersion>
+  <cisco:domainName>alterpoint</cisco:domainName>
+  <cisco:lastUpdater>192.168.5.3</cisco:lastUpdater>
+  <cisco:localMode>Transparent</cisco:localMode>
+  <cisco:maxVlanCount>1023</cisco:maxVlanCount>
+  <cisco:v2Mode>enabled</cisco:v2Mode>
+  <cisco:version>2</cisco:version>
+  <cisco:vlanCount>8</cisco:vlanCount>
+  <cisco:vlanPruningEnabled>false</cisco:vlanPruningEnabled>
+</cisco:vlanTrunking>
+</cisco:ZiptieElementDocument>
+
+

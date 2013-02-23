@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+     targetNamespace="http://www.ziptie.org/adapters/backup"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:tns="http://www.ziptie.org/adapters/backup"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     name="BackupService">
+
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.ziptie.org/adapters/backup" schemaLocation="backup-types.xsd" />
+    </xsd:schema>
+  </types>
+
+  <message name="backup">
+    <part name="connectionPath" element="tns:backup"/>
+  </message>
+  <message name="backupResponse">
+    <part name="response" element="tns:backupResponse"/>
+  </message>
+  <portType name="Backup">
+    <operation name="backup">
+      <input message="tns:backup"/>
+      <output message="tns:backupResponse"/>
+    </operation>
+  </portType>
+  <binding name="BackupPortBinding" type="tns:Backup">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="backup">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="BackupService">
+    <port name="BackupPort" binding="tns:BackupPortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

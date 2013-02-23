@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nio
+Bundle-SymbolicName: org.ziptie.net.tftp
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Require-Bundle: org.eclipse.osgi
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j
+Bundle-ClassPath: tftpserver.jar
+Export-Package: org.ziptie.nio.common,
+ org.ziptie.nio.common.tuple,
+ org.ziptie.nio.nioagent,
+ org.ziptie.nio.nioagent.datagram,
+ org.ziptie.nio.nioagent.datagram.tftp

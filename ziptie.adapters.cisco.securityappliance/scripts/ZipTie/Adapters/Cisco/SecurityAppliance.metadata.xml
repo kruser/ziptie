@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Cisco::SecurityAppliance</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Cisco Security Appliances</shortName>
+    <description>Cisco Security Appliances (PIX, ASA, FWSM)</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)\((\d+)\)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>Type help or ['?]+ for a list of available commands</errorRegEx>
+        <errorRegEx>% Invalid input detected</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+			<supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <restoreValidationRegex>startup-config</restoreValidationRegex>
+        </operation>
+        <operation name="ntpserverchange">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="syslogsetup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="snmpcommunitychange">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="loginbanner">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+	    <matchRegex dataSource="sysDescr" regex="(PIX|Adaptive Security Appliance|Firewall Services Module)" singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+	</discoveryMappings>
+</AdapterMetadata>

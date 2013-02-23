@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CreateToolJob
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      jobType="BIRT Report"
+      fieldName="@Resource(key='CreateReportJob_field', bundle='messages')"
+      pluginType="report">
+	<mx:Script>
+		<![CDATA[
+			import org.ziptie.flex.jobs.JobWizard;
+            public static function run(devices:* = null):void
+            {
+                JobWizard.run(CreateReportJob, devices);
+            }
+		]]>
+	</mx:Script>
+</CreateToolJob>

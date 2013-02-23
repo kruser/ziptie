@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operationInputXML>
+    <connectionPath host="10.100.20.59">
+        <protocols>
+            <protocol name="SSH" port="22">
+                <properties>
+                    <property name="Version" value="ssh2"/>
+                </properties>
+            </protocol>
+            <protocol name="SNMP" port="161">
+                <properties>
+                    <property name="Retries" value="2"/>
+                    <property name="Timeout(ms)" value="800"/>
+                    <property name="Version" value="v2c"/>
+                </properties>
+            </protocol>
+        </protocols>
+        <credentials>
+            <credential name="enableUsername" value="testlab"/>
+            <credential name="rwCommunityString" value="private"/>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="password" value="hobbit"/>
+            <credential name="username" value="testlab"/>
+            <credential name="enablePassword" value="bigtex"/>
+        </credentials>
+        <fileServers/>
+    </connectionPath>
+</operationInputXML>

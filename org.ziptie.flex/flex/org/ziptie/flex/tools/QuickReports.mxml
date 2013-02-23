@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:flex="org.ziptie.flex.*"
+      layout="absolute"
+      width="400" height="250"
+      title="@Resource(key='QuickReports_title', bundle='messages')"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.ICollectionView;
+    		import mx.collections.ListCollectionView;
+    		import org.ziptie.flex.progress.ProgressManager;
+    		import mx.collections.ArrayCollection;
+    		import mx.managers.PopUpManager;
+    		
+    		[Bindable]
+    		private var toolsArray:ICollectionView;
+
+			private function init():void
+			{
+				var reports:ArrayCollection = PluginElf.getPluginDescriptors('report');
+				toolsArray = new ListCollectionView(reports);
+				toolsArray.filterFunction = isQuickReport;
+				toolsArray.refresh();
+			}
+			
+			private function isQuickReport(item:Object):Boolean
+			{
+				return ((item as PluginDescriptor).modeSupported == PluginDescriptor.NONE);	
+			}
+
+			private function runReport():void
+			{
+				ProgressManager.run(RunTool.newFromArray(reportGrid.selectedItem as PluginDescriptor, new Array()));
+				PopUpManager.removePopUp(this);
+			}
+			
+    	]]>
+    </mx:Script>
+    <mx:VBox styleName="popupVBox" x="0" y="0" width="100%" height="100%">
+        <mx:DataGrid dataProvider="{toolsArray}" id="reportGrid"
+        	width="100%" height="100%"
+        	change="runButton.enabled = (reportGrid.selectedIndex >=0)"
+        	doubleClick="runReport()"
+        	doubleClickEnabled="true">
+            <mx:columns>
+                <mx:DataGridColumn headerText="@Resource(key='QuickReports_reportTitle', bundle='messages')" dataField="toolName"/>
+            </mx:columns>
+        </mx:DataGrid>
+    	
+    </mx:VBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="runButton" label="@Resource(key='run', bundle='messages')" click="runReport()" enabled="false"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

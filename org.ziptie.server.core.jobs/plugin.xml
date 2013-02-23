@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="backupPersist" name="BackupPersist" schema="schema/BackupPersist.exsd"/>
+   <extension-point id="backupComplete" name="Backup Complete" schema="schema/backupComplete.exsd"/>
+
+   <extension point="org.ziptie.provider.scheduler.quartzJob">
+      <JobType
+            class="org.ziptie.server.job.backup.BackupJob"
+            cudPermission="org.ziptie.job.backup.cudPermission"
+            name="Backup Configuration"
+            runPermission="org.ziptie.job.backup.runPermission">
+         <validKey name="ipResolutionData"/>
+         <validKey name="ipResolutionScheme"/>
+      </JobType>
+   </extension>
+
+   <extension
+         id="deviceStatusPersist"
+         name="deviceStatusPersist"
+         point="org.ziptie.server.core.jobs.backupPersist">
+      <Persister class="org.ziptie.server.job.backup.DeviceStatusBackupPersister" />
+   </extension>
+   
+   <extension
+         id="deviceInterfacePersist"
+         name="deviceInterfacePersist"
+         point="org.ziptie.server.core.jobs.backupPersist">
+      <Persister class="org.ziptie.server.job.backup.DeviceInterfacePersister" />
+   </extension>
+
+   <extension point="org.ziptie.server.core.jobs.backupComplete">
+      <listener class="org.ziptie.server.job.backup.BackupResultListener" />
+      <listener class="org.ziptie.server.job.backup.BackupResultsTrapSender"/>
+   </extension>
+   <extension
+         point="org.ziptie.zap.security.SecurityPermissions">
+      <permission
+            display="%org.ziptie.job.backup.cudPermission"
+            id="org.ziptie.job.backup.cudPermission">
+      </permission>
+      <permission
+            display="%org.ziptie.job.backup.runPermission"
+            id="org.ziptie.job.backup.runPermission">
+      </permission>
+   </extension>
+
+</plugin>

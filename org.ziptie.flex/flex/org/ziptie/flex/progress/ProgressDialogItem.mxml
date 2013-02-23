@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	  verticalAlign="middle" >
+    <mx:Metadata>
+    	[ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.controls.ProgressBarMode;
+            [Bindable]
+            private var _progressItem:ProgressItem;
+
+            public function set progressItem(item:ProgressItem):void
+            {
+            	_progressItem = item;
+            	_progressItem.addEventListener('percentChanged', onProgress);
+            	_progressItem.addEventListener(Event.CANCEL, onCancel);
+            }
+
+            public function get progressItem():ProgressItem
+            {
+            	return _progressItem;
+            }
+
+            private function onProgress(event:Event):void
+            {
+            	var percent:int = _progressItem.percentComplete;
+            	if (percent == -1)
+            	{
+            		_progress.indeterminate = true;
+            		_progress.mode = ProgressBarMode.EVENT;
+            	}
+            	else
+            	{
+            		_progress.indeterminate = false;
+            		_progress.mode = ProgressBarMode.MANUAL;
+	            	_progress.setProgress(percent, 100);
+            	}
+            }
+
+            private function onCancel(event:Event):void
+            {
+            	btnCancel.enabled = false;
+            }
+
+    	]]>
+    </mx:Script>
+    <mx:ProgressBar
+    	  id="_progress"
+          label="{_progressItem.message}"
+          mode="manual"
+          indeterminate="false"
+          width="100%"/>
+    <mx:Button
+    	  id="btnCancel"
+    	  label="@Resource(key='cancel', bundle='messages')"
+    	  click="progressItem.doCancel()" />
+</mx:HBox>

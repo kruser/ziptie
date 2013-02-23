@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:flex="org.ziptie.flex.*"
+      layout="absolute"
+      width="450" height="450"
+      title="@Resource(key='discovery', bundle='messages')"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import org.ziptie.flex.services.WebServiceElf;
+    		import mx.rpc.events.ResultEvent;
+    		import mx.managers.PopUpManager;
+
+            [Bindable]
+            private var startTime:Date;
+            [Bindable]
+            private var endTime:Date;
+            [Bindable]
+            private var cronExpression:String;
+
+            private function init():void
+            {
+            	WebServiceElf.call('scheduler', 'getTrigger', trigger, '_discovery.periodic', '_system');
+            }
+
+            private function performOk():void
+    		{
+    		    if (chkEnabled.selected)
+    		    {
+    			    startTime = recurrence.startTime;
+    			    endTime = recurrence.endTime;
+    			    cronExpression = recurrence.cronExpression;
+
+                    var job:Object = {
+                        jobName:'_discovery.periodic',
+                        jobGroup:'_system',
+                        description:'',
+                        jobType:'Discover Devices',
+                        persistent:true,
+                        jobParameters:[]
+                    };
+
+                    WebServiceElf.call('scheduler', 'addJob', jobAdded, job, true);
+                }
+                else
+                {
+                	WebServiceElf.call('scheduler', 'unscheduleJob', null, '_discovery.periodic', '_system');
+                	PopUpManager.removePopUp(this);
+                }
+    		}
+
+            private function jobAdded(event:ResultEvent):void
+            {
+            	var trigger:Object = {
+            		jobName:'_discovery.periodic',
+            		jobGroup:'_system',
+            		triggerName:'_discovery.periodic',
+            		triggerGroup:'_system',
+            		cronExpression:cronExpression,
+            		paused:false,
+            		startTime:startTime,
+            		endTime:endTime,
+            		jobParameters:[
+                        {key:'crawl', value:crawl.selected},
+                        {key:'includeInventory', value:true}
+            		]
+            	};
+
+            	WebServiceElf.call('scheduler', 'scheduleJob', null, trigger);
+
+            	PopUpManager.removePopUp(this);
+            }
+
+            private function trigger(event:ResultEvent):void
+            {
+            	var trigger:Object = event.result;
+            	if (trigger == null)
+            	{
+            		vbox.enabled = false;
+            		chkEnabled.selected = false;
+            	}
+            	else
+            	{
+            		chkEnabled.selected = true;
+            		vbox.enabled = true;
+            		for each (var param:Object in trigger.jobParameters)
+            		{
+            			if (param.key == 'crawl' && param.value == 'false')
+            			{
+            				crawl.selected = false;
+            			}
+            		}
+
+            	    recurrence.setSchedule(trigger.startTime, trigger.endTime, trigger.cronExpression);
+            	}
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%" styleName="popupVBox">
+        <mx:Text width="100%" text="@Resource(key='discovery_message', bundle='messages')" />
+
+        <mx:CheckBox
+        	id="chkEnabled"
+        	label="@Resource(key='discovery_enable', bundle='messages')"
+        	selected="false"
+        	change="vbox.enabled = chkEnabled.selected"/>
+        <mx:VBox width="100%" height="100%" borderThickness="1" borderStyle="solid" id="vbox" enabled="false">
+	        <flex:Recurrence
+	        	styleName="popupVBox"
+	        	id="recurrence"
+	        	width="100%"/>
+	        <mx:CheckBox id="crawl" label="@Resource(key='discovery_recurrence_crwal', bundle='messages')" selected="true" paddingLeft="10"/>
+        </mx:VBox>
+    </mx:VBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

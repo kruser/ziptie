@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:ns1="org.ziptie.flex.search.*"
+      creationComplete="init(); go()">
+	<mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import org.ziptie.flex.devices.Discovery;
+        	import mx.controls.Alert;
+        	import mx.events.CloseEvent;
+        	import org.ziptie.flex.DisplayElf;
+        	import mx.controls.Button;
+        	import mx.controls.VRule;
+        	import org.ziptie.flex.LaunchConfig;
+        	import org.ziptie.flex.devices.DeviceDetail;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import org.ziptie.flex.services.ResultElf;
+        	import mx.rpc.events.ResultEvent;
+        	import org.ziptie.flex.compare.SelectConfigs;
+        	import mx.controls.dataGridClasses.DataGridColumn;
+        	import org.ziptie.flex.tools.RunTool;
+        	import org.ziptie.flex.tools.PluginDescriptor;
+        	import org.ziptie.flex.tools.InteractiveToolWizard;
+        	import mx.events.ItemClickEvent;
+        	import mx.utils.ObjectUtil;
+        	import mx.collections.Sort;
+        	import org.ziptie.flex.CsvElf;
+        	import mx.managers.CursorManager;
+        	import mx.controls.Menu;
+        	import mx.events.CollectionEvent;
+        	import org.ziptie.flex.tools.PluginElf;
+        	import mx.collections.IList;
+        	import mx.events.DataGridEvent;
+        	import org.ziptie.flex.editor.EditorElf;
+        	import org.ziptie.flex.tags.EditTags;
+        	import org.ziptie.flex.devices.EditDevice;
+        	import mx.core.Application;
+        	import org.ziptie.flex.devices.ErrorDetails;
+        	import org.ziptie.flex.devices.Backup;
+        	import org.ziptie.flex.devices.Remove;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import org.ziptie.flex.tags.UntagDevices;
+        	import org.ziptie.flex.tags.TagDevices;
+        	import mx.managers.PopUpManager;
+        	import mx.events.MenuEvent;
+        	import org.ziptie.flex.Registry;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.devices.AdaptersElf;
+        	import mx.events.ListEvent;
+            import mx.resources.ResourceManager;
+
+            [Embed(source='/img/settings.gif')]
+            public static var settingsGif:Class;
+            [Embed(source='/img/settings_off.gif')]
+            public static var settingsOffGif:Class;
+            [Embed(source='/img/tagadd.gif')]
+            public static var tagAddGif:Class;
+            [Embed(source='/img/tagadd_off.gif')]
+            public static var tagAddOffGif:Class;
+
+
+            [Embed(source='/img/tagdelete.gif')]
+            public static var tagdeleteGif:Class;
+            [Embed(source='/img/tagdelete_off.gif')]
+            public static var tagdeleteOffGif:Class;
+            [Embed(source='/img/tagedit.gif')]
+            public static var tageditGif:Class;
+            [Embed(source='/img/tagedit_off.gif')]
+            public static var tageditOffGif:Class;
+            [Embed(source='/img/delete2.png')]
+            public static var delete2Png:Class;
+            [Embed(source='/img/delete2_off.png')]
+            public static var delete2OffPng:Class;
+            [Embed(source='/img/errordetails.png')]
+            public static var errordetailsPng:Class;
+            [Embed(source='/img/errordetails_off.png')]
+            public static var errordetailsOffPng:Class;
+			[Embed(source='/img/open.png')]
+            public static var openPng:Class;
+           	[Embed(source='/img/open_off.png')]
+            public static var openPngOff:Class;
+            [Embed(source='/img/neighbors.png')]
+            public static var neighborsPng:Class;
+            [Embed(source='/img/neighbors_off.png')]
+            public static var neighborsOffPng:Class;
+            [Embed(source='/img/compare.gif')]
+            public static var compareGif:Class;
+            [Embed(source='/img/compare_off.gif')]
+            public static var compareOffGif:Class;
+            [Embed(source='/report_off.png')]
+            public static var reportOffPng:Class;
+            [Embed(source='/img/back2.png')]
+            public static var back2Png:Class;
+            [Embed(source='/img/back2_off.png')]
+            public static var back2OffPng:Class;
+            [Embed(source='/img/browser.gif')]
+            public static var browserGif:Class;
+            [Embed(source='/img/browser_off.gif')]
+            public static var browserOffGif:Class;
+ 
+            public static var instance:Devices;
+            
+            private var _descending:Boolean = false;
+            private var _sort:String = 'ipAddress';
+
+            [Bindable]
+            private var _results:PagedDeviceQuery;
+
+            private var _buttons:Array = [
+				{
+                    id:'backupButton',
+                    icon:back2Png,
+                    disabledIcon:back2OffPng,
+                    toolTip:'Devices_backupTooltip',
+                    click:backup,
+                    permission:'org.ziptie.job.backup.runPermission'
+                },
+                {
+                    id:'_btnTools',
+                    click:loadPlugins,
+                    args:['script'],
+                    icon:Registry.wrenchPng,
+                    disabledIcon:Registry.wrenchOffPng,
+                    toolTip:'Devices_runScriptTooltip',
+                    permission:'org.ziptie.job.plugin.runPermission'
+                },
+                {
+                    id:'_btnDiscover',
+                    click:discover,
+                    icon:Registry.deviceDiscoveryPng,
+                    disabledIcon:Registry.deviceDiscoveryOffPng,
+                    toolTip:'Devices_discover',
+                    permission:'org.ziptie.job.discovery.runPermission'
+                },
+                {
+                    id:'_newJobs',
+                    icon:Registry.openJobPng,
+                    disabledIcon:Registry.openJobOffPng,
+                    toolTip:"Devices_createJobTooltip",
+                    click:showNewJobs
+                },
+                null,
+                {
+                    id:'devicePropertiesButton',
+		            icon:openPng,
+		            disabledIcon:openPngOff,
+		            toolTip:'Devices_openDeviceTooltip',
+		            click:openProperties
+                },
+                {
+                    id:'neighborsButton',
+		            icon:neighborsPng,
+		            disabledIcon:neighborsOffPng,
+		            toolTip:'neighbors_tooltip', 
+		            click:openNeighbors
+                },
+                {
+                    id:'_btnReports',
+                    click:loadPlugins,
+                    args:['report'], 
+                    icon:Registry.reportPng,
+                    disabledIcon:reportOffPng,
+                    toolTip:"Devices_runReportTooltip",
+                    permission:'org.ziptie.job.plugin.runPermission'
+                },
+                {
+                    id:'compareButton',
+                    icon:compareGif,
+                    disabledIcon:compareOffGif,
+                    toolTip:'compare_tooltip',
+                    click:compareConfigs,
+                    permission:'org.ziptie.configs.view'
+                },
+                {
+                    id:'launchButton',
+                    toolTip:'launcher_tooltip', 
+                    icon:browserGif, 
+                    disabledIcon:browserOffGif, 
+                    click:launchHandler
+                },
+                {
+                    id:'errorDetailsButton',
+                    toolTip:"Devices_errorDetailsTooltip",
+                    click:showErrorDetails,
+                    icon:errordetailsPng,
+                    disabledIcon:errordetailsOffPng,
+                    permission:'org.ziptie.job.backup.runPermission'
+                },
+                null,
+                {
+                	id:'deviceEditButton',
+                    toolTip:"Devices_editDeviceTooltip",
+                    click:edit,
+                    icon:settingsGif,
+                    disabledIcon:settingsOffGif,
+                    permission:'org.ziptie.devices.administer'
+                },
+                {
+                    id:'deleteDevicesButton',
+		            icon:delete2Png,
+		            disabledIcon:delete2OffPng,
+		            toolTip:"Devices_deleteDeviceTooltip",
+		            click:remove,
+		            permission:'org.ziptie.devices.administer'
+                },
+                {
+                	id:'tagButton',
+                    toolTip:'tags_add_tooltip',
+                    click:tagDevices,
+                    icon:tagAddGif,
+                    disabledIcon:tagAddOffGif,
+                    permission:'org.ziptie.devices.tag'
+                },
+                {
+                    id:'untagButton',
+                    toolTip:'tags_remove_tooltip',
+                    click:untagDevices,
+                    icon:tagdeleteGif,
+                    disabledIcon:tagdeleteOffGif,
+                    permission:'org.ziptie.devices.tag'
+                },
+                {
+                    id:'editTagsButton',
+                    toolTip:'tags_edit_tooltip',
+                    click:editTags,
+                    icon:tageditGif,
+                    disabledIcon:tageditOffGif,
+                    permission:'org.ziptie.devices.tag'
+                }
+            ];
+
+            public function get selection():Array
+            {
+            	return table.selectedItems;
+            }
+
+            public function get currentScheme():String
+            {
+            	return _search.scheme;
+            }
+
+            public function get currentData():String
+            {
+            	return _search.resolutionData;
+            }
+
+            private function adaptersChanged(event:CollectionEvent):void
+            {
+            	table.invalidateList();
+            }
+
+            private function hasPermissionToCreateJobs():Boolean
+            {
+        		for each (var type:Object in Registry.jobTypes)
+        		{
+        			if (type.create != null && ZipTie.hasPermission(type.schedulePermission))
+        			{
+        				return true;
+        			}
+        		}
+            	return false;
+            }
+
+            private function isButtonVisible(def:Object):Boolean
+            {
+            	if (def.id == '_newJobs')
+            	{
+            		return hasPermissionToCreateJobs();
+            	}
+            	return def.permission == null || ZipTie.hasPermission(def.permission)
+            }
+
+            private function init():void
+            {
+            	instance = this;
+				AdaptersElf.adapters.addEventListener(CollectionEvent.COLLECTION_CHANGE, adaptersChanged);
+
+                buildColumns();
+
+                for (var i:int = 0; i < _buttons.length; i++)
+                {
+                	var def:Object = _buttons[i];
+                	if (def == null)
+                	{
+                		var rule:VRule = new VRule();
+                		_buttonBar.addChild(rule);
+                	}
+                	else if (isButtonVisible(def))
+                	{
+                        var btn:Button = new Button();
+                        btn.id = def.id;
+                        _buttons[def.id] = def;
+                        if (def.label != null)
+                        {
+                        	var lbl:String = resourceManager.getString('messages', def.label);
+                        	btn.label = lbl == null ? def.label : lbl;
+                        }
+                        else
+                        {
+                            btn.width = 26;
+                        }
+                        if (def.toolTip != null)
+                        {
+                        	var tt:String = resourceManager.getString('messages', def.toolTip);
+                        	btn.toolTip = tt == null ? def.toolTip : tt; 
+                        }
+                        btn.setStyle('icon', def.icon);
+                        btn.setStyle('disabledIcon', def.disabledIcon);
+                        btn.addEventListener(MouseEvent.CLICK, onClick);
+
+                        def.button = btn;
+                        _buttonBar.addChild(btn);
+                	}
+                }
+            }
+
+            private function onClick(event:MouseEvent):void
+            {
+            	var def:Object = _buttons[Button(event.currentTarget).id];
+            	if (def.args != null)
+            	{
+            		def.click(def.args);
+            	}
+            	else
+            	{
+                    def.click();
+            	}
+            }
+
+            private function buildColumns():void
+            {
+            	var so:SharedObject = SharedObject.getLocal('deviceColumns');
+            	var colDefs:Array = so.data as Array;
+            	if (colDefs == null)
+            	{
+                    colDefs = Registry.defaultDeviceColumns;
+            	}
+
+                var unwidthed:ArrayCollection = new ArrayCollection();
+                var columns:ArrayCollection = new ArrayCollection();
+
+                var widthTaken:int = 0;
+
+            	for each (var def:Object in colDefs)
+            	{
+            		var field:String = def.name;
+
+            		var col:DataGridColumn = new DataGridColumn();
+            		col.labelFunction = getLabel
+            		col.headerText = resourceManager.getString('messages', 'DeviceField_' + field);
+            		col.sortable = true;
+            		if (def.width != undefined)
+            		{
+            			var width:int = def.width;
+            			col.width = width;
+            			widthTaken += width;
+            		}
+            		else
+            		{
+            			unwidthed.addItem(col);
+            		}
+            		col.setStyle('DeviceField', field);
+
+                    if (field == 'backupStatus')
+                    {
+                    	col.headerText = '';
+                    	col.itemRenderer = new ClassFactory(BackupStatusIconRenderer);
+                    }
+
+            		columns.addItem(col);
+            	}
+
+                if (unwidthed.length > 0)
+                {
+	                var w:int = (table.width - widthTaken) / unwidthed.length
+	                for each (var dgc:DataGridColumn in unwidthed)
+	                {
+	                	dgc.width = w;
+	                }
+                }
+
+                table.columns = columns.toArray();
+            }
+
+            public function go():void
+            {
+            	_results = new PagedDeviceQuery(_search.scheme, _search.resolutionData, _sort, _descending);
+            	_results.addEventListener(CollectionEvent.COLLECTION_CHANGE, updateCountLabel);
+            	updateButtonState();
+            	updateCountLabel(null);		// need to do this as the change event isn't sent on a length of 1 
+            }
+            
+            private function updateCountLabel(event:CollectionEvent):void
+            {
+            	var len:int = _results.length;
+            	matchCount.text = len + ' match';
+            	if (len != 1)
+            	{
+            		matchCount.text += 'es';	
+            	}
+            }
+
+            private function getLabel(item:Object, column:DataGridColumn):String
+            {
+            	var field:String = column.getStyle('DeviceField');
+            	if (field == 'adapterId')
+            	{
+	                var adapter:Object = AdaptersElf.adaptersById[item.adapterId];
+	                if (adapter == null)
+	                {
+	                    return item.adapterId;
+	                }
+	                return adapter.shortName;
+            	}
+            	return item[field];
+            }
+
+            private function backup():void
+            {
+                var msg:String = resourceManager.getString('messages', 'Backup_selected_confirm_message');
+                var title:String = resourceManager.getString('messages', 'Backup_confirm_title');
+                Alert.show(msg, title, Alert.YES | Alert.CANCEL, null, doBackup);
+            }
+
+            private function doBackup(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+	            	ProgressManager.run(Backup.newFromArray(table.selectedItems));
+                }
+            }
+
+            private function remove():void
+            {
+                var msg:String = resourceManager.getString('messages', 'Remove_confirm_message');
+                var title:String = resourceManager.getString('messages', 'Remove_confirm_title');
+                Alert.show(msg, title, Alert.YES | Alert.CANCEL, null, doRemove);
+            }
+
+            private function doRemove(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+                	ProgressManager.run(new Remove(table.selectedItems));
+                }
+            }
+
+            private function showErrorDetails():void
+            {
+            	var d:Object = table.selectedItem;
+            	if (d == null)
+            	{
+            		return;
+            	}
+
+                WebServiceElf.call('devices', 'getDeviceStatus', onErrorDetails, d.ipAddress, d.managedNetwork);
+            }
+
+            private function onErrorDetails(event:ResultEvent):void
+            {
+            	var device:String = DisplayElf.format('Device', event.result);
+            	var msg:String = resourceManager.getString('messages', 'ErrorDetail_message', [device]);
+                var title:String = resourceManager.getString('messages', 'ErrorDetail_title');
+            	ErrorDetails.open(title, msg, event.result.backupStatus, event.result.backupStatusMessage);
+            }
+
+            private function edit():void
+            {
+            	if (table.selectedItem == null)
+            	{
+            		return;
+            	}
+
+                var d:EditDevice = PopUpManager.createPopUp(Application.application.mainPage, EditDevice, true) as EditDevice;
+                d.device = table.selectedItem;
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function editTags():void
+            {
+            	if (table.selectedItem == null)
+            	{
+            		return;
+            	}
+
+                var d:EditTags = PopUpManager.createPopUp(Application.application.mainPage, EditTags, true) as EditTags;
+                d.device = table.selectedItem;
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function tagDevices():void
+            {
+            	if (table.selectedItems == null || table.selectedItems.length == 0)
+            	{
+            		return;
+            	}
+
+                var d:TagDevices = PopUpManager.createPopUp(Application.application.mainPage, TagDevices, true) as TagDevices;
+                d.devices = table.selectedItems;
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function untagDevices():void
+            {
+                if (table.selectedItems == null || table.selectedItems.length == 0)
+                {
+                    return;
+                }
+
+                var d:UntagDevices = PopUpManager.createPopUp(Application.application.mainPage, UntagDevices, true) as UntagDevices;
+                d.devices = table.selectedItems;
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function openNeighbors():void
+            {
+            	EditorElf.open('Neighbors', table.selectedItem);
+            }
+            
+            private function openProperties():void
+            {
+            	EditorElf.open('Device', table.selectedItem);
+            }
+
+            private function showNewJobs():void
+            {
+            	var ops:ArrayCollection = new ArrayCollection();
+                for each (var jobType:Object in Registry.jobTypes)
+                {
+                    var clazz:Function = jobType.create;
+                    if (clazz != null && ZipTie.hasPermission(jobType.schedulePermission))
+                    {
+                        ops.addItem(jobType);
+                    }
+                }
+                showMenu(_buttons._newJobs.button, ops, 'displayName', newJob);
+            }
+
+            private function newJob(event:MenuEvent):void
+            {
+            	event.item.create(table.selectedItems);
+            }
+
+            private function newJobLabel(jobType:Object):String
+            {
+            	return jobType.displayName + '...';
+            }
+
+            private function sort(event:DataGridEvent):void
+            {
+                var column:String = DataGridColumn(table.columns[event.columnIndex]).getStyle('DeviceField');
+                if (_sort == column)
+                {
+                    _descending = !_descending;
+                }
+                else
+                {
+                    _sort = column;
+                    _descending = true;
+                }
+                go();
+                event.preventDefault();
+            }
+
+            private function loadPlugins(type:String):void
+            {
+            	var props:ArrayCollection = PluginElf.getPluginDescriptors(type, showTools);
+            	if (props.length > 0)
+            	{
+            		showTools(props);
+            	}
+            }
+
+            private function compareTools(a:Object, b:Object, fields:Array = null):int
+            {
+            	if (a.children == null)
+            	{
+            		if (b.children != null)
+            		{
+            			return -1;
+            		}
+            	}
+            	else if (b.children == null)
+            	{
+            		if (a.children != null)
+            		{
+            			return 1;
+            		}
+            	}
+
+                return ObjectUtil.stringCompare(a.label, b.label, true);
+            }
+
+            private function showTools(tools:ArrayCollection):void
+            {
+            	if (tools == null)
+            	{
+            		return;
+            	}
+
+                var isMultiSelect:Boolean = table.selectedItems.length > 1
+
+                var sort:Sort = new Sort();
+                sort.compareFunction = compareTools;
+
+                var top:ArrayCollection = new ArrayCollection();
+                top.sort = sort;
+                top.refresh();
+                var categories:Object = new Object();
+
+            	for each (var pd:PluginDescriptor in tools)
+            	{
+            		if (!pd.enabled || pd.modeSupported == PluginDescriptor.NONE)
+            		{
+            			continue;
+            		}
+
+                    if (!pd.isToolSupported(table.selectedItems))
+                    {
+                    	continue;
+                    }        
+
+            		var parent:ArrayCollection = top;
+
+            		var category:String = pd.category;
+            		if (category != '')
+                    {
+                    	var key:String = '';
+	            		var cats:Array = CsvElf.toArray(category)[0];
+	            		for each (var cat:String in cats)
+	            		{
+	            			key += cat + ',';
+
+		            		var list:ArrayCollection = categories[key];
+		            		if (list == null)
+		            		{
+		            			list = new ArrayCollection();
+		            			list.sort = sort;
+		            			list.refresh();
+		            			categories[key] = list;
+
+		            			parent.addItem({label: cat, children: list});
+		            		}
+		            		parent = list;
+	            		}
+                    }
+
+        			var enabled:Boolean = ((pd.modeSupported != PluginDescriptor.SINGLE) || !isMultiSelect)
+        			parent.addItem({label: pd.toolName, tool: pd, enabled: enabled});
+            	}
+
+                showMenu(_buttons._btnTools.button, top, 'label', runTool);
+            }
+
+            private function runTool(event:MenuEvent):void
+            {
+                var tool:PluginDescriptor = event.item.tool;
+            	if (tool == null)
+            	{
+            		return;
+            	}
+
+                if (tool.isInteractive)
+                {
+                	InteractiveToolWizard.open(tool, table.selectedItems);
+                }
+                else
+                {
+                    ProgressManager.run(RunTool.newFromArray(tool, table.selectedItems));
+                }
+            }
+            
+            private function compareConfigs():void
+            {
+            	var c:SelectConfigs = PopUpManager.createPopUp(Application.application.mainPage, SelectConfigs, true) as SelectConfigs;
+            	c.devices = table.selectedItems;
+            	PopUpManager.centerPopUp(c);
+            }
+
+            private function updateButtonState():void
+            {
+            	var selectionCount:int = table.selectedItems.length;
+            	var hasSelection:Boolean = (selectionCount > 0);
+            	var single:Boolean = (selectionCount == 1);
+            	var double:Boolean = (selectionCount == 2);
+            	var twoOrMore:Boolean = (selectionCount > 1);
+
+            	enableButton('neighborsButton', single);
+            	enableButton('devicePropertiesButton', single);
+            	enableButton('compareButton', double || single);
+            	enableButton('deviceEditButton', single);
+            	enableButton('errorDetailsButton', single && table.selectedItem.backupStatus != null && table.selectedItem.backupStatus != 'SUCCESS');
+            	enableButton('editTagsButton', single);
+            	enableButton('backupButton', hasSelection);
+            	enableButton('deleteDevicesButton', hasSelection);
+            	enableButton('_btnTools', hasSelection);
+            	enableButton('_btnReports', hasSelection);
+            	enableButton('launchButton', single);
+            	enableButton('tagButton', twoOrMore);
+            	enableButton('untagButton', twoOrMore);
+            	enableButton('editTagsButton', single);
+            	enableButton('_btnDiscover', hasSelection);
+            }
+
+            private function enableButton(id:String, enabled:Boolean):void
+            {
+            	var def:Object = _buttons[id];
+            	if (def != null)
+                {
+                    def.button.enabled = enabled;
+                }
+            }
+
+            private function launchHandler():void
+            {
+            	WebServiceElf.call('launchers', 'getLaunchers', loadLaunchers);
+            }
+            
+            private function loadLaunchers(event:ResultEvent):void
+            {
+            	var launchers:ArrayCollection = ResultElf.array(event);
+            	if (ZipTie.hasPermission('org.ziptie.launchers.administer'))
+            	{
+                	launchers.addItem({name:resourceManager.getString('messages', 'launcher_edit_menu_item')});
+            	}
+            	showMenu(_buttons.launchButton.button, launchers, 'name', launcherChosen);
+            }
+
+            private function showMenu(btn:Button, items:ArrayCollection, label:String, onClick:Function):void
+            {
+            	var menu:Menu = Menu.createMenu(this, items);
+            	menu.labelField = label;
+				menu.addEventListener('itemClick', onClick);
+                var point:Point = btn.localToGlobal(new Point(0, btn.height));
+                menu.show(point.x, point.y);
+                
+                // ensure that menu doesn't go off the edge of the screen.
+                point.x = Math.min(Application.application.width - menu.width, point.x);
+                menu.move(point.x, point.y);
+            }
+
+            private function launcherChosen(event:MenuEvent):void
+            {
+                var url:String = event.item.url;
+                if (url == null)
+                {
+            		var c:LaunchConfig = PopUpManager.createPopUp(Application.application.mainPage, LaunchConfig, true) as LaunchConfig;
+            		PopUpManager.centerPopUp(c);
+                }
+                else
+                {
+					var urlRequest:URLRequest = new URLRequest(resolveVariables(url));
+					navigateToURL(urlRequest, '_blank');
+                }
+            }
+            
+            /**
+            * Given a URL with {device.<property>} variables, resolves
+            * those variables with the currently selected device.
+            */
+            private function resolveVariables(url:String):String
+            {
+            	var deviceVarRegex:RegExp = /\{device.(\S+?)\}/g;
+            	var device:Object = table.selectedItem;
+            	var updatedUrl:String = url;
+            	var result:Object = deviceVarRegex.exec(url);
+                while (result != null) 
+                {
+                	updatedUrl = updatedUrl.replace(result[0], device[result[1]]);
+             		result = deviceVarRegex.exec(url);
+         		}
+            	return updatedUrl;	
+            }
+
+            private function discover():void
+            {
+                var msg:String = resourceManager.getString('messages', 'Discover_selected_confirm_message');
+                var title:String = resourceManager.getString('messages', 'Discover_confirm_title');
+                Alert.show(msg, title, Alert.YES | Alert.CANCEL, null, doDiscover);
+            }
+
+            private function doDiscover(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+	            	var devices:ArrayCollection = new ArrayCollection();
+	
+	                for each (var device:Object in table.selectedItems)
+	                {
+	                	devices.addItem(device.ipAddress);
+	                }
+	
+	            	ProgressManager.run(Discovery.newFromArray(devices, false));
+                }
+            }
+        ]]>
+    </mx:Script>
+    
+    <ns1:SearchStack x="10" top="10" id="_search" width="200" bottom="30" enter="go()"/>
+
+    <mx:HBox
+          id="_buttonBar"
+          left="220" top="0" right="7"
+          horizontalAlign="right"
+          horizontalGap="2"
+          paddingTop="0"
+          paddingBottom="0" />
+
+    <mx:DataGrid
+          left="220" top="27" right="7" bottom="7"
+          id="table"
+          dataProvider="{_results}"
+          doubleClickEnabled="true"
+          sortableColumns="true"
+          allowMultipleSelection="true"
+          headerRelease="sort(event)"
+          itemDoubleClick="if (table.selectedItem != null) EditorElf.open('Device', table.selectedItem)"
+          change="updateButtonState()" />
+    <mx:Button x="171" bottom="7" label="@Resource(key='go', bundle='messages')" click="go()"/>
+    <mx:Label x="10" bottom="7" id="matchCount"/>
+</mx:Canvas>

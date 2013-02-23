@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.ziptie.zap.web.WebRegistry">
+      <filter
+            alias="ZThreadContextFilter"
+            class="org.ziptie.zap.metro.ZThreadContextFilter">
+         <url-pattern pattern="/server/*"/>
+      </filter>
+      <servlet
+            alias="ZwsServlet"
+            class="org.ziptie.zap.metro.ZwsServlet"
+            context="/">
+         <url-pattern
+               pattern="/server/*">
+         </url-pattern>
+      </servlet>
+   </extension>
+</plugin>

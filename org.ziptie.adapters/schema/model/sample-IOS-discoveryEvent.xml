@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DiscoveryEvent xmlns="http://www.ziptie.org/model/telemetry/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:telemetry="http://www.ziptie.org/model/telemetry/1.0"
+    xsi:schemaLocation="http://www.ziptie.org/model/telemetry/1.0 telemetry.xsd">
+<sysName>CHI-3640</sysName>
+<sysObjectId>.1.3.6.1.4.1.9.1.110</sysObjectId>
+<sysDescr>Cisco IOS Software, 3600 Software (C3640-IS-M), Version 12.4(18), RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2007 by Cisco Systems, Inc.
+Compiled Fri 30-Nov-07 20:17 by prod_rel_team</sysDescr>
+<adminIp>10.100.20.214</adminIp>
+<interfaces>
+<interface inputBytes="994166910" name="Ethernet0/0" operStatus="Up" type="ethernet">
+  <ipEntry ipAddress="10.100.20.14" mask="30" />
+</interface>
+<interface inputBytes="0" name="Null0" operStatus="Up" type="other" />
+<interface inputBytes="0" name="Loopback0" operStatus="Up" type="softwareLoopback">
+  <ipEntry ipAddress="10.100.20.214" mask="32" />
+</interface>
+<interface inputBytes="0" name="Loopback1" operStatus="Up" type="softwareLoopback" />
+<interface inputBytes="0" name="Loopback22" operStatus="Up" type="softwareLoopback" />
+<interface inputBytes="0" name="Loopback23" operStatus="Up" type="softwareLoopback" />
+<interface inputBytes="0" name="Loopback28" operStatus="Up" type="softwareLoopback" />
+<interface inputBytes="0" name="Tunnel5" operStatus="Down" type="other" />
+<interface inputBytes="0" name="Tunnel23" operStatus="Down" type="other" />
+<interface inputBytes="0" name="Ethernet2/0.1" operStatus="Down" type="other" />
+<interface inputBytes="0" name="BRI3/0-Physical" operStatus="Down" type="isdn" />
+<interface inputBytes="1352055793" name="Ethernet1/0" operStatus="Up" type="ethernet">
+  <ipEntry ipAddress="10.100.20.29" mask="30" />
+</interface>
+<interface inputBytes="0" name="BRI3/0-Signaling" operStatus="Down" type="isdn" />
+<interface inputBytes="0" name="BRI3/0:1-Bearer Channel" operStatus="Down" type="other" />
+<interface inputBytes="0" name="BRI3/0:2-Bearer Channel" operStatus="Down" type="other" />
+<interface inputBytes="67763568" name="Serial2/0" operStatus="Up" type="frameRelay">
+  <ipEntry ipAddress="10.100.20.89" mask="30" />
+</interface>
+<interface inputBytes="0" name="Ethernet2/0" operStatus="Down" type="ethernet">
+  <ipEntry ipAddress="192.168.0.1" mask="24" />
+</interface>
+<interface inputBytes="134114096" name="Ethernet3/0" operStatus="Up" type="ethernet">
+  <ipEntry ipAddress="10.100.20.77" mask="30" />
+</interface>
+<interface inputBytes="0" name="BRI3/0" operStatus="Down" type="other" />
+<interface inputBytes="0" name="BRI3/0:1" operStatus="Down" type="serial" />
+<interface inputBytes="0" name="BRI3/0:2" operStatus="Down" type="serial" />
+</interfaces>
+<neighbors>
+<routingNeighbors>
+<routingNeighbor interface="Ethernet1/0" ipAddress="10.100.20.30" protocol="EIGRP" routerId="0.0.0.0" />
+<routingNeighbor interface="" ipAddress="10.100.20.13" protocol="OSPF" routerId="10.100.20.213" />
+<routingNeighbor interface="" ipAddress="10.100.20.30" protocol="OSPF" routerId="10.100.20.221" />
+<routingNeighbor interface="" ipAddress="10.100.20.78" protocol="OSPF" routerId="10.100.20.224" />
+<routingNeighbor interface="" ipAddress="10.100.20.90" protocol="OSPF" routerId="10.100.20.227" />
+<routingNeighbor ipAddress="10.100.20.210" protocol="BGP" routerId="10.100.20.210" />
+<routingNeighbor ipAddress="10.100.20.212" protocol="BGP" routerId="10.100.20.212" />
+<routingNeighbor ipAddress="10.100.20.213" protocol="BGP" routerId="10.100.20.213" />
+<routingNeighbor ipAddress="10.100.20.215" protocol="BGP" routerId="10.100.20.215" />
+<routingNeighbor ipAddress="10.100.20.221" protocol="BGP" routerId="10.100.20.221" />
+<routingNeighbor ipAddress="10.100.20.222" protocol="BGP" routerId="10.100.20.222" />
+</routingNeighbors>
+<discoveryProtocolNeighbors>
+<discoveryProtocolNeighbor ipAddress="10.100.22.200" localInterface="Ethernet0/0" platform="cisco WS-C2950-24" protocol="CDP" remoteInterface="FastEthernet0/12" sysDescr="Cisco Internetwork Operating System Software 
+IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(9)EA1d, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2002 by cisco Systems, Inc.
+Compiled Mon 17-Jun-02 18:55 by antonino" sysName="labcat22" />
+<discoveryProtocolNeighbor ipAddress="10.100.22.200" localInterface="Ethernet1/0" platform="cisco WS-C2950-24" protocol="CDP" remoteInterface="FastEthernet0/13" sysDescr="Cisco Internetwork Operating System Software 
+IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(9)EA1d, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2002 by cisco Systems, Inc.
+Compiled Mon 17-Jun-02 18:55 by antonino" sysName="labcat22" />
+<discoveryProtocolNeighbor ipAddress="10.100.22.200" localInterface="Ethernet3/0" platform="cisco WS-C2950-24" protocol="CDP" remoteInterface="FastEthernet0/14" sysDescr="Cisco Internetwork Operating System Software 
+IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(9)EA1d, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2002 by cisco Systems, Inc.
+Compiled Mon 17-Jun-02 18:55 by antonino" sysName="labcat22" />
+</discoveryProtocolNeighbors>
+<arpTable>
+<arpEntry interface="Ethernet3/0" ipAddress="10.100.20.78" macAddress="00043869ca02" />
+<arpEntry interface="Ethernet0/0" ipAddress="10.100.20.13" macAddress="0030969c6070" />
+<arpEntry interface="Ethernet1/0" ipAddress="10.100.20.29" macAddress="00107b9c87f1" />
+<arpEntry interface="Ethernet3/0" ipAddress="10.100.20.77" macAddress="00107b9c8811" />
+<arpEntry interface="Ethernet2/0" ipAddress="192.168.0.1" macAddress="00107b9c8801" />
+<arpEntry interface="Ethernet1/0" ipAddress="10.100.20.30" macAddress="00603e21b801" />
+<arpEntry interface="Ethernet0/0" ipAddress="10.100.20.14" macAddress="00107b9c87e1" />
+</arpTable>
+</neighbors>
+</DiscoveryEvent>
+
+

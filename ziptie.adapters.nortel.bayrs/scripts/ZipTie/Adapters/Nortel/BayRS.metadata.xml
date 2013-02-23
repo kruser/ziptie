@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Nortel::BayRS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Nortel BayRS</shortName>
+    <description>Nortel BayRS Routers</description>
+    <softwareVersionRegEx>(\d+)\.(\d+)</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.(\d+)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>[^\n]+:\s+unknown command</errorRegEx>
+        <errorRegEx>Usage:\n\S+\s+</errorRegEx>
+        <errorRegEx>invalid command name &quot;[^\n]+&quot;</errorRegEx>
+        <errorRegEx>[^\n]+ does not allow [^\n]+ as a subcommand</errorRegEx>
+        <errorRegEx>unrecognized argument &quot;[^\n]+&quot;</errorRegEx>
+        <errorRegEx>Bad input value: Label [^\n]+ not recognized</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+        	<supportedProtocolSet>Telnet</supportedProtocolSet>
+        	<supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+        	<supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+        	<supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+			<restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+    	<matchRegex dataSource="sysDescr" regex="(Image:|rel\/|fix\/|rev\/)" singleline="false" multiline="false" ignoreCase="true"></matchRegex>
+    </discoveryMappings>
+</AdapterMetadata>

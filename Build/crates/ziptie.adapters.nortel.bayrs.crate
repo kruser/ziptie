@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.bayrs"
+	name="ziptie.adapters.nortel.bayrs"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.bayrs" location="adapters/" version="" />
+</crate>

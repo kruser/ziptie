@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ziptie.adapters.sunhillo.rici
+Bundle-SymbolicName: ziptie.adapters.sunhillo.rici
+Bundle-Version: 2012.6.1
+Bundle-Localization: plugin
+Perl-Include: scripts
+Bundle-Type: adapter
+Bundle-Vendor: ziptie.org

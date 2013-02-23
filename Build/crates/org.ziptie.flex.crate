@@ -1,0 +1,9 @@
+<crate
+     id="org.ziptie.flex"
+     name="ZipTie Flex Client"
+     version="2008.10.0" >
+
+   <category name="application" />
+
+   <bundle id="org.ziptie.flex" location="flex/" version="" />
+</crate>

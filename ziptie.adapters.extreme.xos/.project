@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ziptie.adapters.extreme.xos</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.epic.perleditor.perlbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.atlassw.tools.eclipse.checkstyle.CheckstyleBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.epic.perleditor.perlnature</nature>
+	</natures>
+</projectDescription>

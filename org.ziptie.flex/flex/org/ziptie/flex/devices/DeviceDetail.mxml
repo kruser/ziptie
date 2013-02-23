@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<editor:Editor
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    label="{DisplayElf.format('Device', input)}"
+    xmlns:devices="org.ziptie.flex.devices.*"
+    xmlns:editor="org.ziptie.flex.editor.*"
+    horizontalScrollPolicy="off"
+    creationComplete="init()"
+    remove="onRemove()">
+    <mx:Script>
+        <![CDATA[
+        	import org.ziptie.flex.editor.EditorElf;
+        	import org.ziptie.flex.tools.RunTool;
+        	import org.ziptie.flex.tools.PluginDescriptor;
+        	import mx.collections.ArrayCollection;
+        	import org.ziptie.flex.tools.PluginElf;
+        	import mx.controls.Alert;
+        	import mx.events.CloseEvent;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import mx.utils.Base64Decoder;
+        	import mx.rpc.events.ResultEvent;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import org.ziptie.flex.services.ServerEvent;
+        	import org.ziptie.flex.services.EventManager;
+        	import org.ziptie.flex.DisplayElf;
+        	import org.ziptie.flex.Registry;
+
+        	private static const ONE_KB:Number = 1024;
+            private static const ONE_MB:Number = 1048576;
+            private static const ONE_GB:Number = 1073741824;
+
+            [Bindable]
+            private var properties:Array;
+
+            private var _subscriberId:int;
+            private var _removeSubscription:int;
+
+            override public function inputEquals(other:Object):Boolean
+            {
+            	return input.ipAddress == other.ipAddress && input.managedNetwork == other.managedNetwork;
+            }
+
+            private function onRemove():void
+            {
+            	EventManager.unsubscribe(_subscriberId);
+            	EventManager.unsubscribe(_removeSubscription);
+            }
+
+            private function init():void
+            {
+            	if (!ZipTie.hasPermission("org.ziptie.configs.view"))
+            	{
+            		configs.parent.removeChild(configs);
+            		configs = null;
+            	}
+
+            	_removeSubscription = EventManager.subscribe('devices', 'deleted', onDelete);
+            	_subscriberId = EventManager.subscribe('backup', 'complete', onBackup);
+
+            	updateDisplay();
+            	var pds:ArrayCollection = PluginElf.getPluginDescriptors('script', onPlugins);
+            	if (pds.length > 0)
+            	{
+            		onPlugins(pds);
+            	}
+            }
+
+            private function onDelete(event:ServerEvent):void
+            {
+            	var ip:String = event.xml.entry.(@key=='IpAddress');
+            	var net:String = event.xml.entry.(@key=='ManagedNetwork');
+            	if (ip == input.ipAddress && net == input.managedNetwork)
+            	{
+            		parent.removeChild(this);
+            	}
+            }
+
+            private function onPlugins(plugins:ArrayCollection):void
+            {
+            	var viewCategory:String = resourceManager.getString('messages', 'viewToolCategory');
+            	var actions:ArrayCollection = new ArrayCollection();
+            	actions.addItem({label:"Backup", click:backup, icon:Registry.backupPng});
+
+                for each (var pd:PluginDescriptor in plugins)
+                {
+                	if (pd.category == viewCategory && !pd.isInteractive)
+                	{
+                		actions.addItem({label:pd.toolName, click:runTool, icon:Registry.wrenchPng, plugin:pd});
+                	}
+                }
+
+            	_links.dataProvider = actions;
+            }
+
+            private function runTool(item:Object):void
+            {
+            	ProgressManager.run(RunTool.newFromArray(item.plugin as PluginDescriptor, [input]));
+            }
+
+            private function onBackup(event:ServerEvent):void
+            {
+            	updateDisplay();
+            	configs.refresh();
+            }
+
+            private function onZed(event:ResultEvent):void
+            {
+            	var revision:Object = event == null ? null : event.result;
+
+                properties = new Array();
+                properties.push(new Property("ipAddress", input.ipAddress));
+                var adapter:Object = AdaptersElf.adaptersById[input.adapterId]
+            	properties.push(new Property("adapterId", adapter == null ? input.adapterId : adapter.shortName));
+                properties.push(new Property("hostname", input.hostname));
+                properties.push(new Property("make", input.hardwareVendor));
+                properties.push(new Property("model", input.model));
+                properties.push(new Property("softwareVersion", input.osVersion));
+                properties.push(new Property("serialNumber", input.assetIdentity));
+                properties.push(new Property("deviceType", input.deviceType));
+
+                if (revision != null)
+                {
+	                var decoder:Base64Decoder = new Base64Decoder();
+                    decoder.decode(revision.content);
+
+                    var zed:XML = new XML(decoder.toByteArray().toString());
+                    var common:Namespace = new Namespace('common', 'http://www.ziptie.org/model/common/1.0');
+                    zed.addNamespace(common);
+
+                    var chassis:XMLList = zed.common::chassis;
+                    var memories:XMLList = zed.common::chassis.common::memory;
+                    for each (var memory:XML in memories)
+                    {
+                    	var kind:String = memory.common::kind.text();
+                    	var size:String = memory.common::size.text();
+                    	var val:String;
+                    	var n:Number = Number(size);
+                    	properties.push(new Property(kind, getReadableByteSize(n)));
+                    }
+                }
+            }
+            private function updateDisplay():void
+            {
+                if (configs != null)
+                {
+                    WebServiceElf.call('configstore', 'retrieveRevision', onZed, input.ipAddress, input.managedNetwork, '/ZipTie-Element-Document', null);
+                }
+                else
+                {
+                	onZed(null);
+                }
+            }
+
+            private function nameLabel(item:Object, column:DataGridColumn):String
+            {
+            	var label:String = resourceManager.getString('messages', 'DeviceField_' + Property(item).name)
+            	return label == null ? item.name : label;
+            }
+
+            private static function getReadableByteSize(byteSize:Number):String
+            {
+                var result:Number = 0;
+                var label:String;
+
+		        if (byteSize < ONE_KB)
+		        {
+		            result = byteSize;
+		            label = " Bytes";
+		        }
+		        else if (byteSize < ONE_MB)
+		        {
+		            result = byteSize / ONE_KB;
+		            label = " KB";
+		        }
+		        else if (byteSize < ONE_GB)
+		        {
+		            result = byteSize / ONE_MB;
+		            label = " MB";
+		        }
+		        else
+		        {
+		            result = byteSize / ONE_GB;
+		            label = " GB";
+		        }
+
+		        return (int(result * 100) / 100) + label;
+		    }
+ 
+            private function backup(item:Object):void
+            {
+				var msg:String = resourceManager.getString('messages', 'Backup_confirm_message');
+				var title:String = resourceManager.getString('messages', 'Backup_confirm_title');
+                Alert.show(msg, title, Alert.YES | Alert.CANCEL, null, doBackup);
+            }
+
+            private function doBackup(event:CloseEvent):void
+            {
+                if (event.detail == Alert.YES)
+                {
+                	ProgressManager.run(Backup.newFromScheme('ipCsv', input.ipAddress + '@' + input.managedNetwork));
+                }
+            }
+
+        ]]>
+    </mx:Script>
+    <mx:HBox width="100%" height="100%" styleName="popupVBox">
+        <mx:VBox width="70%" height="100%">
+		    <mx:Panel width="100%" minHeight="160" height="100%" layout="absolute" title="Properties">
+		        <mx:DataGrid width="100%" height="100%" dataProvider="{properties}">
+		            <mx:columns>
+		                <mx:DataGridColumn headerText="@Resource(key='DeviceDetail_property_name', bundle='messages')" labelFunction="nameLabel" dataField="name"/>
+		                <mx:DataGridColumn headerText="@Resource(key='DeviceDetail_property_value', bundle='messages')" dataField="value"/>
+		            </mx:columns>
+		        </mx:DataGrid>
+		    </mx:Panel>
+		    <devices:ConfigHistory
+		    	  device="{input}"
+		    	  id="configs"
+		    	  horizontalScrollPolicy="off"
+		    	  verticalScrollPolicy="off"
+		    	  minHeight="160"
+		    	  height="100%" width="100%"
+		    	  layout="absolute"
+		    	  title="@Resource(key='DeviceDetail_configurations', bundle='messages')" />
+        </mx:VBox>
+        <mx:Panel title="@Resource(key='DeviceDetail_actions', bundle='messages')" width="30%" height="100%">
+            <mx:LinkBar id="_links" itemClick="event.item.click(event.item)" direction="vertical" separatorWidth="0"/>
+        </mx:Panel>
+    </mx:HBox>
+</editor:Editor>

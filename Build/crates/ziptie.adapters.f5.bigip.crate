@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.f5.bigip"
+	name="ziptie.adapters.f5.bigip"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.f5.bigip" location="adapters/" version="" />
+</crate>

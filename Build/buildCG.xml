@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Code Generation Build">
+    <description>
+        Used by various builds to generate client stubs.
+        
+        The following parameters are required for target 'gencode':
+           dir.origin - a relative path to the originating bundle directory
+           wsdl.file - the ame of the wsdl file to generate code from (including extension)
+           
+        The following parameters are required for target 'genwsdl':
+           wsdl.file - the name of the wsdl file to generate (including extension)
+           namespace - the wsdl namespace, for example: discovery.provider.ziptie.org
+           classname - the name of the class/interface to generate from
+           location  - the wsdl url location, for example: http://localhost:8080/services/ziptie/server/discovery
+    </description>
+
+    <property name="dir.gen" value="srcgen" />
+    <property name="dir.wsdl" value="WEB-INF/wsdl" />
+    <property name="dest.dir" value="bin" />
+
+    <fileset id="jaxws.classpath" dir="../org.ziptie.zap.metro/lib">
+        <include name="**/*.jar"/>
+    </fileset>
+
+    <fileset id="stax.classpath" dir="../org.ziptie.stax/lib">
+        <include name="**/*.jar" />
+    </fileset>
+        
+    <fileset id="commons.logging" dir="../org.ziptie.apache.commons/lib">
+        <include name="commons-logging.jar" />
+    </fileset>
+
+    <fileset id="hibernate.classpath" dir="../org.ziptie.zap.hibernate/lib">
+        <include name="**/*.jar" />
+    </fileset>
+
+    <target name="clean">
+        <delete dir="${dir.gen}" verbose="true" />
+        <delete dir="${dir.client}" verbose="true" />
+    </target>
+
+    <target name="-wsdlCheck">
+        <uptodate targetfile="${dir.wsdl}/${uptodate.test}" property="wsdlCurrent">
+            <srcfiles dir="${basedir}/src">
+                <include name="**/*.java"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+    
+    <target name="genwsdl.metro" depends="-wsdlCheck" unless="wsdlCurrent">
+        <taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
+            <classpath>
+                <fileset refid="jaxws.classpath" />
+                <fileset refid="hibernate.classpath" />
+                <fileset refid="stax.classpath" />
+            </classpath>   
+        </taskdef>
+
+        <mkdir dir="${dir.wsdl}" />
+        <mkdir dir="${dir.gen}" />
+
+        <wsgen resourcedestdir="${dir.wsdl}"
+            sei="${endpoint.class}"
+            genwsdl="true"
+            debug="false"
+            keep="true"
+        	verbose="false"
+            sourcedestdir="srcgen"
+            destdir="${dest.dir}"
+            classpath="${dest.dir};${aux.classpath}"
+            xendorsed="true">
+            <classpath>
+            	<pathelement path="${genwsdl.additional.classpath}"/>
+                <fileset refid="jaxws.classpath" />
+                <fileset refid="hibernate.classpath" />
+                <fileset refid="stax.classpath" />
+                <pathelement path="../TargetPlatform/eclipse/plugins/org.eclipse.osgi_3.3.1.R33x_v20070828.jar"/>
+            </classpath>
+        </wsgen>
+    </target>
+    
+
+    <target name="gencode.metro">
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport2">
+            <classpath>
+                <fileset refid="jaxws.classpath" />
+                <fileset refid="stax.classpath" />
+            	<pathelement path="../org.ziptie.zap.metro/bin"/>
+            </classpath>
+        </taskdef>
+        
+        <copy todir="${basedir}/WEB-INF">
+            <fileset dir="${basedir}/${dir.origin}/${dir.wsdl}">
+                <include name="*"/>
+            </fileset>
+        </copy>
+        
+        <mkdir dir="srcgen" />
+        <mkdir dir="bin" />
+
+    	<wsimport wsdl="${basedir}/${dir.origin}/${dir.wsdl}/${wsdl.file}"
+            destdir="${basedir}/bin"
+            sourcedestdir="${basedir}/${dir.gen}"
+            debug="true"
+            keep="true"
+            verbose="rue"
+        	extension="true"
+    		xnocompile="true"
+            catalog="${basedir}/jax-ws-catalog.xml"
+            package="${target.package}"
+            wsdllocation="${wsdl.file}">
+        	<xjcarg value="-Xequalshashcode"/>
+
+    		<depends dir="${basedir}/${dir.origin}/${dir.wsdl}" includes="${wsdl.file}" />
+    		<produces dir="${basedir}/${dir.gen}" includes="${uptodate.test}" />
+        </wsimport>
+    </target>
+
+    <!-- Interactive target to create a new Web Service -->
+    <target name="webservice">
+        <echo>
+This target will help you create a new service.  But first it will
+ask you a question or two.
+
+You must enter the name for your service.  This name will be used
+as part of the package name, as well as for various generated classes.
+For example, if you name your service 'scheduler' this will generate
+a project and package named 'org.ziptie.provider.scheduler'.
+        </echo>
+        <input
+            message="Enter the name of the new service (for example, 'scheduler'): "
+            addproperty="ws.name">
+        </input>
+        
+        <unzip src="ozp.template.zip" dest=".."/>
+
+        <copy todir="../org.ziptie.provider.${ws.name}" verbose="true">
+            <fileset dir="../ozp.template" includes="**/*"/>
+            <mapper type="glob" from="src/org/ziptie/provider/template/*" to="src/org/ziptie/provider/${ws.name}/*"/>
+        </copy>
+        <copy todir="../org.ziptie.provider.${ws.name}" verbose="true">
+            <fileset dir="../ozp.template" includes="**/*" excludes="src/**/*"/>
+        </copy>
+        <replaceregexp match="(.+)template(.)" replace="\1${ws.name}\2" flags="g" byline="true">
+            <fileset dir="../org.ziptie.provider.${ws.name}" includes="**/*"/>
+        </replaceregexp>
+        
+        <delete dir="../ozp.template"/>
+    </target>
+</project>

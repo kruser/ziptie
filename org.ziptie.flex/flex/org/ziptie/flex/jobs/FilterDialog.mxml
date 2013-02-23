@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      layout="absolute"
+      title="@Resource(key='FilterDialog_title', bundle='messages')"
+      width="400" height="200"
+      creationComplete="init()">
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.ICollectionView;
+    		import mx.managers.PopUpManager;
+
+            private var _onResult:Function;
+            [Bindable]
+            private var _name:String;
+            [Bindable]
+            private var _value:String;
+            private var _data:Object;
+            private var _existing:ICollectionView;
+
+            public static function open(parent:DisplayObject, onResult:Function, existing:ICollectionView, data:Object = null, name:String = null, value:String = null):void 
+            {
+            	var d:FilterDialog = PopUpManager.createPopUp(parent, FilterDialog, true) as FilterDialog;
+            	d._onResult = onResult;
+            	d._name = name;
+            	d._value = value;
+            	d._data = data;
+            	d._existing = existing;
+
+                PopUpManager.centerPopUp(d);
+            }
+
+            private function init():void
+            {
+            	if (_name == null)
+            	{
+            		_txtName.setFocus();
+            	}
+            	else
+            	{
+            		_txtCron.setFocus();
+            	}
+            }
+
+    		private function validate():void
+    		{
+                var newName:String = _txtName.text;
+
+    			if (_name == null) // is edit
+    			{
+    				for each (var filter:Object in _existing)
+    				{
+    					if (filter.filterName == newName)
+    					{
+    						_txtName.errorString = resourceManager.getString('messages', 'FilterDialog_filterNameTaken');
+    						btnOk.enabled = false;
+    						return;
+    					}
+    				}
+    			}
+
+                if (newName == '')
+                {
+                	_txtName.errorString = resourceManager.getString('messages', 'FilterDialog_mustSpecifyName');
+                	btnOk.enabled = false;
+                    return;
+                }
+                else if (newName.charAt(0).match(/\s/) != null || newName.charAt(newName.length - 1).match(/\s/) != null)
+                {
+                	_txtName.errorString = resourceManager.getString('messages', 'FilterDialog_nameMustNotStartOrEndWithWhitespace');
+                    btnOk.enabled = false;
+                    return;
+                }
+
+				_txtName.errorString = null;
+
+				if (JobElf.validateCronExpression(_txtCron.text))
+				{
+                    _txtCron.errorString = null;
+                }
+                else
+                {
+                	_txtCron.errorString = resourceManager.getString('messages', 'FilterDialog_invalidCron');
+                }
+
+                btnOk.enabled = _txtCron.errorString == null;
+    		}
+
+            private function ok():void
+            {
+            	if (!btnOk.enabled)
+            	{
+            		return;
+            	}
+
+            	_onResult(_data, _txtName.text, _txtCron.text);
+
+            	PopUpManager.removePopUp(this);
+            }
+    	]]>
+    </mx:Script>
+	<mx:VBox styleName="popupVBox" width="100%" height="100%">
+		<mx:Label text="@Resource(key='FilterDialog_name', bundle='messages')" />
+		<mx:TextInput
+              id="_txtName"
+              width="100%"
+              maxChars="80"
+              text="{_name}"
+              editable="{_name == null}"
+              change="validate()"
+              enter="ok()"/>
+		<mx:Label text="@Resource(key='FilterDialog_cron', bundle='messages')" />
+		<mx:TextInput
+              id="_txtCron"
+              width="100%"
+              text="{_value}"
+              change="validate()"
+              enter="ok()"/>
+	</mx:VBox>
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnOk" enabled="false" label="@Resource(key='ok', bundle='messages')" click="ok()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Devices Update Plug-in
+Bundle-SymbolicName: org.ziptie.server.update.devices;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Eclipse-LazyStart: true
+Bundle-Activator: org.ziptie.server.update.devices.internal.UpdateDevicesActivator
+Require-Bundle: org.eclipse.core.runtime,
+ org.ziptie.provider.update,
+ org.ziptie.zap.hibernate,
+ org.ziptie.zap.metro

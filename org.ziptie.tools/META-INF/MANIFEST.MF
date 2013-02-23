@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ZipTie tools
+Bundle-SymbolicName: org.ziptie.tools;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Vendor: ziptie.org
+Implementation-Vendor: "ZipTie.org"
+Main-Class: org.ztiptie.tools.ZtPasswd
+Bundle-ClassPath: .

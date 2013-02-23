@@ -1,0 +1,203 @@
+
+                         ============= DeviceSimulator =============
+
+
+ (If you are reading this you already have the simulator's source or a running simulator, if 
+ not see the twiki:  DeviceSimHowto)
+
+    Table Of Contents
+    -----------------
+      1 - Introduction
+        1.1 - How it works
+      2 - Setup
+        2.1 - Building the simulator
+        2.2 - Running the simulator
+        2.3 - Configuring the simulator
+        2.4 - Handshake Connections
+      3 - Integration
+        3.1 - HTTP API
+
+1.1 How it works
+    ------------
+
+ Firstly, the name may be a little misleading.  The DeviceSimulator never really simulates
+ devices, it plays back the behaviour of devices.  This can be done through recordings 
+ (Recordings are just like scripts in a play; think Shakespeare).  When you connect to the 
+ simulator through telnet a recording is loaded.  First you connect to the device and the 
+ simulator responds with the first response in the recording.  Next you send the first command
+ from the recording and the simulator responds accordingly.  This continues till you 
+ disconnect or the recording is complete.
+
+ What this means is that the simulator can only simulate known scenarios and does not know how
+ to respond unless it has been configured.
+
+ There are a few ways to connect to the simulator...
+  Local:
+   If the simulator will only be running on the same box as the DeviceAuthority server (or
+   AdapterTool) then the easiest way is to connect through loopback addresses.  Any IP address
+   which in the subnet 127.0.0.0/255.0.0.0 will connect to a locally running simulator.
+  Virtual IPs:
+   If the simulator is running on a remote machine you can set the box up to support Virtual
+   IPs so that a number of IPs are addressable for the simulator.
+  Handshake:
+   If the simulator is running where the previous two methods are not feasable you can connect
+   to the simulator on the IP of the box it is running and pass in a 'handshake' which manages
+   how to behave.  For this to work the DA server must be configured to support this.  More on
+   this is discussed below in "Handshake Connections"
+
+
+2.1 Building the simulator
+    ----------------------
+
+ For building from the source you will need to have:
+  * Java 1.4 or greater
+  * Apache Ant 1.6 or greater
+
+ To build the simulator in your "DeviceSimulator" directory ...
+
+   % ant dist
+
+ This will build the simulator to '/dist/'.
+
+
+2.2 Running the simulator
+    ---------------------
+
+ For running the simulator you will need to have:
+  * Java 1.4 or greater
+
+ At this point you should be able to run the simulator.  To do so you must first cd to your 
+ dist directory ( or the directory where the simulator has been deployed to ).  Then...
+
+    % run.bat
+           or 'run.sh' if you are on *ix or solaris.
+           Mac OSX users will need to fend for themselves.
+
+ This will start the simulator and log output to log/sim.log
+
+ To stop the simulator type ^C (Ctrl+C) in your console.
+
+
+2.3 Configuring the simulator
+    -------------------------
+
+ After the first time the simulator is built there will be no recordings.  For the simulator
+ to work properly you will have to place desired recordings in the '/dist/recordings/' 
+ directory.  Then you will need to map them to IP addresses through a configuration file.
+
+ This can be done by editing '/dist/configs/default-config.xml'
+ There are three ways to map IP address to recordings.
+   single - maps a single ip to a recording.
+   range - maps a range of ips to a recording.
+   mask - maps a subnet of ips to a recording.
+
+   <single ip="127.1.0.23" session="recording:the-file.record"/>
+
+      :: All connections to 127.1.0.23 will use "the-file.record"
+   
+   <range start="127.2.0.0" end="127.2.1.0" session="recording:the-file.record"/>
+
+      :: All connections to 127.2.0.1, 127.2.0.2, 127.2.0.3, etc will use "the-file.record"
+
+   <mask mask="127.2.1.0/255.255.255.0" session="mulit:recording:the-file.record;recording:the-second-file.record"/>
+
+      :: All connections to 127.2.1.x will alternate between the two recordings: 
+      :: "the-file.record" and "the-second-file.record".  The prefix "multi:" is used to 
+      :: denote a multi-operation which alternates between recordings.  The recordings are 
+      :: denoted by a list of recordings seperated by semicolons (';')
+
+
+2.4 Handshake Connections
+    ---------------------
+
+ In some scenarios the computer hosting the simulator is only addressable via one IP address.
+ This poses a problem because the simulator's configuration is based on the IP address it was 
+ connected to on.  To get around this you must use handshake connections.
+
+ Handshake Connections and DeviceAuthority:
+ To enable handshake connections within DeviceAuthority (or AdapterTool) you must enable 
+ simulation within DA, this can be done by setting 'nil.agents.simulationEnabled=true' in
+ 'DeviceAuthority/appsvr/server/alterpoint/conf/nil/nil.properties'
+
+ Under the covers:
+ To use a handshake you must connect to the simulator on a different port than normal.  For 
+ telnet this is 8023.   Once connected you must send a configuration which has the 'daIp' 
+ attribute set to the IP address (The simulator will use this IP to determine what recording 
+ to map to.)
+
+
+3.1 HTTP API
+    --------
+
+ The simulator is fully configurable through an HTTP API, this should make automation simple 
+ across languages.  A full list of commands follows.  (All urls assume the simulator is 
+ running on 'localhost')
+
+ ============================================================================
+        -- Reload --
+      URL: http://localhost/config/reload
+   Method: GET
+
+     Clears all caches of configurations so that changes to configurations will take affect.
+
+ ============================================================================
+        -- Save Config --
+      URL: http://localhost/config/save
+   Method: POST 
+
+     Saves the given configuration file.
+
+ ============================================================================
+        -- Show Config --
+      URL: http://localhost/config/config
+   Method: GET
+   Params: name - The filename of the configuration.
+
+     Returns the specified config.
+
+ ============================================================================
+        -- Map Configuration --
+      URL: http://localhost/config/map
+   Method: GET
+   Params: ip - The ip address of the host to map.  (Leave this blank to use the incoming 
+                connections IP)
+           config - The name of the configuration file.
+
+     Assigns the specified configuration to the specified IP.  All subsequent connections from
+     'ip' will use the given configuration.
+
+ ============================================================================
+        -- Generate Import --
+      URL: http://localhost/config/import
+   Method: GET
+   
+     Generates an import csv suitable for use with DeviceAuthority.  This import should 
+     contain a complete list of IPs which may be used with the simulator.
+
+ ============================================================================
+       -- Show Recording --
+     URL: http://localhost/config/recordings
+  Method: GET
+  Params: name - The filename of the recording.
+
+     Returns the recording file with the given name.
+
+ ============================================================================
+       -- Save Recording --
+     URL: http://localhost/config/recordings/save
+  Method: POST
+
+     Saves the given recording.
+
+ ============================================================================
+       -- Generate Config --
+     URL: http://localhost/config/epitomize
+  Method: GET
+  Params: subnet - The subnet to use within the new configuration 
+                   (Default is 127.1.0.0/255.255.255.0)
+
+     Generates an epitomizing configuration.  This will create a configuration which has one
+     mapping for each recording loaded in the simulator.
+
+                         ===========================================
+                                  Leo Bayer, June 2005

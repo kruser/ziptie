@@ -1,0 +1,18 @@
+<backup xmlns="backup">
+    <connectionPath host="10.100.4.7" xmlns="">
+        <credentials>
+            <credential name="roCommunityString" value="public"/>
+            <credential name="username" value="admin"/>
+            <credential name="rwCommunityString" value="private"/>
+            <credential name="password" value="bigtex"/>
+        </credentials>
+        <protocols>
+            <protocol name="SSH" port="22">
+                <properties/>
+            </protocol>
+            <protocol name="SCP" port="22">
+                <properties/>
+            </protocol>
+        </protocols>
+    </connectionPath>
+</backup>

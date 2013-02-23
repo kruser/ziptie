@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobs:JobWizard
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      jobType="Script Tool Job"
+      title="@Resource(key='toolJob_create_title', bundle='messages')"
+      creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ListCollectionView;
+			import mx.collections.ArrayCollection;
+			import org.ziptie.flex.jobs.JobWizard;
+
+            [Bindable]
+            public var fieldName:String;
+            public var pluginType:String = 'script';
+
+			public static function run(devices:* = null):void
+			{
+				JobWizard.run(CreateToolJob, devices);
+			}
+
+            override protected function populateJobParameters(params:ArrayCollection):void
+            {
+            	super.populateJobParameters(params);
+
+                // TODO lbayer: add default inputs.
+            	params.addItem({key:'tool', value:_cboTool.selectedItem.toolName});
+            }
+
+            private function filterTool(item:Object):Boolean
+            {
+            	return item.modeSupported != PluginDescriptor.SINGLE;
+            }
+
+            private function init():void
+            {
+            	if (fieldName == null)
+            	{
+            		fieldName = resourceManager.getString('messages', 'toolJob_create_tool');
+            	}
+            	var col:ListCollectionView = new ListCollectionView(PluginElf.getPluginDescriptors(pluginType));
+            	if (devices != null && devices.length > 1)
+            	{
+	            	col.filterFunction = filterTool;
+	            	col.refresh();
+            	}
+            	_cboTool.dataProvider = col;
+            }
+		]]>
+	</mx:Script>
+	<jobs:children>
+		<mx:Label text="{fieldName}" />
+		<mx:ComboBox
+	          id="_cboTool"
+	          width="100%"
+	          labelField="toolName" />
+	</jobs:children>
+</jobs:JobWizard>

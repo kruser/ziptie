@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      width="400" height="500"
+      creationComplete="init()">
+    <mx:Metadata>
+    	[ResourceBundle('messages')]
+    </mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.SortField;
+			import mx.collections.Sort;
+			import org.ziptie.flex.DisplayElf;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+			import org.ziptie.flex.services.ResultElf;
+			import org.ziptie.flex.services.WebServiceElf;
+
+            [Bindable]
+		    private var _device:Object;
+		    [Bindable]
+		    private var _tagList:ArrayCollection;
+
+		    private var _tagSet:Object;
+
+            /** The number of addTag calls that are outstanding. */
+		    private var _tagAddedCount:Number = 0;
+		    private var _tagsBeingAdded:Array = new Array();
+		    // TODO lbayer: Update Regex to work for Japanese
+		    private var _validationRegex:RegExp = /^(\w|_|\.|\d)+$/; // /^(\p{L}|_|\.|\d)+$/;
+
+			public function set device(device:Object):void
+			{
+				_device = device;
+
+                title = resourceManager.getString('messages', 'tags_edit_title', new Array(DisplayElf.format('Device', _device)))
+            	WebServiceElf.call('devicetags', 'getAllTags', allTags);
+            	WebServiceElf.call('devicetags', 'getTags', deviceTags, _device.ipAddress, _device.managedNetwork);
+			}
+
+            private function init():void
+            {
+            	if (!ZipTie.hasPermission('org.ziptie.tags.administer'))
+            	{
+            		_addLine.height = 0;
+            		_addLine.visible = false;
+            	}
+            }
+
+            private function allTags(event:ResultEvent):void
+            {
+            	var isMore:Boolean = _tagSet == null;
+            	if (isMore)
+            	{
+            		_tagSet = new Object();
+            	}
+
+            	for each (var tag:String in ResultElf.array(event))
+            	{
+            		var lower:String = tag.toLowerCase();
+            		var obj:Object = _tagSet[lower];
+            		if (obj == null)
+            		{
+            			_tagSet[lower] = new Tag(tag, false);
+            		}
+        	    }
+
+                if (!isMore)
+                {
+                	populateList();
+                }
+            }
+
+            private function deviceTags(event:ResultEvent):void
+            {
+      	        var isMore:Boolean = _tagSet == null;
+                if (isMore)
+                {
+                    _tagSet = new Object();
+                }
+
+                for each (var tag:String in ResultElf.array(event))
+                {
+                    _tagSet[tag.toLowerCase()] = new Tag(tag, true);
+                }
+
+                if (!isMore)
+                {
+                	populateList();
+                }
+            }
+
+            private function populateList():void
+            {
+            	var field:SortField = new SortField("name", true);
+            	var sort:Sort = new Sort();
+            	sort.fields = [field];
+
+                _tagList = new ArrayCollection();
+                _tagList.sort = sort;
+                _tagList.refresh();
+
+                for each (var tagObj:Tag in _tagSet)
+                {
+                	_tagList.addItem(tagObj);
+                }
+            }
+
+            private function addTagChanged():void
+            {
+            	if (_validationRegex.exec(txtNewTag.text) == null)
+            	{
+            		txtNewTag.errorString = resourceManager.getString('messages', 'tags_edit_invalid');
+            		btnAdd.enabled = false;
+            	}
+            	else
+            	{
+            		txtNewTag.errorString = null;
+            		btnAdd.enabled = true;
+            	}
+            }
+
+            private function addTag():void
+            {
+                if (!btnAdd.enabled)
+                {
+                	return;
+                }
+
+            	var lower:String = txtNewTag.text.toLowerCase();
+            	var tag:Tag = _tagSet[lower] as Tag;
+            	if (tag != null)
+            	{
+            		tag.applied = true;
+            		list.selectedItem = tag;
+            	}
+            	else
+                {
+            	   tag = new Tag(txtNewTag.text, true, true);
+            	   _tagList.addItem(tag);
+            	   _tagSet[lower] = tag;
+                }
+
+            	txtNewTag.text = "";
+            	txtNewTag.setFocus();
+            }
+
+            private function performOk():void
+            {
+            	var deviceCsv:String = _device.ipAddress + '@' + _device.managedNetwork;
+
+                for each (var tag:Tag in _tagList)
+                {
+		            if (tag.remove)
+		            {
+		            	WebServiceElf.call('devicetags', 'untagDevices', null, tag.name, deviceCsv);
+		            }
+		            else if (tag.add)
+		            {
+		                if (tag.create)
+		                {
+		                	WebServiceElf.call('devicetags', 'addTag', tagAdded, tag.name);
+
+		                	// defer tagging of devices with the new tag until after the addTag calls have all completed. 
+		                	_tagsBeingAdded.push(tag.name);
+		                }
+                        else
+                        {
+                            WebServiceElf.call('devicetags', 'tagDevices', null, tag.name, deviceCsv);
+                        }
+		            }
+                }
+
+                if (_tagsBeingAdded.length > 0)
+                {
+                	enabled = false;
+                }
+                else
+                {
+                    PopUpManager.removePopUp(this);
+                }
+            }
+
+            private function tagAdded():void
+            {
+            	_tagAddedCount++;
+            	if (_tagAddedCount == _tagsBeingAdded.length)
+            	{
+            		tagWithNewTags();
+            	}
+            }
+
+            private function tagWithNewTags():void
+            {
+                var deviceCsv:String = _device.ipAddress + '@' + _device.managedNetwork;
+
+            	for each (var tag:String in _tagsBeingAdded)
+            	{
+            		WebServiceElf.call('devicetags', 'tagDevices', null, tag, deviceCsv);
+            	}
+
+            	PopUpManager.removePopUp(this);
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox height="100%" width="100%" styleName="popupVBox">
+		<mx:Text text="@Resource(key='tags_edit_message', bundle='messages')"/>
+	    <!-- TODO lbayer: Check/uncheck on space or enter pressed -->
+		<mx:List id="list" width="100%" height="100%" dataProvider="{_tagList}">
+		    <mx:itemRenderer>
+		    	<mx:Component>
+		    		<mx:CheckBox
+		    			label="{data.name}"
+		    			selected="{data.applied}"
+		    			change="data.applied = !data.applied" />
+		    	</mx:Component>
+		    </mx:itemRenderer>
+		</mx:List>
+		<mx:HBox width="100%" id="_addLine">
+			<mx:TextInput
+				id="txtNewTag"
+				width="100%"
+				maxChars="255" 
+				change="addTagChanged()"
+				enter="addTag()" />
+			<mx:Button id="btnAdd" label="@Resource(key='add', bundle='messages')" click="addTag()"/>
+		</mx:HBox>
+	</mx:VBox>
+
+	<mx:ControlBar horizontalAlign="right">
+		<mx:Button label="@Resource(key='ok', bundle='messages')" click="performOk()"/>
+		<mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+	</mx:ControlBar>
+</mx:TitleWindow>

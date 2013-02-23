@@ -1,0 +1,8 @@
+menu.label=トレースルート
+menu.tooltop=デバイスまでの経路探索を行います。
+column.1=TTL
+column.2=ホスト名
+column.3=IPアドレス
+column.4=プローブ1 (ms)
+column.5=プローブ2 (ms)
+column.6=プローブ3 (ms)

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:flex="org.ziptie.flex.*"
+	xmlns:yahoo="http://www.yahoo.com/astra/2006/mxml"
+	currentState="daily"
+	creationComplete="init()">
+    <mx:Metadata>
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+    	<![CDATA[
+    		import mx.collections.ArrayCollection;
+    		import mx.formatters.DateBase;
+
+            private function init():void
+            {
+                for (var i:int = 0 ; i < 7; i++)
+                { 
+                	var cb:CheckBox = new CheckBox();
+                	cb.label = DateBase.dayNamesShort[i];
+                	cb.data = i + 1;
+                    weeklyCheckboxes.addChild(cb);
+                }
+
+                startDate.selectedDate = new Date();
+            }
+
+    		public function get startTime():Date
+    		{
+                var date:Date = rawStartTime;
+                // bring seconds down by 5 so that the start time is before the minute.
+                // this prevents the cron from miss-firing the first time.
+    			date.setTime(date.getTime() - 5000);
+                return date;
+    		}
+
+            public function get endTime():Date
+            {
+                return specifyEnd.selected ? endDate.selectedDate : null;
+            }
+
+            private function get rawStartTime():Date
+            {
+                var selectedDate:Date = startDate.selectedDate;  
+                var selectedTime:Date = startTimeStepper.value;
+
+                var date:Date = new Date(selectedDate.fullYear,
+                    selectedDate.month,
+                    selectedDate.date,
+                    selectedTime.hours,
+                    selectedTime.minutes,
+                    0);
+
+                return date;
+            }
+
+            public function get cronExpression():String
+            {
+            	var cal:Date = rawStartTime;
+
+                var minute:Number = cal.minutesUTC;
+                var hour:Number = cal.hoursUTC;
+                var month:Number = cal.monthUTC + 1;
+
+		        var monthField:String = "*";
+		        var dayOfWeek:String = "?";
+		        var dayOfMonth:String = "?";
+		        var serialized:String = "";
+		        var year:String = "*";
+		
+		        if (currentState == 'once')
+		        {
+		            dayOfMonth = cal.dateUTC.toString();
+		            serialized = "TYPE=ONCE";
+		            year = cal.fullYearUTC.toString();
+		            monthField = month.toString();
+		        }
+		        else if (currentState == 'monthly')
+		        {
+		            var monthRecurrence:Number = monthlyInterval.value;
+		            monthField = month + '/' + monthRecurrence;
+
+		            if (specifyDayOfWeek.selected)
+		            {
+		                var weekday:Number = cboWeekday.selectedIndex + 1;
+		                var week:Number = cboWeek.selectedIndex + 1;
+
+                        dayOfWeek = weekday.toString();
+		                if (week == 6)
+		                {
+		                    dayOfWeek += 'L';
+		                }
+		                else
+		                {
+		                    dayOfWeek += '#' + week.toString();
+		                }
+		
+		                serialized = "TYPE=MDOW,I=" + monthRecurrence + ",D=" + weekday + ",W=" + week;
+		            }
+		            else
+		            {
+		                dayOfMonth = spinDay.value.toString();
+		
+		                serialized = "TYPE=MDOM,I=" + monthRecurrence + ",D=" + dayOfMonth;
+		            }
+		        }
+		        else if (currentState == 'weekly')
+		        {
+		            var serializedBuf:String = "TYPE=WEEKLY,";
+		            var buf:String = "";
+		
+	                for (var i:Number = 0 ; i < weeklyCheckboxes.numChildren ; i++)
+			        {
+			        	var btn:CheckBox = weeklyCheckboxes.getChildAt(i) as CheckBox;
+			        	if (btn == null)
+			        	{
+			        		continue;
+			        	}
+
+			            if (btn.selected)
+			            {
+			                buf += btn.data + ',';
+			            }
+			            serializedBuf += "D" + btn.data + '=' + (btn.selected ? 1 : 0) + ',';
+			        }
+
+			        dayOfWeek = buf.substr(0, buf.length - 1);
+			        serialized = serializedBuf.substr(0, serializedBuf.length - 1);
+		        }
+		        else if (currentState == 'daily')
+		        {
+		            var dayRecurrence:Number = dailyInterval.value;
+		            dayOfMonth = "*/" + dayRecurrence;
+		            serialized = "TYPE=DAILY,I=" + dayRecurrence;
+		        }
+		        else if (currentState == 'cron')
+		        {
+		            return txtCron.text;
+		        }
+		
+		        return "0 " + minute + " " + hour + " " + dayOfMonth + " " + monthField + " " + dayOfWeek + " " + year + " [" + serialized + "]";
+            }
+
+            private function setEndTime(endTime:Date):void
+            {
+                if (endTime != null)
+                {
+                    specifyEnd.selected = true;
+                    endDate.enabled = true;
+                    endDate.selectedDate = endTime;
+                }
+                else
+                {
+                	specifyEnd.selected = false;
+                	endDate.enabled = false;
+                	endDate.selectedDate = new Date();
+                }
+            }
+
+            public function setSchedule(startTime:Date, endTime:Date, cronExpression:String):void
+            {
+                setEndTime(endTime);
+
+               // if no start time is specified use the beginning of the epoch as the start time.
+                if (startTime == null)
+                {
+        	       startTime = new Date();
+        	       startTime.setTime(0);
+                }
+                else if (startTime.seconds == 55)
+                {
+                	startTime = new Date(startTime.getTime() + 5000);
+                }
+
+                startTimeStepper.value = startTime;
+                startDate.selectedDate = startTime;
+
+                var props:Object = parseCron(cronExpression);
+
+                rdoCron.selected = false;
+                rdoRunOnce.selected = false;
+                rdoDaily.selected = false;
+                rdoWeekly.selected = false;
+                rdoMonthly.selected = false;
+
+                var type:String = props == null ? null : props["TYPE"]; //$NON-NLS-1$
+                if (type == null || startTime == null)
+                {
+                    rdoCron.selected = true;
+                    txtCron.text = cronExpression;
+                	currentState = 'cron';
+                }
+                else if (type == "ONCE")
+                {
+                    rdoRunOnce.selected = true;
+                    currentState = 'once';
+                }
+                else if (type == "MDOW")
+                {
+                    rdoMonthly.selected = true;
+                    specifyDayOfMonth.selected = false;
+                    specifyDayOfWeek.selected = true;
+                    currentState = 'monthly'
+                    monthlyInterval.value = props["I"];
+                    cboWeekday.selectedIndex = props["D"] - 1;
+                    cboWeek.selectedIndex = props["W"] - 1;
+                }
+                else if (type == "MDOM")
+                {
+                    rdoMonthly.selected = true;
+                    currentState = 'monthly';
+
+                    monthlyInterval.value = props["I"];
+                    spinDay.value = props["D"];
+                }
+                else if (type == "WEEKLY")
+                {
+                    rdoWeekly.selected = true;
+                	currentState = 'weekly';
+                    for (var i:Number = 0 ; i < weeklyCheckboxes.numChildren ; i++)
+                    {
+                        var btn:CheckBox = weeklyCheckboxes.getChildAt(i) as CheckBox;
+                        if (btn == null)
+                        {
+                            continue;
+                        }
+                        btn.selected = props["D" + btn.data] == "1";
+                    }
+                }
+                else if (type == "DAILY")
+                {
+                	currentState = 'daily';
+                    rdoDaily.selected = true;
+                    dailyInterval.value = props["I"];
+                }
+            }
+
+            private function parseCron(cron:String):Object
+            {
+            	var ndx:int = cron.indexOf('[');
+            	if (ndx == -1)
+            	{
+            		return null;
+            	}
+
+                var props:Object = new Object();
+
+                var details:String = cron.substr(ndx+1);
+                var items:Array = details.split(/[,\[\]=]/);
+
+                var len:int = items.length - 1;
+                for (var i:int = 0; i < len ; i += 2)
+                {
+                	props[items[i]] = items[i+1];
+                }
+
+                return props;
+            }
+    	]]>
+    </mx:Script>
+    <mx:HBox width="100%" verticalAlign="middle">
+        <mx:Label text="@Resource(key='recur_start_time', bundle='messages')"/>
+        <yahoo:TimeStepper id="startTimeStepper" useTwelveHourFormat="false" showSeconds="false" />
+        <mx:DateField id="startDate" />
+    </mx:HBox>
+    <mx:HRule width="100%"/>
+
+    <mx:HBox horizontalAlign="center" width="100%">
+	    <mx:RadioButton
+	    	id="rdoRunOnce"
+	    	label="@Resource(key='recur_freq_once', bundle='messages')"
+	    	groupName="frequency"
+	    	click="currentState = 'once'" />
+	    <mx:RadioButton
+	    	id="rdoDaily"
+	    	selected="true"
+	    	label="@Resource(key='recur_freq_daily', bundle='messages')"
+	    	groupName="frequency"
+	    	click="currentState = 'daily'" />
+        <mx:RadioButton
+        	id="rdoWeekly"
+            label="@Resource(key='recur_freq_weekly', bundle='messages')"
+            groupName="frequency"
+            click="currentState = 'weekly'" />
+        <mx:RadioButton
+        	id="rdoMonthly"
+            label="@Resource(key='recur_freq_monthly', bundle='messages')"
+            groupName="frequency"
+            click="currentState = 'monthly'" />
+        <mx:RadioButton
+        	id="rdoCron"
+            label="@Resource(key='recur_freq_cron', bundle='messages')"
+            groupName="frequency"
+            click="currentState = 'cron'" />
+    </mx:HBox>
+
+    <!--
+     ! CreationPolicy is 'all' here so that we can populate all the data up front.
+     ! If we don't do this the UI components wont exist when we want to set their values.
+     !-->
+    <mx:ViewStack id="stack" width="100%" height="100" creationPolicy="all">
+        <mx:Canvas id="once" />
+        <mx:HBox id="daily" horizontalAlign="center">
+        	<mx:Label text="@Resource(key='recur_every', bundle='messages')" />
+        	<mx:NumericStepper id="dailyInterval" minimum="1" maximum="1000"/>
+        	<mx:Label text="@Resource(key='recur_every_xdays', bundle='messages')" />
+        </mx:HBox>
+        <mx:VBox id="weekly" horizontalAlign="center">
+        	<mx:Label text="@Resource(key='recur_every_week_on', bundle='messages')" />
+        	<mx:HBox id="weeklyCheckboxes" />
+        </mx:VBox>
+        <mx:VBox id="monthly" horizontalAlign="center">
+        	<mx:HBox>
+	            <mx:Label text="@Resource(key='recur_every', bundle='messages')" />
+	            <mx:NumericStepper id="monthlyInterval" minimum="1" maximum="1000"/>
+	            <mx:Label text="@Resource(key='recur_months_on', bundle='messages')" />
+	        </mx:HBox>
+	        <mx:HBox>
+	        	<mx:RadioButton id="specifyDayOfMonth" selected="true" groupName="monthlyRecurType" label="@Resource(key='recur_on_day', bundle='messages')" />
+	        	<mx:NumericStepper id="spinDay" minimum="1" maximum="31" />
+	        	<mx:Label text="@Resource(key='recur_of_the_month', bundle='messages')" />
+	        </mx:HBox>
+	        <mx:HBox>
+	        	<mx:RadioButton id="specifyDayOfWeek" groupName="monthlyRecurType" label="@Resource(key='recur_on_the', bundle='messages')" />
+	        	<mx:ComboBox id="cboWeek">
+	        	    <mx:dataProvider>
+	        	    	<mx:Array>
+	        	    		<mx:Object label="@Resource(key='recur_first', bundle='messages')" />
+	        	    		<mx:Object label="@Resource(key='recur_second', bundle='messages')" />
+	        	    		<mx:Object label="@Resource(key='recur_third', bundle='messages')" />
+	        	    		<mx:Object label="@Resource(key='recur_fourth', bundle='messages')" />
+	        	    		<mx:Object label="@Resource(key='recur_fifth', bundle='messages')" />
+	        	    		<mx:Object label="@Resource(key='recur_last', bundle='messages')" />
+	        	    	</mx:Array>
+	        	    </mx:dataProvider>
+	        	</mx:ComboBox>
+	        	<mx:ComboBox id="cboWeekday" dataProvider="{new ArrayCollection(DateBase.dayNamesLong)}" />
+	        </mx:HBox>
+        </mx:VBox>
+        <mx:HBox id="cron" horizontalAlign="center">
+        	<mx:Label text="@Resource(key='recur_expression', bundle='messages')" />
+        	<mx:TextInput id="txtCron"/>
+        </mx:HBox>
+    </mx:ViewStack>
+    <mx:HRule width="100%"/>
+
+    <mx:HBox width="100%">
+    	<mx:CheckBox id="specifyEnd" label="@Resource(key='recur_specify_end', bundle='messages')" change="endDate.enabled = specifyEnd.selected" selected="false"/>
+    	<mx:DateField id="endDate" enabled="false"/>
+    </mx:HBox>
+
+	<mx:states>
+		<mx:State name="once" enterState="stack.selectedChild = once" />
+		<mx:State name="daily" enterState="stack.selectedChild = daily" />
+		<mx:State name="weekly" enterState="stack.selectedChild = weekly" />
+		<mx:State name="monthly" enterState="stack.selectedChild = monthly" />
+		<mx:State name="cron" enterState="stack.selectedChild = cron" />
+	</mx:states>
+</mx:VBox>

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Adapters Plug-in
+Bundle-SymbolicName: org.ziptie.provider.adapters
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.adapters.internal.AdapterProviderActivator
+Bundle-Vendor: ziptie.org
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.xml.bind.annotation,
+ javax.xml.ws,
+ org.apache.log4j,
+ org.osgi.framework,
+ org.osgi.util.tracker
+Export-Package: org.ziptie.provider.adapters
+Require-Bundle: org.ziptie.net,
+ org.ziptie.net.util
+Eclipse-RegisterBuddy: org.ziptie.zap.metro

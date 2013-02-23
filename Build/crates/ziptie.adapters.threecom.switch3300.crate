@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.threecom.switch3300"
+	name="ziptie.adapters.threecom.switch3300"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.threecom.switch3300" location="adapters/" version="" />
+</crate>

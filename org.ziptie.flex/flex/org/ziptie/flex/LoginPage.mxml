@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas backgroundColor="#888888"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      creationComplete="username.setFocus()">
+    <mx:Metadata>
+        [Event(name = "login", eventType = "flash.events.Event")]
+        [ResourceBundle('messages')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+        	import mx.rpc.events.ResultEvent;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.rpc.events.FaultEvent;
+        	import flash.utils.escapeMultiByte;
+        	import mx.core.Application;
+
+            private function fault(event:FaultEvent):void
+            {
+            	_errorRow.height = 20;
+            	_btnLogin.enabled = true;
+            }
+
+            private function login():void
+            {
+            	if (_btnLogin.enabled)
+            	{
+	            	_btnLogin.enabled = false;
+	            	userRequest.send();
+            	}
+            }
+
+            private function onLogin():void
+            {
+            	WebServiceElf.call('security', 'getCurrentUser', onCurrentUser);
+            }
+
+            private function onCurrentUser(event:ResultEvent):void
+            {
+            	Application.application.user = event.result;
+            	dispatchEvent(new Event('login'));
+            }
+        ]]>
+    </mx:Script>
+    <mx:VBox paddingTop="20" paddingBottom="20" horizontalAlign="center" verticalAlign="middle" width="100%" height="100%" backgroundColor="#8BB1BF">
+        <mx:Image source="@Embed('/ztlogo.png')" />
+        <mx:Grid styleName="loginForm">
+        	<mx:GridRow id="_errorRow" height="0">
+        		<mx:GridItem colSpan="2">
+        			<mx:Label text="@Resource(bundle='messages', key='LoginPage_invalidLogin')" color="#FF2222"/>
+        		</mx:GridItem>
+        	</mx:GridRow>
+        	<mx:GridRow>
+        		<mx:GridItem verticalAlign="middle" horizontalAlign="right">
+        			<mx:Label text="@Resource(bundle='messages', key='LoginPage_username')" />
+        		</mx:GridItem>
+        		<mx:GridItem horizontalAlign="left">
+                    <mx:TextInput id="username" enter="login()"/>
+        		</mx:GridItem>
+        	</mx:GridRow>
+        	<mx:GridRow>
+                <mx:GridItem verticalAlign="middle" horizontalAlign="right">
+                    <mx:Label text="@Resource(bundle='messages', key='LoginPage_password')" />
+                </mx:GridItem>
+                <mx:GridItem horizontalAlign="left">
+                    <mx:TextInput id="password" displayAsPassword="true" enter="login()" />
+                </mx:GridItem>
+            </mx:GridRow>
+            <mx:GridRow>
+            	<mx:GridItem  horizontalAlign="right"/>
+            	<mx:GridItem horizontalAlign="left">
+                    <mx:Button id="_btnLogin" label="@Resource(bundle='messages', key='LoginPage_login')" click="login()"/>
+            	</mx:GridItem>
+            </mx:GridRow>
+        </mx:Grid>
+    </mx:VBox>
+
+    <mx:HTTPService
+    	  id="userRequest"
+    	  url="{Application.application.server}/server?j_username={escapeMultiByte(username.text)}&amp;j_password={escapeMultiByte(password.text)}"
+    	  useProxy="false"
+    	  method="GET"
+    	  fault="fault(event)"
+    	  result="onLogin()" />
+</mx:Canvas>

@@ -1,0 +1,230 @@
+/* CSS file */
+
+LinkBar {
+	/*background-color: yellow;*/
+	font-size: 10;
+}
+
+.buttonDivider{
+	padding-left:3;
+	padding-right:3;
+}
+
+Button {
+   highlightAlphas: 0.08, 0.21;
+   fillAlphas: 0.6, 0.33, 0.39, 0.36;
+   fillColors: #ffffff, #666666, #cccccc, #666666;
+   color: #555555;
+   textRollOverColor: #333333;
+   borderColor: #cccccc;
+   themeColor: #999999;
+
+    cornerRadius: 6;
+    paddingLeft: 6;
+    paddingRight: 6;
+}
+
+.titleWindowHeader {
+	text-align: center;
+	font-weight: bold;
+}
+
+Alert {
+    title-style-name: titleWindowHeader;
+    background-alpha: 1;
+    background-color: #DBE6EA;
+    color: #000000;
+    border-alpha: 1;
+    borderThicknessRight: 4;
+    borderThicknessLeft: 4;
+    border-color: #B9B9B9;
+
+    header-colors: #FFFFFF, #C9CFD2;
+    footer-colors: #FFFFFF, #B9B9B9;
+}
+
+TitleWindow {
+	title-style-name: titleWindowHeader;
+    background-alpha: 1;
+    background-color: #DBE6EA;
+    border-alpha: 1;
+
+    header-colors: #FFFFFF, #C9CFD2;
+    footer-colors: #FFFFFF, #B9B9B9;
+}
+
+.tabVBox{
+	padding-left: 7;
+	padding-bottom: 7;
+	padding-right: 7;
+	padding-top: 0;
+	
+}
+
+.popupVBox{
+	padding-left: 10;
+	padding-bottom: 10;
+	padding-right: 10; 
+	padding-top: 10;
+}
+
+StatusBar{
+	font-size: 10;
+	background-color: "#FFFFFF";
+	border-style:none;
+}
+
+.paddedGrid{
+	padding-left: 4;
+	padding-bottom: 4;
+	padding-right: 4;
+	padding-top: 4;
+}
+
+HRule
+{
+	strokeColor: #DDDDDD;
+}
+
+
+
+Application {
+        backgroundGradientColors: #EEEEEE, #FFFFFF; 
+        /*fontFamily: "Myriad Pro";*/
+        fontSize: 10px;
+}
+/*
+@font-face {
+    src:url("type/myriad_pro.swf");
+    fontFamily: "Myriad Pro";
+}
+
+@font-face {
+    src:url("type/myriad_pro_bold.swf");
+    fontWeight:"bold";
+    fontFamily: "Myriad Pro";
+}
+*/
+TabBar {
+    background-color: #ffffff;
+    tabStyleName: tabBarTab;
+}
+
+TabNavigator {
+    color: #000000;
+    background-color: #FFFFFF;
+    cornerRadius: 0;
+    tabOffset: 0;
+    tabHeight: 25;
+}
+
+SuperTabNavigator{
+    cornerRadius: 0;
+    paddingLeft: 0;
+    firstTabStyleName: superTabNavigatorFirstTab;
+    tabOffset: 0;
+    
+}
+    
+.superTabNavigatorFirstTab
+{
+    paddingLeft: 7;
+}
+
+.inputGroupTitle {
+	font-weight: normal;
+}
+
+
+InputGroup
+{
+    title-style-name: inputGroupTitle;
+
+	drop-shadow-enabled: false;
+    background-color: #EEEEEE;
+
+    border-alpha: 1;
+    border-thickness: 4;
+    header-colors: #FFFFFF, #FFFFFF;
+    corner-radius: 3;
+
+    padding-bottom: 5;
+    padding-top: 5;
+    padding-left: 4;
+    padding-right: 4;
+}
+    
+DataGrid
+{
+    color: #363636;
+    alternatingItemColors: #F8FCFE, #FFFFFF;
+    textRollOverColor: #1D1E1F;
+    textSelectedColor: #0E0F0F;
+    horizontalGridLines: true;
+    horizontalGridLineColor: #E3E3E3;
+    verticalGridLineColor: #DCDCDC;
+    rollOverColor: #D6E2EA;
+    selectionColor: #B4D5EA;
+    fontWeight: normal;
+    borderStyle: solid;
+    borderColor: #CCCCCC;
+}
+
+.panelTitle {
+	font-weight: bold;
+}
+
+Panel
+{
+	title-style-name: panelTitle;
+
+    header-colors: #d5e3e8, #d5e3e8;
+    borderThicknessRight: 0;
+    borderThicknessLeft: 0;
+    roundedBottomCorners: true;
+    cornerRadius: 5;
+    color: #545454;
+    padding-bottom: 5;
+    padding-top: 5;
+    padding-left: 2;
+    padding-right: 2;
+    drop-shadow-enabled: false;
+}
+
+.editorPageTab {
+    background-color: #FFFFFF;
+}
+
+.editorPage {
+	padding-bottom: 2;
+	padding-left: 2;
+	padding-right: 2;
+	padding-top: 2;
+}
+
+.editorPageTitle {
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.tabBarTab
+{
+    fillAlphas: 1.0, 1.0;
+    fillColors: #FFFFFF, #C9CFD2;
+    paddingLeft: 10;
+    paddingRight: 10;
+    paddingTop: 2;
+    paddingBottom: 2;
+}
+
+AdminPage {
+	corner-radius: 5;
+	background-color: #cad5d9;
+	
+}
+
+.loginForm {
+	font-weight: bold;
+	font-size: 12;
+	
+}

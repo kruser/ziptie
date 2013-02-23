@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.nortel.contivity"
+	name="ziptie.adapters.nortel.contivity"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.nortel.contivity" location="adapters/" version="" />
+</crate>

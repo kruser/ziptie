@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AdapterMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AdapterMetadataSchema.xsd">
+    <adapterId>ZipTie::Adapters::Juniper::ScreenOS</adapterId>
+    <supportedModelVersion>1.0</supportedModelVersion>
+    <shortName>Juniper ScreenOS</shortName>
+    <description>Juniper ScreenOS Firewalls (Netscreen)</description>
+    <softwareVersionRegEx>([\d]+)\.*(\d*)\.*(\d*)r(\d*)\.*(\d)*</softwareVersionRegEx>
+    <biosVersionRegEx>(\d+)\.?(\d*)</biosVersionRegEx>
+    <lastRebootThreshold>5</lastRebootThreshold>
+    <errorForms>
+        <errorRegEx>[-]+unknown keyword</errorRegEx>
+        <errorRegEx>[-]+command not completed</errorRegEx>
+    </errorForms>
+    <operationConstraints>
+        <operation name="backup">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+        <operation name="commands">
+            <supportedProtocolSet>Telnet</supportedProtocolSet>
+            <supportedProtocolSet>SSH</supportedProtocolSet>
+        </operation>
+		<operation name="restore">
+            <supportedProtocolSet>Telnet-TFTP</supportedProtocolSet>
+            <supportedProtocolSet>SSH-TFTP</supportedProtocolSet>
+			<restoreValidationRegex>config</restoreValidationRegex>
+        </operation>
+    </operationConstraints>
+    <discoveryMappings>
+        <matchRegex dataSource="sysDescr" regex="netscreen" singleline="false" multiline="false" ignoreCase="true"/>
+        <matchRegex dataSource="sysDescr" regex="SSG" singleline="false" multiline="false" ignoreCase="true"/>
+    </discoveryMappings>
+</AdapterMetadata>

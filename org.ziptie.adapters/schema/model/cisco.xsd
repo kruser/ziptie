@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.ziptie.org/model/cisco/1.0"
+    xmlns:cisco="http://www.ziptie.org/model/cisco/1.0"
+    xmlns:dt="http://www.ziptie.org/model/netconftypes/1.0"
+    xmlns:common="http://www.ziptie.org/model/common/1.0"
+    xmlns:core="http://www.ziptie.org/model/core/1.0" elementFormDefault="qualified">
+
+    <import namespace="http://www.ziptie.org/model/netconftypes/1.0"
+        schemaLocation="netconftypes.xsd"/>
+    <import namespace="http://www.ziptie.org/model/core/1.0" schemaLocation="ziptie-core.xsd"/>
+    <import namespace="http://www.ziptie.org/model/common/1.0" schemaLocation="ziptie-common.xsd"/>
+
+    <annotation>
+        <documentation> The cisco schema adds Cisco-specific constructs, such as EIGRP routing
+            instance configuration. It also uses a substitutionGroup for things like the common
+            interface element to allow Cisco interfaces to be linked to EIGRP instances.
+        </documentation>
+    </annotation>
+
+    <element name="interface" type="cisco:InterfaceWithCiscoExtensions"
+        substitutionGroup="common:interface">
+        <annotation>
+            <documentation> A Cisco interface is like the ZipTie common interface, with some
+                additional Cisco-specific optional property sets. It can be substituted wherever
+                common:interface would normally appear in an instance document. </documentation>
+        </annotation>
+    </element>
+
+    <complexType name="InterfaceWithCiscoExtensions">
+        <complexContent>
+            <extension base="common:Interface">
+                <sequence>
+                    <element name="eigrp" type="cisco:EigrpInterfaceProperties" minOccurs="0"
+                        maxOccurs="1"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="EigrpInterfaceProperties">
+        <annotation>
+            <documentation>Defines the EIGRP properties of an interface.</documentation>
+        </annotation>
+        <all>
+            <element name="asNumber" type="int" maxOccurs="1" minOccurs="1"/>
+            <element name="helloInterval" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="holdTime" type="int" maxOccurs="1" minOccurs="0"/>
+            <element name="passive" type="boolean" maxOccurs="1" minOccurs="0"/>
+        </all>
+    </complexType>
+    
+    <element name="routing" type="cisco:RoutingWithEigrp" substitutionGroup="common:routing">
+        <annotation>
+            <documentation> Routing processes from the common model with EIGRP added. </documentation>
+        </annotation>
+    </element>
+    
+    <complexType name="RoutingWithEigrp">
+        <complexContent>
+            <extension base="common:RoutingProtocols">
+                <sequence>
+                    <element name="eigrp" type="cisco:EIGRP" minOccurs="0" maxOccurs="unbounded"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="EIGRP">
+        <annotation>
+            <documentation>Defines a single EIGRP (Enhanced Interior Gateway Routing Protocol)
+                instance.</documentation>
+        </annotation>
+        <sequence>
+            <element name="activeInterface" type="string" maxOccurs="unbounded" minOccurs="0"><annotation><documentation>An interface that is marked with &apos;no passive-interface&apos;.</documentation></annotation> </element>
+            <element name="asNumber" type="int" maxOccurs="1" minOccurs="1"/>
+            <element name="autoSummarization" type="boolean" maxOccurs="1" minOccurs="0"/>
+            <element name="network" type="common:IPNetwork" maxOccurs="unbounded" minOccurs="0"><annotation><documentation>Defines all networks participating in this EIGRP instance.</documentation></annotation></element>
+            <element name="passiveInterface" type="string" maxOccurs="unbounded" minOccurs="0"><annotation><documentation>The name of a passive interface for this process.</documentation></annotation> </element>
+            <element name="passiveInterfaceDefault" type="boolean" maxOccurs="1" minOccurs="1"><annotation><documentation>Cisco allows you to set all interfaces as passive by default using the &apos;passive-interface default&apos; command in router configuration mode.</documentation></annotation> </element>
+            <element name="redistribution" type="common:redistribution" maxOccurs="unbounded" minOccurs="0"><annotation><documentation>Routing redistribution involves taking the routes from one source of routing information and sending those routes to another routing protocol.  The element identifies those other protocols.</documentation></annotation></element>
+            <element name="routerId" type="dt:IPAddress" maxOccurs="1" minOccurs="0"/>
+        </sequence>
+    </complexType>
+    
+    <element name="ZiptieElementDocument" type="cisco:ZiptieElementDocumentWithCiscoExtensions"
+        substitutionGroup="common:ZiptieElementDocument">
+        <annotation>
+            <documentation>The same a the common:ZED with VTP added.</documentation>
+        </annotation>
+    </element>
+    
+    <complexType name="ZiptieElementDocumentWithCiscoExtensions">
+        <complexContent>
+            <extension base="common:ZiptieElementDocument">
+                <sequence>
+                    <element ref="cisco:vlanTrunking" minOccurs="0" maxOccurs="1"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="vlanTrunking" type="cisco:VlanTrunking"/>
+
+    <complexType name="VlanTrunking">
+        <annotation>
+            <documentation>VLAN Trunking allows a single VLAN to span multiple switches. Trunking
+                requires VLAN information be shared between the switches on either side of the trunk
+                link. For example, if VLAN 100 is to span switchA and switchB, the two switches must
+                both know the configuration of VLAN 100 and recognize which packets on the trunk
+                link between them are in VLAN 100. The standards-based trunking protocol is called
+                802.1q, which uses keyword tagging to uniquely identify traffic as belonging to a
+                specific VLAN on the trunk. Cisco also has a proprietary trunking protocol called
+                ISL, which uses encapsulation to identify the VLAN ownership of traffic. Other
+                vendor proprietary protocols may be used between switches from a single vendor. VTP
+                (VLAN Trunking Protocol) can be used to synchronize VLAN information between
+                switches. A single trunk instance may include more than one VLAN (meaning, multiple
+                VLANs may be trunked on a single port.) One more more ports on a switch may be
+                designated for trunking. This means that instead of providing access to an end user
+                client device, the port provides a connection to another switch, carrying the trunk.
+                Vendor implementations of trunking vary, even when implementing 802.1q. Some
+                elements in the model may not apply to all vendor implementations. Trunks are
+                usually defined in terms of the trunking port(s) and which VLAN(s) are carried on
+                the trunk. The Trunking model includes the system level parameters associated with
+                the service used to synchronize VLANs between switches. Cisco calls this VTP (VLAN
+                Trunking Protcol). Nortel calls this TDP (Tag Distribution Protocol.) There is no
+                industry standard for VLAN sharing services. This service is a direct relationship
+                to the configuration, so it is at the same hierarchical level as VLANs and Spanning
+                Tree. In addition, trunks are created as part of an interface (port) configuration,
+                since a port is designated as a trunking port and is used to connect the switch to
+                another switch or router for the purpose of carrying VLANs. This portion of the
+                trunking configuration is on the interface model, as a relationship to the interface
+                configuration. </documentation>
+        </annotation>
+        <all>
+            <element name="alarmNotificationEnabled" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Whether alarm (or trap) notifications are enabled for the
+                        service.</documentation>
+                </annotation>
+            </element>
+            <element name="configVersion" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The configuration version of the service.</documentation>
+                </annotation>
+            </element>
+            <element name="domainId" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Same as the domain name, but an integer value. Some vendors
+                        support both a domain name and id.</documentation>
+                </annotation>
+            </element>
+            <element name="domainName" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The domain name identifies this switch in the group of switches
+                        sharing VLAN data: all switches in the group share the same domain
+                    name.</documentation>
+                </annotation>
+            </element>
+            <element name="lastUpdater" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The name of the last updater to the configuration of the
+                    service.</documentation>
+                </annotation>
+            </element>
+            <element name="localMode" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The operating mode of the VTP service.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="Server"/>
+                        <enumeration value="Client"/>
+                        <enumeration value="Transparent"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="maxVlanCount" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The maximum number of VLANs possible for the
+                    service.</documentation>
+                </annotation>
+            </element>
+            <element name="password" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The password assigned for establishing trunking with a remote
+                        device. For two ports to establish a trunk, the passwords must be the same,
+                        where trunking passwords are supported.</documentation>
+                </annotation>
+            </element>
+            <element name="serviceType" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The vendor's name for the VLAN sharing service (such as VTP, TDP,
+                        etc.) Vendors may support multiple service types.</documentation>
+                </annotation>
+            </element>
+            <element name="v2Mode" type="string" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>For Cisco VTP, if v2 mode is enabled.</documentation>
+                </annotation>
+            </element>
+            <element name="version" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The version of the service software (VTP/TDP,
+                    etc.)</documentation>
+                </annotation>
+            </element>
+            <element name="vlanCount" type="int" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>The number of VLANs in the service</documentation>
+                </annotation>
+            </element>
+            <element name="vlanPruningEnabled" type="boolean" maxOccurs="1" minOccurs="0">
+                <annotation>
+                    <documentation>Whether VLAN Pruning is enabled or disabled. VLAN pruning
+                        increases available bandwidth by restricting flooded traffic to those trunk
+                        links that the traffic must use to access the appropriate network
+                    devices</documentation>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+</schema>

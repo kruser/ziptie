@@ -1,0 +1,99 @@
+<crate
+     id="org.ziptie.server"
+     name="ZipTie EMS Server"
+     version="2008.10.0" >
+
+   <bundle id="org.eclipse.osgi" version="" location="core/" />
+
+   <bundle id="org.ziptie.zap.bootstrap" version="" location="core/"/>
+   <bundle id="org.ziptie.log4j" version="" location="core/" start="true"/>
+   <bundle id="org.ziptie.apache.commons" version="" location="core/" start="true"/>
+   <bundle id="org.ziptie.crates" version="" location="core/"/>
+
+   <bundle id="org.ziptie.perl" version="" location="core/" start="true"/>
+
+   <bundle id="org.eclipse.equinox.preferences" location="core/"  version=""/>
+   <bundle id="org.eclipse.equinox.registry" location="core/" version="" />
+   <bundle id="org.eclipse.core.contenttype" location="core/" version="" />
+   <bundle id="org.eclipse.core.jobs" location="core/" version="" />
+   <bundle id="org.eclipse.core.runtime" location="core/" version="" />
+   <bundle id="org.eclipse.equinox.common" location="core/" version="" start="true"/>
+   <bundle id="org.eclipse.osgi.services" location="core/" version="" />   
+   <bundle id="org.eclipse.osgi.util" location="core/" version="" />
+   <!-- bundle id="org.eclipse.update.configurator" location="core/" version="" start="true"/ -->
+   <bundle id="org.apache.xerces" location="core/" version="" />
+
+   <!-- Jetty -->
+   <bundle id="org.mortbay.jetty.servlet-api-2.5" location="core/servlet-api-2.5-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.server" location="core/jetty-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.util" location="core/jetty-util-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.naming" location="core/jetty-naming-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.plus" location="core/jetty-plus-6.1.11.jar" version=""/>
+<!--
+   <bundle id="org.mortbay.jetty.annoations" location="core/jetty-annotations-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.management" location="core/jetty-management-6.1.11.jar" version=""/>
+   <bundle id="org.mortbay.jetty.jsp-2.1" location="core/jsp-2.1.jar" version=""/>
+   <bundle id="org.mortbay.jetty.jsp-api-2.1" location="core/jsp-api-2.1.jar" version=""/>
+-->
+
+   <bundle id="org.ziptie.derby" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.jdbc" location="core/" version="" />
+   <bundle id="org.ziptie.stax" location="core/" version="" />
+   <bundle id="org.ziptie.slf4j" location="core/" version="" />
+   <bundle id="org.ziptie.mozilla.jss4" location="core/" version="" />
+   <bundle id="org.ziptie.mail" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.woodstox" location="core/" version=""/>
+
+   <bundle id="org.ziptie.zap.jta" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.zap.hibernate" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.zap.metro" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.zap.web" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.zap.jms" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.zap.security" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.zap.util" location="core/" version="" start="true" />
+
+   <bundle id="org.ziptie.perl.common" location="core/" version="" />
+   <bundle id="org.ziptie.net" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.net.client" location="core/" version="" />
+   <bundle id="org.ziptie.net.util" location="core/"  version="" />
+   <bundle id="org.ziptie.net.ftp" location="core/" version="" />
+   <bundle id="org.ziptie.net.tftp" location="core/" version="" />
+   <bundle id="org.ziptie.net.servers" location="core/" version="" start="true"/>
+
+   <bundle id="org.ziptie.adapters" location="core/" version="" start="true"/>
+
+<!--    
+   <bundle id="org.ziptie.sjsxp" location="core/" version="" />
+-->
+   <bundle id="org.ziptie.adapters.ws" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.security" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.lucene" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.dns" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.server.core" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.core.jobs" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.discovery" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.dispatcher" version="" location="core/" start="true"/>
+   <bundle id="org.ziptie.server.restore" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.server.update.devices" location="core/" version="" />
+   <bundle id="org.ziptie.server.birt" location="core/" version="" start="true"/>
+
+<!-- experimental bundles.  exclude from build.
+   <bundle id="org.ziptie.xdiff" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.xdiff.macosx.x86" location="core/" version="" os="macosx"/>
+-->
+   <bundle id="org.ziptie.provider.security" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.provider.events" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.provider.update" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.provider.adapters" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.configstore" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.launchers" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.netman" location="core/" version="" start="true" />
+   <bundle id="org.ziptie.provider.devices" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.credentials" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.telemetry" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.tools" location="core/" version="" start="true"/>
+   <bundle id="org.ziptie.provider.scheduler" location="core/" start="true" version=""/>
+
+   <bundle id="org.ziptie.tools.scripts" location="tools/" version=""/>
+   <bundle id="org.ziptie.tools" location="core/" version="" />
+</crate>

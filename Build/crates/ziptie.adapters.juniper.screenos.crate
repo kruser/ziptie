@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.juniper.screenos"
+	name="ziptie.adapters.juniper.screenos"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.juniper.screenos" location="adapters/" version="" />
+</crate>

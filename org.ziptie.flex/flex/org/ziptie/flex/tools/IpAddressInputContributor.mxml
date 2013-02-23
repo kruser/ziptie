@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InputContributor
+      xmlns="org.ziptie.flex.tools.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:VBox width="100%">
+        <mx:Label text="{field.label}" />
+        <mx:TextInput
+              id="_txtIp"
+              width="100%"
+              text="{value}"
+              change="value = _txtIp.text"/>
+    </mx:VBox>
+</InputContributor>

@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Netman Plug-in
+Bundle-SymbolicName: org.ziptie.provider.netman;singleton:=true
+Bundle-Version: 2008.10.0
+Bundle-Activator: org.ziptie.provider.netman.internal.NetworksActivator
+Bundle-Vendor: ZipTie
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.xml.bind.annotation,
+ javax.xml.ws,
+ org.apache.log4j,
+ org.eclipse.osgi.util;version="1.0.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.2"
+Require-Bundle: org.ziptie.server.security,
+ org.ziptie.zap.hibernate,
+ org.ziptie.zap.jta,
+ org.ziptie.zap.security
+Export-Package: org.ziptie.provider.netman
+Eclipse-LazyStart: false
+Eclipse-RegisterBuddy: org.ziptie.zap.metro
+Bundle-Localization: plugin

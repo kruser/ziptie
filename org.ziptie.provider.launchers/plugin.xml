@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+    <extension
+        point="org.ziptie.zap.hibernate.PersistenceUnit">
+        <persistence-unit name="ziptie-ds">
+            <class name="org.ziptie.provider.launchers.Launcher"/>
+        </persistence-unit>
+    </extension>
+    <extension point="org.ziptie.zap.security.SecurityPermissions">
+       <permission
+             display="%org.ziptie.launchers.administer"
+             id="org.ziptie.launchers.administer">
+       </permission>
+    </extension>
+</plugin>

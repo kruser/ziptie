@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# Pre-Install Logic for the ZipTie Server
+#
+# Summary of how this script can be called:
+#        * <new-preinst> `install'
+#        * <new-preinst> `install' <old-version>
+#        * <new-preinst> `upgrade' <old-version>
+#        * <old-preinst> `abort-upgrade' <new-version>
+#
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+case "$1" in
+    install|upgrade)
+		# Create "ziptie" user to run the server as if we are installing for the first time
+		if [ $1 = "install" ]
+		then
+			echo -n "Creating 'ziptie' system user: "
+			useradd -r -c "System user for running the ZipTie Server" ziptie
+			echo "Done."
+		fi
+		
+		# Save the derby database and lucene index somewhere so they don't get over-written
+		if [ $1 = "upgrade" ]
+		then
+			echo "Upgrading from version $2 ..."
+			
+			# Delete and recreate the ziptie user to be constructed properly with a valid shell
+			echo -n "Deleting and re-creating 'ziptie' system user to ensure a proper shell is associated with it: "
+			userdel ziptie
+			useradd -r -c "System user for running the ZipTie Server" ziptie
+			echo "Done."
+
+			# Preserve the Derby database, Lucene index, and preferences information
+			echo -n "Backing up user/password information, ZipTie preferences, Derby database and Lucene index to '/tmp/ziptie-server-backup': "
+			rm -rf /tmp/ziptie-server-backup
+			mkdir /tmp/ziptie-server-backup
+			cp -R /usr/share/ziptie-server/osgi-config /tmp/ziptie-server-backup
+			cp -R /usr/share/ziptie-server/derby /tmp/ziptie-server-backup
+			cp -R /usr/share/ziptie-server/lucene /tmp/ziptie-server-backup
+			touch /tmp/ziptie-server-backup.lock
+			echo "Done."
+				
+			# Create a file to indicate that migration should happen
+			if [ -n $2 ] && [ $2 != "2008.04" ] && [ $2 != "2008.04-1" ]
+			then
+				echo -n "Flagging that database migration must be performed from version $2: "
+				touch /tmp/ziptie-server-migration.lock
+				echo "Done."
+			fi
+		fi
+    ;;
+
+    abort-upgrade)
+    ;;
+
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

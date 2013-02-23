@@ -1,0 +1,8 @@
+<crate
+	id="ziptie.adapters.generic.snmp"
+	name="ziptie.adapters.generic.snmp"
+	version="2008.10.0" >
+
+<category name="adapters"/>
+<bundle id="ziptie.adapters.generic.snmp" location="adapters/" version="" />
+</crate>

@@ -1,0 +1,10 @@
+menu.label=Ping
+menu.tooltop=デバイスにpingを行います。
+column.1=デバイス
+column.2=バイト数
+column.3=TTL
+column.4=最小時間(ms)
+column.5=平均時間(ms)
+column.6=最大時間(ms)
+column.7=Stddev (ms)
+column.8=パケットロス(%)

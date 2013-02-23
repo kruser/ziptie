@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute"
+	width="400"
+	height="200"
+	title="@Resource(key='EditDevice_addTitle', bundle='messages')"
+	creationComplete="txtIp.setFocus();">
+
+	<mx:Script>
+		<![CDATA[
+			import org.ziptie.flex.search.Devices;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			import org.ziptie.flex.services.WebServiceElf;
+
+			[Bindable]
+		    private var _device:Object;
+
+			public function set device(device:Object):void
+			{
+				_device = device;
+				txtIp.text = _device.ipAddress;
+				combo.selectedItem = AdaptersElf.adaptersById[_device.adapterId];
+				title = resourceManager.getString('messages', 'EditDevice_editTitle');
+				btnAdd.label = resourceManager.getString('messages', 'save');
+			}
+
+            private function save():void
+            {
+            	if (_device == null)
+            	{
+            	    WebServiceElf.call('devices', 'createDevice', complete, txtIp.text, 'Default', combo.selectedItem.adapterId);
+            	}
+            	else
+            	{
+                    var device:Object = {
+                        adapterId:combo.selectedItem.adapterId,
+                        hostname:_device.hostname,
+                        ipAddress:txtIp.text,
+                        managedNetwork:_device.managedNetwork
+                    };
+
+                    WebServiceElf.call('devices', 'updateDevice', complete, _device.ipAddress, _device.managedNetwork, device);
+            	}
+
+            	PopUpManager.removePopUp(this);
+            }
+
+            private function complete(event:ResultEvent):void
+            {
+            	Devices.instance.go();
+            }
+		]]>
+	</mx:Script>
+
+	<mx:Text left="10" top="10" text="@Resource(key='EditDevice_ipAddress', bundle='messages')"/>
+	<mx:TextInput left="10" top="36" right="10" id="txtIp"/>
+	<mx:Text left="10" top="66" text="@Resource(key='EditDevice_adapter', bundle='messages')"/>
+
+	<mx:ComboBox id="combo" rowCount="12" left="10" top="92" right="10" dataProvider="{AdaptersElf.adapters}" labelField="shortName" />
+
+    <mx:ControlBar horizontalAlign="right">
+        <mx:Button id="btnAdd" label="@Resource(key='add', bundle='messages')" click="save()"/>
+        <mx:Button label="@Resource(key='cancel', bundle='messages')" click="PopUpManager.removePopUp(this)"/>
+    </mx:ControlBar>
+</mx:TitleWindow>

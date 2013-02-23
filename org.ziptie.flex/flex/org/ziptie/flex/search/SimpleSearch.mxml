@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Search xmlns="org.ziptie.flex.search.*" xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+        <![CDATA[
+        [Bindable]
+        public var text:String;
+
+        public override function get resolutionData():String
+        {
+            return query.text;
+        }
+
+        public override function set resolutionData(data:String):void
+        {
+        	query.text = data;
+        }
+        ]]>
+    </mx:Script>
+    <mx:Label text="{text}" x="2"/>
+    <mx:TextInput id="query" x="2" y="26" width="98%"
+          change="dispatchEvent(new Event('change'))"
+          enter="dispatchEvent(event)"/>
+</Search>

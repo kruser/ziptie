@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<project name="ZiptieDB" default="dbreset">
+    <description>
+        Ziptie Database Management Build
+    </description>
+
+    <property file="user.properties" />
+
+    <property name="dist.dir" value="${basedir}/../dist" />
+    	
+    <!-- Derby Properties -->
+    <property name="derby.jar" value="${basedir}/../org.ziptie.derby/lib/derby-10.3.2.1.jar" />
+    <property name="derby.client.jar" value="${basedir}/../org.ziptie.jdbc/lib/derbyclient.jar" />
+	<property name="derby.dir" value="${dist.dir}/server/derby"/>
+
+    <!-- PostgreSQL Properties -->
+    <condition property="psql" value="C:\\Program Files\\PostgreSQL\\8.2\\bin\\psql.exe">
+        <os family="windows"/>
+    </condition>
+
+	<condition property="psql" value="psql">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
+	
+	<!-- General DB Properties -->
+	<property name="database" value="derby"/>
+
+	<condition property="user" value="APP">
+		<equals arg1="${database}" arg2="derby"/>
+	</condition>
+		
+	<condition property="user" value="">
+		<equals arg1="${database}" arg2="pgsql"/>
+	</condition>
+		
+	<condition property="user" value="root">
+		<equals arg1="${database}" arg2="mysql"/>
+	</condition>
+				
+	<target name="db.dist">
+		<mkdir dir="${dist.dir}/server/sql/derby"/>
+		<mkdir dir="${dist.dir}/server/sql/mysql"/>
+		<mkdir dir="${dist.dir}/server/sql/pgsql"/>
+
+		<copy todir="${dist.dir}/server/sql/derby" flatten="true">
+			<fileset dir=".." includes="org.ziptie.*/**/derby/*.sql"/>
+		</copy>
+
+		<copy todir="${dist.dir}/server/sql/mysql" flatten="true">
+			<fileset dir=".." includes="org.ziptie.*/**/mysql/*.sql"/>
+		</copy>
+
+		<copy todir="${dist.dir}/server/sql/pgsql" flatten="true">
+			<fileset dir=".." includes="org.ziptie.*/**/pgsql/*.sql"/>
+		</copy>
+	</target>
+
+    <target name="dbreset">
+        <exec executable="perl" failifexecutionfails="true">
+        	<arg value="dbutil.pl"/>
+        	<arg value="--db=${database}"/>
+            <arg value="--user=${user}"/>
+        	<arg value="--dir=../dist/server"/>
+        	<arg value="reset"/>
+        </exec>
+
+    	<delete dir="${dist.dir}/server/repository"/>
+        <delete dir="${dist.dir}/server/lucene"/>
+	</target>
+
+	<target name="dbset">
+    	<mkdir dir="${dist.dir}/server/osgi-config/database"/>
+        <propertyfile file="${dist.dir}/server/osgi-config/database/db.properties">
+        	<entry key="database" value="${database}"/>
+        </propertyfile>
+	</target>
+
+    <target name="derby.cleanup">
+        <exec executable="perl" failifexecutionfails="true">
+        	<arg value="dbutil.pl"/>
+        	<arg value="-db ${database}"/>
+            <arg value="-"/>
+       	<redirector inputstring="DROP DATABASE ziptie; CREATE DATABASE ziptie;"/>
+        </exec>
+    </target>
+
+	<!-- Currently Unused.  Remove this comment when this is used.  If this isn't in use
+         by 01/01/08 it should probably be deleted.
+     -->
+    <target name="dbgen">
+        <fileset id="jdbc.libs" dir="../org.ziptie.jdbc/lib">
+            <include name="**/*.jar" />
+        </fileset>
+
+        <fileset id="hibernate.libs" dir="../org.ziptie.server.hibernate/lib">
+            <include name="**/*.jar" />
+        </fileset>
+
+        <fileset id="tool.libs" dir="hibernate">
+            <include name="**/*.jar" />
+        </fileset>
+
+        <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
+            <classpath>
+                <fileset refid="jdbc.libs" />
+                <fileset refid="hibernate.libs" />
+                <fileset refid="tool.libs" />
+                <fileset dir="../org.ziptie.apache.commons/lib" includes="*.jar"/>
+            </classpath>
+        </taskdef>
+
+        <hibernatetool>
+            <annotationconfiguration configurationfile="../conf/hibernate/hibernate.cfg.xml" />
+            <hbm2ddl destdir="." export="false" outputfilename="test.ddl">
+            </hbm2ddl>
+        </hibernatetool>
+    </target>
+</project>

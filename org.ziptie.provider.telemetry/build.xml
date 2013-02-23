@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.ziptie.provider.telemetry">
+	<description>
+            Build artifacts for org.ziptie.provider.telemetry
+    </description>
+
+	<target name="pre_jar">
+        <ant antfile="../Build/buildCG.xml" target="genwsdl.metro">
+            <property name="endpoint.class" value="org.ziptie.provider.telemetry.TelemetryProviderDelegate" />
+            <property name="uptodate.test" value="Telemetry.wsdl" />
+    	    <property name="aux.classpath" value="../org.ziptie.net.util/bin" />
+        </ant>
+	</target>
+
+    <target name="pre_clean">
+        <delete dir="srcgen"/>
+        <delete dir="WEB-INF"/>
+
+        <mkdir dir="srcgen"/>
+    </target>
+</project>

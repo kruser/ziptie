@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PingConfig>
+    <Windows command="ping" timeoutFlag="-w" countFlag="-n" sizeFlag="-l"/>
+    <Linux command="ping" timeoutFlag="-W" countFlag="-c" sizeFlag="-s"/>
+    <Mac command="ping" timeoutFlag="-t" countFlag="-c" sizeFlag="-s"/>
+    <Solaris command="/usr/sbin/ping -s -n" timeoutFlag="" countFlag="" sizeFlag=""/>
+</PingConfig>

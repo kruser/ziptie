@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobs:JobEditor
+      xmlns="org.ziptie.flex.editor.*"
+      xmlns:mx="http://www.adobe.com/2006/mxml"
+      xmlns:jobs="org.ziptie.flex.jobs.*"
+      creationComplete="init()">
+    <mx:Script>
+        <![CDATA[
+        	import mx.events.CloseEvent;
+        	import mx.controls.Alert;
+        	import org.ziptie.flex.progress.ProgressManager;
+        	import org.ziptie.flex.DisplayElf;
+        	import org.ziptie.flex.jobs.JobElf;
+        	import org.ziptie.flex.services.WebServiceElf;
+        	import mx.rpc.events.ResultEvent;
+
+            [Bindable]
+            private var _job:Object;
+
+            [Bindable]
+            private var _dirty:Boolean = false;
+
+            private function init():void
+            {
+                WebServiceElf.call('scheduler', 'getJob', onLoad, input.jobName, input.jobGroup);
+            }
+
+            private function save(jobAdded:Function = null):void
+            {
+                if (false) // cannot save due to validation failure
+                {
+                    Alert.show('blah', 'blah');
+                    return;
+                }
+
+                _job.description = _txtDescription.text;
+
+                JobElf.setParam(_job, 'ipResolutionData', _devicesPanel.resolutionData);
+                JobElf.setParam(_job, 'ipResolutionScheme', _devicesPanel.resolutionScheme);
+
+                WebServiceElf.call('scheduler', 'addJob', jobAdded, _job, true);
+
+                _dirty = false;
+
+                label = label.substring(1);
+            }
+
+            private function valueChanged(event:Event = null):void
+            {
+                if (!_dirty)
+                {
+                    _dirty = true;
+                    label = '*' + label;
+                }
+            }
+
+            private function onLoad(event:ResultEvent):void
+            {
+                _job = event.result;
+                _devicesPanel.addEventListener(Event.CHANGE, valueChanged);
+            }
+
+            private function showConfirmRun(event:ResultEvent = null):void
+            {
+            	Alert.show(
+                    resourceManager.getString('messages', 'RunNowAction_confirm_message'),
+                    resourceManager.getString('messages', 'RunNowAction_confirm_title'),
+                    Alert.YES | Alert.NO,
+                    null,
+                    onConfirmRun);
+            }
+
+            private function onConfirmRun(event:CloseEvent):void
+            {
+            	if (event.detail == Alert.YES)
+            	{
+                	ProgressManager.run(Backup.newFromExisting(_job.jobName, _job.jobGroup, _job.jobType));
+            	}
+            }
+
+            private function run():void
+            {
+            	if (_dirty)
+            	{
+            		save(showConfirmRun);
+            	}
+            	else
+            	{
+            		showConfirmRun();
+            	}
+            }
+    	]]>
+    </mx:Script>
+    <mx:VBox width="100%" height="100%">
+	    <mx:HBox horizontalAlign="right" width="100%" horizontalGap="2" paddingRight="2">
+	        <mx:Label styleName="editorPageTitle" width="100%" text="{_pages.selectedChild.label}"/>
+	        <mx:Button enabled="{_dirty}" toolTip="@Resource(key='JobEditor_save_tooltip', bundle='messages')" icon="@Embed(source='/save.gif')" disabledIcon="@Embed(source='/save_edit.gif')" width="26" click="save()"/>
+	        <mx:VRule height="24" />
+	        <mx:ToggleButtonBar dataProvider="{_pages}" buttonWidth="26" />
+	        <mx:VRule height="24" />
+	        <mx:Button icon="@Embed(source='/play.png')" toolTip="@Resource(key='JobEditor_runNow_tooltip', bundle='messages')" width="26" click="run()"/>
+	    </mx:HBox>
+	    <mx:ViewStack
+	          width="100%" height="100%"
+	          id="_pages">
+	        <mx:VBox
+                  icon="@Embed(source='/backup.png')"
+                  label="{resourceManager.getString('messages', 'BackupJobEditor_title', [input.jobGroup, input.jobName])}">
+	        	<mx:Panel title="Job" width="100%">
+	                <mx:Form>
+	                    <mx:FormItem label="@Resource(key='JobEditor_name', bundle='messages')">
+	                        <mx:TextInput editable="false" text="{_job.jobName}"/>
+	                    </mx:FormItem>
+	                    <mx:FormItem label="@Resource(key='JobEditor_group', bundle='messages')">
+	                        <mx:TextInput editable="false" text="{_job.jobGroup}"/>
+	                    </mx:FormItem>
+	                    <mx:FormItem label="@Resource(key='JobEditor_comment', bundle='messages')">
+	                        <mx:TextInput id="_txtDescription" text="{_job.description}" change="valueChanged()" />
+	                    </mx:FormItem>
+	                </mx:Form>
+	            </mx:Panel>
+	            <jobs:DevicesPanel
+                      id="_devicesPanel"
+                      title="@Resource(key='JobEditor_devicesPage_title', bundle='messages')"
+                      height="100%" width="100%"
+                      resolutionScheme="{JobElf.getParam(_job, 'ipResolutionScheme')}"
+                      resolutionData="{JobElf.getParam(_job, 'ipResolutionData')}"/>
+	        </mx:VBox>
+            <jobs:SchedulePage
+	              id="_schedulePage"
+	              styleName="editorPage"
+	              icon="@Embed(source='/calendar.png')"
+	              label="@Resource(key='JobEditor_schedulePage_title', bundle='messages')"
+	              job="{_job}" />
+        </mx:ViewStack>
+    </mx:VBox>
+</jobs:JobEditor>
